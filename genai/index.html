@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS314: Generative AI Interactive Reviewer & Keynote Portal</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* LIGHT THEME (Warm Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-card: #FFFFFF;
+      --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME (Deep Space Slate) */
+      --bg-canvas: #0B0E14;
+      --surface-card: #141821;
+      --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 2.5rem 1.5rem 4rem 1.5rem;
+    }
+
+    .hub-container {
+      width: 1320px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* Top Navigation Header */
+    .hub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 2rem;
+      gap: 2rem;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hub-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .hub-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .hub-title {
+      font-family: var(--font-display);
+      font-size: 2.85rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      color: var(--text-main);
+    }
+
+    .hub-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 820px;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-weight: 700;
+      box-shadow: var(--card-shadow);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Stats Ribbon */
+    .stats-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .stat-pill {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-ochre);
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Search & Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .search-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .search-input-wrapper svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+    }
+
+    .search-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--text-main);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .filter-tag-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
+      border-radius: 5px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-tag:hover, .filter-tag.active {
+      background: var(--accent-ochre);
+      border-color: var(--accent-ochre);
+      color: #FFFFFF;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+    }
+
+    .hub-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-focus);
+    }
+
+    .hub-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+    }
+
+    .hub-card.card-crimson::before { background: var(--accent-crimson); }
+    .hub-card.card-ochre::before { background: var(--accent-ochre); }
+    .hub-card.card-teal::before { background: var(--accent-teal); }
+    .hub-card.card-blue::before { background: var(--accent-blue); }
+    .hub-card.card-master::before { background: linear-gradient(90deg, var(--accent-crimson), var(--accent-ochre), var(--accent-teal)); }
+
+    .card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+    }
+
+    .hub-card.card-crimson .card-eyebrow { color: var(--accent-crimson); }
+    .hub-card.card-teal .card-eyebrow { color: var(--accent-teal); }
+    .hub-card.card-blue .card-eyebrow { color: var(--accent-blue); }
+
+    .card-badge {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .card-heading {
+      font-family: var(--font-display);
+      font-size: 1.95rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag-item {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--text-muted);
+    }
+
+    [data-theme="dark"] .tag-item {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .launch-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.4rem;
+      border-radius: 7px;
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--text-main);
+      color: var(--bg-canvas);
+      border: 1px solid transparent;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .launch-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      background: var(--accent-ochre);
+      color: #FFFFFF;
+    }
+
+    .hub-card.card-crimson .launch-btn:hover { background: var(--accent-crimson); }
+    .hub-card.card-teal .launch-btn:hover { background: var(--accent-teal); }
+    .hub-card.card-blue .launch-btn:hover { background: var(--accent-blue); }
+
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.2rem;
+      border-radius: 7px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: var(--surface-subtle);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .secondary-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Shortcuts Footer Bar */
+    .shortcuts-footer {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .shortcut-legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .key-badge {
+      display: inline-block;
+      padding: 0.2rem 0.45rem;
+      background: rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .key-badge {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-container">
+    
+    <!-- Top Header -->
+    <header class="hub-header">
+      <div class="header-left">
+        <div class="hub-eyebrow">DS314 · DS ELECTIVE 1: GENERATIVE AI · 3RD YEAR BS DATA SCIENCE</div>
+        <h1 class="hub-title">Generative AI Interactive Keynote Hub</h1>
+        <p class="hub-subtitle">
+          Dedicated interactive 3D keynote presentation decks, laboratorial companion guides, and oral examination defense frameworks for Weeks 1 through 4.
+        </p>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">LIGHT MODE</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Ribbon -->
+    <section class="stats-ribbon">
+      <div class="stat-pill">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Keynote Decks</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">77+</span>
+        <span class="stat-label">Interactive Slides</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">180+</span>
+        <span class="stat-label">3D Flip Cards</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">4-Tier</span>
+        <span class="stat-label">Academic Reviewers</span>
+      </div>
+    </section>
+
+    <!-- Search & Filter Bar -->
+    <section class="filter-bar">
+      <div class="search-input-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search presentations, topics, keywords (e.g. RAG, LangChain, Embeddings, Agents, Prompts)...">
+      </div>
+      <div class="filter-tag-group">
+        <button class="filter-tag active" data-filter="all">All Topics</button>
+        <button class="filter-tag" data-filter="foundations">Topic 1</button>
+        <button class="filter-tag" data-filter="rag">Topic 2</button>
+        <button class="filter-tag" data-filter="langchain">Topic 3</button>
+        <button class="filter-tag" data-filter="prompting">Week 4</button>
+        <button class="filter-tag" data-filter="master">Master Decks</button>
+      </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <main class="cards-grid" id="cardsGrid">
+
+      <!-- CARD 1: TOPIC 1 -->
+      <article class="hub-card card-crimson" data-tags="foundations taxonomy layers transformers softmax software30">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow">TOPIC 1 · WEEK 1 LECTURE</span>
+            <span class="card-badge">13 SLIDES</span>
+          </div>
+          <h2 class="card-heading">Foundations & Architectural Taxonomy</h2>
+          <p class="card-desc">
+            Deconstructs the transition from deterministic automation to probabilistic AI, discriminative vs. generative math P(Y|X) vs P(X), the 4 operational layers (Silicon to Apps), and the Transformer self-attention revolution (Vaswani 2017).
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">4 Industry Layers</span>
+            <span class="tag-item">Attention Is All You Need</span>
+            <span class="tag-item">Software 3.0</span>
+            <span class="tag-item">12 Quiz Traps</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Topic1_Foundations_Interactive_Presentation.html" class="launch-btn" target="_blank">
+            <span>LAUNCH DECK</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CARD 2: TOPIC 2 -->
+      <article class="hub-card card-ochre" data-tags="rag embeddings chromadb chunking jollibee lab2">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow">TOPIC 2 · WEEK 2 LECTURE & LAB 2</span>
+            <span class="card-badge">15 SLIDES</span>
+          </div>
+          <h2 class="card-heading">Building with LLMs & RAG Architectures</h2>
+          <p class="card-desc">
+            Master the 5-stage RAG pipeline (Load, Split, Embed, Store, Ground), 3,072-dimensional vector geometry with gemini-embedding-001, chunk_overlap=100 mechanics, ChromaDB indexing, and Laboratory Task 2 evaluation using Trap Questions.
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">5-Stage RAG</span>
+            <span class="tag-item">3,072-Dim Embeddings</span>
+            <span class="tag-item">ChromaDB</span>
+            <span class="tag-item">Trap Questions</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Topic2_RAG_Systems_Interactive_Presentation.html" class="launch-btn" target="_blank">
+            <span>LAUNCH DECK</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CARD 3: TOPIC 3 -->
+      <article class="hub-card card-teal" data-tags="langchain lcel autonomy agents react langgraph memory">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow">TOPIC 3 · WEEK 3 LECTURE</span>
+            <span class="card-badge">16 SLIDES</span>
+          </div>
+          <h2 class="card-heading">LangChain Models & Cognitive Autonomy Levels</h2>
+          <p class="card-desc">
+            Unpacks the Models module (LLMs vs. Chat Models vs. Embeddings), the AIMessage return trap, declarative LCEL pipe syntax (|), model statelessness, LangGraph checkpointer memory with thread_id, and Cognitive Autonomy Levels 1 to 5 with @tool docstrings.
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">LCEL Pipe Syntax</span>
+            <span class="tag-item">Statelessness & LangGraph</span>
+            <span class="tag-item">Autonomy Levels 1-5</span>
+            <span class="tag-item">ReAct Agents</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Topic3_LangChain_Autonomy_Interactive_Presentation.html" class="launch-btn" target="_blank">
+            <span>LAUNCH DECK</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CARD 4: WEEK 4 -->
+      <article class="hub-card card-blue" data-tags="prompting few-shot cot react in-context lab4">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow">WEEK 4 · PROMPT ENGINEERING & LAB 4</span>
+            <span class="card-badge">15 SLIDES</span>
+          </div>
+          <h2 class="card-heading">Prompt Engineering & In-Context Conditioning</h2>
+          <p class="card-desc">
+            Comprehensive keynote and defense system for in-context prompt conditioning, zero-shot vs few-shot paradigms, Chain-of-Thought (CoT) step-by-step elicitation, ReAct verbal reasoning, and Google Gemini API Lab Task 4 hands-on.
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">In-Context Learning</span>
+            <span class="tag-item">Chain-of-Thought</span>
+            <span class="tag-item">Few-Shot Formatting</span>
+            <span class="tag-item">Lab 4 Gemini API</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Week4_Prompt_Engineering_Interactive_Presentation.html" class="launch-btn" target="_blank">
+            <span>LAUNCH DECK</span>
+            <span>↗</span>
+          </a>
+          <a href="DS314_Week4_Prompt_Engineering_Companion_Guide.md" class="secondary-btn" target="_blank">
+            <span>GUIDE (.MD)</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CARD 5: MASTER CURRICULUM DECK -->
+      <article class="hub-card card-master" data-tags="master synthesis full topics123 oral defense">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow" style="color: var(--accent-crimson);">MASTER GRAND SYNTHESIS</span>
+            <span class="card-badge">18 SLIDES</span>
+          </div>
+          <h2 class="card-heading">Complete Systems Keynote: Topics 1 to 3</h2>
+          <p class="card-desc">
+            The unified 18-slide keynote deck connecting Week 1 taxonomy, Topic 2 RAG engineering, and Topic 3 cognitive agents into one grand oral defense keynote presentation with 4 topic checkpoints and LangChain classic 7-module matrix.
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">Full Curriculum</span>
+            <span class="tag-item">4 Topic Checkpoints</span>
+            <span class="tag-item">7 Classic Modules</span>
+            <span class="tag-item">Oral Defense Matrix</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Topics1_to_3_Master_Interactive_Presentation.html" class="launch-btn" target="_blank">
+            <span>LAUNCH MASTER DECK</span>
+            <span>↗</span>
+          </a>
+          <a href="DS314_Topics1_to_3_Ultimate_Companion_Guide.md" class="secondary-btn" target="_blank">
+            <span>COMPANION (.MD)</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- CARD 6: MARKDOWN REPOSITORIES -->
+      <article class="hub-card" data-tags="companion markdown reviewer guide rubric qa">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-eyebrow">ACADEMIC COMPANIONS</span>
+            <span class="card-badge">2 VOLUMES</span>
+          </div>
+          <h2 class="card-heading">Four-Tier Academic Study Companions</h2>
+          <p class="card-desc">
+            Uncompromising 4-tier academic study guides featuring theoretical context, rigorous definitions, real-world industrial failure modes, 37+ diagnostic questions, bug-spotting analyses, and pre-flight lab checklists.
+          </p>
+          <div class="card-tags">
+            <span class="tag-item">Theoretical Deep Dives</span>
+            <span class="tag-item">37+ Q&As</span>
+            <span class="tag-item">Bug Spotting</span>
+            <span class="tag-item">Pre-Flight Rubrics</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS314_Topics1_to_3_Ultimate_Companion_Guide.md" class="secondary-btn" target="_blank" style="flex: 1;">
+            <span>TOPICS 1-3 GUIDE</span>
+          </a>
+          <a href="DS314_Week4_Prompt_Engineering_Companion_Guide.md" class="secondary-btn" target="_blank" style="flex: 1;">
+            <span>WEEK 4 GUIDE</span>
+          </a>
+        </div>
+      </article>
+
+    </main>
+
+    <!-- Shortcuts Footer -->
+    <footer class="shortcuts-footer">
+      <div class="shortcut-legend">
+        <div class="legend-item"><span class="key-badge">→</span> / <span class="key-badge">Space</span> Next Slide</div>
+        <div class="legend-item"><span class="key-badge">←</span> Prev Slide</div>
+        <div class="legend-item"><span class="key-badge">Tab</span> / <span class="key-badge">X</span> Flip All Cards</div>
+        <div class="legend-item"><span class="key-badge">T</span> Theme</div>
+        <div class="legend-item"><span class="key-badge">F</span> Fullscreen</div>
+        <div class="legend-item"><span class="key-badge">H</span> Header</div>
+        <div class="legend-item"><span class="key-badge">C</span> Controls</div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-faint);">
+        DS314 EXECUTIVE REVIEWER SYSTEM
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      // Theme Toggle Engine
+      const root = document.documentElement;
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+
+      themeToggleBtn.addEventListener('click', function() {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          root.setAttribute('data-theme', 'light');
+          themeIcon.textContent = '◐';
+          themeText.textContent = 'LIGHT MODE';
+        } else {
+          root.setAttribute('data-theme', 'dark');
+          themeIcon.textContent = '◑';
+          themeText.textContent = 'DARK MODE';
+        }
+      });
+
+      // Search & Filtering
+      const searchInput = document.getElementById('searchInput');
+      const filterTags = document.querySelectorAll('.filter-tag');
+      const cards = document.querySelectorAll('.hub-card');
+
+      function filterCards() {
+        const query = searchInput.value.toLowerCase().trim();
+        const activeTag = document.querySelector('.filter-tag.active').getAttribute('data-filter');
+
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          const tags = card.getAttribute('data-tags') || '';
+          
+          let matchesQuery = query === '' || text.includes(query) || tags.includes(query);
+          let matchesTag = false;
+
+          if (activeTag === 'all') {
+            matchesTag = true;
+          } else if (activeTag === 'foundations' && tags.includes('foundations')) {
+            matchesTag = true;
+          } else if (activeTag === 'rag' && tags.includes('rag')) {
+            matchesTag = true;
+          } else if (activeTag === 'langchain' && tags.includes('langchain')) {
+            matchesTag = true;
+          } else if (activeTag === 'prompting' && tags.includes('prompting')) {
+            matchesTag = true;
+          } else if (activeTag === 'master' && (tags.includes('master') || tags.includes('companion'))) {
+            matchesTag = true;
+          }
+
+          if (matchesQuery && matchesTag) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', filterCards);
+
+      filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+          filterTags.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          filterCards();
+        });
+      });
+
+      // Keyboard Shortcut 'T' for Theme
+      document.addEventListener('keydown', function(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 't' || e.key === 'T') {
+          themeToggleBtn.click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

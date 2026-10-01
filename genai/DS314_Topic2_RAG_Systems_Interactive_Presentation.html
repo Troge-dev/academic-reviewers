@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS314: Topic 2 — Building with LLMs & RAG Architectures | Interactive Keynote Deck</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-front: #FFFFFF;
+      --surface-back: #F5EFE6;
+      --surface-elevated: #EDE6DC;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      /* Vibrant Academic Accent Hues */
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Elevations */
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* LUMINOUS DEEP SPACE SLATE */
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-back: #181E2A;
+      --surface-elevated: #1F2636;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      /* Luminous Neon Accents */
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-topic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .slide-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    .slide-view.active {
+      display: flex;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Slide Titles */
+    .slide-title-area {
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subhead {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Slide Layout Grids */
+    .grid-container {
+      display: grid;
+      gap: 1.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-bifurcated {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-triptych {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .stack-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      outline: none;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 1.85rem 1.95rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      justify-content: space-between;
+      transform: rotateY(0deg);
+      z-index: 2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover .flip-card-front {
+      border-color: var(--border-focus);
+      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .back-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .back-content {
+      font-size: 1.05rem;
+      line-height: 1.52;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .back-content p {
+      margin-bottom: 0.35rem;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* LIGHT MODE CARD BACK ACCENT COLORS */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(224, 83, 60, 0.3);
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F5C58A;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(229, 169, 103, 0.3);
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #5EEAD4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: #5EEAD4;
+    }
+
+    /* Stack Flip Cards (Right-hand column mini flip cards) */
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Fullscreen helper */
+    :fullscreen .deck-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 1440px;
+      height: 820px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- Top Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
+      <span>▾ EXPAND HEADER</span>
+      <span class="key-indicator">H</span>
+    </button>
+
+    <!-- Collapsible Slide Header -->
+    <header class="slide-header" id="slideHeader">
+      <div class="slide-eyebrow" id="headerEyebrow">
+        DS314 · TOPIC 1 TO 3 MASTER KEYNOTE
+      </div>
+      <div class="header-actions">
+        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
+        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">THEME</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Stage Viewport -->
+    <main class="slide-stage" id="slideStage">
+
+      <section class="slide-view active" id="slide-0" data-eyebrow="DS314 · TOPIC 2 LECTURE & LAB" data-badge="BUILDING WITH LLMS & RAG">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Building with LLMs & RAG Architectures</h2>
+          <p class="slide-subhead">Topic 2: Vector Mathematics, Document Chunking, ChromaDB, and Grounded Question Answering</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">THE CORE ENGINEERING PARADIGM</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                Instead of mining iron ore to build an engine from scratch, modern developers purchase a pre-built engine (Gemini) and engineer the transmission, chassis, and steering.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS314 TOPIC 2 · RAG SYSTEMS ARCHITECTURE</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2.1 CLOUD INFERENCE</span>
+                    <h4 class="stack-keyword">Direct API Generation (Hello World)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>google-genai Client:</strong> Connects to cloud TPU clusters using secure client.models.generate_content calls, bypassing expensive local GPU requirements.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2.2 THE 5-STAGE RAG PIPELINE</span>
+                    <h4 class="stack-keyword">Load ➔ Split ➔ Embed ➔ Store ➔ Ground</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Open-Book Reasoning:</strong> Ingests private PDFs, projects chunks into 3,072-dimensional vector space, and injects relevant context into prompts.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2.3 LABORATORY TASK 2</span>
+                    <h4 class="stack-keyword">Streamlit RAG & Trap Questions</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Lab Mastery:</strong> Audits PDF Q&A bots on Jollibee/Streamlit guidelines, testing grounding discipline against trick unanswerable queries.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-1" data-eyebrow="TOPIC 2 · DEVELOPMENT PARADIGM" data-badge="BUILD VS TRAIN">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Core Paradigm: Building with LLMs vs. Training from Scratch</h2>
+          <p class="slide-subhead">Why modern enterprise engineering focuses on application orchestration rather than model pre-training</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TRADITIONAL PARADIGM</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Training from Scratch</h3>
+                  <p class="front-sub-tag">Multi-million dollar custom model pre-training</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TRADITIONAL ML</span>
+                  <h4 class="back-headline">Expensive & High-Risk Custom Training</h4>
+                </div>
+                <div class="back-content">
+                  <p>Historical approach requiring massive capital and specialized compute.</p>
+                  <ul><li><strong>Data Requirements:</strong> Millions of manually labeled text records.</li><li><strong>Compute Capex:</strong> Thousands of NVIDIA H100 GPU hours costing $5M–$50M.</li><li><strong>Timeline:</strong> Months of distributed cluster training with severe divergence risks.</li><li><strong>Enterprise Risk:</strong> High probability of project failure before delivering business ROI.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MODERN PARADIGM</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Building with Foundation Models</h3>
+                  <p class="front-sub-tag">Software wrappers around pre-trained foundation APIs</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">MODERN GENAI</span>
+                  <h4 class="back-headline">API-Driven Cognitive Orchestration</h4>
+                </div>
+                <div class="back-content">
+                  <p>Consuming pre-trained intelligence as a utility service via cloud APIs.</p>
+                  <ul><li><strong>Zero Upfront Training:</strong> Tap into pre-trained models (Gemini) via simple HTTP calls.</li><li><strong>Engineering Focus:</strong> Application logic, prompt engineering, RAG, and tool integration.</li><li><strong>Cost Structure:</strong> Pure pay-as-you-go per-token operational expenditure (OpEx).</li><li><strong>Agility:</strong> Ship production-grade enterprise prototypes in days instead of quarters.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-2" data-eyebrow="TOPIC 2 · COURSE ECOSYSTEM" data-badge="WHY GEMINI?">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Why Google Gemini for DS314?</h2>
+          <p class="slide-subhead">Examining the economic, computational, and SDK architectural reasons behind the course standard</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">ECONOMIC ACCESSIBILITY</span>
+            <div class="big-stat">$0</div>
+            <h3 class="stat-label">Upfront Credit Card Barrier</h3>
+            <p class="stat-desc">
+              Google AI Studio provides a free-tier API without requiring students to attach credit card billing accounts, democratizing hands-on LLM app development.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CLOUD TPU CLUSTERS</span>
+                    <h4 class="stack-keyword">Zero Local GPU Compute Needed</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Hardware Equity:</strong> Heavy matrix tensors run on Google cloud infrastructure. Students on lightweight ultrabooks enjoy identical performance to workstation owners.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE MODERN SDK</span>
+                    <h4 class="stack-keyword">google-genai vs. google-generativeai</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>SDK Modernization:</strong> The course officially utilizes the modern google-genai library with genai.Client(), retiring the deprecated google-generativeai SDK.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MASSIVE CONTEXT & MULTIMODALITY</span>
+                    <h4 class="stack-keyword">Millions of Tokens & Multi-Modal Input</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Native Multimodal:</strong> Native processing of text, PDFs, audio, and images with industry-leading context window capacity.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-3" data-eyebrow="TOPIC 2 · DEVELOPMENT SETUP" data-badge="VIRTUAL ENVIRONMENTS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Development Environment Setup & Virtual Environments</h2>
+          <p class="slide-subhead">Establishing pristine, isolated Python runtime environments in VS Code for LLM engineering</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DEPENDENCY HYGIENE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Python Virtual Environments (venv)</h3>
+                  <p class="front-sub-tag">Isolating project packages and preventing collisions</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ENVIRONMENT SETUP</span>
+                  <h4 class="back-headline">Why Virtual Environments are Mandatory</h4>
+                </div>
+                <div class="back-content">
+                  <p>Every AI project requires an isolated python runtime environment.</p>
+                  <ul><li><strong>The Problem:</strong> Course A requires LangChain 0.1; Course B requires LangChain 0.3. Global installs cause catastrophic collisions.</li><li><strong>The Fix:</strong> Create isolated venv in project directory: <code>python -m venv venv</code>.</li><li><strong>Activation (Windows):</strong> <code>venv\Scripts\activate</code>.</li><li><strong>Kernel Selection:</strong> Always verify VS Code kernel selector points strictly to <code>./venv</code>.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PACKAGE SPECIFICATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">requirements.txt & Dependencies</h3>
+                  <p class="front-sub-tag">Pinning versions for deterministic builds</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PACKAGE PINNING</span>
+                  <h4 class="back-headline">The Essential DS314 Dependency Manifest</h4>
+                </div>
+                <div class="back-content">
+                  <p>Standard requirements manifest for Topic 2 RAG labs.</p>
+                  <ul><li><strong>Core Packages:</strong> google-genai, langchain, langchain-community, langchain-google-genai.</li><li><strong>Vector & Data:</strong> chromadb, pypdf, faiss-cpu.</li><li><strong>UI & Runtime:</strong> streamlit, python-dotenv.</li><li><strong>Reproducibility:</strong> Guarantees that code running on student laptops executes identically during grading.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-4" data-eyebrow="TOPIC 2 · SECURITY HYGIENE" data-badge="SECRET MANAGEMENT">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Secret Management & The Hidden .env.txt Trap</h2>
+          <p class="slide-subhead">Securing API keys against public exposure and avoiding Windows file extension traps</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">THE GOLDEN SECURITY RULE</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                Never hardcode an API key into source code. Automated GitHub scrapers will harvest and compromise exposed keys within 90 seconds.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">PRODUCTION SECURITY COMPLIANCE</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE .ENV.TXT TRAP</span>
+                    <h4 class="stack-keyword">Windows Explorer Extension Hiding</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Common Student Trap:</strong> Windows hides file extensions, accidentally naming the file .env.txt. load_dotenv() fails silently and os.getenv returns None. Fix: Enable file extensions and rename strictly to .env.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">RUNTIME KEY LOADING</span>
+                    <h4 class="stack-keyword">python-dotenv Protocol</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Loading Pattern:</strong> from dotenv import load_dotenv; import os; load_dotenv(); api_key = os.getenv("GEMINI_API_KEY"). Never commit .env to version control!</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">.GITIGNORE VERIFICATION</span>
+                    <h4 class="stack-keyword">Pre-Commit Defense Checklist</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Version Control Defense:</strong> Always list .env inside .gitignore before running git add. Verify git status never stages .env files.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-5" data-eyebrow="TOPIC 2 · DIRECT API INTEGRATION" data-badge="HELLO WORLD API">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Direct API Generation: The "Hello World" of LLMs</h2>
+          <p class="slide-subhead">Using Google's official google-genai SDK for direct, zero-middleware model interactions</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DIRECT API CLIENT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The Modern google-genai Client</h3>
+                  <p class="front-sub-tag">client = genai.Client()</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DIRECT INFERENCE</span>
+                  <h4 class="back-headline">Bypassing Middleware with Direct APIs</h4>
+                </div>
+                <div class="back-content">
+                  <p>The fastest, lowest-overhead method to test prompts against Google Gemini.</p>
+                  <ul><li><strong>Import:</strong> <code>from google import genai</code></li><li><strong>Instantiation:</strong> <code>client = genai.Client()</code> (automatically reads GEMINI_API_KEY from environment).</li><li><strong>Model Call:</strong> <code>client.models.generate_content(model="gemini-1.5-flash", contents="Hello!")</code>.</li><li><strong>Response Access:</strong> Text string accessed directly via <code>response.text</code>.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SYSTEM INSTRUCTIONS & CONFIG</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Configuring Parameters in Direct API</h3>
+                  <p class="front-sub-tag">GenerateContentConfig & Temperature</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">API HYPERPARAMETERS</span>
+                  <h4 class="back-headline">Controlling Sampling Behavior in Direct Calls</h4>
+                </div>
+                <div class="back-content">
+                  <p>Customizing generation parameters directly on the client.</p>
+                  <ul><li><strong>System Prompts:</strong> <code>config=types.GenerateContentConfig(system_instruction="You are a data science tutor.")</code></li><li><strong>Temperature:</strong> Configured inside <code>GenerateContentConfig(temperature=0.2)</code>.</li><li><strong>When to use:</strong> Excellent for lightweight utility scripts, one-off transformations, and diagnostic API health checks.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-6" data-eyebrow="TOPIC 2 · RAG FOUNDATION" data-badge="THE 3 BASE FLAWS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Why Base LLMs Need RAG: The Three Fundamental Flaws</h2>
+          <p class="slide-subhead">Converting generation from an unreliable closed-book memory exam to an open-book verified synthesis</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FLAW 1: TEMPORAL CUTOFF</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Knowledge Cutoffs</h3>
+                  <p class="front-sub-tag">Unaware of post-training historical events</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TEMPORAL BOUNDARY</span>
+                  <h4 class="back-headline">Frozen Historical Memory</h4>
+                </div>
+                <div class="back-content">
+                  <p>Base models cannot know information that emerged after their training data was finalized.</p>
+                  <ul><li><strong>Static Weights:</strong> Pre-training takes months; weights remain frozen indefinitely.</li><li><strong>Dynamic World:</strong> Policies, product pricing, and news change daily.</li><li><strong>RAG Solution:</strong> Retrieves real-time external articles and feeds them into the prompt.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FLAW 2: PRIVATE DATA</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Proprietary Intranet Isolation</h3>
+                  <p class="front-sub-tag">Zero visibility into corporate manuals and student handbooks</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DATA ISOLATION</span>
+                  <h4 class="back-headline">The Proprietary Knowledge Gap</h4>
+                </div>
+                <div class="back-content">
+                  <p>Base models are pre-trained on public internet text, not private enterprise handbooks.</p>
+                  <ul><li><strong>Private Assets:</strong> Jollibee employee manuals, hospital medical records, internal SQL data.</li><li><strong>Training Boundary:</strong> Never exposed to model creators due to security firewalls.</li><li><strong>RAG Solution:</strong> Ingests internal PDFs and searches them dynamically at runtime.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FLAW 3: HALLUCINATIONS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Stochastic Hallucination</h3>
+                  <p class="front-sub-tag">Confident fabrication of plausible-sounding falsehoods</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">FACTUAL INTEGRITY</span>
+                  <h4 class="back-headline">Mitigating Stochastic Fabrications</h4>
+                </div>
+                <div class="back-content">
+                  <p>Base models prioritize syntactic fluency over factual truth when certainty is low.</p>
+                  <ul><li><strong>Probabilistic Guessing:</strong> Next-token sampling guesses what looks grammatically right.</li><li><strong>Liability:</strong> Dangerous in medical, legal, and financial enterprise applications.</li><li><strong>RAG Solution:</strong> Forces the model to ground statements in verified retrieved text.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-7" data-eyebrow="TOPIC 2 · RAG PIPELINE" data-badge="5-STAGE ARCHITECTURE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The End-to-End 5-Stage RAG Pipeline</h2>
+          <p class="slide-subhead">Tracing the complete lifecycle of unstructured enterprise documents into grounded Q&A responses</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">GROUNDED INFERENCE</span>
+            <div class="big-stat">5</div>
+            <h3 class="stat-label">Architectural Stages</h3>
+            <p class="stat-desc">
+              1. Load ➔ 2. Split ➔ 3. Embed ➔ 4. Store ➔ 5. Retrieve & Ground. Each stage has distinct failure modes and tuning hyperparameters.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STAGE 1 & 2: INGESTION</span>
+                    <h4 class="stack-keyword">PyPDFLoader & Recursive Splitting</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Extraction:</strong> Loads PDF text pages into Document objects and slices text into ~1000 character chunks with chunk_overlap=100 to protect sentence boundaries.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STAGE 3 & 4: VECTOR INDEXING</span>
+                    <h4 class="stack-keyword">3,072-Dim Embeddings in ChromaDB</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Vectorization:</strong> GoogleGenerativeAIEmbeddings transforms text into float arrays; ChromaDB indexes vectors for sub-millisecond similarity lookups.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STAGE 5: SYNTHESIS</span>
+                    <h4 class="stack-keyword">Top-k Retrieval & Grounded Prompting</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Grounded Generation:</strong> Retrieves top-k closest chunks, populates system prompt with context, and ChatGoogleGenerativeAI generates factual answers.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-8" data-eyebrow="TOPIC 2 · INGESTION & CHUNKING" data-badge="LOADING & SPLITTING">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Document Ingestion & Recursive Text Splitting</h2>
+          <p class="slide-subhead">Transforming complex, unstructured PDF documents into semantically coherent text chunks</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STAGE 1: DOCUMENT LOADING</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">PyPDFLoader Mechanics</h3>
+                  <p class="front-sub-tag">Extracting raw page text and metadata trees</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">INGESTION LAYER</span>
+                  <h4 class="back-headline">PyPDFLoader & Page Metadata</h4>
+                </div>
+                <div class="back-content">
+                  <p>Parsing PDFs into structured LangChain Document objects.</p>
+                  <ul><li><strong>Import:</strong> <code>from langchain_community.document_loaders import PyPDFLoader</code></li><li><strong>Loading:</strong> <code>loader = PyPDFLoader("jollibee-info.pdf"); docs = loader.load()</code></li><li><strong>Document Structure:</strong> Returns a list of Document objects with <code>page_content</code> and <code>metadata</code> (e.g. page numbers).</li><li><strong>Edge Cases:</strong> Scanned image-only PDFs require OCR (Optical Character Recognition) pre-processing.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STAGE 2: TEXT SPLITTING</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">RecursiveCharacterTextSplitter</h3>
+                  <p class="front-sub-tag">Splitting on recursive natural language separators</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CHUNKING LAYER</span>
+                  <h4 class="back-headline">Recursive Character Segmentation</h4>
+                </div>
+                <div class="back-content">
+                  <p>Why character splitters outperform naive fixed-length slicers.</p>
+                  <ul><li><strong>Import:</strong> <code>from langchain_text_splitters import RecursiveCharacterTextSplitter</code></li><li><strong>Separators Hierarchy:</strong> Tries splitting by <code>["\n\n", "\n", " ", ""]</code> in order.</li><li><strong>Context Preservation:</strong> Keeps whole paragraphs and sentences intact wherever possible.</li><li><strong>Standard Config:</strong> <code>chunk_size=1000, chunk_overlap=100</code>.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-9" data-eyebrow="TOPIC 2 · CHUNKING STRATEGY" data-badge="CHUNK OVERLAP">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Chunking Mechanics: Sizing & Boundary Overlap</h2>
+          <p class="slide-subhead">Why embedding an entire PDF as one vector fails and how chunk_overlap preserves semantics</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">THE DILUTION PARADOX</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                If you embed an entire 50-page handbook into a single vector, pricing, history, mission, and refund rules blend into an uninformative mean vector.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">VECTOR SEMANTIC CONCENTRATION PRINCIPLE</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">GRANULAR CHUNK SIZING</span>
+                    <h4 class="stack-keyword">1,000 Character Target Sizing</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Isolating Facts:</strong> Small chunks (~1,000 chars) isolate individual propositions (e.g., exact refund policy steps), allowing vector search to return the exact relevant paragraph.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE BOUNDARY CLEAVING TRAP</span>
+                    <h4 class="stack-keyword">Why Sentences Get Sliced in Half</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Cleaving Trap:</strong> If an essential condition ("...unless requested after 30 days") falls exactly on a chunk edge, the logic is truncated. Overlap guarantees boundary continuity.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CHUNK OVERLAP (overlap=100)</span>
+                    <h4 class="stack-keyword">10% Rolling Context Window</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Rolling Buffer:</strong> The last 100 characters of Chunk 1 are copied to the beginning of Chunk 2, guaranteeing no sentence is cleaved without duplicate preservation.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-10" data-eyebrow="TOPIC 2 · VECTOR MATHEMATICS" data-badge="VECTOR EMBEDDINGS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">High-Dimensional Geometry: Vector Embeddings</h2>
+          <p class="slide-subhead">Understanding Google's 3,072-dimensional embedding space and cosine similarity mathematics</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">VECTOR GEOMETRY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">3,072-Dimensional Coordinate Space</h3>
+                  <p class="front-sub-tag">gemini-embedding-001 output topology</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EMBEDDING DIMENSIONS</span>
+                  <h4 class="back-headline">Google Generative AI Embeddings</h4>
+                </div>
+                <div class="back-content">
+                  <p>Mapping natural language into high-dimensional geometric manifolds.</p>
+                  <ul><li><strong>Model:</strong> <code>models/gemini-embedding-001</code></li><li><strong>Dimensionality:</strong> Outputs a dense vector of exactly 3,072 floating-point numbers.</li><li><strong>Comparison:</strong> OpenAI small = 1,536 dims; Hugging Face MiniLM = 384 dims.</li><li><strong>Expressive Power:</strong> Higher dimensions capture subtle grammatical nuances and domain semantics.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SIMILARITY METRIC</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Cosine Similarity Mathematics</h3>
+                  <p class="front-sub-tag">cos(θ) = (q · d) / (||q|| ||d||)</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">COSINE PROXIMITY</span>
+                  <h4 class="back-headline">Measuring Directional Alignment</h4>
+                </div>
+                <div class="back-content">
+                  <p>Why cosine similarity dominates natural language vector retrieval.</p>
+                  <ul><li><strong>Formula:</strong> Measures the cosine of the angle between query vector q and chunk vector d.</li><li><strong>Magnitude Invariance:</strong> Normalizes for vector length, meaning short queries match long chunks.</li><li><strong>Score Scale:</strong> +1.0 = identical semantic meaning; 0.0 = orthogonal; -1.0 = opposite meaning.</li><li><strong>Semantic Matching:</strong> "Where do I return items?" matches "Store refund policy" with high similarity.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-11" data-eyebrow="TOPIC 2 · VECTOR STORAGE" data-badge="CHROMADB">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Vector Databases: ChromaDB Architecture & Retrievers</h2>
+          <p class="slide-subhead">Indexing high-dimensional vectors and configuring low-latency nearest-neighbor search</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CHROMA ARCHITECTURE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">ChromaDB Vector Store</h3>
+                  <p class="front-sub-tag">Lightweight, embedded vector database</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">VECTOR STORE</span>
+                  <h4 class="back-headline">ChromaDB Indexing & Persistence</h4>
+                </div>
+                <div class="back-content">
+                  <p>A developer-friendly vector database with native metadata filtering.</p>
+                  <ul><li><strong>Instantiation:</strong> <code>vectorstore = Chroma.from_documents(chunks, embeddings)</code></li><li><strong>Under the Hood:</strong> Stores vectors in Apache Arrow memory tables and metadata in SQLite.</li><li><strong>Persistence:</strong> Can persist to local disk directory or run 100% in-memory for testing.</li><li><strong>Search Algorithms:</strong> Implements HNSW (Hierarchical Navigable Small World) for sub-millisecond queries.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">RETRIEVER INTERFACE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">VectorStoreRetriever</h3>
+                  <p class="front-sub-tag">Converting a database into a callable component</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">RETRIEVER ABSTRACTION</span>
+                  <h4 class="back-headline">as_retriever(search_kwargs={"k": 3})</h4>
+                </div>
+                <div class="back-content">
+                  <p>Decoupling vector storage from pipeline execution.</p>
+                  <ul><li><strong>Conversion:</strong> <code>retriever = vectorstore.as_retriever(search_kwargs={"k": 3})</code></li><li><strong>Parameter k:</strong> Retrieves top-k most semantically similar chunks for each query.</li><li><strong>Runnable Protocol:</strong> Implements <code>.invoke(query)</code>, making it instantly pluggable into LCEL chains.</li><li><strong>Metadata Filtering:</strong> Can restrict retrieval to specific document pages or source files.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-12" data-eyebrow="TOPIC 2 · GROUNDING PROTOCOL" data-badge="GROUNDED INFERENCE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Grounded Inference & The Golden Rule of Grounding</h2>
+          <p class="slide-subhead">Enforcing truthful fallback responses and setting low temperatures for factual accuracy</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">THE GOLDEN RULE OF GROUNDING</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                Answer strictly based on the provided context. If the context does not contain the answer, explicitly state that the information is unavailable.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS314 GROUNDING PROMPT STANDARD</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TEMPERATURE (T = 0.2)</span>
+                    <h4 class="stack-keyword">Deterministic Factual Extraction</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Temperature Enforcement:</strong> Set temperature=0.2 in ChatGoogleGenerativeAI. High temperatures (T > 0.7) cause creative sampling, inducing fatal hallucinations in factual Q&A.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">GROUNDING PROMPT TEMPLATE</span>
+                    <h4 class="stack-keyword">Enforcing Strict Fallbacks</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>System Prompt:</strong> "You are an assistant for question-answering. Use the following context to answer the question. If you do not know, say you do not know. Context: {context} Question: {question}"</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">OUTPUT STREAMING</span>
+                    <h4 class="stack-keyword">StrOutputParser() in RAG</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Clean Text Stream:</strong> Connect retriever, prompt, and model using LCEL, piping through StrOutputParser to emit clean strings to the Streamlit UI.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-13" data-eyebrow="TOPIC 2 · LAB EVALUATION" data-badge="LAB TASK 2">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Laboratory Task 2 Evaluation & Trap Questions</h2>
+          <p class="slide-subhead">Auditing grounding truthfulness with unanswerable questions and deploying with Streamlit</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAB 2 EVALUATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The "Trap Question" Audit</h3>
+                  <p class="front-sub-tag">Testing refusal discipline vs hallucination</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EVALUATION METHODOLOGY</span>
+                  <h4 class="back-headline">The Trap Question Mechanism</h4>
+                </div>
+                <div class="back-content">
+                  <p>How evaluators test whether a RAG chatbot is truly grounded.</p>
+                  <ul><li><strong>Concept:</strong> Ask a question that sounds completely plausible for the domain, but whose answer is missing from the document.</li><li><strong>Example (Jollibee PDF):</strong> "What are the exact GPS coordinates of Jollibee's first store in New York City?"</li><li><strong>Passing Grade:</strong> The chatbot admits: "The provided document does not contain this information."</li><li><strong>Failing Grade:</strong> The chatbot fabricates plausible-sounding GPS coordinates from its pre-training memory.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STREAMLIT DEPLOYMENT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Streamlit UI Architecture</h3>
+                  <p class="front-sub-tag">Building interactive web frontends for RAG</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">FRONTEND INTEGRATION</span>
+                  <h4 class="back-headline">Streamlit Session State & Chat</h4>
+                </div>
+                <div class="back-content">
+                  <p>Wiring LangChain RAG pipelines to interactive web applications.</p>
+                  <ul><li><strong>Chat UI:</strong> <code>st.chat_message("user")</code> and <code>st.chat_message("assistant")</code>.</li><li><strong>Session Memory:</strong> <code>st.session_state.messages</code> maintains chat turn history across browser re-renders.</li><li><strong>Document Upload:</strong> <code>st.file_uploader("Upload PDF")</code> enables dynamic ingestion at runtime.</li><li><strong>Streaming:</strong> <code>st.write_stream(chain.stream({"question": q}))</code> provides real-time typing feedback.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-14" data-eyebrow="TOPIC 2 · EXECUTIVE SUMMARY" data-badge="TOPIC 2 SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Production Troubleshooting & Topic 2 Synthesis</h2>
+          <p class="slide-subhead">Handling HTTP 429 quota exceptions, environment gotchas, and pre-flight lab audit rubric</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TROUBLESHOOTING 1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">HTTP 429 ResourceExhausted</h3>
+                  <p class="front-sub-tag">Handling Google AI Studio free tier rate limits</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">API TROUBLESHOOTING</span>
+                  <h4 class="back-headline">Google Rate Limit Recovery</h4>
+                </div>
+                <div class="back-content">
+                  <p>Overcoming Requests-Per-Minute (RPM) throttling during embedding.</p>
+                  <ul><li><strong>Cause:</strong> Generating embeddings for 300+ chunks in a tight for-loop exceeds Google free-tier limits.</li><li><strong>Remediation 1:</strong> Batch embedding calls into slices of 15 chunks with <code>time.sleep(1)</code> pauses.</li><li><strong>Remediation 2:</strong> Test pipelines during development using document subsets (e.g. <code>chunks[:10]</code>).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TROUBLESHOOTING 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">ModuleNotFoundError & Kernels</h3>
+                  <p class="front-sub-tag">Package environment collisions</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ENVIRONMENT RECOVERY</span>
+                  <h4 class="back-headline">Fixing Module Imports & Kernels</h4>
+                </div>
+                <div class="back-content">
+                  <p>Resolving missing module errors in VS Code.</p>
+                  <ul><li><strong>Cause:</strong> Installed packages into system Python while VS Code executes in a virtual environment.</li><li><strong>Fix:</strong> Activate venv explicitly: <code>venv\Scripts\activate</code> then run <code>pip install -r requirements.txt</code>.</li><li><strong>Kernel Fix:</strong> Click upper-right kernel button in VS Code notebook and select <code>Python (./venv)</code>.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TOPIC 2 SYNTHESIS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Pre-Flight RAG Master Checklist</h3>
+                  <p class="front-sub-tag">Verification matrix for laboratory submission</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EXAM & LAB AUDIT</span>
+                  <h4 class="back-headline">Master Pre-Flight Verification</h4>
+                </div>
+                <div class="back-content">
+                  <p>Definitive rubric to verify before laboratory submission.</p>
+                  <ul><li><strong>Secret Security:</strong> API key loaded from .env; .env listed in .gitignore.</li><li><strong>Chunking Config:</strong> chunk_size=1000, chunk_overlap=100 verified.</li><li><strong>Grounding Fallback:</strong> Prompt strictly enforces refusal on missing information.</li><li><strong>Trap Question Tested:</strong> Confirmed system declines unanswerable domain queries.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
+      <span>▴ SHOW CONTROLS</span>
+      <span class="key-indicator">C</span>
+    </button>
+
+    <!-- Collapsible Slide Footer Controls -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="counter" id="slideCounter">
+        <span>01</span> / 15
+      </div>
+
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
+          <span>← PREV</span>
+          <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
+          <span>FLIP ALL</span>
+          <span class="key-indicator">TAB</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
+          <span>NEXT →</span>
+          <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
+          <span id="fsIcon">⛶</span>
+          <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      let currentSlide = 0;
+      const totalSlides = 15;
+      const slides = document.querySelectorAll('.slide-view');
+      const progressFill = document.getElementById('progressFill');
+      const slideCounter = document.getElementById('slideCounter');
+      const headerEyebrow = document.getElementById('headerEyebrow');
+      const slideTopicBadge = document.getElementById('slideTopicBadge');
+
+      const deckContainer = document.getElementById('deckContainer');
+      const slideHeader = document.getElementById('slideHeader');
+      const deckFooter = document.getElementById('deckFooter');
+      const topToggleBtn = document.getElementById('topToggleBtn');
+      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const flipAllBtn = document.getElementById('flipAllBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let headerPinned = false;
+      let footerPinned = false;
+
+      function initCardFlipListeners() {
+        document.querySelectorAll('.flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+        document.querySelectorAll('.stack-flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+      }
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        const currentActive = slides[currentSlide];
+        if (currentActive) {
+          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+          currentActive.classList.remove('active');
+        }
+
+        currentSlide = index;
+        const newActive = slides[currentSlide];
+        newActive.classList.add('active');
+
+        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
+        progressFill.style.width = progressPct + '%';
+
+        const padIndex = String(currentSlide + 1).padStart(2, '0');
+        slideCounter.innerHTML = `<span>${padIndex}</span> / ${totalSlides}`;
+
+        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'DS314 · TOPIC 2 LECTURE & LAB';
+        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'TOPIC 2';
+      }
+
+      function toggleFlipAll() {
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+        if (!cards.length) return;
+
+        let allFlipped = true;
+        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
+        cards.forEach(c => {
+          if (allFlipped) c.classList.remove('flipped');
+          else c.classList.add('flipped');
+        });
+      }
+
+      function toggleHeader(forceState) {
+        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
+        if (headerPinned) {
+          slideHeader.classList.add('expanded');
+          topToggleBtn.classList.add('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
+        } else {
+          slideHeader.classList.remove('expanded');
+          topToggleBtn.classList.remove('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
+        }
+      }
+
+      function toggleFooter(forceState) {
+        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
+        if (footerPinned) {
+          deckFooter.classList.add('expanded');
+          bottomToggleBtn.classList.add('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
+        } else {
+          deckFooter.classList.remove('expanded');
+          bottomToggleBtn.classList.remove('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
+        }
+      }
+
+      function initHoverTriggers() {
+        document.addEventListener('mousemove', function(e) {
+          const windowHeight = window.innerHeight;
+          const mouseY = e.clientY;
+          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
+          else deckContainer.classList.remove('hovering-top');
+
+          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
+          else deckContainer.classList.remove('hovering-bottom');
+        });
+      }
+
+      function initThemeToggle() {
+        const root = document.documentElement;
+        themeToggleBtn.addEventListener('click', function() {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
+          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
+        });
+      }
+
+      function initFullscreen() {
+        fullscreenBtn.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => console.warn(err));
+          } else {
+            document.exitFullscreen();
+          }
+        });
+      }
+
+      function initKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+          switch(e.key) {
+            case 'ArrowRight': case 'PageDown': case ' ':
+              e.preventDefault(); updateSlide(currentSlide + 1); break;
+            case 'ArrowLeft': case 'PageUp':
+              e.preventDefault(); updateSlide(currentSlide - 1); break;
+            case 'Tab': case 'x': case 'X':
+              e.preventDefault(); toggleFlipAll(); break;
+            case 't': case 'T':
+              e.preventDefault(); themeToggleBtn.click(); break;
+            case 'f': case 'F':
+              e.preventDefault(); fullscreenBtn.click(); break;
+            case 'h': case 'H':
+              e.preventDefault(); toggleHeader(); break;
+            case 'c': case 'C':
+              e.preventDefault(); toggleFooter(); break;
+            case 'Home':
+              e.preventDefault(); updateSlide(0); break;
+            case 'End':
+              e.preventDefault(); updateSlide(totalSlides - 1); break;
+            case 'Escape':
+              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
+          }
+        });
+      }
+
+      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+      flipAllBtn.addEventListener('click', () => toggleFlipAll());
+      topToggleBtn.addEventListener('click', () => toggleHeader());
+      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+
+      initCardFlipListeners();
+      initHoverTriggers();
+      initThemeToggle();
+      initFullscreen();
+      initKeyboardShortcuts();
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: The Architecture of Gender-Based Violence — Executive Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================== */
+    /* EMPATHETIC LIGHT EDITORIAL THEME (DEFAULT)                      */
+    /* ============================================================== */
+    :root, [data-theme="light"] {
+      --bg-canvas: #F8F6F1;             /* Warm Soft Linen Alabaster */
+      --surface-front: #FFFFFF;        /* Pure Warm White */
+      --surface-elevated: #F3EFE8;     /* Soft warm tint for secondary panels */
+      --surface-back: #F5EFE6;         /* Sandalwood Oat / Revealed Meaning Surface */
+      --border-subtle: #E5DFD4;        /* Soft warm stone hairline */
+      --border-focus: #D0C5B5;         /* Active elevated border */
+      --border-accent: #C84B31;        /* Terracotta accent border */
+
+      /* High-Readability Empathetic Typography */
+      --text-main: #1D2129;            /* Deep Roasted Espresso */
+      --text-muted: #535E6D;           /* Gentle Warm Slate */
+      --text-faint: #7E8997;           /* Neutral Slate Annotation */
+
+      /* Grounded & Empathetic Semantics */
+      --accent-crimson: #C84B31;       /* Warm Terracotta-Crimson / Urgent harms & penal law */
+      --accent-ochre: #A96E32;         /* Warm Sandalwood Amber / Cultural & institutional roots */
+      --accent-teal: #26796B;          /* Restorative Sage / Safety, support & community */
+      --accent-slate: #546070;         /* Subordinate badge neutral */
+
+      /* Elevated Soft Shadows */
+      --card-shadow: 0 4px 20px rgba(35, 30, 25, 0.05), 0 1px 3px rgba(35, 30, 25, 0.03);
+      --card-shadow-hover: 0 14px 34px rgba(169, 110, 50, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04);
+      --card-shadow-back: 0 16px 36px rgba(40, 30, 20, 0.10);
+
+      /* Fonts */
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* Optional Dark Mode (Toggleable) */
+    [data-theme="dark"] {
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-elevated: #1B2230;
+      --surface-back: #161D2B;
+      --border-subtle: #2A3346;
+      --border-focus: #3E4C66;
+      --border-accent: #E0533C;
+      --text-main: #F4F6F9;
+      --text-muted: #94A3B8;
+      --text-faint: #64748B;
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-slate: #CBD5E1;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      --card-shadow-hover: 0 14px 34px rgba(0, 0, 0, 0.6);
+      --card-shadow-back: 0 16px 36px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson));
+      width: 8.33%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container (Fixed Non-Distorting Keynote Stage) */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-speaker-tag {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Slide Title */
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 3.15rem;
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    /* Slide Canvas */
+    .slide-canvas {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid Layouts */
+    .grid-split-hero {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-triptych {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.85rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-bifurcated {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-metric-split {
+      display: grid;
+      grid-template-columns: 36% 64%;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    /* ============================================================== */
+    /* 3D FLIP CARD CORE SYSTEM — EMPATHETIC LIGHT ARCHITECTURE       */
+    /* ============================================================== */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      min-height: 380px;
+      position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover {
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 2.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    /* FRONT DESIGN: PURE LIGHT EDITORIAL KEYNOTE */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING & THEORETICAL DEFINITION */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+
+    .flip-card-back > div:first-child {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      justify-content: flex-start;
+    }
+
+    .back-header {
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .back-content {
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: var(--text-main);
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .back-content strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 1.15rem;
+      line-height: 1.48;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent-ochre);
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1rem;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* Stack cards layout for multi-row slides */
+    .stack-flip-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+    }
+
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card:hover {
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.08);
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.15rem 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.15rem 1.8rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 7rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.35rem;
+      font-weight: 700;
+      line-height: 1.32;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 6.8rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.85rem;
+    }
+
+    .stat-desc {
+      font-size: 1.25rem;
+      line-height: 1.55;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar (Collapsible Pull-Up) */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.5rem;
+      padding-top: 0.95rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.4rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    /* ============================================================== */
+    /* TOGGLE PILLS: DROPDOWN HEADER & PULL-UP FOOTER                 */
+    /* ============================================================== */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.35rem 1.15rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.06);
+      z-index: 150;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      outline: none;
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .top-toggle {
+      top: 10px;
+    }
+
+    .bottom-toggle {
+      bottom: 10px;
+    }
+
+    .pill-arrow {
+      font-size: 0.85rem;
+      line-height: 1;
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+
+    .pill-label {
+      font-size: 0.725rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================== */
+    /* FULLSCREEN PRESERVATION SYSTEM                                 */
+    /* In Fullscreen mode: preserve exact non-fullscreen card stage   */
+    /* dimensions and typography to prevent stretching or distortion  */
+    /* ============================================================== */
+    :fullscreen,
+    :-webkit-full-screen {
+      background-color: var(--bg-canvas) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    :fullscreen body,
+    :-webkit-full-screen body {
+      width: 100vw !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background-color: var(--bg-canvas) !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+    }
+
+    :fullscreen .deck-container,
+    :-webkit-full-screen .deck-container {
+      width: 1380px !important;
+      height: 790px !important;
+      max-width: calc(100vw - 3rem) !important;
+      max-height: calc(100vh - 2.5rem) !important;
+      margin: auto !important;
+    }
+
+    @media print {
+      .bar-toggle-pill {
+        display: none !important;
+      }
+      .slide-header, .deck-footer {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <main class="deck-container">
+    <!-- Top Dropdown Pill Toggle -->
+    <button class="bar-toggle-pill top-toggle" id="headerToggleBtn" title="Drop down header metadata [H]" aria-label="Toggle Header">
+      <span class="pill-arrow" id="headerToggleArrow">▾</span>
+      <span class="pill-label" id="headerToggleLabel">DROP DOWN HEADER</span>
+    </button>
+
+    <!-- Header -->
+    <header class="slide-header">
+      <div class="slide-eyebrow" id="slideEyebrow">SYSTEMIC FOUNDATIONS & OVERVIEW</div>
+      <div class="header-actions">
+        <div class="hint-banner">
+          CLICK ANY CARD TO REVEAL DEEP MEANING
+        </div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light / Dark Theme">
+          <span id="themeIcon">☀️</span> <span id="themeLabel">LIGHT</span>
+        </button>
+        <div class="slide-speaker-tag" id="slideSpeakerTag">EXECUTIVE CHAPTER 6</div>
+      </div>
+    </header>
+
+    <!-- Main Title -->
+    <h1 class="slide-title" id="slideTitle">The Architecture of Gendered Violence</h1>
+
+    <!-- Slide Canvas -->
+    <div class="slide-canvas">
+
+      <!-- SLIDE 01: Title / Framing -->
+      <section class="slide active" data-eyebrow="SYSTEMIC FOUNDATIONS" data-speaker="PANEL: MAHILUM • MANDAMIAN • MARSHBURN • MEGALBIO" data-title="The Architecture of Gendered Violence">
+        <div class="grid-split-hero">
+          <div class="hero-static-box">
+            <p class="hero-quote">Gender-based violence is neither accidental nor interpersonal friction; it is the structural enforcement of systemic inequality.</p>
+            <div class="hero-author">Chapter 6 — Presenters: Mahilum (1) • Mandamian (2) • Marshburn (3) • Megalbio (4)</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STRUCTURAL ROOT</span>
+                    <span class="stack-keyword">Systemic Asymmetry</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Systemic Domination:</strong> Violence operates not as an individual pathology, but as an ideological and material instrument designed to reproduce patriarchal domination and subordinate female autonomy.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THREE DOMAINS</span>
+                    <span class="stack-keyword">Continuum of Harm</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Institutional Gradient:</strong> Subjugation manifests along an interconnected institutional continuum: the intimate domestic home, the corporate workplace, and the public square.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">JUSTICE MANDATE</span>
+                    <span class="stack-keyword">Dual Remediation</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Convergence of Law & Community:</strong> Statutory penal codification must converge with grassroots community-led transformative action to permanently dismantle institutional impunity.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 02: Domestic Modes (Triptych Flip) -->
+      <section class="slide" data-eyebrow="DOMESTIC SPHERE" data-speaker="PRESENTER 1: MAHILUM (PP. 103–105)" data-title="Modes of Domestic Subjugation">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">01 / KINETIC VIOLENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Physical Assault</h3>
+                  <div class="front-sub-tag">Bodily Domination & Coercion</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Definition</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">01 / PHYSICAL ASSAULT</div>
+                    <div class="back-headline">Bodily Violation</div>
+                  </div>
+                  <div class="back-content">
+                    Direct bodily injury, coercive kinetic force, and assault deployed to enforce spatial obedience and total physical capitulation under the perpetual threat of acute trauma.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">02 / EPISTEMIC ATTACK</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Psychological Erosion</h3>
+                  <div class="front-sub-tag">Identity Annihilation & Gaslighting</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Definition</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">02 / PSYCHOLOGICAL ABUSE</div>
+                    <div class="back-headline">Identity Degradation</div>
+                  </div>
+                  <div class="back-content">
+                    Systematic gaslighting, chronic verbal degradation, enforced social isolation, and surveillance engineered to dismantle the victim's self-worth, sanity, and autonomous agency.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">03 / MATERIAL CAPTURE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Economic Sabotage</h3>
+                  <div class="front-sub-tag">Financial Dependency & Control</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Definition</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">03 / ECONOMIC ABUSE</div>
+                    <div class="back-headline">Material Imprisonment</div>
+                  </div>
+                  <div class="back-content">
+                    Withholding financial sustenance, controlling income, sabotaging employment pursuits, and enforcing total material dependence to eliminate physical exit options from the household.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 03: Abuse Mechanics (Bifurcated Flip) -->
+      <section class="slide" data-eyebrow="THEORETICAL MECHANICS" data-speaker="PRESENTER 1: MAHILUM (PP. 105–108)" data-title="The Mechanics of Chronic Coercion">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">THE DULUTH FRAMEWORK</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Power & Control Matrix</h3>
+                  <div class="front-sub-tag">Calculated Domination Model</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Tactics</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">DULUTH MODEL (PENCE & PAYMAR)</div>
+                    <div class="back-headline">Instrumental Dominance</div>
+                  </div>
+                  <div class="back-content">
+                    Violence is not an emotional "loss of control"; it is the calculated application of tactics to establish unilateral dominion:
+                    <ul>
+                      <li><strong>Coercion & Threats:</strong> Terrorizing through fear.</li>
+                      <li><strong>Male Privilege:</strong> Treating the partner as property.</li>
+                      <li><strong>Enforced Isolation:</strong> Severing family and peer networks.</li>
+                      <li><strong>Economic Control:</strong> Confiscating independent resources.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TRAUMA OSCILLATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Walker's 4-Phase Cycle</h3>
+                  <div class="front-sub-tag">The Neurochemical Trap</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Phases</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">LENORE WALKER (1979)</div>
+                    <div class="back-headline">The Cycle of Violence</div>
+                  </div>
+                  <div class="back-content">
+                    The recurring 4-phase orbital trap that generates traumatic bonding:
+                    <ul>
+                      <li><strong>Phase 1: Tension Building:</strong> Walking on eggshells.</li>
+                      <li><strong>Phase 2: Acute Violent Incident:</strong> Explosive trauma.</li>
+                      <li><strong>Phase 3: Honeymoon Reconciliation:</strong> Remorse, gifts, false reform.</li>
+                      <li><strong>Phase 4: Denial & Blaming:</strong> "You provoked me."</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 04: Philippine Reality -->
+      <section class="slide" data-eyebrow="PHILIPPINE CONTEXT" data-speaker="PRESENTER 1: MAHILUM (PP. 108–109)" data-title="Cultural Complicity and Domestic Silence">
+        <div class="grid-metric-split">
+          <div class="metric-hero-box">
+            <div class="big-stat">1 in 4</div>
+            <div class="stat-label">Filipino Women</div>
+            <p class="stat-desc">Endure physical, sexual, or emotional violence from an intimate partner during their lifetime.</p>
+            <div style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.88rem; font-weight: 600; color: var(--text-faint);">DATA: PHILIPPINE COMMISSION ON WOMEN / NDHS</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">HIYA & SIKOLOHIYA</span>
+                    <span class="stack-keyword">Compulsory Familism</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Cultural Shame & Preserved Unity:</strong> Social shame (<em>hiya</em>) and Catholic dogma prioritizing family unity at all costs coerce women to endure chronic domestic brutality rather than seek public justice.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PATRIARCHAL ENTITLEMENT</span>
+                    <span class="stack-keyword">Systemic Machismo</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Normalized Male Authority:</strong> Pervasive socialization that normalizes hyper-masculine aggression, excuses infidelity, and treats domestic violence as private territory beyond state interference.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">VICARIOUS HARM</span>
+                    <span class="stack-keyword">Intergenerational Trauma</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Adverse Childhood Injury:</strong> Child witnesses suffer acute cognitive arrest, emotional dysregulation, and neurobiological trauma, statistically replicating abuse cycles into adulthood.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 05: Emergency Infrastructure (Triptych Flip) -->
+      <section class="slide" data-eyebrow="CRISIS INTERVENTION" data-speaker="PRESENTER 1: MAHILUM (P. 110)" data-title="First-Line State Crisis Infrastructure">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 01 / LAW ENFORCEMENT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">PNP WCPD Desks</h3>
+                  <div class="front-sub-tag">Tactical Protection & Case Intake</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mandate</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">POLICE INTERVENTION</div>
+                    <div class="back-headline">PNP WCPC / WCPD</div>
+                  </div>
+                  <div class="back-content">
+                    Specialized 24/7 law enforcement units mandated for emergency physical extraction, forensic medico-legal evidence preservation, and trauma-informed criminal case booking.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 02 / SOCIAL WELFARE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">DSWD Crisis Units</h3>
+                  <div class="front-sub-tag">Sanctuary & Psychosocial Care</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mandate</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">SOCIAL REHABILITATION</div>
+                    <div class="back-headline">Crisis Intervention Units</div>
+                  </div>
+                  <div class="back-content">
+                    Facilities operating secure physical shelters (<em>Haven for Women</em>), emergency medical aid, subsistence financial relief, and long-term psychiatric rehabilitation.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 03 / COMMUNITY LEVEL</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Barangay VAW Desks</h3>
+                  <div class="front-sub-tag">Grassroots First-Contact Gateway</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mandate</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">FRONT-LINE INTAKE</div>
+                    <div class="back-headline">Barangay Desks</div>
+                  </div>
+                  <div class="back-content">
+                    Legally mandated community-level intake stations across all 42,000+ barangays, authorized to issue immediate 15-day Barangay Protection Orders (BPOs) and coordinate emergency referrals.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 06: Harassment vs Assault (Bifurcated Flip) -->
+      <section class="slide" data-eyebrow="LEGAL TAXONOMY" data-speaker="PRESENTER 2: MANDAMIAN (PP. 110–111)" data-title="Delineating Harassment and Sexual Assault">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ADMINISTRATIVE & CIVIL DOMAIN</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Sexual Harassment</h3>
+                  <div class="front-sub-tag">Abuse of Workplace & Academic Hierarchy</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Legal Bounds</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ADMINISTRATIVE / CODI</div>
+                    <div class="back-headline">Institutional Equality Violation</div>
+                  </div>
+                  <div class="back-content">
+                    Unwelcome advances or sexualized conduct violating workplace or academic decorum:
+                    <ul>
+                      <li><strong>Standard of Proof:</strong> Substantial Evidence.</li>
+                      <li><strong>Sanctions:</strong> Demotion, termination of employment, civil damages, and license forfeiture.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STATUTORY PENAL DOMAIN</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Sexual Assault & Rape</h3>
+                  <div class="front-sub-tag">Bodily Sovereignty & Physical Violation</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Legal Bounds</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">CRIMINAL PENAL CODE</div>
+                    <div class="back-headline">Felony Crime Against Person</div>
+                  </div>
+                  <div class="back-content">
+                    Non-consensual physical sexual contact, penetrative assault, or rape executed through force or incapacity:
+                    <ul>
+                      <li><strong>Standard of Proof:</strong> Beyond Reasonable Doubt.</li>
+                      <li><strong>Sanctions:</strong> Statutory penal incarceration up to <em>Reclusion Perpetua</em> (life imprisonment).</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 07: Institutional Harassment (Bifurcated Flip) -->
+      <section class="slide" data-eyebrow="ORGANIZATIONAL DOMAIN" data-speaker="PRESENTER 2: MANDAMIAN (PP. 111–112)" data-title="Sexual Harassment in Institutional Spaces">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FORM 01 / COERCIVE EXTORTION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Quid Pro Quo</h3>
+                  <div class="front-sub-tag">"This for That" — Career Extortion</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mechanism</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">TRANSACTIONAL BLACKMAIL</div>
+                    <div class="back-headline">Quid Pro Quo Coercion</div>
+                  </div>
+                  <div class="back-content">
+                    Explicitly conditioning employment tenure, hiring, promotions, salary raises, or academic grades upon submission to sexual demands from an institutional authority figure. A single instance constitutes a complete statutory offense.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FORM 02 / ATMOSPHERIC TOXICITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Hostile Environment</h3>
+                  <div class="front-sub-tag">Atmospheric Poisoning & Exclusion</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mechanism</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ENVIRONMENTAL DEGRADATION</div>
+                    <div class="back-headline">Hostile Work Environment</div>
+                  </div>
+                  <div class="back-content">
+                    Pervasive sexual innuendos, graphic commentary, unwelcome touching, and gendered disparagement that unreasonably degrades psychological safety, driving employee burnout and constructive dismissal.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 08: Silence & Trauma -->
+      <section class="slide" data-eyebrow="REPORTING OBSTACLES" data-speaker="PRESENTER 2: MANDAMIAN (P. 112)" data-title="The Anatomy of Institutional Silence">
+        <div class="grid-metric-split">
+          <div class="metric-hero-box">
+            <div class="big-stat">1 in 5</div>
+            <div class="stat-label">Filipino Women</div>
+            <p class="stat-desc">Report enduring sexual harassment during their lifetime across workplaces, schools, and transit.</p>
+            <div style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.88rem; font-weight: 600; color: var(--text-faint);">UNDERREPORTING: LESS THAN 5% FILE FORMAL BLOTTERS</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MORAL INVERSION</span>
+                    <span class="stack-keyword">Victim-Blaming</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Scrutiny of Modesty:</strong> Social narratives and "just-world" biases that scrutinize the victim's attire, friendly demeanor, and morality rather than holding the perpetrator accountable.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CAREER SABOTAGE</span>
+                    <span class="stack-keyword">Supervisory Retaliation</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Professional Blacklisting:</strong> Demotions, bad performance reviews, project stripping, and corporate blacklisting weaponized against whistleblowers to protect senior executives.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">COLLECTIVE POWER</span>
+                    <span class="stack-keyword">Grassroots Resistance</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Shattering NDAs:</strong> Movements like #MeToo and GABRIELA Philippines mobilizing public solidarity to bypass complicit HR departments and enforce accountability.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 09: Labor Inequality -->
+      <section class="slide" data-eyebrow="ECONOMIC DOMAIN" data-speaker="PRESENTER 3: MARSHBURN (PP. 112–114)" data-title="Structural Inequality in the Workplace">
+        <div class="grid-split-hero">
+          <div class="metric-hero-box" style="border-left-color: var(--accent-ochre);">
+            <div class="big-stat" style="color: var(--accent-ochre);">18.4%</div>
+            <div class="stat-label">Gender Pay Gap</div>
+            <p class="stat-desc">Philippine women earn approximately 18.4% less than male counterparts in equivalent economic roles, driven by wage devaluation and occupational sorting.</p>
+            <div style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.88rem; font-weight: 600; color: var(--text-faint);">SOURCE: PHILIPPINE COMMISSION ON WOMEN (PCW)</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ENTRY GATEKEEPING</span>
+                    <span class="stack-keyword">Recruitment Bias</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Discriminatory Hiring:</strong> Unlawful pre-employment screening, gendered occupational sorting, and intrusive questioning regarding marital plans and pregnancy intentions.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">APEX EXCLUSION</span>
+                    <span class="stack-keyword">The Glass Ceiling</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Homosocial Reproduction:</strong> Invisible yet impenetrable institutional barriers and old-boy networks blocking qualified female leaders from corporate boards and C-suite suites.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ORGANIZATIONAL DRAIN</span>
+                    <span class="stack-keyword">Enterprise Decay</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Macro-Economic Drag:</strong> Systemic wage inequities and exclusionary cultures drive high employee attrition, chronic burnout, and severe enterprise productivity erosion.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Workplace Acts (Triptych Flip) -->
+      <section class="slide" data-eyebrow="STATUTORY FRAMEWORKS" data-speaker="PRESENTER 3: MARSHBURN (PP. 114–115)" data-title="Statutory Mandates for Workplace Equity">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STATUTORY BASE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Labor Code (PD 442)</h3>
+                  <div class="front-sub-tag">Equal Remuneration & Protection</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Articles</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">PRESIDENTIAL DECREE 442</div>
+                    <div class="back-headline">Labor Code Guarantees</div>
+                  </div>
+                  <div class="back-content">
+                    Articles 133 and 136 guarantee equal pay for equal work and explicitly outlaw firing women upon marriage. Upheld in <em>PT&T v. NLRC</em>: non-marriage corporate covenants are strictly unconstitutional.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ACCOUNTABILITY ENGINE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">RA 7877 (1995 Act)</h3>
+                  <div class="front-sub-tag">CODI & Joint Employer Liability</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mandates</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ANTI-SEXUAL HARASSMENT ACT</div>
+                    <div class="back-headline">CODI Investigation Engine</div>
+                  </div>
+                  <div class="back-content">
+                    Legally mandates every employer and academic institution to institute an independent Committee on Decorum and Investigation (CODI). Imposes joint solidary liability on employers who fail to act on reports.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STRUCTURAL EQUITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">RA 9710 (Magna Carta)</h3>
+                  <div class="front-sub-tag">5% GAD & Substantive Equality</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Mandates</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">MAGNA CARTA OF WOMEN</div>
+                    <div class="back-headline">Substantive Equality</div>
+                  </div>
+                  <div class="back-content">
+                    Mandates a minimum 5% Gender and Development (GAD) budget allocation across state agencies. Outlaws dismissal for pregnancy out of wedlock, affirmed in <em>Cadiz v. Brent Hospital</em>.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Legal Armor (Bifurcated Flip) -->
+      <section class="slide" data-eyebrow="LEGAL REMEDIES" data-speaker="PRESENTER 4: MEGALBIO (PP. 115–117)" data-title="Statutory Armor Against Systemic Violence">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">INTIMATE SPHERE SHIELD</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">RA 9262 (Anti-VAWC)</h3>
+                  <div class="front-sub-tag">Tri-Tier Protection Orders</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Orders</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ANTI-VAWC ACT OF 2004</div>
+                    <div class="back-headline">Judicial Protection Shield</div>
+                  </div>
+                  <div class="back-content">
+                    Criminalizes physical, sexual, psychological, and economic harm. Codifies binding protective orders:
+                    <ul>
+                      <li><strong>BPO (Barangay):</strong> 15-day immediate neighborhood restraining order.</li>
+                      <li><strong>TPO (Court):</strong> 30-day emergency eviction of abuser.</li>
+                      <li><strong>PPO (Trial Court):</strong> Permanent judicial injunction post-trial.</li>
+                      <li><strong>Constitutionality:</strong> Upheld en banc in <em>Garcia v. Drilon</em>.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PUBLIC & DIGITAL DOMAIN</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">RA 11313 (Safe Spaces)</h3>
+                  <div class="front-sub-tag">"Bawal Bastos Law" Governance</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Protections</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">SAFE SPACES ACT OF 2019</div>
+                    <div class="back-headline">Public & Online Governance</div>
+                  </div>
+                  <div class="back-content">
+                    Abolishes the normalization of public sexual harassment:
+                    <ul>
+                      <li><strong>Public Spaces:</strong> Penalizes street catcalling, stalking, and groping.</li>
+                      <li><strong>Online GBV (OGBV):</strong> Prosecutes cyberstalking, non-consensual intimate imagery, and cyber-mobs.</li>
+                      <li><strong>CEDAW Alignment:</strong> Enforces state due diligence obligations.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Transformation (Triptych Flip) -->
+      <section class="slide" data-eyebrow="POLICY & TRANSFORMATION" data-speaker="PRESENTER 4: MEGALBIO (PP. 117–118)" data-title="Bridging the Justice Enforcement Divide">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">REFORM 01 / JUDICIAL</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">End Re-Victimization</h3>
+                  <div class="front-sub-tag">Procedural Dignity in Courts</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Reforms</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">JUDICIAL OVERHAUL</div>
+                    <div class="back-headline">Trauma-Informed Courts</div>
+                  </div>
+                  <div class="back-content">
+                    Standardize mandatory gender-sensitivity and trauma curricula for judges, prosecutors, and police to outlaw invasive, misogynistic cross-examinations and courtroom re-traumatization.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">REFORM 02 / EQUITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Intersectional Relief</h3>
+                  <div class="front-sub-tag">Targeted Resource Allocation</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Reforms</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">CRENSHAW FRAMEWORK</div>
+                    <div class="back-headline">Intersectional Allocation</div>
+                  </div>
+                  <div class="back-content">
+                    Direct crisis shelters, legal aid desks, and cash subsidies toward rural, indigenous, and impoverished women bearing compounded geographic and economic marginalization.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">REFORM 03 / COMMUNITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Transformative Justice</h3>
+                  <div class="front-sub-tag">Beyond Carceral State Law</div>
+                </div>
+                <div class="flip-prompt">
+                  <span>Reveal Reforms</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">COMMUNITY ACTION</div>
+                    <div class="back-headline">Transformative Action</div>
+                  </div>
+                  <div class="back-content">
+                    Complement punitive state incarceration with active community bystander intervention, survivor-centered mutual aid networks, and early gender-transformative schooling.
+                  </div>
+                </div>
+                <div class="back-return-prompt">
+                  <span>Return to topic</span>
+                  <span>[ CLICK ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="deck-footer">
+      <div class="counter">SLIDE <span id="currentSlideNum">01</span> / <span id="totalSlideNum">12</span></div>
+      <div class="deck-nav-buttons">
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Toggle Flip All Cards on Slide [X]">
+          <span>↻</span> FLIP ALL CARDS <span class="key-indicator">X</span>
+        </button>
+        <button class="nav-btn" id="prevBtn" title="Previous Slide [Left Arrow]">
+          <span>&#8592;</span> PREV <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide [Right Arrow / Space]">
+          NEXT <span>&#8594;</span> <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen [F]">
+          FULLSCREEN <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Bottom Pull-Up Pill Toggle -->
+    <button class="bar-toggle-pill bottom-toggle" id="footerToggleBtn" title="Pull up controls and navigation [C]" aria-label="Toggle Controls">
+      <span class="pill-arrow" id="footerToggleArrow">▴</span>
+      <span class="pill-label" id="footerToggleLabel">PULL UP CONTROLS (<span id="miniSlideCounter">01/12</span>)</span>
+    </button>
+  </main>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const slideEyebrow = document.getElementById('slideEyebrow');
+    const slideSpeakerTag = document.getElementById('slideSpeakerTag');
+    const slideTitle = document.getElementById('slideTitle');
+    const currentSlideNum = document.getElementById('currentSlideNum');
+    const totalSlideNum = document.getElementById('totalSlideNum');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const flipAllBtn = document.getElementById('flipAllBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    totalSlideNum.textContent = String(totalSlides).padStart(2, '0');
+
+    const headerToggleBtn = document.getElementById('headerToggleBtn');
+    const footerToggleBtn = document.getElementById('footerToggleBtn');
+    const headerToggleArrow = document.getElementById('headerToggleArrow');
+    const headerToggleLabel = document.getElementById('headerToggleLabel');
+    const footerToggleArrow = document.getElementById('footerToggleArrow');
+    const footerToggleLabel = document.getElementById('footerToggleLabel');
+    const miniSlideCounter = document.getElementById('miniSlideCounter');
+    const slideHeader = document.querySelector('.slide-header');
+    const deckFooter = document.querySelector('.deck-footer');
+
+    // Header Toggle Logic (Dropdown)
+    function toggleHeader(forceState) {
+      const isExpanded = typeof forceState === 'boolean' 
+        ? forceState 
+        : !slideHeader.classList.contains('expanded');
+      
+      slideHeader.classList.toggle('expanded', isExpanded);
+      headerToggleBtn.classList.toggle('active', isExpanded);
+      if (isExpanded) {
+        headerToggleArrow.textContent = '▴';
+        headerToggleLabel.textContent = 'HIDE HEADER';
+      } else {
+        headerToggleArrow.textContent = '▾';
+        headerToggleLabel.textContent = 'DROP DOWN HEADER';
+      }
+    }
+
+    // Footer Toggle Logic (Pull-Up)
+    function toggleFooter(forceState) {
+      const isExpanded = typeof forceState === 'boolean' 
+        ? forceState 
+        : !deckFooter.classList.contains('expanded');
+      
+      deckFooter.classList.toggle('expanded', isExpanded);
+      footerToggleBtn.classList.toggle('active', isExpanded);
+      if (isExpanded) {
+        footerToggleArrow.textContent = '▾';
+        footerToggleLabel.innerHTML = 'HIDE CONTROLS';
+      } else {
+        footerToggleArrow.textContent = '▴';
+        const slideStr = `${String(currentSlide + 1).padStart(2, '0')}/${String(totalSlides).padStart(2, '0')}`;
+        footerToggleLabel.innerHTML = `PULL UP CONTROLS (<span id="miniSlideCounter">${slideStr}</span>)`;
+      }
+    }
+
+    headerToggleBtn.addEventListener('click', () => toggleHeader());
+    footerToggleBtn.addEventListener('click', () => toggleFooter());
+
+    // Theme Switcher Logic (Defaults to Empathetic Light)
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      
+      if (newTheme === 'dark') {
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'DARK';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'LIGHT';
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // Toggle individual card flip
+    function toggleCard(cardElement) {
+      cardElement.classList.toggle('flipped');
+    }
+
+    // Toggle all cards on active slide
+    function toggleFlipAllOnActiveSlide() {
+      const activeSlide = slides[currentSlide];
+      const flipCards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+      if (!flipCards.length) return;
+
+      const anyUnflipped = Array.from(flipCards).some(card => !card.classList.contains('flipped'));
+      flipCards.forEach(card => {
+        if (anyUnflipped) {
+          card.classList.add('flipped');
+        } else {
+          card.classList.remove('flipped');
+        }
+      });
+    }
+
+    // Reset all cards across deck
+    function resetAllFlips() {
+      document.querySelectorAll('.flip-card, .stack-flip-card').forEach(card => {
+        card.classList.remove('flipped');
+      });
+    }
+
+    function updateSlide(index) {
+      // Reset flips when navigating to a new slide
+      resetAllFlips();
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      const activeSlide = slides[index];
+      slideEyebrow.textContent = activeSlide.getAttribute('data-eyebrow') || 'CHAPTER 6';
+      slideSpeakerTag.textContent = activeSlide.getAttribute('data-speaker') || 'EXECUTIVE DECK';
+      slideTitle.textContent = activeSlide.getAttribute('data-title') || 'Gender-Based Violence';
+
+      currentSlideNum.textContent = String(index + 1).padStart(2, '0');
+      const progressPercent = ((index + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      const miniCounter = document.getElementById('miniSlideCounter');
+      if (miniCounter) {
+        miniCounter.textContent = `${String(index + 1).padStart(2, '0')}/${String(totalSlides).padStart(2, '0')}`;
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide(currentSlide);
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.error(`Fullscreen request failed: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function handleFullscreenChange() {
+      const isFs = !!document.fullscreenElement;
+      if (fullscreenBtn) {
+        fullscreenBtn.innerHTML = isFs 
+          ? `EXIT FS <span class="key-indicator">F</span>` 
+          : `FULLSCREEN <span class="key-indicator">F</span>`;
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    flipAllBtn.addEventListener('click', toggleFlipAllOnActiveSlide);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'x' || e.key === 'X' || e.key === 'Tab') {
+        e.preventDefault();
+        toggleFlipAllOnActiveSlide();
+      } else if (e.key === 't' || e.key === 'T') {
+        e.preventDefault();
+        toggleTheme();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'h' || e.key === 'H') {
+        e.preventDefault();
+        toggleHeader();
+      } else if (e.key === 'c' || e.key === 'C') {
+        e.preventDefault();
+        toggleFooter();
+      } else if (e.key === 'Escape') {
+        if (slideHeader.classList.contains('expanded')) toggleHeader(false);
+        if (deckFooter.classList.contains('expanded')) toggleFooter(false);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        currentSlide = 0;
+        updateSlide(currentSlide);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        currentSlide = totalSlides - 1;
+        updateSlide(currentSlide);
+      }
+    });
+
+    // Initialize
+    updateSlide(currentSlide);
+  </script>
+</body>
+</html>

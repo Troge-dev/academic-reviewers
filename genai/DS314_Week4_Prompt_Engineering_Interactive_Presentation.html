@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS314 Week 4: Prompt Engineering Practice — Executive Reviewer & Summary Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================== */
+    /* EMPATHETIC LIGHT EDITORIAL THEME (DEFAULT)                      */
+    /* ============================================================== */
+    :root, [data-theme="light"] {
+      --bg-canvas: #F8F6F1;             /* Warm Soft Linen Alabaster */
+      --surface-front: #FFFFFF;        /* Pure Warm White */
+      --surface-elevated: #F3EFE8;     /* Soft warm tint for secondary panels */
+      --surface-back: #F5EFE6;         /* Sandalwood Oat / Revealed Meaning Surface */
+      --border-subtle: #E5DFD4;        /* Soft warm stone hairline */
+      --border-focus: #D0C5B5;         /* Active elevated border */
+      --border-accent: #C84B31;        /* Terracotta accent border */
+
+      /* High-Readability Empathetic Typography */
+      --text-main: #1D2129;            /* Deep Roasted Espresso */
+      --text-muted: #535E6D;           /* Gentle Warm Slate */
+      --text-faint: #7E8997;           /* Neutral Slate Annotation */
+
+      /* Grounded & Empathetic Semantics */
+      --accent-crimson: #C84B31;       /* Warm Terracotta-Crimson / Urgent harms & hard bounds */
+      --accent-ochre: #A96E32;         /* Warm Sandalwood Amber / Theoretical roots & roles */
+      --accent-teal: #26796B;          /* Restorative Sage / Safety, verification & precision */
+      --accent-slate: #546070;         /* Subordinate badge neutral */
+
+      /* Elevated Soft Shadows */
+      --card-shadow: 0 4px 20px rgba(35, 30, 25, 0.05), 0 1px 3px rgba(35, 30, 25, 0.03);
+      --card-shadow-hover: 0 14px 34px rgba(169, 110, 50, 0.12), 0 3px 10px rgba(0, 0, 0, 0.04);
+      --card-shadow-back: 0 16px 36px rgba(40, 30, 20, 0.10);
+
+      /* Fonts */
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* ============================================================== */
+    /* LUMINOUS ENHANCED DARK THEME (TOGGLEABLE VIA T)                */
+    /* ============================================================== */
+    [data-theme="dark"] {
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-elevated: #1B2230;
+      --surface-back: #161D2B;
+      --border-subtle: #2A3346;
+      --border-focus: #3E4C66;
+      --border-accent: #E0533C;
+      --text-main: #F4F6F9;
+      --text-muted: #94A3B8;
+      --text-faint: #64748B;
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-slate: #CBD5E1;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      --card-shadow-hover: 0 14px 34px rgba(0, 0, 0, 0.65);
+      --card-shadow-back: 0 16px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson));
+      width: 6.66%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-speaker-tag {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Slide Title */
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 2.85rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.4rem;
+      color: var(--text-main);
+    }
+
+    /* Slide Canvas */
+    .slide-canvas {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid Layouts */
+    .grid-split-hero {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-triptych {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.85rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-bifurcated {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    .grid-metric-split {
+      display: grid;
+      grid-template-columns: 36% 64%;
+      gap: 2rem;
+      height: 100%;
+      align-items: stretch;
+    }
+
+    /* ============================================================== */
+    /* 3D FLIP CARD CORE SYSTEM                                       */
+    /* ============================================================== */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      min-height: 380px;
+      position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover {
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 2rem 1.85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .flip-card-back > div:first-child {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      justify-content: flex-start;
+    }
+
+    .back-header {
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .back-content {
+      font-size: 1.08rem;
+      line-height: 1.52;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* ============================================================== */
+    /* LIGHT MODE CARD BACK ACCENT COLORS                             */
+    /* ============================================================== */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ============================================================== */
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE               */
+    /* Texts behind cards dynamically match their theme color!        */
+    /* ============================================================== */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: rgba(224, 83, 60, 0.12);
+      border: 1px solid rgba(224, 83, 60, 0.38);
+      color: #FFAEA0;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F7BA6E;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: rgba(229, 169, 103, 0.12);
+      border: 1px solid rgba(229, 169, 103, 0.38);
+      color: #FCE1B8;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.38);
+      color: #99F6E4;
+    }
+
+    /* Stack cards layout */
+    .stack-flip-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      height: 100%;
+    }
+
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card:hover {
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.08);
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    /* Stack cards dark mode color correspondence */
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 6.2rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .pill-arrow {
+      font-size: 0.85rem;
+      line-height: 1;
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+
+    .pill-label {
+      font-size: 0.725rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Fullscreen Preservation System */
+    :fullscreen, :-webkit-full-screen {
+      background-color: var(--bg-canvas) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+
+    :fullscreen body, :-webkit-full-screen body {
+      width: 100vw !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background-color: var(--bg-canvas) !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+    }
+
+    :fullscreen .deck-container, :-webkit-full-screen .deck-container {
+      width: 1380px !important;
+      height: 790px !important;
+      max-width: calc(100vw - 3rem) !important;
+      max-height: calc(100vh - 2.5rem) !important;
+      margin: auto !important;
+    }
+
+    @media print {
+      .bar-toggle-pill, .slide-header, .deck-footer {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <main class="deck-container">
+    <!-- Top Dropdown Pill Toggle -->
+    <button class="bar-toggle-pill top-toggle" id="headerToggleBtn" title="Drop down header metadata [H]" aria-label="Toggle Header">
+      <span class="pill-arrow" id="headerToggleArrow">▾</span>
+      <span class="pill-label" id="headerToggleLabel">DROP DOWN HEADER</span>
+    </button>
+
+    <!-- Header -->
+    <header class="slide-header">
+      <div class="slide-eyebrow" id="slideEyebrow">DS314 FOUNDATIONS • WEEK 4</div>
+      <div class="header-actions">
+        <div class="hint-banner">
+          CLICK ANY CARD TO REVEAL DEEP MEANING
+        </div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light / Dark Theme [T]">
+          <span id="themeIcon">☀️</span> <span id="themeLabel">LIGHT</span>
+        </button>
+        <div class="slide-speaker-tag" id="slideSpeakerTag">TOPIC: IN-CONTEXT PROMPT CONDITIONING</div>
+      </div>
+    </header>
+
+    <!-- Main Title -->
+    <h1 class="slide-title" id="slideTitle">The Architecture of Generative Prompting</h1>
+
+    <!-- Slide Canvas -->
+    <div class="slide-canvas">
+
+      <!-- SLIDE 01: Title / Framing -->
+      <section class="slide active" data-eyebrow="DS314 FOUNDATIONS • WEEK 4" data-speaker="TOPIC: IN-CONTEXT PROMPT CONDITIONING" data-title="The Architecture of Generative Prompting">
+        <div class="grid-split-hero">
+          <div class="hero-static-box">
+            <p class="hero-quote">Prompting is not informal conversation; it is programmatic in-context conditioning of autoregressive transformer probability distributions.</p>
+            <div class="hero-author">DS314 Week 4 Laboratory Task — Technical Specification</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card accent-crimson" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">AUTOREGRESSIVE FOUNDATIONS</span>
+                    <span class="stack-keyword">In-Context Conditioning</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Conditioning Priors:</strong> LLMs compute $P(x_{n+1} \mid x_1 \dots x_n)$. A prompt restricts the output manifold from broad generic web averages to a precise domain subspace.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card accent-ochre" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ANALYTICAL FRAMEWORK</span>
+                    <span class="stack-keyword">Dual Analytical Lenses</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Structural & Semantic Analysis:</strong> Evaluate prompts across structural constraints (length limits, word ceilings, schemas) and semantic properties (lexicon, error taxonomy, token economics).</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card accent-teal" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">EVALUATION PARADIGM</span>
+                    <span class="stack-keyword">Deterministic Verification</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL MEANING ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Falsifiable Auditing:</strong> Prompts are validated programmatically through Python assertions, automated word count splitting, and token-cost audits rather than subjective impressions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 02: Prompt Anatomy — The Ladder -->
+      <section class="slide" data-eyebrow="PART 1: PROMPT DUEL" data-speaker="TOPIC: THE ANATOMY LADDER (V1 ➔ V2 ➔ V3)" data-title="The Anatomy Ladder: V1 ➔ V2 ➔ V3">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STEP 1: RAW INSTRUCTION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">V1: The Raw Task</div>
+                  <div class="front-sub-tag">Unadorned single-line command; defaults to broad pretraining averages.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL MECHANISM ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">AUTOREGRESSIVE UNBOUNDEDNESS</div>
+                    <div class="back-headline">High Entropy Variance</div>
+                  </div>
+                  <div class="back-content">
+                    <p>When given only an unadorned task (e.g., <em>"Write an email to a professor"</em>):</p>
+                    <ul>
+                      <li><strong>Zero Role Conditioning:</strong> Lacks persona, expertise level, and relationship context.</li>
+                      <li><strong>Unbounded Length:</strong> Generates generic conversational filler and excessive pleasantries.</li>
+                      <li><strong>Format Drift:</strong> Defaults to the statistical mean of internet correspondence.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STEP 2: CONTEXTUAL EXPANSION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">V2: Role & Schema</div>
+                  <div class="front-sub-tag">Injecting persona, operational background, and explicit layout schemas.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL MECHANISM ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">DOMAIN VECTOR FOCUS</div>
+                    <div class="back-headline">Contextual Alignment</div>
+                  </div>
+                  <div class="back-content">
+                    <p>V2 expands the task with three critical pillars:</p>
+                    <ul>
+                      <li><strong>Role Identity:</strong> Establishes who speaks (e.g., a junior honors student with medical documentation).</li>
+                      <li><strong>Contextual Anchor:</strong> Specifies circumstances, timeline, and stakes.</li>
+                      <li><strong>Structural Schema:</strong> Mandates subject line, salutation, bullet points, and sign-off.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STEP 3: DETERMINISTIC BOUNDS</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">V3: Hard Limits</div>
+                  <div class="front-sub-tag">Checkable length caps, banned vocabulary, and mandatory anchor phrases.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL MECHANISM ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">PROGRAMMATIC COMPLIANCE</div>
+                    <div class="back-headline">Algorithmic Enforceability</div>
+                  </div>
+                  <div class="back-content">
+                    <p>V3 moves from soft guidance to checkable boundaries:</p>
+                    <ul>
+                      <li><strong>Length Ceilings:</strong> Explicit word/sentence caps verified by <code>len(text.split())</code>.</li>
+                      <li><strong>Negative Lexical Rules:</strong> Prohibiting specific words (e.g., "sorry", "urgent").</li>
+                      <li><strong>Mandatory Anchors:</strong> Verifiable phrases (e.g., "attached medical note").</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 03: Verification Dynamics -->
+      <section class="slide" data-eyebrow="PART 1: VERIFICATION DYNAMICS" data-speaker="TOPIC: WORD COUNT DRIFT & NEGATIVE CONSTRAINTS" data-title="Word Count Drift vs. The Pink Elephant Paradox">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STRUCTURAL VERIFICATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Word Count Drift</div>
+                  <div class="front-sub-tag">Why LLMs fail at exact word quotas and how to bound length reliably.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL TOKENOMICS ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">SUB-WORD TOKENIZATION</div>
+                    <div class="back-headline">Lack of Forward Counters</div>
+                  </div>
+                  <div class="back-content">
+                    <p>LLMs process text in sub-word tokens (~0.75 words/token), not natural words:</p>
+                    <ul>
+                      <li><strong>No Global Counter:</strong> During autoregressive decoding, models cannot look ahead or count total words generated.</li>
+                      <li><strong>Failure of Exact Quotas:</strong> Prompts demanding <em>"exactly 100 words"</em> routinely drift by 15–30%.</li>
+                      <li><strong>Engineering Remedy:</strong> Enforce <strong>asymmetric upper limits</strong> (e.g., <em>"maximum 120 words"</em>) or discrete counts (e.g., <em>"exactly 3 bullet points"</em>).</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEXICAL SUPPRESSION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Negative Constraints</div>
+                  <div class="front-sub-tag">The attention paradox of "Do not mention" and lexical suppression.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL ATTENTION PARADOX ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ATTENTION VECTOR ACTIVATION</div>
+                    <div class="back-headline">The Pink Elephant Paradox</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Instructing an LLM <em>"Do not say sorry"</em> often causes it to apologize:</p>
+                    <ul>
+                      <li><strong>Attention Priming:</strong> Mentioning a banned word activates its embedding in the self-attention matrix, increasing related token probabilities.</li>
+                      <li><strong>RLHF Conversational Prior:</strong> Pre-trained models are heavily aligned to be polite, resisting negative lexical bans.</li>
+                      <li><strong>Verification Standard:</strong> Programmatic checks (<code>b.lower() in text.lower()</code>) prove whether the prompt successfully overrode default priors.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 04: [SUMMARY SLIDE 1] Part 1 Executive Synthesis -->
+      <section class="slide" data-eyebrow="PART 1: EXECUTIVE SYNTHESIS" data-speaker="TOPIC: ANATOMY & CONSTRAINT DECISION MATRIX" data-title="Part 1 Summary: Anatomy & Constraint Decision Matrix">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">THE ANATOMY MATRIX</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">The 5 Pillars</div>
+                  <div class="front-sub-tag">Systematic checklist for bulletproof prompt construction.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL CHECKLIST ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">CONSTRUCTION STANDARD</div>
+                    <div class="back-headline">Five Invariant Pillars</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><strong>Role:</strong> Domain authority and communicative posture.</li>
+                      <li><strong>Task:</strong> Unambiguous operational action verb.</li>
+                      <li><strong>Context:</strong> Background facts, audience, and constraints.</li>
+                      <li><strong>Format:</strong> Markdown layout, sections, bullet schemas.</li>
+                      <li><strong>Hard Bounds:</strong> Falsifiable ceilings and banned terms.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">VERIFICATION PROTOCOL</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Checkable Code</div>
+                  <div class="front-sub-tag">Replacing human impression with deterministic assertions.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL TEST SUITE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">FALSIFIABLE METRICS</div>
+                    <div class="back-headline">Programmatic Assertions</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><code>len(text.split()) &lt; max_words</code> verifies word limits.</li>
+                      <li><code>b.lower() not in text.lower()</code> audits negative constraints.</li>
+                      <li><code>r.lower() in text.lower()</code> guarantees required phrases.</li>
+                      <li>If a prompt cannot be verified algorithmically, it is not production-ready.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EVALUATION CRITERIA</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Analytical Lenses</div>
+                  <div class="front-sub-tag">Specific audit expectations across structural and semantic criteria.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL RUBRIC ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">RUBRIC DEFENSE</div>
+                    <div class="back-headline">Structural vs Semantic Criteria</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><strong>Structural Lens:</strong> Evaluate how adding length bounds compressed V2 into V3 without shedding vital facts.</li>
+                      <li><strong>Semantic Lens:</strong> Audit whether the model replaced banned words smoothly or generated awkward synonyms.</li>
+                      <li><strong>Rubric Score:</strong> 25 Points total for Part 1.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 05: In-Context Learning Foundations -->
+      <section class="slide" data-eyebrow="PART 2: CLASSIFIER ARCHITECTURE" data-speaker="TOPIC: ZERO-SHOT VS. FEW-SHOT FOUNDATIONS" data-title="In-Context Learning: Zero-Shot vs. Few-Shot">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">INFERENCE WITHOUT DEMONSTRATIONS</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Zero-Shot Classifier</div>
+                  <div class="front-sub-tag">Relies strictly on system instructions, role, and semantic label names.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL ARCHITECTURE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">SEMANTIC INDUCTION</div>
+                    <div class="back-headline">Prior Knowledge Mapping</div>
+                  </div>
+                  <div class="back-content">
+                    <p>In zero-shot prompting, the model relies on pre-trained semantic weights:</p>
+                    <ul>
+                      <li><strong>Minimal Overhead:</strong> Consumes only ~30–60 tokens per invocation.</li>
+                      <li><strong>Label Prior Skew:</strong> Prone to conversational verbosity (outputting <em>"The category is urgent"</em> instead of raw <em>"urgent"</em>).</li>
+                      <li><strong>Boundary Vulnerability:</strong> Struggles when category boundaries are nuanced, overlapping, or subjective.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EXEMPLAR-GUIDED CONDITIONING</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Few-Shot Classifier</div>
+                  <div class="front-sub-tag">Anchoring decision boundaries and output formats with 3–5 input-output pairs.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL ARCHITECTURE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">DISTRIBUTIONAL ANCHORING</div>
+                    <div class="back-headline">Implicit Bayesian Disambiguation</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Brown et al. (2020) proved exemplars alter inference dynamics without weight updates:</p>
+                    <ul>
+                      <li><strong>Format Locking:</strong> Autoregressively forces the output to match demonstration syntax precisely.</li>
+                      <li><strong>Edge-Case Disambiguation:</strong> Concrete pairs clarify borderline ambiguities that verbal rules fail to convey.</li>
+                      <li><strong>LangChain Construct:</strong> Powered by <code>FewShotChatMessagePromptTemplate</code>.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 06: Data Purity & Leakage -->
+      <section class="slide" data-eyebrow="PART 2: EVALUATION METHODOLOGY" data-speaker="TOPIC: TEST SET PURITY & LEAKAGE PREVENTION" data-title="Test Set Purity & The Data Leakage Catastrophe">
+        <div class="grid-split-hero">
+          <div class="hero-static-box">
+            <p class="hero-quote">When evaluation test cases leak into demonstration exemplars, the model is not learning; it is performing trivial in-context memorization.</p>
+            <div class="hero-author">Machine Learning Evaluation Rule — The Sacred Test Boundary</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card accent-crimson" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">DATA CONTAMINATION</span>
+                    <span class="stack-keyword">Prompt Leakage</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL AUDIT ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Contamination Risk:</strong> Copying any test message from <code>lab_test_set</code> into <code>lab_examples</code> invalidates accuracy metrics by testing recall rather than generalizability.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card accent-ochre" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PROGRAMMATIC AUDIT</span>
+                    <span class="stack-keyword">Automated Assertion</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL AUDIT ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Cell 16 Shield:</strong> <code>assert not any(t["message"] in rendered_few_shot for t in lab_test_set)</code> enforces absolute separation between training and evaluation contexts.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card accent-teal" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">DATASET INTEGRITY</span>
+                    <span class="stack-keyword">8-Message Test Corpus</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL AUDIT ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Balanced Test Corpus:</strong> 8 distinct test messages create realistic linguistic variance and expose subjective category boundaries.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 07: Error Taxonomy -->
+      <section class="slide" data-eyebrow="PART 2: ERROR DIAGNOSTICS" data-speaker="TOPIC: CONTENT ERRORS VS. FORMAT ERRORS" data-title="Error Taxonomy: Content Errors vs. Format Errors">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SEMANTIC MISCLASSIFICATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Content Errors</div>
+                  <div class="front-sub-tag">The model outputs a clean, valid label, but selects the incorrect category.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL ROOT CAUSE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">EPISTEMIC FAILURE</div>
+                    <div class="back-headline">Semantic Ambiguity & Multi-Intent</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Content errors stem from real semantic overlap:</p>
+                    <ul>
+                      <li><strong>Symptom:</strong> Expected <code>"billing"</code>, got <code>"technical_support"</code>.</li>
+                      <li><strong>Root Cause:</strong> The customer query contains multi-intent phrases (e.g., <em>"Your broken software caused an unauthorized renewal"</em>).</li>
+                      <li><strong>Engineering Fix:</strong> Clarify category definitions in <code>LAB_INSTRUCTIONS</code> or provide edge-case exemplars.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SYNTACTIC DEGRADATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Format Errors</div>
+                  <div class="front-sub-tag">The model understood the category, but broke structural output rules.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL ROOT CAUSE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">PARSING COLLAPSE</div>
+                    <div class="back-headline">Conversational Boilerplate Infiltration</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Format errors break programmatic pipelines:</p>
+                    <ul>
+                      <li><strong>Symptom:</strong> Expected <code>"urgent"</code>, got <code>"Category: urgent."</code> or <code>"URGENT"</code>.</li>
+                      <li><strong>Root Cause:</strong> Zero-shot instructions failed to suppress the model's natural conversational explanations.</li>
+                      <li><strong>Few-Shot Cure:</strong> Demonstrations implicitly train the model that the completion turn consists of exactly one bare token.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 08: Token Economics -->
+      <section class="slide" data-eyebrow="PART 2: TOKEN ECONOMICS" data-speaker="TOPIC: THE FEW-SHOT TAX & LATENCY TRADE-OFFS" data-title="The Few-Shot Tax & The Cost-Accuracy Frontier">
+        <div class="grid-metric-split">
+          <div class="metric-hero-box">
+            <div class="big-stat">+400%</div>
+            <div class="stat-label">Prompt Token Overhead</div>
+            <div class="stat-desc">Adding 4 exemplars multiplies input token consumption from ~50 to ~250 tokens per request across every pipeline invocation.</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card accent-crimson" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PRODUCTION RUNTIME</span>
+                    <span class="stack-keyword">Inference Latency</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL TRADE-OFF ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Latency Penalty:</strong> More prompt tokens mean longer time-to-first-token (TTFT) as the attention mechanism processes the quadratic self-attention matrix over exemplars.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card accent-ochre" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ECONOMIC JUSTIFICATION</span>
+                    <span class="stack-keyword">The ROI Equation</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL TRADE-OFF ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Did Few-Shot Earn Its Keep?</strong> If zero-shot achieves 87.5% and few-shot achieves 87.5%, the extra tokens were wasted. Few-shot is only justified when it eliminates catastrophic downstream errors.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card accent-teal" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ENTERPRISE SCALE</span>
+                    <span class="stack-keyword">Cumulative Budget</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL TRADE-OFF ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Scale Multiplier:</strong> At 10 million classification calls/month, a 200-token prompt difference translates to 2 billion extra tokens billed, demanding strict justification.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 09: [SUMMARY SLIDE 2] Part 2 Executive Synthesis -->
+      <section class="slide" data-eyebrow="PART 2: EXECUTIVE SYNTHESIS" data-speaker="TOPIC: CLASSIFICATION & TOKEN ROI MATRIX" data-title="Part 2 Summary: Classification & Token ROI Matrix">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DECISION RUBRIC</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">When to Few-Shot</div>
+                  <div class="front-sub-tag">The 3 industrial criteria governing exemplar deployment.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL DECISION TREE ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ECONOMIC THRESHOLDS</div>
+                    <div class="back-headline">Exemplar Justification</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><strong>Condition 1:</strong> Zero-shot yields format errors that crash downstream parsers.</li>
+                      <li><strong>Condition 2:</strong> Proprietary domain labels not understandable from internet pretraining.</li>
+                      <li><strong>Condition 3:</strong> Cost of error exceeds the 4x token budget overhead.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ERROR FLOWCHART</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Content vs Format</div>
+                  <div class="front-sub-tag">Diagnostic triage protocol for mispredicted test rows.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL FLOWCHART ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">TRIAGE PROTOCOL</div>
+                    <div class="back-headline">Error Diagnostic Tree</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><strong>Is output in allowed labels?</strong> If NO ➔ Format Error (Add demonstrations to lock syntax).</li>
+                      <li><strong>Is output a wrong allowed label?</strong> If YES ➔ Content Error (Refine instruction boundaries).</li>
+                      <li>Classify every mispredicted test row using this exact taxonomy (Content Error vs Format Error).</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DIFFICULTY AUDIT</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Subgroup Breakdown</div>
+                  <div class="front-sub-tag">Analyzing message difficulty and category variance.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL RUBRIC ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">RUBRIC DEFENSE</div>
+                    <div class="back-headline">Category Difficulty Audit</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li>Review <code>accuracy_by_author()</code> printed in notebook Cell 18.</li>
+                      <li>Identify whether ambiguous, sarcastic, or multi-intent phrasing reduced classification accuracy on specific subsets.</li>
+                      <li>Part 2 holds <strong>30 Points</strong> — largest single rubric section.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: System Instruction Duel -->
+      <section class="slide" data-eyebrow="PART 3: PERSONA STEERING" data-speaker="TOPIC: ANGRY VS. NICE SYSTEM INSTRUCTIONS" data-title="System Instruction Duel: Angry vs. Nice">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HOSTILE CADENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Angry / Impatient</div>
+                  <div class="front-sub-tag">Terse, aggressive, impatient cadence — but preserving all factual advice.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL DYNAMICS ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">EMOTIONAL COMBUSTION</div>
+                    <div class="back-headline">Hostile Persona Conditioning</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Testing the bounds of instruction following under emotional pressure:</p>
+                    <ul>
+                      <li><strong>The Challenge:</strong> Instruct the model to be frustrated and impatient without refusing to help.</li>
+                      <li><strong>Substantive Invariant:</strong> Must still give the exact correct procedural next steps.</li>
+                      <li><strong>Substance Preservation:</strong> Did the aggressive tone cause the model to skip technical instructions?</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EMPATHETIC CADENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Nice / Apologetic</div>
+                  <div class="front-sub-tag">Empathetic, apologetic, warm tone — delivering identical core facts.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL DYNAMICS ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">EMPATHETIC DILUTION</div>
+                    <div class="back-headline">Polite Padding & Cognitive Overhead</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Testing clarity beneath excessive conversational wrapping:</p>
+                    <ul>
+                      <li><strong>The Challenge:</strong> Deliver identical troubleshooting steps while adopting an apologetic persona.</li>
+                      <li><strong>Substantive Invariant:</strong> Same underlying policy and facts as the angry version.</li>
+                      <li><strong>Informational Density:</strong> Is the nice version saying anything distinct, or just wrapping advice in velvet padding?</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Substantive Invariance & Brand Safety -->
+      <section class="slide" data-eyebrow="PART 3: ENTERPRISE SAFETY" data-speaker="TOPIC: SEMANTIC INVARIANCE & BRAND RISK" data-title="Semantic Invariance & The Screenshot Risk">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">BEHAVIORAL FAILURE</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Tone Cannibalism</div>
+                  <div class="front-sub-tag">When stylistic demands overpower and consume factual instructions.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL PATHOLOGY ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ATTENTION HIJACKING</div>
+                    <div class="back-headline">Style Over Substance</div>
+                  </div>
+                  <div class="back-content">
+                    <p>When an LLM becomes too immersed in an angry persona:</p>
+                    <ul>
+                      <li>Attention heads saturate with exclamation points, insults, and combative phrasing.</li>
+                      <li>Factual requirements (URLs, reset steps, reference numbers) get dropped entirely.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CORPORATE LIABILITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Screenshot Risk</div>
+                  <div class="front-sub-tag">Why unregulated generative tone constitutes an existential PR vulnerability.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL PATHOLOGY ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">PUBLIC DISCLOSURE</div>
+                    <div class="back-headline">The Viral Liability Trap</div>
+                  </div>
+                  <div class="back-content">
+                    <p>In production software engineering:</p>
+                    <ul>
+                      <li>Any hostile or insulting message generated by a corporate bot can be captured and shared publicly.</li>
+                      <li>Even if the factual troubleshooting advice was 100% accurate, hostile tone triggers severe brand backlash.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PROMPT ANATOMY REMEDY</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Role vs. Constraint</div>
+                  <div class="front-sub-tag">Separating the actor's mask from the hard rules of engagement.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL PATHOLOGY ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">ARCHITECTURAL SEPARATION</div>
+                    <div class="back-headline">Dual-Layer Steering</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Tone is governed by both prompt anatomy pillars:</p>
+                    <ul>
+                      <li><strong>Role:</strong> Initiates the emotional framing (<em>"You are an impatient support rep"</em>).</li>
+                      <li><strong>Constraints:</strong> Sets the invariant guardrails (<em>"You MUST provide all 3 steps. Never use profanity"</em>).</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Stochastic Sampling Thermodynamics -->
+      <section class="slide" data-eyebrow="PART 4: SAMPLING DYNAMICS" data-speaker="TOPIC: SOFTMAX TEMPERATURE THERMODYNAMICS" data-title="Decoding Thermodynamics: Softmax Temperature">
+        <div class="grid-bifurcated">
+          <!-- Card 1 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ZERO ENTROPY SAMPLING</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Temperature = 0.0</div>
+                  <div class="front-sub-tag">Greedy argmax selection; collapses token probability distribution to determinism.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL MATHEMATICS ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">GREEDY COLLAPSE</div>
+                    <div class="back-headline">Argmax Probability Peak</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Mathematically, as $T \to 0$, $P(w_i) \to 1.0$ for the highest logit:</p>
+                    <ul>
+                      <li><strong>100% Deterministic:</strong> Running the prompt 5 times yields verbatim identical outputs.</li>
+                      <li><strong>Zero Creativity:</strong> Eliminates lexical exploration; locks the model into familiar clichés.</li>
+                      <li><strong>Mandatory For:</strong> Code compilation, SQL generation, JSON extraction, and classification.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HIGH ENTROPY STOCHASTICS</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Temperature = 1.8</div>
+                  <div class="front-sub-tag">Flattens softmax distribution; activates the improbable tail of vocabulary.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL MATHEMATICS ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">UNIFORM FLATTENING</div>
+                    <div class="back-headline">Tail Exploration & Hallucination</div>
+                  </div>
+                  <div class="back-content">
+                    <p>Dividing logits by $T=1.8$ compresses differences between candidates:</p>
+                    <ul>
+                      <li><strong>High Surprise:</strong> Low-probability tokens are sampled, producing novel analogies and creative naming.</li>
+                      <li><strong>Instability Boundary:</strong> Approaching the uniform limit where syntax degrades into gibberish.</li>
+                      <li><strong>Target Use:</strong> Fiction, poetry, and exploratory brainstorming.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: Task Duality & Logit Resilience -->
+      <section class="slide" data-eyebrow="PART 4: LOGIT RESILIENCE" data-speaker="TOPIC: CREATIVE DIVERSITY VS. DETERMINISTIC RESILIENCE" data-title="Task Duality: Creative Diversity vs. Label Flipping">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HOSTILE CADENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Creative Divergence</div>
+                  <div class="front-sub-tag">How high temperature unlocks diverse naming and metaphoric novelty.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL INSIGHT ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">EXPLORATION REGIME</div>
+                    <div class="back-headline">Breaking Repetition Loops</div>
+                  </div>
+                  <div class="back-content">
+                    <p>In open-ended tasks with broad solution spaces:</p>
+                    <ul>
+                      <li>At $T=0.0$, the model outputs the exact same business name 5 times.</li>
+                      <li>At $T=1.8$, 5 completely distinct brand concepts emerge across multiple semantic domains.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EMPATHETIC CADENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Logit Dominance</div>
+                  <div class="front-sub-tag">Why deterministic classifiers often refuse to flip even at T=1.8.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL INSIGHT ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">MARGIN OF SEPARATION</div>
+                    <div class="back-headline">Logit Gap $\Delta z$ Mechanics</div>
+                  </div>
+                  <div class="back-content">
+                    <p>If a classifier's answer never flipped at high temp:</p>
+                    <ul>
+                      <li>It does not mean the model ignored temperature!</li>
+                      <li>If the ground-truth label had logit $z=18$ and runner-up had $z=2$, even after $T=1.8$, $\exp(\Delta z/T)$ leaves the winner with >99% probability.</li>
+                      <li><strong>Only ambiguous edge cases flip.</strong></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ENGINEERING AXIOM</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">The Production Rule</div>
+                  <div class="front-sub-tag">The universal engineering rule for temperature calibration.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL INSIGHT ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">PRODUCTION GOVERNANCE</div>
+                    <div class="back-headline">Universal Temperature Rule</div>
+                  </div>
+                  <div class="back-content">
+                    <p>The definitive production standard:</p>
+                    <ul>
+                      <li><em>"If the task has exactly ONE correct answer (classification, extraction, coding), set $T=0.0$."</em></li>
+                      <li><em>"If the task benefits from diversity, variety, and brainstorming, set $T \ge 1.0$."</em></li>
+                      <li>Never deploy high temperature on single-label pipelines!</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: [SUMMARY SLIDE 3] Parts 3 & 4 Executive Synthesis -->
+      <section class="slide" data-eyebrow="PARTS 3 & 4: EXECUTIVE SYNTHESIS" data-speaker="TOPIC: PERSONA GOVERNANCE & TEMPERATURE SPECTRA" data-title="Parts 3 & 4 Summary: Persona Governance & Temperature Spectra">
+        <div class="grid-triptych">
+          <!-- Card 1 -->
+          <div class="flip-card accent-crimson" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PERSONA STEERING</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Tone Guardrails</div>
+                  <div class="front-sub-tag">Rules for preserving factual advice beneath hostile or polite styles.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL PROTOCOL ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">GOVERNANCE AXIOM</div>
+                    <div class="back-headline">Substantive Protection</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li>Never assign a role without hard factual constraints.</li>
+                      <li>Test angry personas against policy manuals to ensure all steps exist.</li>
+                      <li>Strip polite pleasantries in testing to inspect actual informational payload.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card accent-ochre" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">THERMODYNAMIC SPECTRUM</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">Temperature Scale</div>
+                  <div class="front-sub-tag">Definitive operational values from 0.0 to 2.0.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL CALIBRATION ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">NUMERICAL TUNING</div>
+                    <div class="back-headline">Operational Spectra</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li><strong>T = 0.0:</strong> Classification, JSON extraction, Code compilation.</li>
+                      <li><strong>T = 0.3 – 0.5:</strong> Technical documentation, enterprise support.</li>
+                      <li><strong>T = 0.7 – 0.8:</strong> Conversational dialogue, general writing.</li>
+                      <li><strong>T = 1.2 – 2.0:</strong> Fiction, metaphors, high-entropy brainstorming.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card accent-teal" onclick="toggleCard(this)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LOGIT ANALYSIS</span>
+                </div>
+                <div class="front-hero-container">
+                  <div class="front-keyword">The Margin Rule</div>
+                  <div class="front-sub-tag">Diagnosing whether stability is genuine certainty or lack of test variance.</div>
+                </div>
+                <div class="flip-prompt"><span>[ REVEAL EXPLANATION ]</span> <span>▸</span></div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <div class="back-header">
+                    <div class="back-topic-label">STATISTICAL DEFENSE</div>
+                    <div class="back-headline">Logit Gap $\Delta z$</div>
+                  </div>
+                  <div class="back-content">
+                    <ul>
+                      <li>If your classifier never flipped at $T=1.8$, explain in reflection that the test message sat in a high-density cluster where the margin $\Delta z$ was massive.</li>
+                      <li>To prove temperature is active, test a message that balances evenly between two categories.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="back-return-prompt"><span>[ RETURN TO FRONT ]</span> <span>↺</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: [SUMMARY SLIDE 4] Grand Synthesis & Rubric Mastery -->
+      <section class="slide" data-eyebrow="PART 5: FINAL RUBRIC GATE" data-speaker="TOPIC: PRE-FLIGHT SUBMISSION & CODE COMPENDIUM" data-title="Grand Synthesis: Pre-Flight Submission & Code Compendium">
+        <div class="grid-split-hero">
+          <div class="hero-static-box">
+            <p class="hero-quote">Senior engineers ground reflections in real numbers, specific token metrics, and clear boundaries of what prompts can never be trusted to do.</p>
+            <div class="hero-author">DS314 Section 9.7 Grading Rubric — 100-Point Audit Gate</div>
+          </div>
+          <div class="stack-flip-cards">
+            <!-- Stack Card 1 -->
+            <div class="stack-flip-card accent-crimson" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">METRIC GROUNDING</span>
+                    <span class="stack-keyword">80–120 Words Grounded</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL RUBRIC ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Grounded Reflection:</strong> Rubric Part 5 awards 15 pts. Cite actual numerical results (accuracy scores, token counts, word counts) and state one task you would never trust a prompt to execute reliably.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 2 -->
+            <div class="stack-flip-card accent-ochre" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PRE-SUBMISSION AUDIT</span>
+                    <span class="stack-keyword">Clean Sequential Run</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL RUBRIC ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Visible Outputs:</strong> Run every notebook cell top-to-bottom. Ensure all assertions pass cleanly, tables are displayed, and no API keys are printed or committed to git.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Stack Card 3 -->
+            <div class="stack-flip-card accent-teal" onclick="toggleCard(this)">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SCORING BENCHMARK</span>
+                    <span class="stack-keyword">100-Point Distribution</span>
+                  </div>
+                  <div class="stack-hint"><span>[ REVEAL RUBRIC ]</span></div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Rubric Breakdown:</strong> Part 1 (25 pts) • Part 2 (30 pts) • Part 3 (15 pts) • Part 4 (15 pts) • Part 5 (15 pts). Zero leakage and rigorous empirical evaluation guarantees full marks.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom Dropdown Pill Toggle -->
+    <button class="bar-toggle-pill bottom-toggle" id="footerToggleBtn" title="Pull up deck controls [C]" aria-label="Toggle Controls">
+      <span class="pill-arrow" id="footerToggleArrow">▴</span>
+      <span class="pill-label" id="footerToggleLabel">PULL UP CONTROLS</span>
+    </button>
+
+    <!-- Footer Controls -->
+    <footer class="deck-footer">
+      <div class="counter">
+        SLIDE <span id="currentSlideNum">01</span> / <span id="totalSlidesNum">15</span>
+      </div>
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide [Left Arrow / PageUp]">
+          <span>‹</span> PREV <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide [X / Tab]">
+          FLIP ALL <span class="key-indicator">X</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen [F]">
+          FULLSCREEN <span class="key-indicator">F</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide [Right Arrow / Space / PageDown]">
+          NEXT <span>›</span> <span class="key-indicator">→</span>
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // State
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    // Elements
+    const slideEyebrow = document.getElementById('slideEyebrow');
+    const slideSpeakerTag = document.getElementById('slideSpeakerTag');
+    const slideTitle = document.getElementById('slideTitle');
+    const currentSlideNum = document.getElementById('currentSlideNum');
+    const totalSlidesNum = document.getElementById('totalSlidesNum');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const flipAllBtn = document.getElementById('flipAllBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    // Header & Footer elements
+    const slideHeader = document.querySelector('.slide-header');
+    const deckFooter = document.querySelector('.deck-footer');
+    const headerToggleBtn = document.getElementById('headerToggleBtn');
+    const footerToggleBtn = document.getElementById('footerToggleBtn');
+    const headerToggleArrow = document.getElementById('headerToggleArrow');
+    const footerToggleArrow = document.getElementById('footerToggleArrow');
+    const headerToggleLabel = document.getElementById('headerToggleLabel');
+    const footerToggleLabel = document.getElementById('footerToggleLabel');
+
+    totalSlidesNum.textContent = String(totalSlides).padStart(2, '0');
+
+    // Hover-Activated Toggle Options (Pills appear on hover; clicking expands menu)
+    const deckContainer = document.querySelector('.deck-container');
+
+    function toggleHeader(forceState) {
+      const isExpanded = slideHeader.classList.contains('expanded');
+      const shouldExpand = forceState !== undefined ? forceState : !isExpanded;
+      slideHeader.classList.toggle('expanded', shouldExpand);
+      headerToggleBtn.classList.toggle('active', shouldExpand);
+      headerToggleArrow.textContent = shouldExpand ? '▴' : '▾';
+      headerToggleLabel.textContent = shouldExpand ? 'HIDE HEADER' : 'DROP DOWN HEADER';
+    }
+
+    function toggleFooter(forceState) {
+      const isExpanded = deckFooter.classList.contains('expanded');
+      const shouldExpand = forceState !== undefined ? forceState : !isExpanded;
+      deckFooter.classList.toggle('expanded', shouldExpand);
+      footerToggleBtn.classList.toggle('active', shouldExpand);
+      footerToggleArrow.textContent = shouldExpand ? '▾' : '▴';
+      footerToggleLabel.textContent = shouldExpand ? 'HIDE CONTROLS' : 'PULL UP CONTROLS';
+    }
+
+    headerToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleHeader();
+    });
+
+    footerToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFooter();
+    });
+
+    // Detect mouse hover near top (0-50px) or bottom (within 65px of bottom)
+    // ONLY the toggle pill options appear on hover!
+    deckContainer.addEventListener('mousemove', (e) => {
+      const rect = deckContainer.getBoundingClientRect();
+      const relY = e.clientY - rect.top;
+      const totalH = rect.height;
+
+      const nearTop = (relY >= 0 && relY <= 50);
+      const nearBottom = (relY >= (totalH - 65) && relY <= totalH);
+
+      deckContainer.classList.toggle('hovering-top', nearTop);
+      deckContainer.classList.toggle('hovering-bottom', nearBottom);
+    });
+
+    deckContainer.addEventListener('mouseleave', () => {
+      deckContainer.classList.remove('hovering-top');
+      deckContainer.classList.remove('hovering-bottom');
+    });
+
+    // Theme Toggle
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      themeIcon.textContent = newTheme === 'light' ? '☀️' : '🌙';
+      themeLabel.textContent = newTheme === 'light' ? 'LIGHT' : 'DARK';
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // 3D Flip Card Logic
+    function toggleCard(cardElement) {
+      cardElement.classList.toggle('flipped');
+    }
+
+    function toggleFlipAllOnActiveSlide() {
+      const activeSlide = slides[currentSlide];
+      const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+      if (cards.length === 0) return;
+
+      const anyUnflipped = Array.from(cards).some(card => !card.classList.contains('flipped'));
+      cards.forEach(card => {
+        if (anyUnflipped) {
+          card.classList.add('flipped');
+        } else {
+          card.classList.remove('flipped');
+        }
+      });
+    }
+
+    // Reset flips when changing slide
+    function resetAllFlips() {
+      document.querySelectorAll('.flip-card, .stack-flip-card').forEach(card => {
+        card.classList.remove('flipped');
+      });
+    }
+
+    function updateSlide(index) {
+      resetAllFlips();
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      const activeSlide = slides[index];
+      slideEyebrow.textContent = activeSlide.getAttribute('data-eyebrow') || 'DS314 WEEK 4';
+      slideSpeakerTag.textContent = activeSlide.getAttribute('data-speaker') || 'EXECUTIVE COMPANION';
+      slideTitle.textContent = activeSlide.getAttribute('data-title') || 'Prompt Engineering';
+
+      currentSlideNum.textContent = String(index + 1).padStart(2, '0');
+      const progressPercent = ((index + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide(currentSlide);
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.error(`Fullscreen request failed: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function handleFullscreenChange() {
+      const isFs = !!document.fullscreenElement;
+      if (fullscreenBtn) {
+        fullscreenBtn.innerHTML = isFs 
+          ? `EXIT FS <span class="key-indicator">F</span>` 
+          : `FULLSCREEN <span class="key-indicator">F</span>`;
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    flipAllBtn.addEventListener('click', toggleFlipAllOnActiveSlide);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // Keyboard bindings
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'x' || e.key === 'X' || e.key === 'Tab') {
+        e.preventDefault();
+        toggleFlipAllOnActiveSlide();
+      } else if (e.key === 't' || e.key === 'T') {
+        e.preventDefault();
+        toggleTheme();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'h' || e.key === 'H') {
+        e.preventDefault();
+        toggleHeader();
+      } else if (e.key === 'c' || e.key === 'C') {
+        e.preventDefault();
+        toggleFooter();
+      } else if (e.key === 'Escape') {
+        toggleHeader(false);
+        toggleFooter(false);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        currentSlide = 0;
+        updateSlide(currentSlide);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        currentSlide = totalSlides - 1;
+        updateSlide(currentSlide);
+      }
+    });
+
+    // Initialize
+    updateSlide(currentSlide);
+  </script>
+</body>
+</html>

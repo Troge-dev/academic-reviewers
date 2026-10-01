@@ -1,0 +1,2982 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS314: Generative AI & LLM Systems Engineering | Topics 1 to 3 Master Keynote Deck</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-front: #FFFFFF;
+      --surface-back: #F5EFE6;
+      --surface-elevated: #EDE6DC;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      /* Vibrant Academic Accent Hues */
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Elevations */
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* LUMINOUS DEEP SPACE SLATE */
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-back: #181E2A;
+      --surface-elevated: #1F2636;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      /* Luminous Neon Accents */
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-topic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .slide-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    .slide-view.active {
+      display: flex;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Slide Titles */
+    .slide-title-area {
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subhead {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Slide Layout Grids */
+    .grid-container {
+      display: grid;
+      gap: 1.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-bifurcated {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-triptych {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .stack-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      outline: none;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 1.85rem 1.95rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      justify-content: space-between;
+      transform: rotateY(0deg);
+      z-index: 2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover .flip-card-front {
+      border-color: var(--border-focus);
+      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .back-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .back-content {
+      font-size: 1.05rem;
+      line-height: 1.52;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .back-content p {
+      margin-bottom: 0.35rem;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* LIGHT MODE CARD BACK ACCENT COLORS */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(224, 83, 60, 0.3);
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F5C58A;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(229, 169, 103, 0.3);
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #5EEAD4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: #5EEAD4;
+    }
+
+    /* Stack Flip Cards (Right-hand column mini flip cards) */
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Fullscreen helper */
+    :fullscreen .deck-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 1440px;
+      height: 820px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- Top Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
+      <span>▾ EXPAND HEADER</span>
+      <span class="key-indicator">H</span>
+    </button>
+
+    <!-- Collapsible Slide Header -->
+    <header class="slide-header" id="slideHeader">
+      <div class="slide-eyebrow" id="headerEyebrow">
+        DS314 · TOPIC 1 TO 3 MASTER KEYNOTE
+      </div>
+      <div class="header-actions">
+        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
+        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">THEME</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Stage Viewport -->
+    <main class="slide-stage" id="slideStage">
+
+      <section class="slide-view active" id="slide-0" data-eyebrow="DS314 · GENERATIVE AI ENGINEERING" data-badge="TOPICS 1-3 KEYNOTE DECK">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Generative AI & LLM Systems Engineering</h2>
+          <p class="slide-subhead">Master Academic Companion & Defense Deck: Foundations, RAG Pipelines, and LangChain Cognitive Agents</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">SOFTWARE 3.0 PARADIGM SHIFT</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                We are transitioning from hand-coded procedural software (1.0) and statistical weight training (2.0) to natural-language cognitive orchestration (3.0).
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">ANDREJ KARPATHY · FOUNDATIONAL AI ARCHITECTURE</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TOPIC 1: FOUNDATIONS</span>
+                    <h4 class="stack-keyword">AI Taxonomy & Operational Layers</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Topic 1:</strong> Deconstructs the 4 industry operational layers, discriminative vs. generative math, and the Transformer self-attention revolution.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TOPIC 2: RAG SYSTEMS</span>
+                    <h4 class="stack-keyword">Retrieval-Augmented Generation</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Topic 2:</strong> Ingests private documents, generates 3,072-dim embeddings, stores vectors in Chroma/FAISS, and enforces grounded inference.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TOPIC 3: LANGCHAIN & AGENTS</span>
+                    <h4 class="stack-keyword">Cognitive Autonomy & LCEL</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Topic 3:</strong> Unpacks Model types, LCEL declarative syntax (|), LangGraph stateful memory, and Level 3 ReAct autonomous agents.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-1" data-eyebrow="TOPIC 1 · ARCHITECTURAL TAXONOMY" data-badge="4 INDUSTRY LAYERS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 4 Industry Operational Layers of Enterprise AI</h2>
+          <p class="slide-subhead">Deconstructing the full-stack ecosystem from raw silicon accelerators to custom enterprise software</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYERS 1 & 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Silicon & Foundation Models</h3>
+                  <p class="front-sub-tag">Cloud compute hardware & pre-trained foundational weights</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">COMPUTE & MODEL LAYER</span>
+                  <h4 class="back-headline">Hardware & Pre-Trained Transformers</h4>
+                </div>
+                <div class="back-content">
+                  <p>The base compute engine of generative AI requiring massive capital investment.</p>
+                  <ul><li><strong>Layer 1 (Silicon):</strong> NVIDIA H100/B200 GPUs and Google TPUs executing parallel matrix multiplications.</li><li><strong>Layer 2 (Models):</strong> Google Gemini, OpenAI GPT-4o, Anthropic Claude. Pre-trained on trillions of tokens.</li><li><strong>Enterprise Reality:</strong> 99% of companies do NOT train Layer 2 models from scratch due to prohibitive GPU costs.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 3</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Orchestration & Tooling</h3>
+                  <p class="front-sub-tag">Middleware connecting models to data, memory, and tools</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">MIDDLEWARE ORCHESTRATION</span>
+                  <h4 class="back-headline">Connecting Foundation Models to Business Logic</h4>
+                </div>
+                <div class="back-content">
+                  <p>The engineering glue that makes foundational models reliable and enterprise-ready.</p>
+                  <ul><li><strong>Frameworks:</strong> LangChain, LangGraph, LlamaIndex, ChromaDB, and FAISS.</li><li><strong>Core Responsibilities:</strong> Parameterized prompt templating, document chunking, semantic retrieval, and memory checkpointers.</li><li><strong>Developer Focus:</strong> The primary workspace for modern LLM application engineers.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 4</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Enterprise Applications</h3>
+                  <p class="front-sub-tag">Purpose-built end-user software solutions</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">APPLICATION LAYER</span>
+                  <h4 class="back-headline">Domain-Specific Cognitive Solutions</h4>
+                </div>
+                <div class="back-content">
+                  <p>Customer-facing and internal tools delivering measurable business value.</p>
+                  <ul><li><strong>Solutions:</strong> Customer support copilots, clinical triage assistants, legal research analyzers, and automated code reviewers.</li><li><strong>Data Privacy:</strong> Enterprise wrappers guarantee strict zero-retention compliance and role-based data access.</li><li><strong>Actuation:</strong> Triggers external enterprise APIs, ERP databases, and payment workflows.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-2" data-eyebrow="TOPIC 1 · THEORETICAL EVOLUTION" data-badge="ATTENTION REVOLUTION">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">From Sequential Bottlenecks to Transformer Attention</h2>
+          <p class="slide-subhead">How self-attention eliminated vanishing gradients to unlock internet-scale parallelized pre-training</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">VASWANI ET AL. · 2017</span>
+            <div class="big-stat">100%</div>
+            <h3 class="stat-label">Parallelized Token Attention</h3>
+            <p class="stat-desc">
+              By replacing recurrent time steps with Scaled Dot-Product Attention, Transformers enabled GPU clusters to process entire document corpuses simultaneously.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE RECURRENT BOTTLENECK</span>
+                    <h4 class="stack-keyword">Sequential Processing & Gradient Decay</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>RNN/LSTM Limitation:</strong> Processed text token-by-token (t1 ➔ t2 ➔ t3). Hidden state dependencies prevented GPU parallelization and suffered from vanishing gradients across long contexts.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SCALED DOT-PRODUCT ATTENTION</span>
+                    <h4 class="stack-keyword">Attention(Q, K, V) = Softmax(QKᵀ / √dₖ) V</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Transformer Breakthrough:</strong> Calculates attention weights between every token pair simultaneously. Unlocks true long-range semantic coherence regardless of token distance.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PROBABILISTIC LOGITS</span>
+                    <h4 class="stack-keyword">Next-Token Generation via Softmax</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Token Prediction:</strong> LLMs do not copy-paste memorized sentences. They iteratively predict next-token probability distributions based on preceding context.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-3" data-eyebrow="TOPIC 1 · ENTERPRISE ARCHITECTURE" data-badge="CONSUMER VS CUSTOM">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">ChatGPT vs. Purpose-Built Custom LLM Applications</h2>
+          <p class="slide-subhead">Why off-the-shelf consumer chat fails enterprise data privacy, security, and tool actuation requirements</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CONSUMER CHATBOT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Off-The-Shelf ChatGPT</h3>
+                  <p class="front-sub-tag">Closed, general-purpose consumer web chat interface</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CONSUMER INTERFACES</span>
+                  <h4 class="back-headline">General Knowledge with Enterprise Liabilities</h4>
+                </div>
+                <div class="back-content">
+                  <p>Public web chat designed for consumer conversation rather than enterprise compliance.</p>
+                  <ul><li><strong>Static Knowledge Cutoff:</strong> Unaware of events or company announcements occurring after training.</li><li><strong>Zero Proprietary Data:</strong> Has no access to internal corporate databases, employee wikis, or student handbooks.</li><li><strong>Data Privacy Exposure:</strong> Prompts entered into consumer tiers may be retained for continuous model retraining.</li><li><strong>Zero Tool Integration:</strong> Cannot natively query internal SQL databases or trigger operational workflows.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ENTERPRISE SOLUTION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Purpose-Built Custom LLM Apps</h3>
+                  <p class="front-sub-tag">Modular, grounded software architectures built via APIs</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CUSTOM ENTERPRISE APPS</span>
+                  <h4 class="back-headline">Grounded, Secure, and Actuated Workflows</h4>
+                </div>
+                <div class="back-content">
+                  <p>Developer-built systems combining foundation models with proprietary data and tools.</p>
+                  <ul><li><strong>Dynamic Grounding (RAG):</strong> Grounds responses on private PDF manuals and corporate documents in real-time.</li><li><strong>Strict Privacy Guarantees:</strong> Enterprise API terms enforce zero-retention policies; customer prompts are never used for training.</li><li><strong>Deterministic Tool Actuation:</strong> Connects to external APIs, calculators, and enterprise databases via function calling.</li><li><strong>Tailored Form Factors:</strong> Deployed as embedded widgets, IDE sidecars, or mobile apps rather than generic chat.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-4" data-eyebrow="TOPIC 1 · EXECUTIVE CHECKPOINT" data-badge="TOPIC 1 SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Topic 1 Synthesis: Foundations & Architectural Taxonomy</h2>
+          <p class="slide-subhead">High-yield conceptual anchors, mathematical boundaries, and operational decision rules</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MATHEMATICAL FOUNDATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Probabilistic Inference vs. Automation</h3>
+                  <p class="front-sub-tag">Statistical distributions replacing deterministic logic</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">THEORETICAL CORE</span>
+                  <h4 class="back-headline">Discriminative vs. Generative Distributions</h4>
+                </div>
+                <div class="back-content">
+                  <p>AI replaces hardcoded rules with learned continuous parameter distributions.</p>
+                  <ul><li><strong>Automation:</strong> Strict deterministic if/else routines; crashes on unexpected inputs.</li><li><strong>Discriminative AI:</strong> Models P(Y|X) to classify labels or boundaries (SVM, ResNet).</li><li><strong>Generative AI:</strong> Models joint distribution P(X, Y) or P(X) to sample novel instances.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ARCHITECTURAL ANCHOR</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Software 1.0 ➔ 2.0 ➔ 3.0</h3>
+                  <p class="front-sub-tag">The abstraction ladder of computational engineering</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">SOFTWARE EVOLUTION</span>
+                  <h4 class="back-headline">Natural Language as the New Assembly</h4>
+                </div>
+                <div class="back-content">
+                  <p>How developer cognitive focus shifts from syntax to cognitive orchestration.</p>
+                  <ul><li><strong>Software 1.0:</strong> Procedural explicit instructions authored in C++, Java, Python.</li><li><strong>Software 2.0:</strong> Neural network parameter weights learned via gradient descent optimization.</li><li><strong>Software 3.0:</strong> Natural language prompts orchestrating foundation models via APIs and tools.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ORAL DEFENSE AUDIT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Topic 1 Diagnostic Checkpoints</h3>
+                  <p class="front-sub-tag">Key questions faculty examiners test on foundations</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EXAMINATION DEFENSE</span>
+                  <h4 class="back-headline">Essential Distinctions to Defend</h4>
+                </div>
+                <div class="back-content">
+                  <p>Flawless answers required for Topic 1 conceptual defense.</p>
+                  <ul><li><strong>Why called LLM?</strong> Massive parameter scale (billions), trained on internet text, generalist NLP capabilities.</li><li><strong>Primary Layer Focus:</strong> Enterprise engineers build on Layer 3 (Orchestration) and Layer 4 (Applications).</li><li><strong>Why Transformers won:</strong> Full GPU training parallelization and universal self-attention affinity matrices.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-5" data-eyebrow="TOPIC 2 · RUNTIME ARCHITECTURE" data-badge="CLOUD VS LOCAL">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Cloud Model APIs vs. Local GPU Execution</h2>
+          <p class="slide-subhead">Hardware economics, environment isolation, and why DS314 leverages Google Gemini</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">HARDWARE BARRIER REMOVAL</span>
+            <div class="big-stat">0 GPUs</div>
+            <h3 class="stat-label">Local VRAM Required</h3>
+            <p class="stat-desc">
+              Cloud-hosted model APIs execute intensive tensor matrix math on remote TPU clusters. The student machine only requires an internet connection and an HTTP client.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">GOOGLE GEMINI ECOSYSTEM</span>
+                    <h4 class="stack-keyword">The Official google-genai SDK</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Why Gemini in DS314:</strong> 100% free-tier developer API without upfront credit card requirements, generous rate limits, and native multimodal comprehension.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ENVIRONMENT ISOLATION</span>
+                    <h4 class="stack-keyword">Python Virtual Environments (venv)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Dependency Hygiene:</strong> Always isolate projects using python -m venv venv to prevent catastrophic package version conflicts between courses.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SECURITY HYGIENE</span>
+                    <h4 class="stack-keyword">Secret Key Management (.env & .gitignore)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Secret Protection:</strong> Never hardcode API keys. Load keys dynamically via python-dotenv and ensure .env is strictly excluded via .gitignore before pushing to GitHub.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-6" data-eyebrow="TOPIC 2 · RAG PIPELINE" data-badge="5-STAGE ARCHITECTURE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 5-Stage Retrieval-Augmented Generation Pipeline</h2>
+          <p class="slide-subhead">Transforming hallucination-prone generation into an open-book verified synthesis task</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STAGES 1 & 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Document Ingestion & Chunking</h3>
+                  <p class="front-sub-tag">Extracting text and segmenting into semantic windows</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DATA PREPARATION</span>
+                  <h4 class="back-headline">PyPDFLoader & RecursiveTextSplitter</h4>
+                </div>
+                <div class="back-content">
+                  <p>Pre-processing raw enterprise files into indexable text passages.</p>
+                  <ul><li><strong>PyPDFLoader:</strong> Parses PDF page trees into structured Document objects with page metadata.</li><li><strong>RecursiveCharacterTextSplitter:</strong> Recursively splits text on double-newlines, single-newlines, and spaces to respect sentence boundaries.</li><li><strong>Chunk Sizing:</strong> Standard chunk_size=1000 characters balances semantic granularity with contextual completeness.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STAGES 3 & 4</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Vectorization & Store Indexing</h3>
+                  <p class="front-sub-tag">Mapping text to high-dimensional coordinate vectors</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">VECTOR EMBEDDING</span>
+                  <h4 class="back-headline">Google Embeddings & ChromaDB</h4>
+                </div>
+                <div class="back-content">
+                  <p>Transforming natural language into geometric space for similarity search.</p>
+                  <ul><li><strong>Vector Model:</strong> GoogleGenerativeAIEmbeddings transforms chunk strings into float arrays.</li><li><strong>High-Dimensional Space:</strong> gemini-embedding-001 projects text into 3,072 dimensions.</li><li><strong>Vector Store:</strong> ChromaDB and FAISS store vectors and execute nearest-neighbor search algorithms (Cosine / HNSW).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STAGE 5</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Retrieval & Grounded Synthesis</h3>
+                  <p class="front-sub-tag">Augmenting prompts with retrieved context</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">GROUNDED INFERENCE</span>
+                  <h4 class="back-headline">Open-Book Grounded Q&A</h4>
+                </div>
+                <div class="back-content">
+                  <p>Passing verified reference context to the LLM to generate faithful answers.</p>
+                  <ul><li><strong>Similarity Query:</strong> Query vector retrieves top-k semantically closest document chunks.</li><li><strong>Prompt Augmentation:</strong> Chunks are injected into a parameterized system prompt.</li><li><strong>Grounded Completion:</strong> ChatGoogleGenerativeAI synthesizes answers strictly based on the injected context.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-7" data-eyebrow="TOPIC 2 · VECTOR GEOMETRY" data-badge="SEMANTIC SEARCH">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Vector Mathematics & Semantic Similarity Search</h2>
+          <p class="slide-subhead">How embedding models map semantic concepts into geometry and why dimensions matter</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">VECTOR MATHEMATICS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Semantic Geometry & Cosine Proximity</h3>
+                  <p class="front-sub-tag">Quantifying textual meaning through multidimensional angles</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">VECTOR GEOMETRY</span>
+                  <h4 class="back-headline">Cosine Similarity & High Dimensions</h4>
+                </div>
+                <div class="back-content">
+                  <p>Why semantic search outperforms brittle keyword matching.</p>
+                  <ul><li><strong>High-Dimensional Geometry:</strong> gemini-embedding-001 outputs 3,072 coordinates per vector.</li><li><strong>Cosine Similarity Formula:</strong> cos(θ) = (q · d) / (||q|| ||d||). Measures directional alignment regardless of length.</li><li><strong>Semantic Proximity:</strong> "Can I get my money back?" and "Store refund policy" yield high cosine scores despite zero shared keywords.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">INDEX ENGINES</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">ChromaDB vs. FAISS Architectures</h3>
+                  <p class="front-sub-tag">Specialized databases for nearest-neighbor vector retrieval</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">VECTOR RETRIEVERS</span>
+                  <h4 class="back-headline">Choosing the Right Vector Index</h4>
+                </div>
+                <div class="back-content">
+                  <p>Understanding the technical differences between Chroma and FAISS.</p>
+                  <ul><li><strong>ChromaDB (Topic 2):</strong> Developer-friendly, native support for metadata filtering, easy SQLite disk persistence, ideal for full-text RAG.</li><li><strong>FAISS (Topic 3):</strong> Facebook AI Similarity Search. Blazing-fast in-memory C++ similarity engine, ideal for lightweight prototyping.</li><li><strong>Index Lookups:</strong> Both execute Approximate Nearest Neighbor (ANN) search in sub-millisecond latencies.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-8" data-eyebrow="TOPIC 2 · GROUNDING MECHANICS" data-badge="GROUNDING RULES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Text Chunking Overlap & The Golden Rule of Grounding</h2>
+          <p class="slide-subhead">Preventing semantic truncation and enforcing strict truthful fallbacks in production RAG</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">THE GOLDEN RULE OF GROUNDING</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                If the answer cannot be found in the provided context, state clearly that the information is not available. Never guess or fabricate.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS314 RAG PROMPT ENGINEERING STANDARD</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CHUNK OVERLAP RATIONALE</span>
+                    <h4 class="stack-keyword">chunk_overlap = 100 Mechanics</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Boundary Slicing Problem:</strong> If an essential condition is cut directly in half by a chunk boundary, neither chunk retains the full logic. Overlap guarantees that boundary sentences exist intact in at least one chunk.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TRAP QUESTION EVALUATION</span>
+                    <h4 class="stack-keyword">Laboratory Task 2 Verification</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Evaluating Truthfulness:</strong> Trap questions test plausible queries whose answers are deliberately missing from the PDF. A properly grounded system admits it does not know; ungrounded systems hallucinate.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TEMPERATURE ENFORCEMENT</span>
+                    <h4 class="stack-keyword">Low Temperature (0.0 to 0.2) in RAG</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Deterministic Sampling:</strong> High temperatures encourage creative token exploration. In factual RAG Q&A, temperature must be set low (0.2) to force greedy, factual context extraction.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-9" data-eyebrow="TOPIC 2 · EXECUTIVE CHECKPOINT" data-badge="TOPIC 2 SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Topic 2 Synthesis: Grounded Information Retrieval</h2>
+          <p class="slide-subhead">Pre-flight engineering checklist, grounding protocols, and error recovery strategies for RAG</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">THE THREE BASE FLAWS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Why Base LLMs Require RAG</h3>
+                  <p class="front-sub-tag">Solving cutoffs, private files, and stochastic hallucination</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">RAG JUSTIFICATION</span>
+                  <h4 class="back-headline">The Open-Book Paradigm</h4>
+                </div>
+                <div class="back-content">
+                  <p>Three fundamental reasons base models fail in production without retrieval.</p>
+                  <ul><li><strong>1. Knowledge Cutoff:</strong> Base models cannot answer events occurring after training completion.</li><li><strong>2. Private Data Isolation:</strong> Base models have zero access to private internal corporate files.</li><li><strong>3. Hallucination Mitigation:</strong> RAG grounds answers on verified source text with verifiable attribution.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">INGESTION AUDIT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Pre-Flight Pipeline Verification</h3>
+                  <p class="front-sub-tag">Key validation checkpoints before building chains</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PIPELINE AUDIT</span>
+                  <h4 class="back-headline">Ensuring Vector Store Integrity</h4>
+                </div>
+                <div class="back-content">
+                  <p>Critical parameters to audit in your RAG implementation.</p>
+                  <ul><li><strong>Document Splitting:</strong> Verify chunks are not empty and chunk_overlap is configured.</li><li><strong>Vector Dimension Match:</strong> Google embeddings produce 3,072 dimensions; ensure vector index matches.</li><li><strong>Retriever Top-k:</strong> k=3 to 5 chunks typically provides sufficient context without overflowing prompt limits.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FAILURE RECOVERY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">HTTP 429 Quota Exhaustion</h3>
+                  <p class="front-sub-tag">Handling Google AI Studio free tier rate limits</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ERROR RECOVERY</span>
+                  <h4 class="back-headline">ResourceExhausted Mitigation</h4>
+                </div>
+                <div class="back-content">
+                  <p>Standard troubleshooting protocol for rate limit exceptions.</p>
+                  <ul><li><strong>Root Cause:</strong> Rapid embedding loops exceed Google free tier requests-per-minute (RPM) limits.</li><li><strong>Remediation:</strong> Insert time.sleep(1) between batch calls or slice documents during testing (docs[:15]).</li><li><strong>Exponential Backoff:</strong> Wrap embedding calls in retry handlers with progressive sleep intervals.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-10" data-eyebrow="TOPIC 3 · MODEL INTERFACES" data-badge="3 MODEL ABSTRACTIONS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">LangChain Models Module: Three Core Abstractions</h2>
+          <p class="slide-subhead">Input/output contracts and the high-probability AIMessage return type trap</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEGACY INTERFACE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">LLMs (Text Completion)</h3>
+                  <p class="front-sub-tag">String In ──► String Out</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TEXT COMPLETION</span>
+                  <h4 class="back-headline">Raw String-to-String Completion</h4>
+                </div>
+                <div class="back-content">
+                  <p>Legacy models operating strictly on unstructured text strings.</p>
+                  <ul><li><strong>Interface:</strong> Takes a single string prompt and returns a single raw completion string.</li><li><strong>Examples:</strong> Older OpenAI models (text-davinci-003, GPT-3 raw endpoints).</li><li><strong>Status:</strong> Deprecated in modern chat systems; replaced by structured Chat Models.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MODERN STANDARD</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Chat Models (AIMessage)</h3>
+                  <p class="front-sub-tag">List of Messages In ──► AIMessage Out</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CHAT INTERFACE</span>
+                  <h4 class="back-headline">ChatGoogleGenerativeAI & Encapsulation</h4>
+                </div>
+                <div class="back-content">
+                  <p>The primary model abstraction for interactive conversational AI.</p>
+                  <ul><li><strong>Interface:</strong> Takes a list of BaseMessages (System, Human, AI) and returns an AIMessage.</li><li><strong>THE AIMESSAGE TRAP:</strong> AIMessage is a Python object, NOT a string! Calling .upper() raises AttributeError.</li><li><strong>Metadata Payload:</strong> Encapsulates token usage, safety ratings, finish reason, and tool call requests.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">VECTOR ENGINES</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Text Embedding Models</h3>
+                  <p class="front-sub-tag">Text In ──► Float Vector Out</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">VECTOR ENGINES</span>
+                  <h4 class="back-headline">GoogleGenerativeAIEmbeddings</h4>
+                </div>
+                <div class="back-content">
+                  <p>Specialized models mapping text to geometric coordinates.</p>
+                  <ul><li><strong>Interface:</strong> Takes strings and returns lists of floats representing semantic meaning in vector space.</li><li><strong>Output Dimensions:</strong> gemini-embedding-001 produces exactly 3,072 floating point values.</li><li><strong>Role in Pipelines:</strong> Used exclusively for vector store indexing and query similarity retrieval.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-11" data-eyebrow="TOPIC 3 · COMPOSITION SYNTAX" data-badge="LCEL PIPE SYNTAX">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Prompt Templates & The Declarative LCEL Pipe Operator</h2>
+          <p class="slide-subhead">Composing robust dataflow pipelines with unified streaming, batching, and async protocols</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PARAMETER VALIDATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">PromptTemplate vs. Python f-strings</h3>
+                  <p class="front-sub-tag">Reusable, serializable prompt specifications</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PROMPT ENGINEERING</span>
+                  <h4 class="back-headline">Why PromptTemplate Outperforms f-strings</h4>
+                </div>
+                <div class="back-content">
+                  <p>Enforcing strict runtime variable validation in production pipelines.</p>
+                  <ul><li><strong>Input Variable Verification:</strong> Enforces required variables; throws explicit errors if arguments are missing.</li><li><strong>Injection Guardrails:</strong> Protects against variable injection and template syntax collisions.</li><li><strong>Serialization:</strong> Can be saved to JSON/YAML, version-controlled, and hot-swapped without modifying code.</li><li><strong>LCEL Integration:</strong> Implements the Runnable interface to seamlessly pipe data into models.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DECLARATIVE DATAFLOW</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The LCEL Pipe Operator (|)</h3>
+                  <p class="front-sub-tag">Composing modular pipelines via chain = prompt | llm | parser</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LCEL COMPOSITION</span>
+                  <h4 class="back-headline">The Runnable Protocol & Clean Pipelines</h4>
+                </div>
+                <div class="back-content">
+                  <p>How LangChain Expression Language replaces brittle boilerplate with clean dataflows.</p>
+                  <ul><li><strong>The Pipe (|):</strong> Connects components like Unix pipes, automatically passing output from left to right.</li><li><strong>Unified Interface:</strong> Every LCEL chain automatically inherits .invoke(), .batch(), and .stream().</li><li><strong>Native Asynchrony:</strong> Automatically exposes .ainvoke() and .astream() for non-blocking web servers.</li><li><strong>StrOutputParser:</strong> Extracts the clean string payload from AIMessage.content, discarding metadata.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-12" data-eyebrow="TOPIC 3 · STATE MANAGEMENT" data-badge="STATELESSNESS & MEMORY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Statelessness Principle & Modern LangGraph Memory</h2>
+          <p class="slide-subhead">Why foundation models have zero internal memory and how stateful checkpointers solve pronoun resolution</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">THE MATHEMATICAL REALITY</span>
+            <div class="big-stat">0 State</div>
+            <h3 class="stat-label">Retained Across Calls</h3>
+            <p class="stat-desc">
+              LLMs are pure mathematical functions Y = f(X). Every API request is completely independent. Memory is an application-level illusion created by feeding prior history into subsequent prompts.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PRONOUN RESOLUTION TRAP</span>
+                    <h4 class="stack-keyword">Why "When was HE born?" Fails</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Single-Turn Failure:</strong> If a user asks "Who was Lincoln?" followed by "When was he born?", a stateless chain sees only the second prompt and has no mathematical means of resolving the pronoun "he".</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">LANGGRAPH CHECKPOINTERS</span>
+                    <h4 class="stack-keyword">InMemorySaver & StateGraph Persistence</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Modern Memory Architecture:</strong> Replaced deprecated ConversationBufferMemory with LangGraph checkpointers, managing message histories via structured StateGraph schemas.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SESSION ISOLATION</span>
+                    <h4 class="stack-keyword">The Role of thread_id Partitioning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Preventing Cross-Talk:</strong> thread_id acts as an isolated session partition key, ensuring User A conversation turns never leak into User B multi-turn sessions.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-13" data-eyebrow="TOPIC 3 · AUTONOMY SPECTRUM" data-badge="5 AUTONOMY LEVELS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Spectrum of Cognitive Autonomy in Generative AI</h2>
+          <p class="slide-subhead">From zero-autonomy deterministic scripts to fully self-directed multi-agent cognitive systems</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Basic LLM Applications</h3>
+                  <p class="front-sub-tag">Zero autonomy, single-turn deterministic execution</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LEVEL 1 AUTONOMY</span>
+                  <h4 class="back-headline">The Smart Typewriter</h4>
+                </div>
+                <div class="back-content">
+                  <p>Static prompt transformations without state, tools, or dynamic branching.</p>
+                  <ul><li><strong>Characteristics:</strong> Direct input-to-output mapping; executes a single predetermined prompt.</li><li><strong>Autonomy:</strong> Zero autonomy. Cannot decide whether to take actions.</li><li><strong>Representative Tasks:</strong> Language translation, text rephrasing, spell-checking, simple tone conversion.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Co-Pilots & RAG Chatbots</h3>
+                  <p class="front-sub-tag">Conditional autonomy with human in the loop</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LEVEL 2 AUTONOMY</span>
+                  <h4 class="back-headline">The Research Assistant</h4>
+                </div>
+                <div class="back-content">
+                  <p>Multi-turn conversational systems augmented with document retrieval and memory.</p>
+                  <ul><li><strong>Characteristics:</strong> Maintains conversation state across turns and queries external vector stores.</li><li><strong>Limitation:</strong> Execution path is hardcoded by the developer; the retriever executes on every turn.</li><li><strong>Representative Tasks:</strong> Document Q&A chatbots (Lab 2), customer service knowledge base assistants.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LEVEL 3</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Autonomous Cognitive Agents</h3>
+                  <p class="front-sub-tag">Operational autonomy with runtime tool selection</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LEVEL 3 AUTONOMY</span>
+                  <h4 class="back-headline">The Autonomous Intern</h4>
+                </div>
+                <div class="back-content">
+                  <p>Systems that evaluate queries and decide dynamically whether to invoke external tools.</p>
+                  <ul><li><strong>Characteristics:</strong> Runtime dynamic branching; model chooses which tool to invoke or answers directly.</li><li><strong>Tool Loops:</strong> Executes iterative ReAct loops (Thought ➔ Action ➔ Observation) until goals are met.</li><li><strong>Representative Tasks:</strong> Autonomous refund processing, multi-database research agents, automated coding assistants.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-14" data-eyebrow="TOPIC 3 · AGENTIC REASONING" data-badge="REACT & TOOL USE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The ReAct Pattern & Python Docstring Tool Contracts</h2>
+          <p class="slide-subhead">How language models reason over action loops and why docstrings are functional API schemas</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">COGNITIVE ARCHITECTURE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The ReAct Reasoning Loop</h3>
+                  <p class="front-sub-tag">Interleaving Thoughts, Actions, and Observations</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">AGENTIC REASONING</span>
+                  <h4 class="back-headline">Reasoning + Acting in Harmony</h4>
+                </div>
+                <div class="back-content">
+                  <p>How cognitive agents break complex problems into iterative tool-use steps.</p>
+                  <ul><li><strong>1. Thought:</strong> The LLM generates an internal reasoning trace evaluating its current progress.</li><li><strong>2. Action:</strong> The LLM selects and calls a specific tool with structured JSON arguments.</li><li><strong>3. Observation:</strong> The environment executes the tool and injects the output back into the model context.</li><li><strong>Iterative Completion:</strong> The model repeats the loop until sufficient evidence exists to generate the final response.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">API CONTRACT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Python Docstrings as Tool Schemas</h3>
+                  <p class="front-sub-tag">Why docstrings are functional API contracts in @tool</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TOOL DEFINITION</span>
+                  <h4 class="back-headline">Docstrings as Function Specifications</h4>
+                </div>
+                <div class="back-content">
+                  <p>Understanding how LangChain exposes Python functions to foundation models.</p>
+                  <ul><li><strong>The @tool Decorator:</strong> Transforms a standard Python function into an agent-callable tool.</li><li><strong>Schema Serialization:</strong> LangChain inspects the function signature, type hints, and docstring, compiling them into a JSON Schema.</li><li><strong>The Docstring Trap:</strong> If the docstring is missing or vague, the agent cannot understand when or why to invoke the tool.</li><li><strong>Best Practice:</strong> Always describe the exact purpose, input parameters, and return format in detail.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-15" data-eyebrow="TOPIC 3 · EXECUTIVE CHECKPOINT" data-badge="TOPIC 3 SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Topic 3 Synthesis: Orchestration & Autonomous Decisions</h2>
+          <p class="slide-subhead">Architecture selection matrices, output typing rules, and resilience safeguards for agents</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DECISION RULE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">LCEL Chains vs. Autonomous Agents</h3>
+                  <p class="front-sub-tag">When to choose deterministic pipelines over agentic loops</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ARCHITECTURE DECISION</span>
+                  <h4 class="back-headline">Determining the Right Abstraction</h4>
+                </div>
+                <div class="back-content">
+                  <p>The definitive design rule for choosing between chains and agents.</p>
+                  <ul><li><strong>Choose LCEL:</strong> When the workflow is linear, predictable, and fixed (Input ➔ Format ➔ Model ➔ Parse). Guarantees lower latency and zero unexpected tool loops.</li><li><strong>Choose Agents:</strong> When the user input is unpredictable and requires conditional multi-step tool lookups or dynamic plan refinement.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PARSER ENFORCEMENT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Output Parsing & Return Types</h3>
+                  <p class="front-sub-tag">Always extracting strings from AIMessage objects</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TYPE SAFETY</span>
+                  <h4 class="back-headline">AIMessage String Extraction</h4>
+                </div>
+                <div class="back-content">
+                  <p>Guaranteed rules to eliminate runtime AttributeErrors.</p>
+                  <ul><li><strong>Rule 1:</strong> Always append StrOutputParser() to LCEL chains to return clean string payloads.</li><li><strong>Rule 2:</strong> In raw invocations, access response.content or response.text explicitly.</li><li><strong>Rule 3:</strong> Remember that AIMessage contains critical metadata like safety ratings and usage tokens.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">AGENT SAFEGUARDS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Recursion Limits & Error Fallbacks</h3>
+                  <p class="front-sub-tag">Preventing runaway API costs and infinite tool loops</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PRODUCTION RESILIENCE</span>
+                  <h4 class="back-headline">Agent Containment Strategies</h4>
+                </div>
+                <div class="back-content">
+                  <p>Engineering defenses against rogue autonomous agent loops.</p>
+                  <ul><li><strong>Enforce Recursion Limits:</strong> Always set config={"recursion_limit": 10} to terminate runaway agent iterations.</li><li><strong>Informative Tool Errors:</strong> Return clear error messages from tools (e.g. "Order not found; check 8-digit ID") so agents can self-correct.</li><li><strong>Human-in-the-Loop:</strong> Require explicit human approval before executing irreversible actions (payments, database deletions).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-16" data-eyebrow="DIAGNOSTIC AUDIT · BUG SPOTTING" data-badge="CODE ANALYSIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">High-Yield Code Analysis & Exam Bug Spotting</h2>
+          <p class="slide-subhead">Anticipating common syntax errors, operating system traps, and API quota exceptions</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CODE ANALYSIS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The Broken AIMessage Call</h3>
+                  <p class="front-sub-tag">AttributeError: AIMessage object has no attribute upper</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">SYNTAX & TYPE TRAP</span>
+                  <h4 class="back-headline">Spotting the AIMessage Bug</h4>
+                </div>
+                <div class="back-content">
+                  <p>A classic exam question analyzing broken LangChain code snippets.</p>
+                  <ul><li><strong>Broken Snippet:</strong><br><code>chain = prompt | llm<br>res = chain.invoke({"q": "hi"})<br>print(res.upper())</code></li><li><strong>The Bug:</strong> res is an AIMessage, not a string! Calling .upper() triggers a fatal AttributeError.</li><li><strong>The Fix:</strong> Either append StrOutputParser() to the chain or print res.content.upper().</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SYSTEM TRAPS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Hidden .env.txt & Quota 429 Errors</h3>
+                  <p class="front-sub-tag">Common environment gotchas in Windows development</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ENVIRONMENT TRAPS</span>
+                  <h4 class="back-headline">Solving .env.txt and HTTP 429</h4>
+                </div>
+                <div class="back-content">
+                  <p>Resolving the two most frequent student environment errors.</p>
+                  <ul><li><strong>The .env.txt Trap:</strong> Windows hides file extensions, creating .env.txt. load_dotenv() fails to find it. Fix: Enable file extensions and rename strictly to .env.</li><li><strong>The HTTP 429 Quota Trap:</strong> Rapid embedding loops trigger ResourceExhausted on free tier. Fix: Add time.sleep(1) or batch requests into slices of 15-20 chunks.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="slide-view" id="slide-17" data-eyebrow="GRAND SYNTHESIS · CURRICULUM MASTERY" data-badge="7 CORE MODULES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Curriculum Grand Synthesis: The Complete GenAI Stack</h2>
+          <p class="slide-subhead">Master mapping of LangChain's seven classic pillars to modern 2026 production architecture</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FOUNDATION & DATA</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Models, Prompts & Vector Indexes</h3>
+                  <p class="front-sub-tag">The core perception and knowledge retrieval tier</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DATA & REASONING</span>
+                  <h4 class="back-headline">Grounded Foundation Tier</h4>
+                </div>
+                <div class="back-content">
+                  <p>Connecting pre-trained intelligence to external enterprise data.</p>
+                  <ul><li><strong>Models:</strong> ChatGoogleGenerativeAI and GoogleGenerativeAIEmbeddings via the official google-genai SDK.</li><li><strong>Prompts:</strong> Parameterized PromptTemplate and ChatPromptTemplate enforcing variable validation.</li><li><strong>Indexes:</strong> PyPDFLoader, RecursiveCharacterTextSplitter, ChromaDB, and FAISS for semantic grounding.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FLOW & MEMORY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Chains & Conversation State</h3>
+                  <p class="front-sub-tag">The deterministic dataflow and multi-turn persistence tier</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DATAFLOW & STATE</span>
+                  <h4 class="back-headline">Pipelines & Stateful Checkpointers</h4>
+                </div>
+                <div class="back-content">
+                  <p>Managing execution sequences and user conversation sessions.</p>
+                  <ul><li><strong>Chains:</strong> Replaced legacy LLMChain with declarative LCEL pipe syntax (prompt | model | parser).</li><li><strong>Memory:</strong> Replaced monolithic buffer classes with LangGraph StateGraph and InMemorySaver checkpointers.</li><li><strong>Session Routing:</strong> Uses unique thread_id partition keys to maintain completely isolated user chat histories.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ACTION & OBSERVABILITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Agents, Tool Calling & Callbacks</h3>
+                  <p class="front-sub-tag">The runtime autonomous decision and tracing tier</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ACTION & TELEMETRY</span>
+                  <h4 class="back-headline">Agentic Execution & Observability</h4>
+                </div>
+                <div class="back-content">
+                  <p>Empowering systems to execute tools and logging full execution traces.</p>
+                  <ul><li><strong>Agents:</strong> ReAct loops implemented via create_agent or LangGraph with custom Python @tool docstrings.</li><li><strong>Autonomy:</strong> Achieves Level 3 operational autonomy through runtime function calling.</li><li><strong>Callbacks & Tracing:</strong> Hosted LangSmith platform providing distributed telemetry, token tracking, and latency diagnostics.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
+      <span>▴ SHOW CONTROLS</span>
+      <span class="key-indicator">C</span>
+    </button>
+
+    <!-- Collapsible Slide Footer Controls -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="counter" id="slideCounter">
+        <span>01</span> / 18
+      </div>
+
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
+          <span>← PREV</span>
+          <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
+          <span>FLIP ALL</span>
+          <span class="key-indicator">TAB</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
+          <span>NEXT →</span>
+          <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
+          <span id="fsIcon">⛶</span>
+          <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      // Presentation State
+      let currentSlide = 0;
+      const totalSlides = 18;
+      const slides = document.querySelectorAll('.slide-view');
+      const progressFill = document.getElementById('progressFill');
+      const slideCounter = document.getElementById('slideCounter');
+      const headerEyebrow = document.getElementById('headerEyebrow');
+      const slideTopicBadge = document.getElementById('slideTopicBadge');
+
+      const deckContainer = document.getElementById('deckContainer');
+      const slideHeader = document.getElementById('slideHeader');
+      const deckFooter = document.getElementById('deckFooter');
+      const topToggleBtn = document.getElementById('topToggleBtn');
+      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const flipAllBtn = document.getElementById('flipAllBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let headerPinned = false;
+      let footerPinned = false;
+
+      // Card Flip Listeners
+      function initCardFlipListeners() {
+        // Standard Flip Cards
+        document.querySelectorAll('.flip-card').forEach(card => {
+          card.addEventListener('click', function(e) {
+            this.classList.toggle('flipped');
+          });
+          card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              this.classList.toggle('flipped');
+            }
+          });
+        });
+
+        // Stack Flip Cards
+        document.querySelectorAll('.stack-flip-card').forEach(card => {
+          card.addEventListener('click', function(e) {
+            this.classList.toggle('flipped');
+          });
+          card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              this.classList.toggle('flipped');
+            }
+          });
+        });
+      }
+
+      // Update Slide State
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        // Reset card flips on active slide before moving
+        const currentActive = slides[currentSlide];
+        if (currentActive) {
+          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => {
+            c.classList.remove('flipped');
+          });
+          currentActive.classList.remove('active');
+        }
+
+        currentSlide = index;
+        const newActive = slides[currentSlide];
+        newActive.classList.add('active');
+
+        // Update progress bar
+        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
+        progressFill.style.width = progressPct + '%';
+
+        // Update counter
+        const padIndex = String(currentSlide + 1).padStart(2, '0');
+        slideCounter.innerHTML = `<span>${padIndex}</span> / ${totalSlides}`;
+
+        // Update eyebrow & badge
+        const eyebrowText = newActive.getAttribute('data-eyebrow') || 'DS314 · GENERATIVE AI ENGINEERING';
+        const badgeText = newActive.getAttribute('data-badge') || 'MODULE OVERVIEW';
+        headerEyebrow.textContent = eyebrowText;
+        slideTopicBadge.textContent = badgeText;
+      }
+
+      // Flip All Cards on Active Slide
+      function toggleFlipAll() {
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+
+        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+        if (!cards.length) return;
+
+        // If any card is not flipped, flip all to back. If all are flipped, flip all to front.
+        let allFlipped = true;
+        cards.forEach(c => {
+          if (!c.classList.contains('flipped')) {
+            allFlipped = false;
+          }
+        });
+
+        cards.forEach(c => {
+          if (allFlipped) {
+            c.classList.remove('flipped');
+          } else {
+            c.classList.add('flipped');
+          }
+        });
+      }
+
+      // Toggle Header Drawer
+      function toggleHeader(forceState) {
+        if (typeof forceState === 'boolean') {
+          headerPinned = forceState;
+        } else {
+          headerPinned = !headerPinned;
+        }
+
+        if (headerPinned) {
+          slideHeader.classList.add('expanded');
+          topToggleBtn.classList.add('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
+        } else {
+          slideHeader.classList.remove('expanded');
+          topToggleBtn.classList.remove('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
+        }
+      }
+
+      // Toggle Footer Drawer
+      function toggleFooter(forceState) {
+        if (typeof forceState === 'boolean') {
+          footerPinned = forceState;
+        } else {
+          footerPinned = !footerPinned;
+        }
+
+        if (footerPinned) {
+          deckFooter.classList.add('expanded');
+          bottomToggleBtn.classList.add('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
+        } else {
+          deckFooter.classList.remove('expanded');
+          bottomToggleBtn.classList.remove('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
+        }
+      }
+
+      // Mouse Hover Detection for Top & Bottom Zones (0 to 65px)
+      function initHoverTriggers() {
+        document.addEventListener('mousemove', function(e) {
+          const windowHeight = window.innerHeight;
+          const mouseY = e.clientY;
+
+          // Top trigger zone: 0 to 65px
+          if (mouseY <= 65) {
+            deckContainer.classList.add('hovering-top');
+          } else {
+            deckContainer.classList.remove('hovering-top');
+          }
+
+          // Bottom trigger zone: within 65px of bottom
+          if (mouseY >= windowHeight - 65) {
+            deckContainer.classList.add('hovering-bottom');
+          } else {
+            deckContainer.classList.remove('hovering-bottom');
+          }
+        });
+      }
+
+      // Theme Toggle Engine
+      function initThemeToggle() {
+        const root = document.documentElement;
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        themeToggleBtn.addEventListener('click', function() {
+          const currentTheme = root.getAttribute('data-theme');
+          if (currentTheme === 'dark') {
+            root.setAttribute('data-theme', 'light');
+            themeIcon.textContent = '◐';
+            themeText.textContent = 'LIGHT';
+          } else {
+            root.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '◑';
+            themeText.textContent = 'DARK';
+          }
+        });
+      }
+
+      // Fullscreen Engine
+      function initFullscreen() {
+        fullscreenBtn.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+              console.warn('Fullscreen error:', err);
+            });
+          } else {
+            document.exitFullscreen();
+          }
+        });
+      }
+
+      // Keyboard Shortcuts Navigation
+      function initKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+          // If user is focused on an input, don't trigger deck shortcuts
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+          switch(e.key) {
+            case 'ArrowRight':
+            case 'PageDown':
+            case ' ':
+              e.preventDefault();
+              updateSlide(currentSlide + 1);
+              break;
+            case 'ArrowLeft':
+            case 'PageUp':
+              e.preventDefault();
+              updateSlide(currentSlide - 1);
+              break;
+            case 'Tab':
+            case 'x':
+            case 'X':
+              e.preventDefault();
+              toggleFlipAll();
+              break;
+            case 't':
+            case 'T':
+              e.preventDefault();
+              themeToggleBtn.click();
+              break;
+            case 'f':
+            case 'F':
+              e.preventDefault();
+              fullscreenBtn.click();
+              break;
+            case 'h':
+            case 'H':
+              e.preventDefault();
+              toggleHeader();
+              break;
+            case 'c':
+            case 'C':
+              e.preventDefault();
+              toggleFooter();
+              break;
+            case 'Home':
+              e.preventDefault();
+              updateSlide(0);
+              break;
+            case 'End':
+              e.preventDefault();
+              updateSlide(totalSlides - 1);
+              break;
+            case 'Escape':
+              e.preventDefault();
+              toggleHeader(false);
+              toggleFooter(false);
+              break;
+          }
+        });
+      }
+
+      // Event Wiring
+      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+      flipAllBtn.addEventListener('click', () => toggleFlipAll());
+      topToggleBtn.addEventListener('click', () => toggleHeader());
+      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+
+      // Boot
+      initCardFlipListeners();
+      initHoverTriggers();
+      initThemeToggle();
+      initFullscreen();
+      initKeyboardShortcuts();
+      updateSlide(0);
+
+    })();
+  </script>
+</body>
+</html>

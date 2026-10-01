@@ -1,0 +1,2623 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS312: Data Mining & Applications | Master Synthesis Keynote Deck</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-front: #FFFFFF;
+      --surface-back: #F5EFE6;
+      --surface-elevated: #EDE6DC;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      /* Vibrant Academic Accent Hues */
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Elevations */
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* LUMINOUS DEEP SPACE SLATE */
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-back: #181E2A;
+      --surface-elevated: #1F2636;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      /* Luminous Neon Accents */
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-topic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .slide-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    .slide-view.active {
+      display: flex;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Slide Titles */
+    .slide-title-area {
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subhead {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Slide Layout Grids */
+    .grid-container {
+      display: grid;
+      gap: 1.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-bifurcated {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-triptych {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .stack-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      outline: none;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 1.85rem 1.95rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      justify-content: space-between;
+      transform: rotateY(0deg);
+      z-index: 2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover .flip-card-front {
+      border-color: var(--border-focus);
+      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .back-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .back-content {
+      font-size: 1.05rem;
+      line-height: 1.52;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .back-content p {
+      margin-bottom: 0.35rem;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* LIGHT MODE CARD BACK ACCENT COLORS */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(224, 83, 60, 0.3);
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F5C58A;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(229, 169, 103, 0.3);
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #5EEAD4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: #5EEAD4;
+    }
+
+    /* Stack Flip Cards (Right-hand column mini flip cards) */
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Fullscreen helper */
+    :fullscreen .deck-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 1440px;
+      height: 820px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- Top Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
+      <span>▾ EXPAND HEADER</span>
+      <span class="key-indicator">H</span>
+    </button>
+
+    <!-- Collapsible Slide Header -->
+    <header class="slide-header" id="slideHeader">
+      <div class="slide-eyebrow" id="headerEyebrow">
+        DS312 · MASTER CURRICULUM SYNTHESIS
+      </div>
+      <div class="header-actions">
+        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
+        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">THEME</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Stage Viewport -->
+    <main class="slide-stage" id="slideStage">
+
+      <section class="slide-view active" id="slide-0" data-eyebrow="DS312 · MASTER SYNTHESIS" data-badge="GRAND CURRICULUM">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Data Mining & Applications: Grand Synthesis Deck</h2>
+          <p class="slide-subhead">Complete Course Synthesis: Foundations, Analytics Hierarchy, 8 Techniques, Structured Preprocessing, Clinical NLP & Healthcare Modeling</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">UNIFIED DISCOVERY ENGINE</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                "Data mining is the non-trivial process of identifying valid, novel, potentially useful, and ultimately understandable patterns in data."
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">USAMA FAYYAD ET AL. (1996) · KDD PROCESS FOUNDATIONS</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MODULES 1 TO 3</span>
+                    <h4 class="stack-keyword">Foundations, 4 Analytics & 8 Techniques</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Core Paradigms:</strong> KDD Process, The Clinical Doctor Analogy, Association Rules (Support/Confidence/Lift), Clustering, PCA.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MODULE 4</span>
+                    <h4 class="stack-keyword">Structured Preprocessing & Hypothesis Testing</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Statistical Hygiene:</strong> Stevens' NOIR, 1.5&times;IQR fences, MCAR/MAR/MNAR, Scaling comparison, LINE+M assumptions, t-test, ANOVA, &Chi;&sup2;.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MODULE 5 & CASE STUDY</span>
+                    <h4 class="stack-keyword">Clinical NLP & Diabetes 130-US Hospitals</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Unstructured & Capstone:</strong> 10-step NLP pipeline, Lemmatization, TF-IDF calculation, LDA Bayesian topic modeling (C_v), and 30-day readmission prediction.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-1" data-eyebrow="DS312 · ARCHITECTURAL OVERVIEW" data-badge="CURRICULUM TOPOLOGY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Curriculum Topology: Dual Structured & Unstructured Pipelines</h2>
+          <p class="slide-subhead">How statistical inference, machine learning algorithms, and clinical NLP converge into unified enterprise intelligence</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STRUCTURED ANALYTICS PIPELINE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">KDD & Tabular Feature Engineering</h3>
+                  <p class="front-sub-tag">Fayyad (1996) to Modern Ensembles</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">STRUCTURED PIPELINE</span>
+                  <h4 class="back-headline">Tabular Data Engineering</h4>
+                </div>
+                <div class="back-content">
+                  <p>End-to-end transformation of tabular enterprise records.</p>
+                  <ul><li><strong>Data Ingestion & Cleaning:</strong> Addressing NOIR measurement scales, Little's MCAR test, imputation decision trees, and Winsorization capping.</li><li><strong>Feature Scaling & Encoding:</strong> Robust vs. Z-Score scaling, avoiding the dummy variable trap (k-1 columns), and interaction terms.</li><li><strong>Inferential Validation:</strong> Parametric assumption testing (LINE+M), two-sample t-tests vs. Mann-Whitney U, ANOVA vs. Kruskal-Wallis, and Chi-Square independence.</li><li><strong>Algorithmic Modeling:</strong> Supervised classification/regression, distance-based clustering, and association rule discovery.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">UNSTRUCTURED CLINICAL PIPELINE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">EHR Narratives & Probabilistic NLP</h3>
+                  <p class="front-sub-tag">Lexical Denoising to Topic Extraction</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CLINICAL NLP PIPELINE</span>
+                  <h4 class="back-headline">Unstructured Mining</h4>
+                </div>
+                <div class="back-content">
+                  <p>End-to-end transformation of free-text clinical notes.</p>
+                  <ul><li><strong>Lexical Sanitization:</strong> Regex denoising, markup stripping, sentence segmentation, and contraction expansion.</li><li><strong>Morphological Canonicalization:</strong> WordNet lemmatization with POS tagging while strictly preserving clinical negations ("no", "not", "without").</li><li><strong>Vector Space Projection:</strong> TF-IDF discriminative weighting and N-gram collocations to preserve multi-word medical entities.</li><li><strong>Semantic Topic Discovery:</strong> Unsupervised Latent Dirichlet Allocation (LDA) tuned via semantic coherence (C_v) and NegEx clinical extraction.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-2" data-eyebrow="MODULE 2 · ANALYTICAL MATURITY" data-badge="THE 4 ANALYTICS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 4 Types of Analytics & The Clinical Diagnostic Parable</h2>
+          <p class="slide-subhead">Understanding the evolutionary continuum from retrospective reporting to autonomous decision optimization</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">MATURITY CONTINUUM</span>
+            <div class="big-stat" style="font-size: 2.2rem; margin: 0.8rem 0;">VALUE &uarr;</div>
+            <h3 class="stat-label">Descriptive &rarr; Prescriptive</h3>
+            <p class="stat-desc">
+              Moving from Descriptive to Prescriptive increases analytical complexity while compounding organizational and clinical value exponentially.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1. DESCRIPTIVE ANALYTICS</span>
+                    <h4 class="stack-keyword">What Happened? (The Symptoms)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Patient Observation:</strong> "The patient has a fever of 39.5&deg;C, elevated heart rate of 115 bpm, and low blood pressure." Summarizes historical data via aggregations, means, and counts.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2. DIAGNOSTIC ANALYTICS</span>
+                    <h4 class="stack-keyword">Why Did It Happen? (The Root Cause)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Laboratory Etiology:</strong> "Blood cultures reveal Gram-negative bacterial bacteremia originating from a severe UTI." Uses correlation, drill-downs, and hypothesis tests to identify causation.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3. PREDICTIVE ANALYTICS</span>
+                    <h4 class="stack-keyword">What Will Happen? (The Prognosis)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Risk Forecasting:</strong> "Based on sepsis risk models, patient has an 82% probability of septic shock within 12 hours." Employs classification, regression, and time-series modeling.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">4. PRESCRIPTIVE ANALYTICS</span>
+                    <h4 class="stack-keyword">What Should We Do? (The Treatment)</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Action Optimization:</strong> "Administer 2g IV Ceftriaxone immediately, initiate 30 mL/kg crystalloid fluid bolus, and transfer to ICU." Recommends optimal intervention via decision rules and optimization.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-3" data-eyebrow="MODULE 3 · CORE TECHNIQUES" data-badge="8 MINING TECHNIQUES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 8 Core Data Mining Techniques: Comparative Matrix</h2>
+          <p class="slide-subhead">Synthesizing supervised predictive modeling against unsupervised pattern discovery and dimensionality reduction</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SUPERVISED TECHNIQUES</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Classification & Regression</h3>
+                  <p class="front-sub-tag">Target Variable Present: y = f(X)</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">SUPERVISED PARADIGM</span>
+                  <h4 class="back-headline">Classification & Regression</h4>
+                </div>
+                <div class="back-content">
+                  <p>Predicting known historical targets using labeled feature spaces.</p>
+                  <ul><li><strong>Classification:</strong> Predicts discrete categorical class labels (e.g., Readmitted vs. Not Readmitted, Sepsis vs. Non-Sepsis). Algorithms: Logistic Regression, Random Forest, XGBoost.</li><li><strong>Regression:</strong> Predicts continuous quantitative response variables (e.g., Hospital Length of Stay, Blood Glucose Level). Algorithms: OLS, Ridge, Lasso, SVR.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">UNSUPERVISED & PATTERN TECHNIQUES</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Clustering, Rules, Anomaly, PCA</h3>
+                  <p class="front-sub-tag">No Target Variable Present</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">UNSUPERVISED PARADIGM</span>
+                  <h4 class="back-headline">Clustering, Rules & Dimensionality</h4>
+                </div>
+                <div class="back-content">
+                  <p>Uncovering intrinsic structural patterns, affinities, and anomalies.</p>
+                  <ul><li><strong>Clustering:</strong> Partitions data into homogeneous sub-cohorts based on feature distance (K-Means, DBSCAN, Hierarchical).</li><li><strong>Association Rule Mining:</strong> Identifies co-occurrence affinities in transaction baskets (Apriori, FP-Growth: X &rarr; Y).</li><li><strong>Anomaly Detection:</strong> Isolates rare outliers deviating from expected normal distributions (Isolation Forests, One-Class SVM).</li><li><strong>Dimensionality Reduction (PCA):</strong> Projects orthogonal axes of maximum variance to compress correlated features.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-4" data-eyebrow="MODULE 3 · PATTERN DISCOVERY" data-badge="ASSOCIATION RULES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Association Rule Mining: Mathematical Invariants & Interpretation</h2>
+          <p class="slide-subhead">Formal mathematical formulations for Market Basket Analysis, clinical co-prescriptions, and co-occurring diagnoses</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">APRIORI PRINCIPLE</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                "All non-empty subsets of a frequent itemset must also be frequent." If {Metformin, Insulin} is infrequent, any superset {Metformin, Insulin, Glipizide} is guaranteed infrequent!
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">AGRAWAL & SRIKANT (1994) · FREQUENT PATTERN PRUNING</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SUPPORT: P(X &cup; Y)</span>
+                    <h4 class="stack-keyword">Itemset Frequency Metric</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Support Formula:</strong> Support(X &rarr; Y) = count(X &cup; Y) / N. Quantifies the global prevalence of the combined itemset across the database. Prunes rare noise.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CONFIDENCE: P(Y | X)</span>
+                    <h4 class="stack-keyword">Rule Reliability Metric</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Confidence Formula:</strong> Confidence(X &rarr; Y) = Support(X &cup; Y) / Support(X). Conditional probability that transaction contains Y given it already contains X. Flaw: Ignores baseline popularity of Y!</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">LIFT: P(X &cup; Y) / (P(X)P(Y))</span>
+                    <h4 class="stack-keyword">True Interdependence Metric</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Lift Interpretation:</strong> Lift &gt; 1: Positive correlation (X actively triggers Y). Lift = 1: Complete independence. Lift &lt; 1: Negative correlation / mutual repulsion (X substitutes Y).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-5" data-eyebrow="CHECKPOINT 1 · FOUNDATIONS" data-badge="DIAGNOSTIC Q&A">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Checkpoint 1: Foundations & Analytical Decision Traps</h2>
+          <p class="slide-subhead">Testing conceptual depth on the KDD process, the confidence paradox, and hyper-dimensional geometry</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CHECKPOINT 1 · Q1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Lift vs. High Confidence Trap</h3>
+                  <p class="front-sub-tag">Why High Confidence is Deceptive</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DECISION ANALYSIS</span>
+                  <h4 class="back-headline">The Milk & Bread Trap</h4>
+                </div>
+                <div class="back-content">
+                  <p>Why can a rule with 90% confidence be completely uninformative or even counterproductive?</p>
+                  <ul><li><strong>The Baseline Frequency Paradox:</strong> If 95% of all hospital patients receive saline hydration, the rule {Any Drug} &rarr; {Saline} will naturally have &gt;90% confidence simply because Saline is universally common.</li><li><strong>The Lift Reality Check:</strong> Lift = P(X, Y) / (P(X)P(Y)) = 0.90 / 0.95 = 0.947 &lt; 1.0! The presence of drug X actually slightly decreases the likelihood of saline compared to random chance!</li><li><strong>Exam Invariant:</strong> High confidence alone never proves affinity. A rule is only valuable if Lift &gt; 1.0.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CHECKPOINT 1 · Q2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The Curse of Dimensionality</h3>
+                  <p class="front-sub-tag">Distance Metrics & Empty Space</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">GEOMETRIC ANALYSIS</span>
+                  <h4 class="back-headline">Dimensionality Collapse</h4>
+                </div>
+                <div class="back-content">
+                  <p>What happens mathematically to Euclidean distance metrics as feature count p explodes?</p>
+                  <ul><li><strong>Distance Convergence:</strong> In high-dimensional hyperspace ($p > 100$), the ratio between the distance to the nearest neighbor and the distance to the farthest neighbor approaches 1.0: $\lim_{p \to \infty} (dist_{max} - dist_{min}) / dist_{min} = 0$.</li><li><strong>Geometric Emptiness:</strong> Volume of the space grows exponentially ($2^p$), making all data points appear uniformly distant and isolated.</li><li><strong>Clustering Failure:</strong> Distance-based clustering (K-Means, KNN) breaks down entirely, demanding PCA or feature selection prior to modeling.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-6" data-eyebrow="MODULE 4 · MEASUREMENT THEORY" data-badge="NOIR TAXONOMY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Stevens' Measurement Taxonomy: Nominal, Ordinal, Interval & Ratio</h2>
+          <p class="slide-subhead">Understanding variable scale invariants to prevent mathematically illegal operations in machine learning</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CATEGORICAL TIERS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Nominal vs. Ordinal</h3>
+                  <p class="front-sub-tag">Qualitative Groupings & Rankings</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CATEGORICAL SCALES</span>
+                  <h4 class="back-headline">Nominal & Ordinal Logic</h4>
+                </div>
+                <div class="back-content">
+                  <p>Qualitative attributes governed by equivalence and order.</p>
+                  <ul><li><strong>Nominal (Identity):</strong> Pure categories without inherent ordering. Operations: Mode, Count, Frequency, &chi;&sup2; test. Mathematical operations like Mean and Standard Deviation are completely illegal! Examples: Blood Type, Marital Status, Medical Specialty.</li><li><strong>Ordinal (Ranking):</strong> Ordered hierarchical categories where distance between ranks is unknown or uneven. Operations: Median, Percentiles, Rank-order correlations (Spearman &rho;). Examples: Cancer Staging (Stage I to IV), Pain Scale (1 to 10).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">NUMERICAL TIERS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Interval vs. Ratio</h3>
+                  <p class="front-sub-tag">Quantitative Distances & True Zeros</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">NUMERICAL SCALES</span>
+                  <h4 class="back-headline">Interval & Ratio Logic</h4>
+                </div>
+                <div class="back-content">
+                  <p>Quantitative measurements with continuous arithmetic properties.</p>
+                  <ul><li><strong>Interval (Arbitrary Zero):</strong> Equal measurable units but arbitrary zero point (0 does not mean absolute absence). Operations: Addition, Subtraction, Mean, Variance. Ratios are invalid (20&deg;C is NOT twice as hot as 10&deg;C). Examples: Temperature (&deg;C/&deg;F), Calendar Year.</li><li><strong>Ratio (Absolute Zero):</strong> Equal measurable units with a true, non-arbitrary zero point (0 means complete absence). Operations: All mathematical operations including Division and Ratios (400 mg is exactly twice 200 mg). Examples: Patient Age, Length of Stay, Blood Glucose.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-7" data-eyebrow="MODULE 4 · ANOMALY HYGIENE" data-badge="OUTLIERS & WINSORIZATION">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Outlier Detection, 1.5 &times; IQR Geometry & Winsorization Capping</h2>
+          <p class="slide-subhead">Quantifying data dispersion, setting statistical fences, and stabilizing distribution variance</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">DISPERSION FENCE</span>
+            <div class="big-stat">1.5&times;</div>
+            <h3 class="stat-label">IQR = Q3 - Q1</h3>
+            <p class="stat-desc">
+              Lower Fence = Q1 - 1.5(IQR)<br>
+              Upper Fence = Q3 + 1.5(IQR)<br>
+              Capping preserves sample size while preventing gradient explosion in regression models.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1.5&times;IQR INNER FENCES</span>
+                    <h4 class="stack-keyword">Mild Outliers</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Inner Fence Boundary:</strong> [Q1 - 1.5&times;IQR, Q3 + 1.5&times;IQR]. Flags mild outliers. In clinical cohorts, these represent legitimate high-severity patients (e.g. ICU patients with 18 lab tests).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3.0&times;IQR OUTER FENCES</span>
+                    <h4 class="stack-keyword">Extreme Anomalies & Corruptions</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Outer Fence Boundary:</strong> [Q1 - 3.0&times;IQR, Q3 + 3.0&times;IQR]. Flags severe outliers. Extreme values (e.g., Patient Age = 999 or Blood Pressure = 0) represent corrupted sensor or transcription errors.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">WINSORIZATION CAPPING</span>
+                    <h4 class="stack-keyword">Robust Boundary Clamping</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Variance Stabilization:</strong> Rather than discarding extreme rows (which loses sample size and introduces selection bias), Winsorization clamps values at the 1st and 99th percentiles, neutralizing skew without row deletion.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-8" data-eyebrow="MODULE 4 · DATA HYGIENE" data-badge="MISSING DATA ENGINE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Missing Data Taxonomy & Imputation Decision Engine</h2>
+          <p class="slide-subhead">Auditing Rubin's mechanisms, running Little's test, and selecting statistically valid imputation strategies</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">RUBIN'S MISSINGNESS TAXONOMY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">MCAR vs. MAR vs. MNAR</h3>
+                  <p class="front-sub-tag">Distinguishing Mechanisms of Data Loss</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">RUBIN TAXONOMY</span>
+                  <h4 class="back-headline">Missing Data Mechanisms</h4>
+                </div>
+                <div class="back-content">
+                  <p>Formal classifications of data loss mechanisms.</p>
+                  <ul><li><strong>MCAR (Completely at Random):</strong> Missingness is entirely independent of observed and unobserved data. Probability of missingness is uniform across all rows. Verified by Little's MCAR test (p &gt; 0.05). Listwise deletion is statistically unbiased.</li><li><strong>MAR (At Random):</strong> Missingness depends systematically on other observed variables, but not on the missing value itself (e.g., older patients less likely to fill online weight survey). Solved via Multiple Imputation by Chained Equations (MICE) or KNN.</li><li><strong>MNAR (Not at Random):</strong> Missingness depends directly on the unobserved value itself (e.g., severely depressed patients refusing to complete depression severity questionnaire). Requires pattern-mixture modeling or explicit missing indicator flags.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">IMPUTATION DECISION MATRIX</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Mean, Median, MICE & Pruning</h3>
+                  <p class="front-sub-tag">Production Imputation Protocols</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">IMPUTATION STRATEGY</span>
+                  <h4 class="back-headline">Decision Tree for Missingness</h4>
+                </div>
+                <div class="back-content">
+                  <p>Algorithmic protocol for treating missing values.</p>
+                  <ul><li><strong>Missingness &gt; 50%:</strong> Drop the column unless domain expertise confirms extreme clinical value (e.g. Weight variable in Diabetes 130-US Hospitals is 97% missing &rarr; drop column).</li><li><strong>Symmetric Continuous (MCAR):</strong> Impute with Mean if distribution is verified Gaussian.</li><li><strong>Skewed Continuous / Ordinal:</strong> Impute with Median to resist outlier distortion.</li><li><strong>Categorical Nominal:</strong> Impute with Mode or establish a dedicated "Missing" / "Unknown" category.</li><li><strong>Multivariate Relationships:</strong> Use IterativeImputer (MICE) or KNNImputer to preserve covariance structure across features.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-9" data-eyebrow="MODULE 4 · FEATURE ENGINEERING" data-badge="SCALING & DUMMIES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Feature Transformation, Scaling & The Dummy Variable Trap</h2>
+          <p class="slide-subhead">Mathematical behavior of normalization vs. standardization, and preventing singular matrix inversion failure</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-teal);">ALGORITHMIC SENSITIVITY</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                Tree-based models (Random Forest, XGBoost) are scale-invariant. Distance-based models (KNN, K-Means, SVM, PCA) and gradient models are critically sensitive to scaling!
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS312 FEATURE ENGINEERING INVARIANT</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">MIN-MAX SCALING: [0, 1]</span>
+                    <h4 class="stack-keyword">Bound-Constrained Normalization</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Formula:</strong> (x - min) / (max - min). Compresses features to exact [0, 1] range. Ideal for neural networks and image data, but catastrophic if extreme outliers exist (collapses in-bounds data into tiny band).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STANDARD Z-SCORE SCALING</span>
+                    <h4 class="stack-keyword">Gaussian Zero-Mean Standardization</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Formula:</strong> (x - &mu;) / &sigma;. Centers feature at mean 0 with standard deviation 1. Preserves outlier distances; essential for linear models, SVMs, and PCA.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">ROBUST SCALER: IQR-BASED</span>
+                    <h4 class="stack-keyword">Outlier-Resistant Centering</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Formula:</strong> (x - Median) / IQR. Uses median and interquartile range; completely unaffected by extreme anomalies. Gold standard for clinical healthcare datasets with high skew.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE DUMMY VARIABLE TRAP: k - 1</span>
+                    <h4 class="stack-keyword">Avoiding Perfect Multicollinearity</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Linear Dependency:</strong> If a categorical feature has k categories, encoding all k dummy columns introduces perfect collinearity (&sum; D_i = 1), causing singular matrix inversion failure (X^T X)^{-1}. Always drop 1 baseline column (<code>drop_first=True</code>)!</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-10" data-eyebrow="MODULE 4 · INFERENTIAL STATISTICS" data-badge="HYPOTHESIS TESTING">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Parametric vs. Non-Parametric Statistical Testing Matrix</h2>
+          <p class="slide-subhead">Systematic validation of LINE+M assumptions and selecting valid hypothesis tests across variable scales</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">PARAMETRIC ASSUMPTIONS (LINE+M)</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Strict Gaussian Distribution Criteria</h3>
+                  <p class="front-sub-tag">Linearity, Independence, Normality, Equal Var</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PARAMETRIC CRITERIA</span>
+                  <h4 class="back-headline">LINE + M Assumptions</h4>
+                </div>
+                <div class="back-content">
+                  <p>Mandatory mathematical criteria before using parametric tests.</p>
+                  <ul><li><strong>Linearity (L):</strong> Linear relationship between features and outcome variable.</li><li><strong>Independence (I):</strong> Observations are independent (Durbin-Watson test ~ 2.0).</li><li><strong>Normality (N):</strong> Residuals normally distributed (Shapiro-Wilk test p &gt; 0.05).</li><li><strong>Equal Variance / Homoscedasticity (E):</strong> Constant residual spread (Levene's test p &gt; 0.05).</li><li><strong>Multicollinearity (M):</strong> No extreme feature collinearity (VIF &lt; 5.0).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HYPOTHESIS TEST SELECTION MATRIX</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Parametric vs. Non-Parametric Equivalence</h3>
+                  <p class="front-sub-tag">Statistical Tests by Scale and Groups</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">STATISTICAL MATRIX</span>
+                  <h4 class="back-headline">Test Equivalence Framework</h4>
+                </div>
+                <div class="back-content">
+                  <p>Mapping experimental designs to appropriate hypothesis tests.</p>
+                  <ul><li><strong>Two Independent Groups:</strong> Two-sample t-test (Parametric) &harr; Mann-Whitney U test (Non-Parametric). Tests differences in medians when data is skewed.</li><li><strong>Two Paired / Repeated Groups:</strong> Paired t-test (Parametric) &harr; Wilcoxon Signed-Rank test (Non-Parametric).</li><li><strong>Three or More Groups:</strong> One-Way ANOVA (Parametric) &harr; Kruskal-Wallis H test (Non-Parametric).</li><li><strong>Two Categorical Variables:</strong> Chi-Square (&chi;&sup2;) Test of Independence. Invariant: All expected cell frequencies must be &ge; 5.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-11" data-eyebrow="CHECKPOINT 2 · PREPROCESSING" data-badge="DIAGNOSTIC Q&A">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Checkpoint 2: Preprocessing & Statistical Testing Pitfalls</h2>
+          <p class="slide-subhead">Addressing real-world assumption failures: Heteroscedasticity, Welch's correction, and Fisher's exact test</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CHECKPOINT 2 · Q1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Levene's Test Failure & Welch's t-test</h3>
+                  <p class="front-sub-tag">Handling Heteroscedasticity in Data</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">INFERENTIAL ANALYSIS</span>
+                  <h4 class="back-headline">Variance Violation</h4>
+                </div>
+                <div class="back-content">
+                  <p>What must a data scientist do if Levene's test rejects equal variance (p &lt; 0.05) when comparing two groups?</p>
+                  <ul><li><strong>The Equal Variance Violation:</strong> Standard Student's t-test strictly assumes $\sigma_1^2 = \sigma_2^2$. If Levene's test yields $p < 0.05$, equal variance is refuted (heteroscedasticity).</li><li><strong>The Correct Correction:</strong> Switch immediately to <strong>Welch's t-test</strong> (set `equal_var=False` in `scipy.stats.ttest_ind`), which adjusts degrees of freedom via the Welch-Satterthwaite equation.</li><li><strong>Non-Parametric Alternative:</strong> If normality is also violated, execute the Mann-Whitney U rank-sum test.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CHECKPOINT 2 · Q2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The Chi-Square Cell Count Violation</h3>
+                  <p class="front-sub-tag">Expected Frequencies & Fisher's Exact Test</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CONTINGENCY ANALYSIS</span>
+                  <h4 class="back-headline">Chi-Square Rule of 5</h4>
+                </div>
+                <div class="back-content">
+                  <p>What happens if a 2&times;2 contingency table has expected cell frequencies less than 5?</p>
+                  <ul><li><strong>The Approximation Breakdown:</strong> The asymptotic &chi;&sup2; distribution approximates the discrete multinomial distribution accurately only when all expected cell frequencies $E_{ij} \ge 5$.</li><li><strong>Failure Mode:</strong> With small expected counts ($E_{ij} < 5$), &chi;&sup2; p-values are heavily biased towards false positives (Type I error inflation).</li><li><strong>The Invariant Solution:</strong> For 2&times;2 tables, replace &chi;&sup2; with <strong>Fisher's Exact Test</strong> (`scipy.stats.fisher_exact`), which computes exact hypergeometric probabilities.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-12" data-eyebrow="MODULE 5 · TEXT MINING" data-badge="10-STEP NLP PIPELINE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Unstructured Clinical NLP: The 10-Step Preprocessing Protocol</h2>
+          <p class="slide-subhead">Converting unstructured physician progress notes and EHR narratives into dense numerical feature matrices</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">NLP WORKFLOW</span>
+            <div class="big-stat" style="font-size: 2.2rem; margin: 0.8rem 0;">10 STEPS</div>
+            <h3 class="stat-label">Raw Text &rarr; Sparse Matrix</h3>
+            <p class="stat-desc">
+              Every phase must maintain domain integrity: preserving clinical negations, handling medical jargon, and avoiding test set vector leakage.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STEPS 1 TO 3: DENOISE & SEGMENT</span>
+                    <h4 class="stack-keyword">Raw Strings to Clean Sentences</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Lexical Cleansing:</strong> Regex tag stripping, sentence segmentation via Punkt, and contraction expansion ("won't" &rarr; "will not") to prevent boundary errors.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STEPS 4 TO 7: NORMALIZE & LEMMATIZE</span>
+                    <h4 class="stack-keyword">Tokens to Semantic Lemmas</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Morphological Pipeline:</strong> Word tokenization, lowercasing, stop word pruning (preserving clinical negations "no"/"not"), and WordNet POS-aware lemmatization.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STEPS 8 TO 10: N-GRAMS & VECTOR SPACE</span>
+                    <h4 class="stack-keyword">Phrases to Mathematical Matrices</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Matrix Transformation:</strong> Constructing bigrams/trigrams, fitting TF-IDF vectors strictly on train folds, and applying LDA/SVD dimensionality reduction.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-13" data-eyebrow="MODULE 5 · MORPHOLOGY" data-badge="STEMMING VS. LEMMAS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Morphological Analysis: Stemming vs. POS-Aware Lemmatization</h2>
+          <p class="slide-subhead">Contrasting crude affix-stripping algorithms against dictionary-backed Part-of-Speech canonicalization</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HEURISTIC STEMMING</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Porter & Snowball Algorithms</h3>
+                  <p class="front-sub-tag">Fast Rule-Based Affix Chopping</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">STEMMING LIMITATIONS</span>
+                  <h4 class="back-headline">Affix Chopping Heuristics</h4>
+                </div>
+                <div class="back-content">
+                  <p>Algorithmic truncation without grammatical vocabulary checks.</p>
+                  <ul><li><strong>Heuristic Truncation:</strong> Chops standard word endings (-ed, -ing, -s, -ly) using sequential decision trees.</li><li><strong>Non-Dictionary Output:</strong> Frequently generates invalid pseudo-words (e.g. "hospitalization" &rarr; "hospit", "cardiac" &rarr; "cardiac").</li><li><strong>Over-Stemming Risk:</strong> Collapses distinct biomedical terms with different clinical meanings into an identical corrupted root.</li><li><strong>Speed Advantage:</strong> 10&times; faster than lemmatization; suitable only for broad informational search where speed trumps semantic precision.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MORPHOLOGICAL LEMMATIZATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">WordNet & spaCy Lemmatizers</h3>
+                  <p class="front-sub-tag">Dictionary Canonicalization with POS</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LEMMATIZATION RIGOR</span>
+                  <h4 class="back-headline">POS-Aware Morphological Analysis</h4>
+                </div>
+                <div class="back-content">
+                  <p>Vocabulary-backed reduction returning valid dictionary base forms.</p>
+                  <ul><li><strong>Part-of-Speech Dependent:</strong> Requires POS tags (Noun, Verb, Adjective) to resolve true grammatical base forms.</li><li><strong>Guaranteed Real Words:</strong> Always outputs valid canonical dictionary lemmas ("better" [adj] &rarr; "good", "stabilized" [verb] &rarr; "stabilize").</li><li><strong>Biomedical Integrity:</strong> Preserves nuanced pharmacological and pathological distinctions necessary for clinical NLP.</li><li><strong>Processing Overhead:</strong> Requires lexical lookup and contextual parsing; standard for high-stakes healthcare and legal text analytics.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-14" data-eyebrow="MODULE 5 · VECTOR SPACE" data-badge="TF-IDF & COLLOCATIONS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Vector Space Discriminators: TF-IDF Mathematics & Collocations</h2>
+          <p class="slide-subhead">Isolating diagnostic keywords, suppressing corpus-wide background noise, and capturing clinical phrases</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">DISCRIMINATIVE POWER</span>
+            <div class="big-stat" style="font-size: 2.2rem; margin: 0.8rem 0;">TF &times; IDF</div>
+            <h3 class="stat-label">Salience Isolation</h3>
+            <p class="stat-desc">
+              Multiplies local frequency by global uniqueness. Eliminates need for manual feature weighting across high-dimensional text corpora.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">TERM FREQUENCY: TF(t, d)</span>
+                    <h4 class="stack-keyword">Local Document Salience</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Local Focus:</strong> Measures term density within a single document: f(t, d) / &sum; f(t', d). A note mentioning "insulin" 10 times receives high TF.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">INVERSE DOCUMENT FREQUENCY: IDF(t, D)</span>
+                    <h4 class="stack-keyword">Global Corpus Discrimination</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Global Penalizer:</strong> ln(N / df(t)) + 1. Ubiquitous words across all hospital records ("patient", "admitted") receive IDF &rarr; 0, neutralizing their influence.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">N-GRAM COLLOCATIONS & NEGEX</span>
+                    <h4 class="stack-keyword">Preserving Syntax & Negation Context</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Contextual Idioms:</strong> Combining unigrams and bigrams captures "acute renal failure" and "not diabetic". NegEx regex flags ruled-out conditions before vectorization.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-15" data-eyebrow="MODULE 5 · TOPIC MODELING" data-badge="LDA & COHERENCE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Bayesian Topic Modeling: Latent Dirichlet Allocation & Coherence</h2>
+          <p class="slide-subhead">Unsupervised topic discovery, Dirichlet prior sparsity (&alpha;, &beta;), and optimizing semantic coherence ($C_v$)</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">BAYESIAN DIRICHLET PRIORS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">&alpha; (Doc-Topic) & &beta; (Topic-Word)</h3>
+                  <p class="front-sub-tag">Hyperparameter Sparsity Control</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DIRICHLET PRIORS</span>
+                  <h4 class="back-headline">Alpha & Beta Hyperparameters</h4>
+                </div>
+                <div class="back-content">
+                  <p>Controlling document and topic distributions.</p>
+                  <ul><li><strong>Alpha (&alpha; Prior):</strong> Controls document-topic sparsity &theta;_d. Low &alpha; (&lt; 0.1) forces documents to consist of only 1 or 2 dominant topics. High &alpha; produces uniform multi-topic mixtures.</li><li><strong>Beta (&beta; / &eta; Prior):</strong> Controls topic-word sparsity &phi;_k. Low &beta; forces topics to be characterized by a concise, sharp set of specialized keywords. High &beta; blurs vocabulary across topics.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MODEL EVALUATION: C_v VS. PERPLEXITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Why Coherence Beats Perplexity</h3>
+                  <p class="front-sub-tag">Human Interpretability vs. Likelihood</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EVALUATION METRICS</span>
+                  <h4 class="back-headline">Coherence Score (C_v)</h4>
+                </div>
+                <div class="back-content">
+                  <p>Resolving the statistical paradox in topic modeling.</p>
+                  <ul><li><strong>Perplexity Paradox:</strong> Statistically lower perplexity on held-out text often yields incoherent, uninterpretable "word salad" to human experts.</li><li><strong>Semantic Coherence (C_v):</strong> Measures sliding-window NPMI and cosine similarity among top-N topic words (0 to 1). Scores &gt; 0.55 indicate tight semantic themes.</li><li><strong>Optimal K Selection:</strong> Iterate K from 2 to 20 topics; choose the peak or elbow of the C_v curve to maximize clinical interpretability.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-16" data-eyebrow="CAPSTONE APPLICATION" data-badge="DIABETES CASE STUDY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Clinical Case Study: Diabetes 130-US Hospitals Readmission</h2>
+          <p class="slide-subhead">End-to-end empirical data mining architecture: Cohort hygiene, comorbidity indexing, and readmission risk</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">DATASET BENCHMARK</span>
+            <div class="big-stat" style="font-size: 2.1rem; margin: 0.8rem 0;">101,766</div>
+            <h3 class="stat-label">Patient Encounters</h3>
+            <p class="stat-desc">
+              10 years of clinical care across 130 US hospitals. 50+ clinical features, lab tests, medication regimens, and ICD-9 diagnosis clusters.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">COHORT BENCHMARK & TARGET</span>
+                    <h4 class="stack-keyword">101,766 Encounters & &lt;30 Readmit</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Clinical Problem:</strong> Predicting 30-day all-cause hospital readmission among diabetic patients across 130 US hospitals (1999–2008). Severe class imbalance (~11% readmitted &lt;30 days).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">KEY RISK PREDICTORS</span>
+                    <h4 class="stack-keyword">Inpatient Visits, Insulin & Comorbidities</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Empirical Drivers:</strong> Number of prior inpatient visits (strongest predictor), insulin titration/dosage adjustments, number of emergency visits, and comorbidity count (ICD-9 codes).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">PRODUCTION DATA HYGIENE</span>
+                    <h4 class="stack-keyword">Dropping Weight & Medical Specialty</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Sanitization Lessons:</strong> Weight was 97% missing &rarr; dropped column. Medical specialty had 49% missing &rarr; imputed as "Unknown/Missing" to retain critical surgical signal without bias.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-17" data-eyebrow="DS312 · GRAND CURRICULUM" data-badge="EXECUTIVE SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Grand Curriculum Executive Summary & Invariant Rules</h2>
+          <p class="slide-subhead">The definitive operational commandments and algorithmic invariants for Data Mining & Applications mastery</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">CURRICULUM MASTERY</span>
+            <div class="big-stat" style="font-size: 2.6rem;">100%</div>
+            <h3 class="stat-label">DS312 Master Certification</h3>
+            <p class="stat-desc">
+              Complete theoretical, mathematical, and empirical mastery across Foundations, Structured Preprocessing, Statistical Testing, and Clinical NLP.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1. FOUNDATIONS INVARIANT</span>
+                    <h4 class="stack-keyword">KDD & Analytical Maturity</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Value & Rigor:</strong> Progress through Descriptive &rarr; Diagnostic &rarr; Predictive &rarr; Prescriptive. Validate Lift &gt; 1 in association rules. Beware the Curse of Dimensionality.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2. PREPROCESSING INVARIANT</span>
+                    <h4 class="stack-keyword">Hygiene, Scaling & LINE+M</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Data Hygiene:</strong> Respect NOIR scales. Cap outliers via Winsorization. Distinguish MCAR/MAR/MNAR. Drop dummy baseline (k-1). Verify LINE+M assumptions before parametric tests.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3. NLP & MODELING INVARIANT</span>
+                    <h4 class="stack-keyword">Zero Leakage & Semantic Coherence</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Engineering Protocol:</strong> Fit TF-IDF strictly on training folds. Preserve clinical negations. Prefer Lemmatization with POS over crude Stemming. Select LDA topics via C_v coherence.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
+      <span>▴ SHOW CONTROLS</span>
+      <span class="key-indicator">C</span>
+    </button>
+
+    <!-- Collapsible Slide Footer Controls -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="counter" id="slideCounter">
+        <span>01</span> / 18
+      </div>
+
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
+          <span>← PREV</span>
+          <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
+          <span>FLIP ALL</span>
+          <span class="key-indicator">TAB</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
+          <span>NEXT →</span>
+          <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
+          <span id="fsIcon">⛶</span>
+          <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      let currentSlide = 0;
+      const totalSlides = 18;
+      const slides = document.querySelectorAll('.slide-view');
+      const progressFill = document.getElementById('progressFill');
+      const slideCounter = document.getElementById('slideCounter');
+      const headerEyebrow = document.getElementById('headerEyebrow');
+      const slideTopicBadge = document.getElementById('slideTopicBadge');
+
+      const deckContainer = document.getElementById('deckContainer');
+      const slideHeader = document.getElementById('slideHeader');
+      const deckFooter = document.getElementById('deckFooter');
+      const topToggleBtn = document.getElementById('topToggleBtn');
+      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const flipAllBtn = document.getElementById('flipAllBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let headerPinned = false;
+      let footerPinned = false;
+
+      function initCardFlipListeners() {
+        document.querySelectorAll('.flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+        document.querySelectorAll('.stack-flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+      }
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        const currentActive = slides[currentSlide];
+        if (currentActive) {
+          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+          currentActive.classList.remove('active');
+        }
+
+        currentSlide = index;
+        const newActive = slides[currentSlide];
+        newActive.classList.add('active');
+
+        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
+        progressFill.style.width = progressPct + '%';
+
+        const padIndex = String(currentSlide + 1).padStart(2, '0');
+        slideCounter.innerHTML = `<span>${padIndex}</span> / 18`;
+
+        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'DS312 · MASTER CURRICULUM SYNTHESIS';
+        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'GRAND CURRICULUM';
+      }
+
+      function toggleFlipAll() {
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+        if (!cards.length) return;
+
+        let allFlipped = true;
+        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
+        cards.forEach(c => {
+          if (allFlipped) c.classList.remove('flipped');
+          else c.classList.add('flipped');
+        });
+      }
+
+      function toggleHeader(forceState) {
+        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
+        if (headerPinned) {
+          slideHeader.classList.add('expanded');
+          topToggleBtn.classList.add('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
+        } else {
+          slideHeader.classList.remove('expanded');
+          topToggleBtn.classList.remove('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
+        }
+      }
+
+      function toggleFooter(forceState) {
+        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
+        if (footerPinned) {
+          deckFooter.classList.add('expanded');
+          bottomToggleBtn.classList.add('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
+        } else {
+          deckFooter.classList.remove('expanded');
+          bottomToggleBtn.classList.remove('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
+        }
+      }
+
+      function initHoverTriggers() {
+        document.addEventListener('mousemove', function(e) {
+          const windowHeight = window.innerHeight;
+          const mouseY = e.clientY;
+          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
+          else deckContainer.classList.remove('hovering-top');
+
+          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
+          else deckContainer.classList.remove('hovering-bottom');
+        });
+      }
+
+      function initThemeToggle() {
+        const root = document.documentElement;
+        themeToggleBtn.addEventListener('click', function() {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
+          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
+        });
+      }
+
+      function initFullscreen() {
+        fullscreenBtn.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => console.warn(err));
+          } else {
+            document.exitFullscreen();
+          }
+        });
+      }
+
+      function initKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+          switch(e.key) {
+            case 'ArrowRight': case 'PageDown': case ' ':
+              e.preventDefault(); updateSlide(currentSlide + 1); break;
+            case 'ArrowLeft': case 'PageUp':
+              e.preventDefault(); updateSlide(currentSlide - 1); break;
+            case 'Tab': case 'x': case 'X':
+              e.preventDefault(); toggleFlipAll(); break;
+            case 't': case 'T':
+              e.preventDefault(); themeToggleBtn.click(); break;
+            case 'f': case 'F':
+              e.preventDefault(); fullscreenBtn.click(); break;
+            case 'h': case 'H':
+              e.preventDefault(); toggleHeader(); break;
+            case 'c': case 'C':
+              e.preventDefault(); toggleFooter(); break;
+            case 'Home':
+              e.preventDefault(); updateSlide(0); break;
+            case 'End':
+              e.preventDefault(); updateSlide(totalSlides - 1); break;
+            case 'Escape':
+              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
+          }
+        });
+      }
+
+      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+      flipAllBtn.addEventListener('click', () => toggleFlipAll());
+      topToggleBtn.addEventListener('click', () => toggleHeader());
+      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+
+      initCardFlipListeners();
+      initHoverTriggers();
+      initThemeToggle();
+      initFullscreen();
+      initKeyboardShortcuts();
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

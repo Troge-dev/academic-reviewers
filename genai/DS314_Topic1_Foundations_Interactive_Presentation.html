@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS314: Topic 1 — Foundations & Architectural Taxonomy | Interactive Keynote Deck</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-front: #FFFFFF;
+      --surface-back: #F5EFE6;
+      --surface-elevated: #EDE6DC;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      /* Vibrant Academic Accent Hues */
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Elevations */
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* LUMINOUS DEEP SPACE SLATE */
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-back: #181E2A;
+      --surface-elevated: #1F2636;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      /* Luminous Neon Accents */
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-topic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .slide-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    .slide-view.active {
+      display: flex;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Slide Titles */
+    .slide-title-area {
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subhead {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Slide Layout Grids */
+    .grid-container {
+      display: grid;
+      gap: 1.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-bifurcated {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-triptych {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .stack-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      outline: none;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 1.85rem 1.95rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      justify-content: space-between;
+      transform: rotateY(0deg);
+      z-index: 2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover .flip-card-front {
+      border-color: var(--border-focus);
+      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .back-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .back-content {
+      font-size: 1.05rem;
+      line-height: 1.52;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .back-content p {
+      margin-bottom: 0.35rem;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* LIGHT MODE CARD BACK ACCENT COLORS */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(224, 83, 60, 0.3);
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F5C58A;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(229, 169, 103, 0.3);
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #5EEAD4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: #5EEAD4;
+    }
+
+    /* Stack Flip Cards (Right-hand column mini flip cards) */
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Fullscreen helper */
+    :fullscreen .deck-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 1440px;
+      height: 820px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- Top Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
+      <span>▾ EXPAND HEADER</span>
+      <span class="key-indicator">H</span>
+    </button>
+
+    <!-- Collapsible Slide Header -->
+    <header class="slide-header" id="slideHeader">
+      <div class="slide-eyebrow" id="headerEyebrow">
+        DS314 · TOPIC 1 TO 3 MASTER KEYNOTE
+      </div>
+      <div class="header-actions">
+        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
+        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">THEME</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Stage Viewport -->
+    <main class="slide-stage" id="slideStage">
+
+      <section class="slide-view active" id="slide-0" data-eyebrow="DS314 · WEEK 1 LECTURE" data-badge="TOPIC 1 FOUNDATIONS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Course Orientation & Scope of Generative AI</h2>
+          <p class="slide-subhead">Topic 1: Deconstructing the Generative Paradigm, Industry Taxonomy, and NLP History</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">COURSE SCOPE NOTE</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                This course does NOT teach prompt tricks or consumer chat usage. It trains data scientists to engineer purpose-built LLM software wrappers around foundation models.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS314 · DS ELECTIVE 1: GENERATIVE AI</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1.1 DEFINING AI</span>
+                    <h4 class="stack-keyword">Probabilistic Inference vs. Rules</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Automation vs AI:</strong> Automation executes deterministic if/else routines. AI uses learned high-dimensional representations to generalize across novel, unseen inputs.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1.2 TAXONOMY</span>
+                    <h4 class="stack-keyword">The 4 Industry Operational Layers</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Enterprise Ecosystem:</strong> From Layer 1 silicon accelerators (NVIDIA/Google) to Layer 4 customer-facing enterprise applications.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1.3 ATTENTION REVOLUTION</span>
+                    <h4 class="stack-keyword">Transformers & Scaled Dot-Product</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Vaswani 2017:</strong> Eliminated sequential recurrent bottlenecks, enabling internet-scale pre-training across GPU clusters.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-1" data-eyebrow="TOPIC 1 · PARADIGM COMPARISON" data-badge="AI VS AUTOMATION">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Automation vs. Artificial Intelligence (AI)</h2>
+          <p class="slide-subhead">Understanding the fundamental transition from deterministic logic trees to probabilistic inference</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DETERMINISTIC LOGIC</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Automation & RPA</h3>
+                  <p class="front-sub-tag">Fixed, rigid algorithmic procedures</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DETERMINISTIC SYSTEMS</span>
+                  <h4 class="back-headline">Explicit Handcoded Subroutines</h4>
+                </div>
+                <div class="back-content">
+                  <p>Traditional computation relies on strict logic where every branch must be pre-programmed.</p>
+                  <ul><li><strong>Mechanism:</strong> If X occurs, execute Y. Fails immediately if unhandled edge cases appear.</li><li><strong>Generalization:</strong> Zero adaptation; cannot process ambiguous natural language or noisy data.</li><li><strong>Cost Structure:</strong> High human authoring cost for every additional exception.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ADAPTIVE STATISTICAL INFERENCE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Artificial Intelligence</h3>
+                  <p class="front-sub-tag">Continuous parameter optimization</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PROBABILISTIC INFERENCE</span>
+                  <h4 class="back-headline">Learned Approximation Functions</h4>
+                </div>
+                <div class="back-content">
+                  <p>AI models learn continuous weight distributions f_θ(X) ≈ Y rather than hardcoded logic.</p>
+                  <ul><li><strong>Mechanism:</strong> Optimizes loss functions over empirical data distributions.</li><li><strong>Generalization:</strong> Evaluates novel, unseen prompts by mapping inputs to semantic vector manifolds.</li><li><strong>Resilience:</strong> Gracefully handles spelling errors, semantic nuance, and informal phrasing.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-2" data-eyebrow="TOPIC 1 · MATHEMATICAL DISTINCTION" data-badge="DISCRIMINATIVE VS GENERATIVE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Discriminative AI vs. Generative AI</h2>
+          <p class="slide-subhead">The mathematical divide between boundary classification P(Y|X) and distribution synthesis P(X)</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CONDITIONAL PROBABILITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Discriminative AI: P(Y|X)</h3>
+                  <p class="front-sub-tag">Class boundary separation and labeling</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CLASSIFICATION PARADIGM</span>
+                  <h4 class="back-headline">Mapping Inputs to Discrete Targets</h4>
+                </div>
+                <div class="back-content">
+                  <p>Models the conditional probability of label Y given high-dimensional input X.</p>
+                  <ul><li><strong>Task:</strong> Classification, regression, object detection, sentiment analysis.</li><li><strong>Output:</strong> Low-dimensional scalar or discrete class label (e.g. Spam / Not Spam).</li><li><strong>Classic Models:</strong> Logistic Regression, Support Vector Machines (SVM), ResNet, XGBoost.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">JOINT PROBABILITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Generative AI: P(X, Y) or P(X)</h3>
+                  <p class="front-sub-tag">Data distribution modeling and synthesis</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">GENERATIVE PARADIGM</span>
+                  <h4 class="back-headline">Sampling Novel High-Dimensional Instances</h4>
+                </div>
+                <div class="back-content">
+                  <p>Models the underlying structure of the data distribution to generate synthetic instances.</p>
+                  <ul><li><strong>Task:</strong> Text generation, image synthesis, code writing, audio generation.</li><li><strong>Output:</strong> High-dimensional novel artifacts conditioned on a prompt.</li><li><strong>Classic Models:</strong> GPT, Gemini, Diffusion models (Stable Diffusion, Midjourney), GANs.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-3" data-eyebrow="TOPIC 1 · MODALITY SCOPE" data-badge="BEYOND TEXT">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Generative AI Is Not Just Large Language Models</h2>
+          <p class="slide-subhead">Surveying the full spectrum from latent image diffusion to computational molecular biology</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MULTIMODAL SYNTHESIS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Visual & Auditory Modalities</h3>
+                  <p class="front-sub-tag">Diffusion models and autoregressive sound</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">NON-TEXTUAL GENAI</span>
+                  <h4 class="back-headline">Diffusion & Audio Generation</h4>
+                </div>
+                <div class="back-content">
+                  <p>Generative AI spans multiple distinct data representations beyond text.</p>
+                  <ul><li><strong>Image Generation:</strong> Latent Diffusion Models (Stable Diffusion, FLUX) iteratively de-noising Gaussian noise.</li><li><strong>Audio & Speech:</strong> Voice cloning and text-to-music models (ElevenLabs, Suno) synthesizing waveform audio.</li><li><strong>Video Generation:</strong> Spatio-temporal transformer architectures (Sora, Runway Gen-3) simulating physical worlds.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">STRUCTURAL SYNTHESIS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Code, Math & Molecular Biology</h3>
+                  <p class="front-sub-tag">Autoregressive and graph generative models</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">STRUCTURED MODALITIES</span>
+                  <h4 class="back-headline">Proteins, Math & Logic</h4>
+                </div>
+                <div class="back-content">
+                  <p>Synthesizing formal logical systems and biological chemistry.</p>
+                  <ul><li><strong>Code Generation:</strong> Specialized code models (GitHub Copilot, Claude) generating verifiable syntax.</li><li><strong>Molecular Biology:</strong> AlphaFold and ESMFold generating 3D protein folding structures from amino acid strings.</li><li><strong>Enterprise Scope:</strong> DS314 focuses heavily on text-based LLMs because text is the universal interface of business logic.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-4" data-eyebrow="TOPIC 1 · OPERATIONAL TAXONOMY" data-badge="LAYERS 1 & 2">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 4 Industry Layers: Silicon & Foundation Models</h2>
+          <p class="slide-subhead">Analyzing the capital-intensive infrastructure and pre-trained cognitive engines</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Silicon & Hardware Compute</h3>
+                  <p class="front-sub-tag">Physical accelerators powering matrix tensor math</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LAYER 1: SILICON</span>
+                  <h4 class="back-headline">NVIDIA H100s, B200s & Google TPUs</h4>
+                </div>
+                <div class="back-content">
+                  <p>The capital-intensive physical infrastructure hosting neural computation.</p>
+                  <ul><li><strong>Hardware:</strong> Specialized tensor cores executing parallel fused multiply-accumulate (FMA) math.</li><li><strong>Data Centers:</strong> Thousands of liquid-cooled GPU/TPU nodes interconnected via InfiniBand / RoCE networking.</li><li><strong>Capex Reality:</strong> Multi-billion dollar barrier to entry dominated by hyper-scalers (Google, Microsoft, AWS).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Foundation Model Providers</h3>
+                  <p class="front-sub-tag">Massive pre-trained multi-billion parameter models</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LAYER 2: MODELS</span>
+                  <h4 class="back-headline">Google Gemini, OpenAI GPT & Anthropic Claude</h4>
+                </div>
+                <div class="back-content">
+                  <p>General-purpose reasoning engines pre-trained on internet-scale text.</p>
+                  <ul><li><strong>Pre-Training:</strong> Unsupervised self-attention training consuming hundreds of millions of dollars in compute.</li><li><strong>Model Weights:</strong> Frozen parameter representations encoding broad world knowledge.</li><li><strong>Access Paradigm:</strong> Consumed via developer cloud APIs (Google AI Studio, Vertex AI) with per-token pricing.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-5" data-eyebrow="TOPIC 1 · OPERATIONAL TAXONOMY" data-badge="LAYERS 3 & 4">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The 4 Industry Layers: Orchestration & Applications</h2>
+          <p class="slide-subhead">The developer playground: connecting foundation models to private data, state, and enterprise tools</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 3</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Orchestration & Tooling Layer</h3>
+                  <p class="front-sub-tag">Frameworks linking models to memory, files & tools</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LAYER 3: ORCHESTRATION</span>
+                  <h4 class="back-headline">LangChain, LangGraph & Vector Stores</h4>
+                </div>
+                <div class="back-content">
+                  <p>The middleware layer where data scientists author enterprise applications.</p>
+                  <ul><li><strong>Frameworks:</strong> LangChain (LCEL), LangGraph, LlamaIndex, ChromaDB, FAISS.</li><li><strong>Core Duties:</strong> Chunking text, managing semantic embeddings, routing prompts, handling memory state.</li><li><strong>Engineering Value:</strong> Eliminates model vendor lock-in and bridges models with private databases.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">LAYER 4</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Purpose-Built Applications</h3>
+                  <p class="front-sub-tag">Domain-specific enterprise software solutions</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LAYER 4: APPLICATIONS</span>
+                  <h4 class="back-headline">Customer Support Bots, IDEs & Medical Copilots</h4>
+                </div>
+                <div class="back-content">
+                  <p>End-user products that solve concrete operational challenges.</p>
+                  <ul><li><strong>Domain Grounding:</strong> Enforces compliance with organizational guidelines via RAG pipelines.</li><li><strong>Tool Actuation:</strong> Triggers external API calls (ERP lookups, payment processing, calendar scheduling).</li><li><strong>Privacy:</strong> Zero-retention enterprise terms ensuring user data is never used for training.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-6" data-eyebrow="TOPIC 1 · HISTORICAL EVOLUTION" data-badge="NLP HISTORY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">A Concise History of NLP & The Recurrent Bottleneck</h2>
+          <p class="slide-subhead">The technological journey from brittle expert grammars to sequential RNNs and LSTM limitations</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">THE SEQUENTIAL DILEMMA</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                RNNs could not be trained in parallel because token t+1 strictly depended on the hidden state of token t. Long sentences caused gradients to vanish entirely.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">THE PRE-TRANSFORMER BOTTLENECK (2010–2016)</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">RULE-BASED (1950s-1980s)</span>
+                    <h4 class="stack-keyword">ELIZA & Hardcoded Trees</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Handcrafted Grammars:</strong> Fragile rule trees capable of simple keyword substitution. Completely broke down when encountering slang, ambiguity, or typos.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STATISTICAL NLP (1990s-2000s)</span>
+                    <h4 class="stack-keyword">N-Grams & Markov Chains</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Frequency Counts:</strong> Counted word co-occurrences. Severely limited by combinatorial explosion and zero semantic abstraction.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">RNNs & LSTMs (2010-2016)</span>
+                    <h4 class="stack-keyword">Sequential Deep Learning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Vanishing Gradients:</strong> Backpropagating through time across hundreds of tokens caused gradients to vanish, forgetting text from earlier sentences.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-7" data-eyebrow="TOPIC 1 · THEORETICAL BREAKTHROUGH" data-badge="TRANSFORMERS 2017">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Transformer Revolution: Attention Is All You Need</h2>
+          <p class="slide-subhead">How Vaswani et al. (2017) discarded recurrence to enable global self-attention across tokens</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CORE MECHANISM</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Scaled Dot-Product Self-Attention</h3>
+                  <p class="front-sub-tag">Attention(Q, K, V) = Softmax(QKᵀ / √dₖ) V</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ATTENTION EQUATION</span>
+                  <h4 class="back-headline">The Mathematics of Self-Attention</h4>
+                </div>
+                <div class="back-content">
+                  <p>How queries, keys, and values compute universal semantic affinities.</p>
+                  <ul><li><strong>Query (Q), Key (K), Value (V):</strong> Linear projections of token embeddings.</li><li><strong>Dot Product (QKᵀ):</strong> Calculates similarity scores between every token pair simultaneously.</li><li><strong>Scaling (√dₖ):</strong> Prevents dot products from growing excessively large, stabilizing Softmax gradients.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">ARCHITECTURAL IMPACT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Total Parallelization & Context Retention</h3>
+                  <p class="front-sub-tag">Why Transformers revolutionized machine learning</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">GPU EFFICIENCY</span>
+                  <h4 class="back-headline">Unlocking Internet-Scale Pre-Training</h4>
+                </div>
+                <div class="back-content">
+                  <p>Overcoming the dual bottlenecks of sequential computation.</p>
+                  <ul><li><strong>Full Parallelization:</strong> Entire sentences are processed concurrently; GPUs train at maximum throughput.</li><li><strong>Global Receptive Field:</strong> Token 1 attends directly to Token 500 without passing through intermediary steps.</li><li><strong>Multi-Head Attention:</strong> Enables models to attend to syntactic, semantic, and positional relationships simultaneously.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-8" data-eyebrow="TOPIC 1 · DEFINITIONAL DECONSTRUCTION" data-badge="WHAT IS AN LLM?">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">What Is an LLM, and Why Is It Called That?</h2>
+          <p class="slide-subhead">Examining the parameter scale, tokenization mechanics, and autoregressive learning objectives</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SCALE & PARAMETERS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The "Large" in LLM</h3>
+                  <p class="front-sub-tag">Billions of learned weights and internet-scale tokens</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">MODEL SCALE</span>
+                  <h4 class="back-headline">Why Are They Called "Large"?</h4>
+                </div>
+                <div class="back-content">
+                  <p>Deconstructing the quantitative scale that unlocks emergent reasoning.</p>
+                  <ul><li><strong>Parameter Scale:</strong> 7B to 1.8T learned weights optimized across months of cluster compute.</li><li><strong>Training Data:</strong> Trillions of tokens mined from books, websites, scientific papers, and code repositories.</li><li><strong>Emergent Abilities:</strong> Capabilities (in-context learning, code debugging) that emerge spontaneously at large scales.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TOKENIZATION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Tokens vs. Words</h3>
+                  <p class="front-sub-tag">The basic atomic currency of language models</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">TOKENIZATION</span>
+                  <h4 class="back-headline">How Text Becomes Numbers</h4>
+                </div>
+                <div class="back-content">
+                  <p>Models do not read letters or whole words; they process subword tokens.</p>
+                  <ul><li><strong>Subword Tokenization:</strong> Uses algorithms like Byte-Pair Encoding (BPE) or WordPiece.</li><li><strong>Token Ratios:</strong> 1,000 tokens ≈ 750 English words (~4 characters per token).</li><li><strong>Token Splitting:</strong> Uncommon words are split into pieces: "unbelievable" ➔ ["un", "believ", "able"].</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">GENERALIST CAPABILITY</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The "Language Model" Facet</h3>
+                  <p class="front-sub-tag">Autoregressive probabilistic next-token synthesis</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">LANGUAGE MODEL</span>
+                  <h4 class="back-headline">Autoregressive Next-Token Predictors</h4>
+                </div>
+                <div class="back-content">
+                  <p>Trained on next-token prediction: P(w_t | w_1, ..., w_{t-1}).</p>
+                  <ul><li><strong>Universal Task Translation:</strong> Classification, summarization, and translation all framed as next-token synthesis.</li><li><strong>Self-Supervised Pre-Training:</strong> Requires no expensive manual human labels; internet text is its own label.</li><li><strong>Zero-Shot Transfer:</strong> Solves tasks never seen explicitly during training via prompt instruction following.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-9" data-eyebrow="TOPIC 1 · PROBABILISTIC DYNAMICS" data-badge="LOGITS & TEMPERATURE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Probabilistic Text Generation & Temperature Scaling</h2>
+          <p class="slide-subhead">From raw output logits to Softmax probabilities: controlling determinism and entropy</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">SOFTMAX SCALING</span>
+            <div class="big-stat">P(wᵢ)</div>
+            <h3 class="stat-label">exp(zᵢ / T) / ∑ exp(zⱼ / T)</h3>
+            <p class="stat-desc">
+              Temperature (T) acts as a divisor scaling logit scores before Softmax. T < 0.2 concentrates probability on the greedy top token; T > 0.8 spreads probability across diverse tokens.
+            </p>
+          </div>
+          <div class="stack-right-column">
+            
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">LOGITS (RAW TENSOR SCORES)</span>
+                    <h4 class="stack-keyword">Unnormalized Linear Layer Outputs</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Logits:</strong> The final linear layer outputs raw scalar scores for every token in the vocabulary (~32k to 128k tokens). Softmax normalizes these into probabilities summing to 1.0.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">LOW TEMPERATURE (T = 0.0 - 0.2)</span>
+                    <h4 class="stack-keyword">Greedy, Factual, Deterministic</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Factual Systems:</strong> Essential for RAG, math, and code generation. Eliminates creative deviation and forces the model to pick only the most probable factual tokens.</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">HIGH TEMPERATURE (T = 0.7 - 1.0)</span>
+                    <h4 class="stack-keyword">Creative, Diverse, Stochastic</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Creative Writing:</strong> Flattens the probability curve, allowing lower-ranked tokens to be sampled. Promotes creative brainstorming but drastically increases hallucination rates.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-10" data-eyebrow="TOPIC 1 · ENTERPRISE DEPLOYMENT" data-badge="CHATGPT VS APPS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">ChatGPT vs. Purpose-Built Custom LLM Applications</h2>
+          <p class="slide-subhead">Comparing knowledge boundaries, data privacy guarantees, and external tool integration</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CONSUMER WEB CHAT</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Off-The-Shelf ChatGPT</h3>
+                  <p class="front-sub-tag">Public consumer interface with enterprise liabilities</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CONSUMER INTERFACES</span>
+                  <h4 class="back-headline">General Knowledge with Privacy Risks</h4>
+                </div>
+                <div class="back-content">
+                  <p>Convenient for general queries but dangerous for regulated business workflows.</p>
+                  <ul><li><strong>Static Knowledge Cutoff:</strong> Unaware of internal company decisions or live database updates.</li><li><strong>Zero Proprietary Data:</strong> Cannot securely read internal corporate PDFs without exposing data.</li><li><strong>Data Privacy Breaches:</strong> Prompts on free consumer tiers may be ingested into training datasets.</li><li><strong>No Tool Actuation:</strong> Cannot trigger SQL transactions or private enterprise backend APIs.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CUSTOM ENTERPRISE SYSTEM</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Purpose-Built LLM Applications</h3>
+                  <p class="front-sub-tag">Modular software wrappers built via cloud APIs</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">ENTERPRISE APPS</span>
+                  <h4 class="back-headline">Grounded, Private & Actuated</h4>
+                </div>
+                <div class="back-content">
+                  <p>Developer-engineered solutions meeting enterprise security and workflow demands.</p>
+                  <ul><li><strong>Grounded via RAG:</strong> Dynamically injects private corporate PDFs and guidelines at runtime.</li><li><strong>Strict Zero-Retention:</strong> Built on cloud APIs (Gemini SDK) guaranteeing customer data is never retained.</li><li><strong>Tool Calling:</strong> Uses function calling to query relational databases and trigger business transactions.</li><li><strong>Custom UI:</strong> Embedded inside internal dashboards, IDE sidecars, or mobile apps.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-11" data-eyebrow="TOPIC 1 · PARADIGM REVOLUTION" data-badge="SOFTWARE 3.0">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Universalization of AI: Software 1.0 ➔ 2.0 ➔ 3.0</h2>
+          <p class="slide-subhead">How software engineering shifted from procedural syntax to learned neural weights and natural language orchestration</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SOFTWARE 1.0</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Procedural Code</h3>
+                  <p class="front-sub-tag">Explicit human-authored instructions</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">PROCEDURAL CODE</span>
+                  <h4 class="back-headline">C++, Java, Python Routines</h4>
+                </div>
+                <div class="back-content">
+                  <p>Developers manually author every conditional logic path and edge case.</p>
+                  <ul><li><strong>Paradigm:</strong> Explicit rules + data ➔ answers.</li><li><strong>Authoring:</strong> Engineers write code line-by-line; compiler executes instructions deterministically.</li><li><strong>Limitation:</strong> Intractable for messy unstructured tasks like image recognition or sentiment.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SOFTWARE 2.0</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Optimized Neural Weights</h3>
+                  <p class="front-sub-tag">Data + answers ➔ learned rules</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">NEURAL CODE</span>
+                  <h4 class="back-headline">PyTorch & TensorFlow Models</h4>
+                </div>
+                <div class="back-content">
+                  <p>Programs authored through empirical gradient descent optimization.</p>
+                  <ul><li><strong>Paradigm:</strong> Data + answers ➔ weights θ.</li><li><strong>Authoring:</strong> Engineers curate labeled datasets and design architectures (CNNs, Transformers).</li><li><strong>Limitation:</strong> Requires expensive data labeling and training from scratch for each separate task.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">SOFTWARE 3.0</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Natural Language Prompts</h3>
+                  <p class="front-sub-tag">Orchestrating pre-trained foundation models</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">NATURAL LANGUAGE CODE</span>
+                  <h4 class="back-headline">Prompt Engineering & Tools</h4>
+                </div>
+                <div class="back-content">
+                  <p>English as the highest-level programming language.</p>
+                  <ul><li><strong>Paradigm:</strong> Foundation model + prompt context + tools ➔ solution.</li><li><strong>Authoring:</strong> Engineers compose prompts, LCEL chains, and agent tools via APIs.</li><li><strong>Universal Interface:</strong> Anyone can direct sophisticated cognitive computation using natural language.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-12" data-eyebrow="TOPIC 1 · EXECUTIVE CHECKPOINT" data-badge="TOPIC 1 MASTER SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Topic 1 Executive Summary & High-Yield Exam Q&As</h2>
+          <p class="slide-subhead">Master flashcard synthesis of foundational taxonomy, attention mechanisms, and defense answers</p>
+        </div>
+        <div class="grid-container grid-triptych">
+          
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EXAM TRAP 1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">AI vs. Automation & Discriminative Math</h3>
+                  <p class="front-sub-tag">Key theoretical distinction tested on midterms</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">HIGH-YIELD QUIZ</span>
+                  <h4 class="back-headline">Automation vs AI & Math Objectives</h4>
+                </div>
+                <div class="back-content">
+                  <p>Common faculty examination questions on Topic 1.</p>
+                  <ul><li><strong>Q: AI vs Automation?</strong> Automation follows rigid hardcoded rules; AI uses probabilistic inference over learned representations.</li><li><strong>Q: Discriminative vs Generative?</strong> Discriminative models P(Y|X) for classification; Generative models joint P(X,Y) or P(X) for synthesis.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-ochre" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EXAM TRAP 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Transformers & The 4 Layers</h3>
+                  <p class="front-sub-tag">Understanding why Transformers won and where we build</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">HIGH-YIELD QUIZ</span>
+                  <h4 class="back-headline">Attention & Operational Layers</h4>
+                </div>
+                <div class="back-content">
+                  <p>Key operational questions for systems engineers.</p>
+                  <ul><li><strong>Q: Why Transformers over RNNs?</strong> Scaled dot-product self-attention eliminated recurrent steps, enabling 100% GPU parallelization.</li><li><strong>Q: Primary engineer layer?</strong> Layer 3 (Orchestration with LangChain) and Layer 4 (Enterprise Applications).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">EXAM TRAP 3</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">ChatGPT vs. Custom Apps & Software 3.0</h3>
+                  <p class="front-sub-tag">Defending enterprise architectural choices</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">HIGH-YIELD QUIZ</span>
+                  <h4 class="back-headline">Enterprise Deployment & Software 3.0</h4>
+                </div>
+                <div class="back-content">
+                  <p>Core justifications required for oral defense.</p>
+                  <ul><li><strong>Q: Why not use ChatGPT in business?</strong> Static cutoffs, zero private data access, lack of tool integration, and data privacy leaks.</li><li><strong>Q: What is Software 3.0?</strong> Programming foundation models via natural language prompts, RAG context, and tools.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
+      <span>▴ SHOW CONTROLS</span>
+      <span class="key-indicator">C</span>
+    </button>
+
+    <!-- Collapsible Slide Footer Controls -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="counter" id="slideCounter">
+        <span>01</span> / 13
+      </div>
+
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
+          <span>← PREV</span>
+          <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
+          <span>FLIP ALL</span>
+          <span class="key-indicator">TAB</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
+          <span>NEXT →</span>
+          <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
+          <span id="fsIcon">⛶</span>
+          <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      let currentSlide = 0;
+      const totalSlides = 13;
+      const slides = document.querySelectorAll('.slide-view');
+      const progressFill = document.getElementById('progressFill');
+      const slideCounter = document.getElementById('slideCounter');
+      const headerEyebrow = document.getElementById('headerEyebrow');
+      const slideTopicBadge = document.getElementById('slideTopicBadge');
+
+      const deckContainer = document.getElementById('deckContainer');
+      const slideHeader = document.getElementById('slideHeader');
+      const deckFooter = document.getElementById('deckFooter');
+      const topToggleBtn = document.getElementById('topToggleBtn');
+      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const flipAllBtn = document.getElementById('flipAllBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let headerPinned = false;
+      let footerPinned = false;
+
+      function initCardFlipListeners() {
+        document.querySelectorAll('.flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+        document.querySelectorAll('.stack-flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+      }
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        const currentActive = slides[currentSlide];
+        if (currentActive) {
+          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+          currentActive.classList.remove('active');
+        }
+
+        currentSlide = index;
+        const newActive = slides[currentSlide];
+        newActive.classList.add('active');
+
+        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
+        progressFill.style.width = progressPct + '%';
+
+        const padIndex = String(currentSlide + 1).padStart(2, '0');
+        slideCounter.innerHTML = `<span>${padIndex}</span> / ${totalSlides}`;
+
+        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'DS314 · WEEK 1 LECTURE';
+        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'TOPIC 1';
+      }
+
+      function toggleFlipAll() {
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+        if (!cards.length) return;
+
+        let allFlipped = true;
+        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
+        cards.forEach(c => {
+          if (allFlipped) c.classList.remove('flipped');
+          else c.classList.add('flipped');
+        });
+      }
+
+      function toggleHeader(forceState) {
+        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
+        if (headerPinned) {
+          slideHeader.classList.add('expanded');
+          topToggleBtn.classList.add('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
+        } else {
+          slideHeader.classList.remove('expanded');
+          topToggleBtn.classList.remove('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
+        }
+      }
+
+      function toggleFooter(forceState) {
+        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
+        if (footerPinned) {
+          deckFooter.classList.add('expanded');
+          bottomToggleBtn.classList.add('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
+        } else {
+          deckFooter.classList.remove('expanded');
+          bottomToggleBtn.classList.remove('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
+        }
+      }
+
+      function initHoverTriggers() {
+        document.addEventListener('mousemove', function(e) {
+          const windowHeight = window.innerHeight;
+          const mouseY = e.clientY;
+          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
+          else deckContainer.classList.remove('hovering-top');
+
+          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
+          else deckContainer.classList.remove('hovering-bottom');
+        });
+      }
+
+      function initThemeToggle() {
+        const root = document.documentElement;
+        themeToggleBtn.addEventListener('click', function() {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
+          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
+        });
+      }
+
+      function initFullscreen() {
+        fullscreenBtn.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => console.warn(err));
+          } else {
+            document.exitFullscreen();
+          }
+        });
+      }
+
+      function initKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+          switch(e.key) {
+            case 'ArrowRight': case 'PageDown': case ' ':
+              e.preventDefault(); updateSlide(currentSlide + 1); break;
+            case 'ArrowLeft': case 'PageUp':
+              e.preventDefault(); updateSlide(currentSlide - 1); break;
+            case 'Tab': case 'x': case 'X':
+              e.preventDefault(); toggleFlipAll(); break;
+            case 't': case 'T':
+              e.preventDefault(); themeToggleBtn.click(); break;
+            case 'f': case 'F':
+              e.preventDefault(); fullscreenBtn.click(); break;
+            case 'h': case 'H':
+              e.preventDefault(); toggleHeader(); break;
+            case 'c': case 'C':
+              e.preventDefault(); toggleFooter(); break;
+            case 'Home':
+              e.preventDefault(); updateSlide(0); break;
+            case 'End':
+              e.preventDefault(); updateSlide(totalSlides - 1); break;
+            case 'Escape':
+              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
+          }
+        });
+      }
+
+      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+      flipAllBtn.addEventListener('click', () => toggleFlipAll());
+      topToggleBtn.addEventListener('click', () => toggleHeader());
+      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+
+      initCardFlipListeners();
+      initHoverTriggers();
+      initThemeToggle();
+      initFullscreen();
+      initKeyboardShortcuts();
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>
