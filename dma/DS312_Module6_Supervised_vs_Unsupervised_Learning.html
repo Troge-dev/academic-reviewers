@@ -836,10 +836,12 @@
   
     /* KaTeX Math Styling & Palette Harmony */
     .katex-display {
-      margin: 0.5em 0 !important;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 0.2em 0;
+      margin: 0.35em 0 !important;
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+      padding: 0.15em 0;
+      max-width: 100%;
+      text-align: center;
     }
     .katex {
       font-size: 1.05em;
@@ -852,12 +854,20 @@
       color: var(--accent-ochre);
     }
     .card-formula-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0.5rem 0.85rem;
-      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.65rem 0.95rem;
+      color: var(--text-main);
+      margin: 0.65rem 0;
+      line-height: 1.5;
+      text-align: center;
+      box-sizing: border-box;
+      max-width: 100%;
+      word-break: break-word;
+      overflow-x: hidden !important;
     }
 
   
@@ -1307,7 +1317,7 @@
         font-size: 0.86rem !important;
         line-height: 1.45 !important;
         max-width: 100% !important;
-        overflow-x: auto !important;
+        overflow-x: hidden !important;
         box-sizing: border-box !important;
       }
 
@@ -1327,7 +1337,7 @@
       /* KaTeX Formula Scaling on Mobile */
       .katex-display {
         max-width: 100% !important;
-        overflow-x: auto !important;
+        overflow-x: hidden !important;
         overflow-y: hidden !important;
         font-size: 0.90em !important;
       }
@@ -1730,9 +1740,18 @@
               <p class="card-body-text">
                 The fundamental paradigm shift that separates classical software engineering from statistical machine learning:
               </p>
-              <div class="card-formula-box">
-                <strong>Classical Software:</strong> Data + Rules ➔ Answers<br>
-                <strong>Machine Learning:</strong> Data + Answers ➔ Rules (Hypothesis $f_\theta$)
+              <div class="scorecard-block" style="margin: 0.65rem 0;">
+                <div class="scorecard-header-row">
+                  <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">PARADIGM INVERSION</span>
+                  <span class="scorecard-pill pill-alert">CORE LOGIC</span>
+                </div>
+                <div class="scorecard-kv-grid">
+                  <span class="scorecard-label">Classical:</span>
+                  <span class="scorecard-value">Data + Handcrafted Rules ➔ Answers</span>
+
+                  <span class="scorecard-label">Machine Learning:</span>
+                  <span class="scorecard-value">Data + Answers ➔ Rules (Hypothesis $f_\theta$)</span>
+                </div>
               </div>
               <p class="card-body-text">
                 In classical systems, human domain experts hand-code if-else heuristics. When the environment scales into millions of combinations, hand-coded rules collapse. ML discovers the optimal statistical mapping $\hat{y} = f(X)$ automatically.
@@ -2137,7 +2156,7 @@
       </div>
     </section>
 
-    <!-- SLIDE 05: [Interactive Dual-Vs Split: Classification vs. Regression] -->
+    <!-- SLIDE 05: [Bifurcated Taxonomy: Classification vs. Regression] -->
     <section class="slide" data-slide="5">
       <div class="slide-header">
         <div class="slide-header-left">
@@ -2166,10 +2185,21 @@
                 </p>
               </div>
 
-              <div class="card-formula-box">
-                <strong>Output Space:</strong> Discrete Classes / Probabilities<br>
-                <strong>Boundary:</strong> Sigmoid $\sigma(w^T x) = 0.5$ or Tree Partitions<br>
-                <strong>Evaluation:</strong> Precision, Recall, F1, ROC-AUC
+              <div class="scorecard-block">
+                <div class="scorecard-header-row">
+                  <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">MATHEMATICAL ARCHITECTURE</span>
+                  <span class="scorecard-pill pill-alert">DISCRETE</span>
+                </div>
+                <div class="scorecard-kv-grid">
+                  <span class="scorecard-label">Output Space:</span>
+                  <span class="scorecard-value">Discrete Classes / Probabilities</span>
+
+                  <span class="scorecard-label">Boundary:</span>
+                  <span class="scorecard-value">Sigmoid $\sigma(w^T x) = 0.5$ or Tree Partitions</span>
+
+                  <span class="scorecard-label">Evaluation:</span>
+                  <span class="scorecard-value">Precision, Recall, F1-Score, ROC-AUC</span>
+                </div>
               </div>
 
               <ul class="card-bullet-list">
@@ -2217,10 +2247,21 @@
                 </p>
               </div>
 
-              <div class="card-formula-box">
-                <strong>Output Space:</strong> Real Numbers $\mathbb{R}$ (Unbounded or $[0, \infty)$)<br>
-                <strong>Surface:</strong> $\hat{y} = \beta_0 + \sum \beta_j x_j$<br>
-                <strong>Evaluation:</strong> $R^2$, RMSE, MAE, MAPE
+              <div class="scorecard-block">
+                <div class="scorecard-header-row">
+                  <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">MATHEMATICAL ARCHITECTURE</span>
+                  <span class="scorecard-pill pill-success">CONTINUOUS</span>
+                </div>
+                <div class="scorecard-kv-grid">
+                  <span class="scorecard-label">Output Space:</span>
+                  <span class="scorecard-value">Real Numbers $\mathbb{R}$ (Unbounded or $[0, \infty)$)</span>
+
+                  <span class="scorecard-label">Surface:</span>
+                  <span class="scorecard-value">Fitted Hyperplane $\hat{y} = \beta_0 + \sum \beta_j x_j$</span>
+
+                  <span class="scorecard-label">Evaluation:</span>
+                  <span class="scorecard-value">$R^2$, RMSE, MAE, MAPE</span>
+                </div>
               </div>
 
               <ul class="card-bullet-list">
