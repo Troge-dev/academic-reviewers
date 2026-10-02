@@ -1612,35 +1612,36 @@
             <div class="card-face card-front trim-ochre" style="justify-content: space-around;">
               <div>
                 <div class="card-meta-row">
-                  <span class="card-kicker">THE EPISTEMOLOGICAL TRANSITION</span>
+                  <span class="card-kicker">SECTION 1: CORE DISTINCTION</span>
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
                 <h3 class="card-title" style="font-size: 1.6rem;">Data Mining vs. Machine Learning</h3>
                 <p class="card-body-text">
-                  Data Mining uncovers latent historical relationships in static databases (KDD paradigm), while Machine Learning optimizes parameter weights to generalize from experience onto unseen future records (E, T, P).
+                  Both fields dig valuable insight out of large datasets, but with complementary emphases:
                 </p>
               </div>
 
-                            <div class="mitchell-callout-box">
-                <div class="mitchell-callout-header">
-                  <span>TOM MITCHELL'S MACHINE LEARNING AXIOM (1997)</span>
-                  <span class="mitchell-author">McGraw-Hill · <em>Machine Learning</em></span>
+              <div style="background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; margin: 0.5rem 0;">
+                <div style="background: var(--surface-card); border-left: 4px solid var(--accent-ochre); padding: 0.75rem; border-radius: 6px;">
+                  <strong style="color: var(--accent-ochre); font-family: var(--font-display);">Data Mining</strong>
+                  <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Centered on the <em>process of discovery</em> — finding patterns, associations, and anomalies already sitting in a dataset (clustering, association rules, anomaly detection).
+                  </p>
                 </div>
-                <p class="mitchell-quote">
-                  &ldquo;A computer program is said to <strong>learn</strong> from Experience <strong>E</strong> with respect to Task <strong>T</strong> and Performance Measure <strong>P</strong>, if its performance at <strong>T</strong>, as measured by <strong>P</strong>, improves with <strong>E</strong>.&rdquo;
-                </p>
-                <div class="mitchell-triad-row">
-                  <div class="triad-chip"><span class="triad-badge">E</span> <span>Experience (Historical Training Records)</span></div>
-                  <div class="triad-chip"><span class="triad-badge">T</span> <span>Task (Clinical Prediction / Action)</span></div>
-                  <div class="triad-chip"><span class="triad-badge">P</span> <span>Performance (Metric: ROC-AUC / Loss)</span></div>
+                <div style="background: var(--surface-card); border-left: 4px solid var(--accent-teal); padding: 0.75rem; border-radius: 6px;">
+                  <strong style="color: var(--accent-teal); font-family: var(--font-display);">Machine Learning</strong>
+                  <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                    Centered on <em>building algorithms that learn</em> — models trained on data to make predictions or decisions on new data they have never seen before.
+                  </p>
                 </div>
               </div>
 
               <div class="card-chips-row">
-                <span class="chip chip-accent">Retrospective Mining</span>
-                <span class="chip chip-accent">Prospective Learning</span>
-                <span class="chip">Generalization Gap</span>
-                <span class="chip">Empirical Risk</span>
+                <span class="chip chip-accent">Pattern Discovery</span>
+                <span class="chip chip-accent">Predictive Learning</span>
+                <span class="chip">Marketing</span>
+                <span class="chip">Finance</span>
+                <span class="chip">Healthcare</span>
               </div>
             </div>
 
@@ -1946,7 +1947,7 @@
               <div class="card-chips-row">
                 <span class="chip">Pseudo-Labeling</span>
                 <span class="chip">Consistency Loss</span>
-                <span class="chip">FixMatch</span>
+                <span class="chip">Pseudo-Labeling</span>
               </div>
             </div>
 
@@ -1982,7 +1983,7 @@
                 </p>
               </div>
               <div class="card-formula-box">
-                $\max_\pi \mathbb{E}\left[ \sum_{t=0}^\infty \gamma^t r_t \right] \quad (\text{Bellman MDP})$
+                $\text{State} \longrightarrow \text{Action} \longrightarrow \text{Reward} \longrightarrow \text{Learning}$
               </div>
               <div class="card-chips-row">
                 <span class="chip">Markov Decision Process</span>
@@ -2014,9 +2015,9 @@
     <section class="slide" data-slide="4">
       <div class="slide-header">
         <div class="slide-header-left">
-          <div class="slide-kicker">MATHEMATICAL MECHANICS</div>
-          <h2 class="slide-title">Supervised Learning: Empirical Risk & Loss</h2>
-          <p class="slide-subtitle">How models learn: Empirical Risk Minimization (ERM) and loss surface optimization.</p>
+          <div class="slide-kicker">SECTION 4.1: SUPERVISED LEARNING</div>
+          <h2 class="slide-title">Supervised Learning: Learning with an Answer Key</h2>
+          <p class="slide-subtitle">Learning from labeled data: mapping input features to known target outputs.</p>
         </div>
         <span class="slide-tag">ERM FRAMEWORK</span>
       </div>
@@ -2443,13 +2444,13 @@
       </div>
     </section>
 
-    <!-- SLIDE 07: [Horizontal Pipeline / Stepper: Semi-Supervised Learning & FixMatch] -->
+    <!-- SLIDE 07: [Horizontal Pipeline / Stepper: Semi-Supervised Learning Approaches] -->
     <section class="slide" data-slide="7">
       <div class="slide-header">
         <div class="slide-header-left">
-          <div class="slide-kicker">HYBRID PARADIGMS</div>
-          <h2 class="slide-title">Semi-Supervised Learning: FixMatch & Pseudo-Labels</h2>
-          <p class="slide-subtitle">Harnessing the $|U| \gg |L|$ data asymmetry: How models bootstrap from small seed ground-truth.</p>
+          <div class="slide-kicker">SECTION 4.3: SEMI-SUPERVISED LEARNING</div>
+          <h2 class="slide-title">Semi-Supervised Learning: Combining Labeled & Unlabeled Data</h2>
+          <p class="slide-subtitle">Harnessing a small amount of labeled data with a large amount of unlabeled data.</p>
         </div>
         <span class="slide-tag">PIPELINE STEPPER</span>
       </div>
@@ -2459,19 +2460,19 @@
         <div class="pipeline-conduit-bar">
           <div class="conduit-node">
             <span class="conduit-num">01</span>
-            <span class="conduit-title">Supervised Seed</span>
+            <span class="conduit-title">Self-Training</span>
           </div>
           <div class="conduit-node">
             <span class="conduit-num">02</span>
-            <span class="conduit-title">Unlabeled Inference</span>
+            <span class="conduit-title">Pseudo-Labeling</span>
           </div>
           <div class="conduit-node">
             <span class="conduit-num">03</span>
-            <span class="conduit-title">Confidence Gate</span>
+            <span class="conduit-title">Label Propagation</span>
           </div>
           <div class="conduit-node" style="border-left-color: var(--accent-crimson);">
             <span class="conduit-num">04</span>
-            <span class="conduit-title">Confirmation Risk</span>
+            <span class="conduit-title">Semi-Supervised NNs</span>
           </div>
         </div>
 
@@ -2543,7 +2544,7 @@
               <div class="card-face card-back trim-blue">
                 <span class="card-kicker">CONSISTENCY LOSS</span>
                 <p class="card-body-text" style="font-size: 0.85rem; margin-top: 0.5rem;">
-                  <strong>FixMatch:</strong> Enforces cross-entropy loss against a strongly augmented version of the identical image using the pseudo-label as ground truth.
+                  <strong>Label Propagation:</strong> Propagates labels from known observations to similar unlabeled observations under the assumption that similar observations share labels.
                 </p>
               </div>
             </div>
@@ -2580,9 +2581,9 @@
     <section class="slide" data-slide="8">
       <div class="slide-header">
         <div class="slide-header-left">
-          <div class="slide-kicker">ACTIVE AGENTS</div>
-          <h2 class="slide-title">Reinforcement Learning: Markov Decision Loops</h2>
-          <p class="slide-subtitle">Optimizing decision policies through trial-and-error environmental interactions and the Bellman equation.</p>
+          <div class="slide-kicker">SECTION 4.4: REINFORCEMENT LEARNING</div>
+          <h2 class="slide-title">Reinforcement Learning: Learning Through Interaction</h2>
+          <p class="slide-subtitle">An agent learns by interacting with an environment through trial and error, rewards, and penalties.</p>
         </div>
         <span class="slide-tag">AGENT-ENV LOOP</span>
       </div>
@@ -2643,7 +2644,7 @@
                     <span class="card-kicker" style="color: var(--accent-purple);">OPTIMALITY EQUATION</span>
                     <span class="card-flip-cue">Click to Flip ⟳</span>
                   </div>
-                  <h3 class="card-title">The Bellman Equation</h3>
+                  <h3 class="card-title">The Learning Feedback Loop</h3>
                   <p class="card-body-text">
                     The expected value of taking action $a$ in state $s$ equals the immediate reward plus discounted future value:
                   </p>
@@ -2767,7 +2768,7 @@
               <td><strong>Flagship Models</strong></td>
               <td>XGBoost, Logistic, ResNet, SVM</td>
               <td>K-Means, DBSCAN, Apriori, PCA</td>
-              <td>FixMatch, Self-Training, Label Prop</td>
+              <td>Self-Training, Pseudo-Labeling, Label Propagation</td>
               <td>DQN, PPO, Actor-Critic, AlphaZero</td>
             </tr>
           </tbody>
@@ -2855,7 +2856,7 @@
               <span class="matrix-v" style="color: var(--accent-ochre); font-weight: 600;">Confirmation bias error cascading</span>
               
               <span class="matrix-k">Flagship Models:</span>
-              <span class="matrix-v">FixMatch, Self-Training, Label Propagation</span>
+              <span class="matrix-v">Self-Training, Pseudo-Labeling, Label Propagationagation</span>
             </div>
           </div>
 
@@ -2900,7 +2901,7 @@
       <div class="slide-header">
         <div class="slide-header-left">
           <div class="slide-kicker">GOVERNANCE & ARCHITECTURE</div>
-          <h2 class="slide-title">The Accuracy–Interpretability Pareto Frontier</h2>
+          <h2 class="slide-title">The Accuracy–Interpretability Tradeoff</h2>
           <p class="slide-subtitle">The fundamental architectural trade-off: As model complexity and capacity scale, human interpretability collapses.</p>
         </div>
         <span class="slide-tag">PARETO CURVE</span>
@@ -3114,7 +3115,7 @@
                     <span class="scorecard-label">Brittleness:</span>
                     <span class="scorecard-value">Cannot detect when input violates training assumptions</span>
                     <span class="scorecard-label">Statute:</span>
-                    <span class="scorecard-value">Violates GDPR Article 22 Right to Explanation</span>
+                    <span class="scorecard-value">Difficult to explain why prediction was made</span>
                   </div>
                 </div>
               </div>
@@ -3180,7 +3181,7 @@
                   <div class="scorecard-kv-grid">
                     <span class="scorecard-label">Auditability:</span>
                     <span class="scorecard-value">Coefficients can be directly defended before a regulatory judge</span>
-                    <span class="scorecard-label">ECOA / FDA:</span>
+                    <span class="scorecard-label">Explanation:</span>
                     <span class="scorecard-value">Generates instant adverse action notices with zero black-box risk</span>
                   </div>
                 </div>
@@ -3196,7 +3197,7 @@
               LEGAL &amp; STATUTORY COMPLIANCE IMPLICATIONS
             </span>
             <p style="font-size: 0.86rem; color: var(--text-main); margin-top: 0.15rem; line-height: 1.35;">
-              <strong>GDPR Article 22:</strong> Mandates "Right to Explanation" for automated decisions. | <strong>US ECOA:</strong> Requires specific adverse action notices for credit/loan decisions.
+              <strong>Accuracy vs. Interpretability:</strong> Accuracy asks how well the model predicts; Interpretability asks how easy it is for a human to understand why.
             </p>
           </div>
           <span class="chip chip-accent" style="white-space: nowrap; font-size: 0.76rem; padding: 0.35rem 0.7rem;">
@@ -3393,7 +3394,7 @@
                 </div>
                 <div class="branch-row">
                   <span class="branch-pill pill-partial">&le;5% LABELS</span>
-                  <span class="branch-text"><strong>Semi-Supervised:</strong> FixMatch pseudo-labeling</span>
+                  <span class="branch-text"><strong>Semi-Supervised:</strong> Self-Training & Pseudo-Labeling</span>
                 </div>
               </div>
 
@@ -3442,7 +3443,7 @@
               </div>
 
               <p style="font-size: 0.80rem; color: var(--text-muted); line-height: 1.35; margin: 0;">
-                Never deploy unconstrained deep networks into credit underwriting where ECOA adverse action notices are mandated.
+                In critical domains, simpler models like Linear Regression or Decision Trees are easier to interpret and audit.
               </p>
             </div>
 
@@ -3477,7 +3478,7 @@
               <div class="decision-branch-widget">
                 <div class="branch-row">
                   <span class="branch-pill pill-yes">INTERACTIVE</span>
-                  <span class="branch-text"><strong>Reinforcement:</strong> MDP / Bellman optimization</span>
+                  <span class="branch-text"><strong>Reinforcement:</strong> Trial-and-error environment interaction</span>
                 </div>
                 <div class="branch-row">
                   <span class="branch-pill pill-no">STATIC DATA</span>
@@ -3510,8 +3511,8 @@
       <div class="slide-header">
         <div class="slide-header-left">
           <div class="slide-kicker">EXAMINATION MASTERY</div>
-          <h2 class="slide-title">Diagnostic Oral Defense Arena</h2>
-          <p class="slide-subtitle">High-rigor faculty examination questions with expandable model defense arguments.</p>
+          <h2 class="slide-title">Module 6: Review & 50-Item Practice Quiz</h2>
+          <p class="slide-subtitle">Comprehensive examination practice strictly grounded in Module 6 concepts and definitions.</p>
         </div>
         <span class="slide-tag">ORAL DEFENSE</span>
       </div>
@@ -3534,7 +3535,7 @@
             <div class="card-face card-back trim-crimson">
               <span class="card-kicker" style="color: var(--accent-crimson);">MODEL ORAL DEFENSE</span>
               <p style="font-size: 0.84rem; line-height: 1.45; margin-top: 0.5rem;">
-                <em>"In credit and healthcare, top-line accuracy is insufficient. A 99% black-box violates GDPR Article 22 Right to Explanation and US ECOA Adverse Action mandates. It cannot guarantee monotonicity or detect demographic bias. The 92% logistic model guarantees auditable parameters $\beta_j$, predictable failure modes, and immunity from massive regulatory fines."</em>
+                <em>"In many real-world applications, simple models like Linear Regression ($Y = \beta_0 + \beta_1 X$) or Decision Trees are preferred because each input's contribution is straightforward to understand and explain, whereas complex models like Neural Networks make it difficult to answer why a particular prediction was made."</em>
               </p>
             </div>
           </div>
@@ -3575,7 +3576,7 @@
               <p class="card-body-text" style="font-size: 0.88rem;">
                 Explain the self-training feedback loop and modern architectural safeguards.
               </p>
-              <span class="chip">FixMatch Regularization</span>
+              <span class="chip">Pseudo-Labeling</span>
             </div>
             <div class="card-face card-back trim-ochre">
               <span class="card-kicker">MODEL ORAL DEFENSE</span>

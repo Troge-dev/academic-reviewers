@@ -1,269 +1,310 @@
-# DS312: Data Mining & Applications
+# DS312: Data Mining and Applications
 ## Module 6: Supervised vs. Unsupervised Methods
-### Master Academic Reviewer & Theoretical Companion Guide
+### Official Companion Study Guide
 
 ```text
 ========================================================================================
 COURSE:        DS312 — Data Mining and Applications (BS Data Science 3rd Year)
 MODULE:        Module 6: Supervised vs. Unsupervised Methods
 INSTRUCTOR:    Nicole S. Menorias
-PEDAGOGY:      Four-Tier Academic Mastery Framework
-FORMAT:        Theoretical Deep Dive · Key Glossary · Failure Modes · Diagnostic Q&As
+SOURCE:        Module 6.ipynb (Complete & Grounded Study Guide)
 ========================================================================================
 ```
 
 ---
 
-## Executive Preface & Methodological Architecture
+## 1. From Data Mining to Machine Learning
 
-This Master Academic Reviewer bridges the conceptual and operational transition from exploratory **Data Mining** (the discovery of latent historical patterns, associations, and anomalies in stored data) to **Machine Learning** (the mathematical construction of algorithmic models that learn from experience to make generalized prospective inferences on unseen data). 
+**Data mining** and **machine learning** overlap significantly and are often used interchangeably because both are fundamentally about extracting valuable insights from large datasets. However, they emphasize slightly different aspects:
 
-The curriculum is systematized across the uncompromised **Four-Tier Pedagogical Reviewer Framework**:
-1. **Tier 1: Academic Context & Theoretical Deep Dive** — The nested hierarchy of AI/ML/DL, the mathematical mechanics of the four learning paradigms (Supervised, Unsupervised, Semi-Supervised, and Reinforcement Learning), the Accuracy–Interpretability Pareto frontier, and the Bias-Variance tradeoff.
-2. **Tier 2: Key Definition & Formula Glossary** — Rigorous mathematical formulations for Empirical Risk Minimization, Loss Functions, Markov Decision Processes, and PCA Eigendecomposition.
-3. **Tier 3: Applied Real-World Scenarios & Industrial Failure Modes** — Real-world case studies spanning clinical oncology, automated credit underwriting, e-commerce market baskets, and autonomous robotics.
-4. **Tier 4: Diagnostic Oral Defense Questions & Evaluation Duo-Lenses** — High-rigor faculty examination questions testing statutory explainability (GDPR Article 22), density-based noise filtering (DBSCAN), and MLOps concept drift mitigation.
+* **Data Mining:** Centered on the **process of discovery** — finding patterns, associations, and anomalies that are already sitting in an existing dataset (e.g., clustering, association rules, and anomaly detection covered in Modules 1–5).
+* **Machine Learning:** Centered on **building algorithms that learn** — models trained on historical data so they can make predictions or decisions on new, unseen data.
 
----
-
-## Tier 1: Academic Context & Theoretical Deep Dive
-
-### 1.1 The Epistemological Transition: Data Mining to Machine Learning
-
-While data mining and machine learning are frequently treated as synonyms in colloquial industrial discourse, they reflect distinct epistemological objectives that function symbiotically in production pipelines:
-
-* **Data Mining (Discovery-Centric):** Grounded in Usama Fayyad's Knowledge Discovery in Databases (KDD) paradigm (1996), data mining focuses on the non-trivial process of identifying valid, novel, potentially useful, and ultimately understandable patterns in stored data. Its orientation is predominantly **retrospective**—analyzing static historical repositories to segment customer cohorts, identify transactional co-occurrences, or surface accounting anomalies.
-* **Machine Learning (Inference-Centric):** Grounded in statistical learning theory (Vapnik, 1998) and Mitchell's definition (1997)—*"A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$."* Its orientation is predominantly **prospective**—optimizing model parameters to generalize beyond the training partition and make accurate inferences on unseen observations.
-
-$$\text{Data Ingestion} \xrightarrow{\text{Data Mining (Cleaning \& EDA)}} \text{Feature Space } X \xrightarrow{\text{Machine Learning (Model Optimization)}} \text{Generalization } \hat{y} = f(X)$$
+### Symbiosis in Practice
+In real-world projects, the two disciplines borrow constantly from each other:
+* A data mining project might use a machine learning algorithm to construct its predictive step.
+* A machine learning project requires data mining's exploratory groundwork (data cleaning and exploratory data analysis) before any model can be trained.
+* In industries such as **marketing** (customer segmentation), **finance** (fraud detection), and **healthcare** (diagnosis support), both disciplines work together.
 
 ---
 
-### 1.2 The Concentric Topology: AI, ML, and Deep Learning
+## 2. The Bigger Picture: AI, Machine Learning, and Deep Learning
 
-The landscape of computational intelligence is structured into three concentric architectural layers, each representing a strict subset of its predecessor:
-
-1. **Artificial Intelligence (AI — Outer Frontier):** The broadest umbrella encompassing any computational technique, symbolic engine, or robotic mechanism designed to mimic human perception, formal logic, and decision-making. AI includes deterministic rule-based expert systems (e.g., MYCIN, 1970s medical diagnosis), heuristic graph search algorithms (e.g., $A^*$, minimax chess engines like 1997 Deep Blue), and knowledge graphs. Crucially, **symbolic AI does not require statistical learning from data**.
-2. **Machine Learning (ML — Statistical Core):** The intermediate subset of AI where systems do not rely on hand-written procedural IF-THEN rules. Instead, ML models learn parametric weights or non-parametric partitioning structures directly from empirical data through statistical estimation and loss optimization.
-3. **Deep Learning (DL — Representation Hierarchy):** The innermost subset of ML utilizing multi-layered artificial neural networks (ANNs). Traditional ML relies heavily on manual feature engineering (Stevens' NOIR scaling, domain-specific ratios). Deep learning performs automated **hierarchical representation learning**—lower layers detect low-level primitives (edges, phonemes, subwords), while deeper layers compose them into high-level abstractions (faces, semantic phrases, pathological anomalies).
+These three terms describe nested layers, each being a subset of the one before it:
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│ ARTIFICIAL INTELLIGENCE (Symbolic Systems, Expert Rules, Knowledge Graphs)      │
-│   ┌─────────────────────────────────────────────────────────────────────────┐   │
-│   │ MACHINE LEARNING (Statistical Generalization, Loss Optimization)        │   │
-│   │   ┌─────────────────────────────────────────────────────────────────┐   │   │
-│   │   │ DEEP LEARNING (Multi-Layer Neural Networks, Auto-Representations│   │   │
-│   │   │                Transformers, CNNs, Deep Q-Networks)             │   │   │
-│   │   └─────────────────────────────────────────────────────────────────┘   │   │
-│   └─────────────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│ ARTIFICIAL INTELLIGENCE (Broadest Layer)                               │
+│ Techniques that enable machines to mimic human behavior & decisions    │
+│   ┌────────────────────────────────────────────────────────────────┐   │
+│   │ MACHINE LEARNING (Subset of AI)                                │   │
+│   │ Statistical methods so machines improve with experience        │   │
+│   │   ┌────────────────────────────────────────────────────────┐   │   │
+│   │   │ DEEP LEARNING (Subset of ML)                           │   │   │
+│   │   │ Multi-layer neural networks for large, complex data    │   │   │
+│   │   └────────────────────────────────────────────────────────┘   │   │
+│   └────────────────────────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+| Layer | What It Is |
+|---|---|
+| **Artificial Intelligence (AI)** | The broadest layer — techniques that enable machines to mimic human behavior and decision-making in general. |
+| **Machine Learning (ML)** | A subset of AI — uses statistical methods so machines **improve with experience**, rather than following only hand-written rules. |
+| **Deep Learning (DL)** | A subset of ML — uses multi-layer neural networks, making it feasible to learn from very large, complex datasets (images, audio, raw text). |
 
-### 1.3 The Four Machine Learning Paradigms
-
-Machine learning algorithms are classified into four primary paradigms based strictly on **the nature, timing, and availability of the supervisory signal during model training**:
-
-```text
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    THE FOUR MACHINE LEARNING PARADIGMS                                │
-├──────────────────────────────┬──────────────────────────────┬─────────────────────────────────────────┤
-│ PARADIGM                     │ INPUT DATA AVAILABLE         │ CORE MATHEMATICAL OBJECTIVE             │
-├──────────────────────────────┼──────────────────────────────┼─────────────────────────────────────────┤
-│ 1. Supervised Learning       │ Labeled: (X, y)              │ Learn mapping f: X → y minimizing L(y,ŷ)│
-│ 2. Unsupervised Learning     │ Unlabeled: X only            │ Uncover latent density, clusters, PCA   │
-│ 3. Semi-Supervised Learning  │ Small Labeled L, Large Unl. U│ Smooth decision boundary over manifold  │
-│ 4. Reinforcement Learning    │ Agent-Environment Interaction│ Maximize cumulative discounted return G │
-└──────────────────────────────┴──────────────────────────────┴─────────────────────────────────────────┘
-```
-
-#### 1.3.1 Supervised Learning: Classification vs. Regression
-
-In supervised learning, the dataset consists of paired tuples $\mathcal{D} = \{(x_1, y_1), (x_2, y_2), \dots, (x_n, y_n)\}$, where $x_i \in \mathbb{R}^p$ represents the $p$-dimensional feature vector and $y_i$ is the verified ground-truth target. The model acts like a student learning with an **answer key**, iteratively updating parameter weights to minimize empirical risk:
-
-$$\mathcal{R}_{\text{emp}}(f) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(y_i, f(x_i))$$
-
-* **Supervised Classification ($y \in \{C_1, C_2, \dots, C_K\}$):** The target variable is discrete and qualitative. The algorithm establishes mathematical decision boundaries that partition feature space into class regions.
-  * *Binary Classification:* Fraud vs. Legitimate, Sepsis vs. Healthy ($y \in \{0, 1\}$).
-  * *Multi-Class Classification:* Disease Type A, B, or C ($y \in \{1, 2, \dots, K\}$).
-  * *Prominent Models:* Logistic Regression (sigmoid mapping $\sigma(z) = \frac{1}{1 + e^{-z}}$), Decision Trees (recursive binary splitting via Gini impurity or Information Gain), Random Forest (bootstrap bagging of de-correlated trees), Support Vector Machines (maximizing the geometric margin $\frac{2}{\|\mathbf{w}\|}$), and Naive Bayes ($P(y|x) \propto P(y)\prod P(x_j|y)$).
-* **Supervised Regression ($y \in \mathbb{R}$):** The target variable is a continuous quantitative measurement along an interval or ratio scale.
-  * *Applications:* Predicting hospital length of stay, real estate pricing, blood glucose concentration.
-  * *Prominent Models:* Ordinary Least Squares (OLS) Linear Regression ($y = \mathbf{X}\beta + \varepsilon$), Ridge Regression ($L_2$ shrinkage), Lasso Regression ($L_1$ sparsity), Polynomial Regression, Gradient Boosted Trees (XGBoost/LightGBM), and Neural Regressors.
-
-#### 1.3.2 Unsupervised Learning: Clustering, Associations & Dimensionality Reduction
-
-Unsupervised learning operates on datasets devoid of target labels ($\mathcal{D} = \{x_1, x_2, \dots, x_n\}$). The algorithm is not told what the "correct answer" is; rather, it explores the intrinsic topological geometry of the feature space:
-
-1. **Clustering:** Partitioning observations into homogeneous sub-cohorts such that intra-cluster distance is minimized while inter-cluster separation is maximized.
-   * *K-Means:* Partitions data into $K$ Voronoi cells by minimizing Within-Cluster Sum of Squares (WCSS):
-     $$\text{WCSS} = \sum_{k=1}^K \sum_{x_i \in C_k} \|x_i - \mu_k\|^2$$
-   * *Hierarchical Clustering:* Generates nested dendrograms through bottom-up agglomerative merges based on linkage distance (Ward's variance, complete linkage, average linkage).
-   * *DBSCAN (Density-Based Spatial Clustering of Applications with Noise):* Defines clusters as dense continuous manifolds separated by regions of low density. Discovers non-spherical shapes and explicitly isolates noise points ($C = -1$).
-2. **Association Rule Mining:** Identifying probabilistic co-occurrence affinities in transaction baskets ($X \Rightarrow Y$). Evaluated via **Support** ($P(X \cup Y)$), **Confidence** ($P(Y|X)$), and **Lift** ($\frac{P(X \cup Y)}{P(X)P(Y)}$). Pruned via the **Apriori Principle**: *all non-empty subsets of a frequent itemset must also be frequent*.
-3. **Dimensionality Reduction (PCA):** Compressing $p$ correlated variables into $k \ll p$ orthogonal principal components while maximizing preserved variance through covariance matrix eigendecomposition ($\mathbf{\Sigma} \mathbf{v} = \lambda \mathbf{v}$).
-
-#### 1.3.3 Semi-Supervised Learning: The Asymmetric Paradigm
-
-Semi-supervised learning resolves the fundamental industrial dilemma where **unlabeled data is abundant and cheap, but expert annotation is prohibitively scarce and expensive**.
-
-* *Mathematical Setting:* Small labeled set $\mathcal{L} = \{(x_l, y_l)\}_{l=1}^{n_l}$ combined with massive unlabeled set $\mathcal{U} = \{x_u\}_{u=1}^{n_u}$, where $n_u \gg n_l$.
-* *Self-Training & Pseudo-Labeling:* The model trains on $\mathcal{L}$, generates class probability predictions on $\mathcal{U}$, retains observations exceeding a strict confidence threshold $\tau$ (e.g. $P(\hat{y}|x) \ge 0.95$), assigns them temporary "pseudo-labels", and incorporates them into the training corpus for iterative retraining.
-* *Manifold Assumption:* Observations connected by high-density paths in feature space are assumed to share identical ground-truth labels.
-
-#### 1.3.4 Reinforcement Learning (RL): Sequential Trial-and-Error Control
-
-Reinforcement learning deviates fundamentally from static dataset modeling. An autonomous **Agent** interacts with a dynamic **Environment** modeled as a **Markov Decision Process (MDP)**:
-
-$$\text{State } s_t \xrightarrow{\text{Action } a_t \sim \pi(a|s)} \text{Environment} \xrightarrow{\text{Reward } r_t, \text{ Next State } s_{t+1}}$$
-
-* *The Objective:* Maximize cumulative expected discounted return $G_t = \sum_{k=0}^\infty \gamma^k r_{t+k+1}$, where $\gamma \in [0, 1)$ is the discount factor penalizing delayed rewards.
-* *The Exploration–Exploitation Dilemma:* Balanced via $\varepsilon$-greedy exploration, Upper Confidence Bounds (UCB), or entropy regularization.
-* *Algorithms:* Q-Learning ($Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]$), Deep Q-Networks (DQN), and Policy Gradient methods (PPO).
+### Concrete Illustration: Rule-Based Chess vs. Machine Learning
+* A rule-based chess engine from the 1990s is **AI**, but it is **not Machine Learning** because it does not learn from data — it simply follows pre-programmed, hand-written rules.
+* Picture three concentric circles: every deep learning system is a machine learning system, and every machine learning system is an AI system — but not the other way around.
 
 ---
 
-### 1.4 The Accuracy–Interpretability Pareto Frontier
+## 3. Why Machine Learning Matters
 
-A fundamental design compromise in machine learning is the **Accuracy–Interpretability Trade-off**:
-
-```text
-High ▲  [Deep Neural Networks]     [Random Forest / XGBoost]
-     │
-A    │                      [Kernel SVM]
-C    │
-C    │                                  [KNN / Graphical Models]
-U    │
-R    │                                              [Decision Trees]
-A    │
-C    │                                                          [Linear / Logistic]
-Y    │                                                          [Rule-Based IF-THEN]
-Low  └─────────────────────────────────────────────────────────────────────────────► High
-                                  INTERPRETABILITY
-```
-
-* **Upper-Left (Black-Box Models):** Deep Neural Networks, Random Forests, Gradient Boosting. Capable of learning non-linear, high-order interaction manifolds. High predictive accuracy, but internal reasoning is algebraically impenetrable.
-* **Lower-Right (Glass-Box Models):** Linear Regression, Logistic Regression, Single Decision Trees, Rule-based systems. Clear mathematical accountability ($\beta_j = \frac{\partial Y}{\partial X_j}$). Lower capacity for complex non-linear patterns, but 100% auditable by clinicians, judges, and regulators.
-* **The Student A vs. Student B Parable:**
-  * *Student A (Neural Net):* Employs an inscrutable, deeply complex mental strategy. Scores 98% on the exam, but cannot articulate why question #14 was marked "True". Prone to overfitting on unvetted noise.
-  * *Student B (Decision Tree):* Operates via a transparent heuristic rule ("If $X > 50 \rightarrow A$, else $B$"). Scores 86%, but can defend every single answer to a review panel in 10 seconds.
-* **The Operational Verdict:** In ad-click prediction, maximize accuracy (Student A). In ICU triage, credit lending, and judicial sentencing, statutory governance (GDPR Article 22, US Equal Credit Opportunity Act) strictly mandates interpretability (Student B).
+* Provides organizations with insights into customer behavior and operational patterns (central to Google, Meta, Uber).
+* Tackles problems difficult or impossible to solve with explicit hand-written rules (e.g., image recognition, speech recognition, natural language processing).
+* **The Cat Recognition Analogy:** Instead of a programmer trying to enumerate every manual rule for "what a cat looks like," an ML model learns that pattern directly from thousands of labeled examples.
+* **The Core Distinction:** Not every problem comes with labels — and that single difference splits machine learning into its major types.
 
 ---
 
-### 1.5 The Seven Core Engineering Obstacles in Machine Learning
+## 4. The Four Types of Machine Learning
 
-1. **Poor Data Quality (Garbage In, Garbage Out):** Measurement noise, transcription error, uncalibrated sensors, and target leakage render the most sophisticated deep network completely invalid. Preprocessing (Modules 4–5) is the non-negotiable foundation.
-2. **Underfitting (High Bias):** The model lacks mathematical capacity to capture the underlying pattern (e.g. fitting an OLS line to sinusoidal data). Both train and test error remain high.
-3. **Overfitting (High Variance):** The model memorizes training noise rather than generalizable signal. Exhibits near-zero training error but catastrophic test error. Mitigated via $L_1/L_2$ regularization, tree pruning, dropout, and cross-validation.
-4. **Overall Process Complexity:** Fragility across multi-step pipelines (feature scaling, imputation, encoding, hyperparameter tuning).
-5. **Lack of Sufficient Training Data:** Deep architectures suffer sample inefficiency, requiring hundreds of thousands of observations to prevent overfitting.
-6. **Computational & Implementation Latency:** Real-world inference constraints (e.g., edge mobile devices requiring $< 15\text{ms}$ latency).
-7. **Concept Drift & Covariate Shift:** Statistical distributions change over time ($P_{\text{train}}(X, y) \neq P_{\text{production}}(X, y)$). A model trained during an economic boom quietly decays during a recession, necessitating continuous MLOps monitoring.
+Machine learning is divided into four major types based on **the kind of information available to the model during learning**:
 
----
-
-## Tier 2: Key Definition & Formula Glossary
-
-| Term | Mathematical Formulation | Rigorous Formal Definition |
-| :--- | :--- | :--- |
-| **Supervised Learning** | $\mathcal{D} = \{(x_i, y_i)\}_{i=1}^n$ | Machine learning setting where algorithms learn a predictive mapping function $f: X \rightarrow y$ from paired input features and verified ground-truth labels. |
-| **Empirical Risk Minimization** | $\min_\theta \frac{1}{n}\sum_{i=1}^n \mathcal{L}(y_i, f_\theta(x_i))$ | Optimization paradigm selecting parameter weights $\theta$ that minimize average loss over the observed training sample. |
-| **Classification** | $y \in \{1, 2, \dots, K\}$ | Supervised learning task where the target output is a discrete categorical class label, solved by partitioning feature space with decision boundaries. |
-| **Regression** | $y \in \mathbb{R}$ | Supervised learning task where the target output is a continuous quantitative response, solved by estimating conditional expectation $E[Y\|X]$. |
-| **Unsupervised Learning** | $\mathcal{D} = \{x_i\}_{i=1}^n$ | Machine learning setting exploring unlabeled feature spaces to discover natural geometric clusters, latent manifolds, or transaction affinities without ground-truth targets. |
-| **K-Means Clustering** | $\min_{\{C_k\}} \sum_{k=1}^K \sum_{x \in C_k} \|x - \mu_k\|^2$ | Centroid-based unsupervised clustering partitioning $n$ observations into $K$ Voronoi cells by iteratively minimizing within-cluster sum of squares. |
-| **DBSCAN** | $N_\varepsilon(p) = \{q \in D \mid \text{dist}(p, q) \le \varepsilon\}$ | Density-based clustering algorithm that groups observations having at least $\text{MinPts}$ neighbors within radius $\varepsilon$, while explicitly labeling low-density observations as noise ($-1$). |
-| **Principal Component Analysis** | $\mathbf{\Sigma} \mathbf{v}_j = \lambda_j \mathbf{v}_j$ | Unsupervised linear dimensionality reduction projecting $p$ correlated variables onto orthogonal eigenvectors $\mathbf{v}_j$ of the covariance matrix $\mathbf{\Sigma}$, ordered by eigenvalue magnitude $\lambda_j$. |
-| **Semi-Supervised Learning** | $\mathcal{D} = \mathcal{L} \cup \mathcal{U}, \; \|\mathcal{U}\| \gg \|\mathcal{L}\|$ | Hybrid learning paradigm fusing a small pool of expensive labeled data with a large volume of inexpensive unlabeled data via pseudo-labeling or manifold propagation. |
-| **Reinforcement Learning** | $G_t = \sum_{k=0}^\infty \gamma^k r_{t+k+1}$ | Sequential decision-making paradigm where an autonomous agent optimizes policy $\pi(a\|s)$ through trial-and-error environmental interactions to maximize cumulative discounted reward. |
-| **Markov Decision Process** | $\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$ | Mathematical framework for modeling decision making in reinforcement learning, defining states, actions, transition probabilities, rewards, and discount factors. |
-| **Accuracy–Interpretability Trade-off** | $\text{Acc}(f) \propto \frac{1}{\text{Interp}(f)}$ | Pareto compromise wherein increasing model capacity to capture non-linear interactions reduces human ability to trace the exact causal mechanism of individual predictions. |
-| **Underfitting (High Bias)** | $\text{Bias}^2(f) = (E[f(x)] - y)^2$ | Failure mode where a model lacks expressive capacity, making overly rigid assumptions and failing to capture true data structure on both train and test sets. |
-| **Overfitting (High Variance)** | $\text{Var}(f) = E[(f(x) - E[f(x)])^2]$ | Failure mode where a model over-parameterizes, memorizing stochastic sample noise and exhibiting severe generalization collapse on out-of-sample test records. |
-| **Concept Drift** | $P_{t_1}(y \mid X) \neq P_{t_2}(y \mid X)$ | Phenomenon in production MLOps where statistical relationships between features and targets change over time, resulting in silent model accuracy decay. |
+| Type | What the Model Receives | Main Idea |
+|---|---|---|
+| **Supervised Learning** | Labeled data | Learn from examples with known answers |
+| **Unsupervised Learning** | Unlabeled data | Discover patterns or structure |
+| **Semi-Supervised Learning** | Labeled and unlabeled data | Combine both approaches |
+| **Reinforcement Learning** | Rewards and penalties | Learn through interaction and feedback |
 
 ---
 
-## Tier 3: Applied Real-World Scenarios & Industrial Failure Modes
+### 4.1 Supervised Learning
 
-### Scenario 1: Automated Credit Underwriting & The Adverse Action Notice
-* **Context:** A multinational bank develops an automated credit risk engine to evaluate mortgage applicants.
-* **The Flawed Strategy:** Data science engineers train a 50-layer Deep Neural Network achieving $96.8\%$ ROC-AUC, outperforming the legacy Logistic Regression model ($89.2\%$).
-* **The Failure Mode:** When an applicant is rejected, the bank is legally required under the **Equal Credit Opportunity Act (ECOA)** and **FCRA** to issue an *Adverse Action Notice* stating the top four specific causal factors (e.g. debt-to-income ratio too high, delinquent credit line). The deep neural network cannot produce individual causal attributions due to multi-layer non-linear weight entanglements. The bank is slapped with regulatory fines.
-* **The Solution:** Deploy the $89.2\%$ Logistic Regression model or a shallow Decision Tree, where coefficients $\beta_j$ directly provide legally compliant, auditable adverse action explanations.
+* The model learns from **labeled data**.
+* A labeled dataset contains:
+  1. **Input features:** The information given to the model.
+  2. **Target or output:** The known answer associated with each observation.
+* **The Answer Key Analogy:** Supervised learning is like learning with an answer key. Because correct answers are available during training, we can compare predictions with actual answers to measure performance.
 
-### Scenario 2: ICU Sepsis Alerting & The "Black Box" Physician Rejection
-* **Context:** A hospital network deploys an ensemble gradient-boosted tree (XGBoost) to predict patient sepsis onset 6 hours in advance.
-* **The Flawed Strategy:** The model fires high-frequency alarm banners stating: `"WARNING: Patient #4029 has an 84% Sepsis Risk."`
-* **The Failure Mode:** Critical care physicians ignore the alerts because the banner provides zero physiological rationale. When surveyed, clinicians report: *"I will not initiate aggressive fluid boluses and broad-spectrum antibiotics on an unexplained number."* Alarm fatigue sets in.
-* **The Solution:** Integrate SHAP (Shapley Additive Explanations) or deploy an interpretable Fast-and-Frugal Tree (FFT) showing: `"Alert triggered by: Heart Rate > 110 bpm (+35%), Lactate > 2.2 mmol/L (+40%), WBC Drop (-15%)."` Clinical compliance jumps from $24\%$ to $91\%$.
-
-### Scenario 3: Histopathology Image Classification (Semi-Supervised Learning)
-* **Context:** A medical imaging laboratory aims to classify 50,000 digital pathology lymph node biopsies as malignant or benign.
-* **The Industrial Constraint:** Certified board pathologists can only annotate 1,000 images due to time and budgetary limits.
-* **The Solution:** The team implements Semi-Supervised Self-Training. A convolutional backbone is trained on the 1,000 labeled scans ($L$), generates predictions on the 49,000 unlabeled scans ($U$), and selects the top $10\%$ most confident predictions ($P(\text{malignant}) > 0.99$ or $< 0.01$) as pseudo-labels. Iterating this cycle expands effective training data, lifting test ROC-AUC from $0.78$ (supervised baseline on $L$ only) to $0.93$.
+#### Email Spam Example
+| Email | Label |
+|---|---|
+| *"Congratulations! You won ₱1,000,000!"* | **Spam** |
+| *"Meeting at 2 PM tomorrow."* | **Not Spam** |
+| *"Claim your free prize now!"* | **Spam** |
 
 ---
 
-## Tier 4: Diagnostic Oral Defense Questions & Evaluation Duo-Lenses
-
-```text
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   DIAGNOSTIC EXAMINATION CHECKLIST                                    │
-├───────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ [ ] Q1: The Statutory Interpretability Imperative (GDPR Article 22 & Adverse Action)                  │
-│ [ ] Q2: DBSCAN Density Mechanics vs. K-Means Centroid Limitations                                    │
-│ [ ] Q3: The Self-Training Confirmation Bias Trap in Semi-Supervised Learning                         │
-│ [ ] Q4: Bias-Variance Decomposition & Regularization Remedies                                         │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Diagnostic Q&A 1: The Statutory Interpretability Imperative
-**Question:** *"Under what specific operational and regulatory conditions is a data scientist strictly mandated to choose an algorithm with lower predictive accuracy over a state-of-the-art deep neural network?"*
-
-**Model Oral Defense Response:**
-> *"A data scientist is mandated to prioritize interpretability over raw accuracy in high-stakes domains governed by statutory accountability—specifically healthcare clinical triage, judicial parole sentencing, employment hiring algorithms, and credit underwriting. Under statutes such as the EU General Data Protection Regulation (GDPR Article 22: 'Right to Explanation') and the US Equal Credit Opportunity Act (ECOA), organizations are legally required to provide individuals with transparent, human-understandable explanations for automated decisions that significantly affect their lives. 
-> 
-> Furthermore, complex black-box neural networks are vulnerable to 'shortcut learning'—identifying spurious correlations in training data (e.g. associating hospital hospital-bed tags or watermarks with pneumonia) that fail catastrophically out-of-distribution. An interpretable glass-box model (such as Logistic Regression or a constrained Decision Tree) allows clinical and legal domain experts to audit the model's causal logic directly, ensuring protected demographic covariates are not exploited as proxy variables."*
+#### 4.1.1 Classification
+Used when the target or output is a **category or class**.
+* **Classification → predicting a category**
+* **Examples:** Spam or Not Spam, Fraud or Not Fraud, Pass or Fail, Disease or No Disease, High / Medium / Low Risk.
+* **Example Question:** *"Will this transaction be fraudulent?"* → Fraudulent / Not Fraudulent.
+* **Common Classification Models:**
+  1. Logistic Regression
+  2. Decision Tree
+  3. Random Forest
+  4. K-Nearest Neighbors (KNN)
+  5. Support Vector Machine (SVM)
+  6. Naive Bayes
+  7. Neural Networks
 
 ---
 
-### Diagnostic Q&A 2: DBSCAN Density Mechanics vs. K-Means Centroid Limitations
-**Question:** *"Why does K-Means fail on non-spherical clusters, and how does DBSCAN's density formulation simultaneously solve arbitrary cluster geometry and unsupervised anomaly detection?"*
-
-**Model Oral Defense Response:**
-> *"K-Means relies on minimizing Within-Cluster Sum of Squares (WCSS) using Euclidean distance to a geometric mean centroid ($\mu_k$). This formulation imposes two strict inductive biases: it assumes clusters are convex (spherical) and of approximately equal variance. When presented with non-linear, concentric, or elongated manifolds (e.g. crescent-shaped geographic faults or interlocking rings), K-Means violently fractures the true natural clusters because it partitions space into linear Voronoi polyhedra. Furthermore, K-Means is forced to assign every single observation to one of $K$ clusters, pulling centroids toward extreme outliers.
-> 
-> In contrast, DBSCAN (Density-Based Spatial Clustering of Applications with Noise) operates entirely on local density connectivity defined by two parameters: radius $\varepsilon$ and minimum points $\text{MinPts}$. It categorizes points into Core Points ($|N_\varepsilon(p)| \ge \text{MinPts}$), Border Points ($p$ is in the neighborhood of a core point but has fewer than $\text{MinPts}$), and Noise Points. DBSCAN connects adjacent dense core neighborhoods into clusters of arbitrary topological shape without requiring a pre-specified $K$. Crucially, any point failing to reside within $\varepsilon$-distance of a core point is explicitly assigned label $-1$ (Noise). Thus, DBSCAN functions simultaneously as an arbitrary-shape clustering algorithm and an unsupervised anomaly detection engine."*
-
----
-
-### Diagnostic Q&A 3: The Self-Training Confirmation Bias Trap
-**Question:** *"In Semi-Supervised Self-Training, what is 'confirmation bias', and what algorithmic safeguards prevent pseudo-labeling from corrupting a model?"*
-
-**Model Oral Defense Response:**
-> *"Confirmation bias in semi-supervised learning occurs when a model makes an erroneous prediction on an unlabeled observation with high statistical confidence (e.g., $98\%$ confidence on a misclassified edge case), and that erroneous pseudo-label is added to the training set for subsequent iterations. The model reinforces its own error, shifting its decision boundary toward false topological assumptions and corrupting subsequent generations of predictions.
-> 
-> Safeguards against this cascade include:
-> 1. **Conservative Confidence Thresholding:** Enforcing extreme probability cutoffs (e.g., $\tau \ge 0.98$) before accepting pseudo-labels.
-> 2. **Consistency Regularization (FixMatch / MixMatch):** Applying stochastic data augmentations (flips, crops, noise) to the unlabeled sample; a pseudo-label is only accepted if the model predicts the identical class across both weakly and strongly augmented versions of the same input.
-> 3. **Pseudo-Label Re-weighting / Temperature Scaling:** Down-weighting loss contributions from pseudo-labeled samples relative to verified ground-truth instances ($L_{\text{total}} = L_{\text{labeled}} + \lambda_u L_{\text{unlabeled}}$)."*
+#### 4.1.2 Regression
+Used when the target or output is a **numerical value**.
+* **Regression → predicting a numerical value**
+* **Examples:** Predicting house prices, sales, temperature, income, demand.
+* **Example Question:** *"How much will this house cost?"* → **₱4,500,000**.
+* **Common Regression Models:**
+  1. Linear Regression
+  2. Polynomial Regression
+  3. Decision Tree Regression
+  4. Random Forest Regression
+  5. Neural Network Regression
 
 ---
 
-### Diagnostic Q&A 4: Bias-Variance Decomposition & Regularization Remedies
-**Question:** *"Deconstruct the Mean Squared Error into its theoretical bias-variance components, and explain how $L_1$ (Lasso) and $L_2$ (Ridge) regularization alter this balance."*
+#### 4.1.3 Common Supervised Learning Models Summary
+| Model | Basic Idea |
+|---|---|
+| **Linear Regression** | Models a numerical outcome using a linear relationship |
+| **Logistic Regression** | Estimates the probability of belonging to a class |
+| **Decision Tree** | Makes predictions through a sequence of decision rules |
+| **Random Forest** | Combines predictions from multiple decision trees |
+| **K-Nearest Neighbors (KNN)** | Uses nearby observations to make predictions |
+| **Support Vector Machine (SVM)** | Finds a boundary that separates classes |
+| **Naive Bayes** | Uses probability to classify observations |
+| **Neural Network** | Learns complex patterns through interconnected layers |
 
-**Model Oral Defense Response:**
-> *"The expected generalization error of a predictive regression model decomposes mathematically into three irreducible components:
-> 
-> $$\text{MSE}(x) = \text{Bias}^2(\hat{f}(x)) + \text{Var}(\hat{f}(x)) + \sigma^2$$
-> 
-> Where $\sigma^2$ is irreducible environmental measurement noise. $\text{Bias}^2$ represents error introduced by approximating a complex real-world phenomenon with a simpler mathematical model (underfitting). $\text{Var}$ represents the model's sensitivity to small fluctuations in the training dataset (overfitting).
-> 
-> An unregularized complex model suffers from high variance. Regularization introduces an explicit penalty on coefficient magnitudes:
-> * **Ridge Regression ($L_2$ Penalty: $\lambda \sum \beta_j^2$):** Shrinks coefficients smoothly toward zero via spherical contours. It increases bias slightly in exchange for a massive reduction in parameter variance, stabilizing models suffering from multicollinearity.
-> * **Lasso Regression ($L_1$ Penalty: $\lambda \sum |\beta_j|$):** Employs diamond-shaped geometric penalty boundaries that intersect parameter axes at sharp vertices. This forces non-essential coefficients to exactly zero, simultaneously reducing variance and executing automated feature selection."*
+---
+
+### 4.2 Unsupervised Learning
+
+Used when the data does **not have a known target or correct answer**. The model is not told what the correct output should be; instead, it analyzes the data to discover patterns, relationships, or structures.
+* **Unsupervised learning → discovering structure in unlabeled data**
+
+#### Customer Segmentation Example
+A company has customer records with *Age*, *Income*, *Spending frequency*, and *Amount spent*, but **no column identifying the type of customer**. Unsupervised learning discovers natural customer groups:
+* **Group 1:** Frequent, high-spending customers
+* **Group 2:** Occasional, medium-spending customers
+* **Group 3:** Infrequent, low-spending customers
+
+---
+
+#### 4.2.1 Clustering
+Groups observations that are **similar to one another**.
+* **K-Means:** Divides observations into a specified number of groups or clusters (for example, setting $K = 3$).
+* **Hierarchical Clustering:** Creates a hierarchy of groups where observations are progressively combined into larger groups, producing a tree-like structure.
+* **DBSCAN:** Identifies groups based on areas of high data density. Can also identify observations that do not belong to any dense group, which is useful for detecting noise or outliers.
+
+---
+
+#### 4.2.2 Association Rule Mining
+Identifies items or events that frequently occur together.
+* **Supermarket Example:** Customers who purchase **Bread → often also purchase Milk**.
+* **Well-Known Algorithm:** **Apriori**.
+* **Common Uses:** Market basket analysis, product recommendations, purchasing behavior analysis.
+
+---
+
+#### 4.2.3 Dimensionality Reduction
+Represents data using fewer dimensions while attempting to preserve important information.
+* **Example:** 500 variables $\longrightarrow$ 20 important components.
+* **Well-Known Technique:** **Principal Component Analysis (PCA)**.
+* **Benefits:** Simplifying complex datasets, visualization, reducing computational requirements, handling high-dimensional data.
+
+---
+
+#### 4.2.4 Common Unsupervised Learning Methods Summary
+| Method | Main Purpose |
+|---|---|
+| **K-Means** | Groups observations into a specified number of clusters |
+| **Hierarchical Clustering** | Builds a hierarchy of groups (tree-like structure) |
+| **DBSCAN** | Finds dense groups and identifies noise/outliers |
+| **Apriori** | Finds frequently associated items or events |
+| **PCA** | Reduces the number of dimensions in a dataset |
+
+---
+
+### 4.3 Semi-Supervised Learning
+
+Combines elements of supervised and unsupervised learning:
+* Uses a **small amount of labeled data** and a **large amount of unlabeled data**.
+* **Why Useful:** In many real-world situations, unlabeled data is easier, cheaper, and faster to collect than labeled data (e.g., medical images where only a few are labeled by specialist doctors).
+* **Medical Image Example:** 10,000 medical images: 500 labeled by medical experts, 9,500 unlabeled.
+
+#### 4.3.2 Common Semi-Supervised Approaches
+1. **Self-Training:** The model learns from labeled data, uses its confident predictions to assign labels to unlabeled data, and adds them for further training.
+2. **Pseudo-Labeling:** The model predicts labels for unlabeled data and treats highly confident predictions as temporary or pseudo-labels added to training data.
+3. **Label Propagation:** Labels from known observations are propagated to similar unlabeled observations under the assumption that similar observations have similar labels.
+4. **Semi-Supervised Neural Networks:** Trained using both labeled and unlabeled data to capture both ground-truth labels and underlying data distributions.
+
+---
+
+### 4.4 Reinforcement Learning
+
+The agent learns by **interacting with an environment** through trial and error, rather than learning from a fixed dataset.
+* **Interaction Loop:** State $\longrightarrow$ Action $\longrightarrow$ Reward $\longrightarrow$ Learning.
+* Positive reward for desirable results; negative reward or penalty for undesirable results.
+
+#### 4.4.1 Important Reinforcement Learning Concepts
+| Term | Meaning |
+|---|---|
+| **Agent** | The learner or decision-maker |
+| **Environment** | The world or system in which the agent operates |
+| **State** | The current situation of the environment |
+| **Action** | A decision made by the agent |
+| **Reward** | Feedback received after an action |
+| **Policy** | A strategy for selecting actions |
+
+#### 4.4.2 Examples & Common Algorithms
+* **Application Areas:** Game-playing systems, robotics, autonomous systems, resource allocation, control systems (sequential decision-making).
+* **Common Algorithms:** **Q-Learning**, **SARSA**, **Deep Q-Networks (DQN)**, **Policy Gradient Methods**.
+
+---
+
+### 4.5 & 4.6 Comparing the Four Types
+
+| Type | Learning Information | Main Goal | Example | Sample Models / Methods |
+|---|---|---|---|---|
+| **Supervised** | Labeled data | Predict a known output | Email spam prediction | Decision Tree, Random Forest, KNN, SVM, Linear Regression |
+| **Unsupervised** | Unlabeled data | Discover patterns or structure | Customer segmentation | K-Means, DBSCAN, Hierarchical Clustering, PCA, Apriori |
+| **Semi-Supervised** | Small labeled + large unlabeled dataset | Learn from both sources | Images where only some are labeled | Self-Training, Pseudo-Labeling, Label Propagation |
+| **Reinforcement** | Rewards and penalties from interaction | Learn effective actions over time | Train agent to play a game | Q-Learning, SARSA, DQN, Policy Gradient |
+
+#### Simple Conceptual Quotes
+* **Supervised:** *"Here are examples with the correct answers. Learn to predict the answer for new examples."*
+* **Unsupervised:** *"Here is the data. Find meaningful patterns or structure."*
+* **Semi-Supervised:** *"Here are a few examples with answers and many examples without answers. Use both."*
+* **Reinforcement:** *"Interact with the environment, take actions, receive feedback, and improve your decisions over time."*
+
+---
+
+## 5. The Accuracy–Interpretability Tradeoff
+
+* **Accuracy:** *How well does the model make predictions?*
+* **Interpretability:** *How easy is it for a human to understand why the model made that prediction?*
+* **Graph Axes:**
+  * **Vertical Axis (Y-axis):** Accuracy (higher = higher predictive accuracy).
+  * **Horizontal Axis (X-axis):** Interpretability (farther right = easier to explain).
+  * **Upper-Left:** High accuracy, but low interpretability (difficult to explain).
+  * **Lower-Right:** High interpretability, but lower predictive accuracy.
+
+### 5.2 How to Read the Models in the Figure
+| Model | General Position | What It Means |
+|---|---|---|
+| **Neural Networks** | High accuracy, low interpretability | Learns very complex patterns, but difficult to explain why a prediction was made. |
+| **Random Forest** | High accuracy, low–medium interpretability | Combines many trees; performs well, but understanding the entire model is difficult. |
+| **Support Vector Machine** | Medium–high accuracy, low–medium interpretability | Finds a boundary separating groups; models complex relationships, but reasoning is not easy to explain. |
+| **Graphical Models** | Medium accuracy, medium interpretability | Represents relationships using a graph, making some relationships easier to visualize. |
+| **K-Nearest Neighbors (KNN)** | Medium accuracy, medium interpretability | Predicts based on nearby neighbors; reasoning becomes less clear with many variables. |
+| **Decision Trees** | Medium accuracy, high interpretability | Predicts through simple decisions (*"Is age > 30?"* or *"Is income < ₱20,000?"*), making it easy to follow. |
+| **Linear Regression** | Lower accuracy, high interpretability | Simple linear relationship ($Y = \beta_0 + \beta_1 X$); we can directly inspect $\beta_1$ to see input contribution. |
+| **Classification Rules** | Lower accuracy, very high interpretability | Uses simple **IF–THEN rules**, making the decision process very easy to understand. |
+
+### 5.3 The Student A vs. Student B Analogy
+* **Student A:** Uses a complicated strategy considering many factors; accurate answer, but difficult to explain every step.
+* **Student B:** Uses a simple rule (*"If X > 50, predict A; otherwise B"*); easy to understand, but may not capture all patterns.
+
+---
+
+## 6. Main Challenges in Machine Learning
+
+Real-world ML projects face seven recurring obstacles:
+
+1. **Poor quality of data:** Noisy, unclean data leads directly to inaccurate models (why Modules 4–5 emphasized cleaning & EDA).
+2. **Underfitting:** The model is too simple to capture the real relationship between inputs and outputs.
+   * *Fixes:* Adding more relevant features, increasing model complexity, or training longer.
+3. **Overfitting:** The model memorized noise and bias in training data rather than the underlying pattern (performs great on training data, poorly on new data).
+   * *Fixes:* Using more representative data, removing outliers, or choosing a simpler model.
+4. **Overall process complexity:** ML is a young, fast-changing field full of trial and error; many interdependent steps can introduce error.
+5. **Lack of training data:** Models often need very large amounts of data to learn reliable patterns.
+6. **Slow implementation:** Training highly accurate models and monitoring/maintaining them takes substantial time and computing resources.
+7. **Model decay as data grows:** A model that performs well today can quietly become less accurate as real-world data drifts, requiring regular monitoring and retraining.
+
+---
+
+## 7. Choosing an Approach: Practical Decision Guide
+
+| If You Have... | ...And You Want To... | Consider |
+|---|---|---|
+| **Labeled historical outcomes** | Predict a future or unknown outcome | **Supervised learning** |
+| **No labels at all** | Discover unknown groupings or patterns | **Unsupervised learning** |
+| **A little labeled data, lots of unlabeled data** | Make the most of expensive-to-get labels | **Semi-supervised learning** |
+| **No fixed dataset, but an environment to act in** | Learn a strategy through trial and error | **Reinforcement learning** |
+
+---
+
+## Quick Reference Summary Sheet
+
+* **AI vs. ML vs. DL:** AI (mimic human behavior) $\supset$ ML (improve with experience from data) $\supset$ DL (multi-layer neural networks).
+* **Supervised Learning:** Labeled data; Classification (category) vs. Regression (numerical value).
+* **Unsupervised Learning:** Unlabeled data; Clustering (K-Means, Hierarchical, DBSCAN), Association Rules (Apriori), Dimensionality Reduction (PCA).
+* **Semi-Supervised:** Small labeled + large unlabeled (Self-Training, Pseudo-Labeling, Label Propagation).
+* **Reinforcement Learning:** Agent in Environment; State $\to$ Action $\to$ Reward $\to$ Learning; Q-Learning, SARSA, DQN.
+* **Accuracy vs. Interpretability:** Neural Networks (upper-left, high accuracy/low interpretability) vs. Classification Rules & Linear Regression (lower-right, lower accuracy/high interpretability).
+* **Underfitting vs. Overfitting:** Underfitting = too simple (fix: add features/complexity); Overfitting = memorized noise (fix: simpler model, remove outliers, representative data).
