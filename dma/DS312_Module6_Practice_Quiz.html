@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>DS312 Module 6 Practice Quiz: Supervised vs. Unsupervised Methods (50 Items)</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for pristine math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    /* Seamless Zero-Footprint Scrollbars: Full scrolling functionality with invisible bars */
+    html, body, * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
+    :root {
+      /* LIGHT THEME (Warm Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-card: #FFFFFF;
+      --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+
+      --accent-crimson: #C84B31;
+      --accent-crimson-bg: rgba(200, 75, 49, 0.08);
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-teal-bg: rgba(38, 121, 107, 0.08);
+      --accent-blue: #1B365D;
+      --accent-blue-bg: rgba(27, 54, 93, 0.08);
+
+      --success-green: #1E7E34;
+      --success-bg: rgba(40, 167, 69, 0.12);
+      --success-border: #28a745;
+      
+      --error-red: #D32F2F;
+      --error-bg: rgba(211, 47, 47, 0.10);
+      --error-border: #D32F2F;
+
+      --warning-amber: #B7791F;
+      --warning-bg: rgba(214, 158, 46, 0.12);
+      --warning-border: #D69E2E;
+
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.06), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME (Deep Space Slate) */
+      --bg-canvas: #0B0E14;
+      --surface-card: #141821;
+      --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+
+      --accent-crimson: #E0533C;
+      --accent-crimson-bg: rgba(224, 83, 60, 0.15);
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-teal-bg: rgba(45, 212, 191, 0.15);
+      --accent-blue: #4A90E2;
+      --accent-blue-bg: rgba(74, 144, 226, 0.15);
+
+      --success-green: #34D399;
+      --success-bg: rgba(52, 211, 153, 0.15);
+      --success-border: #34D399;
+
+      --error-red: #F87171;
+      --error-bg: rgba(248, 113, 113, 0.15);
+      --error-border: #F87171;
+
+      --warning-amber: #FBBF24;
+      --warning-bg: rgba(251, 191, 36, 0.15);
+      --warning-border: #FBBF24;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.50);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.70);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 1.5rem 1rem 3rem 1rem;
+    }
+
+    /* Fixed Top Progress Bar */
+    .top-progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--surface-subtle);
+      z-index: 1000;
+    }
+    .top-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-crimson));
+      transition: width 0.35s ease;
+    }
+
+    /* Main Quiz Container */
+    .quiz-app-container {
+      width: 960px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Header Bar */
+    .quiz-header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.25rem;
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .portal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      transition: color 0.2s ease;
+    }
+    .portal-link:hover {
+      color: var(--accent-crimson);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.45rem 0.85rem;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+    }
+    .control-btn:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-focus);
+      transform: translateY(-1px);
+    }
+
+    .quiz-title-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .quiz-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-crimson);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .quiz-eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+
+    .quiz-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Live Status Bar */
+    .metrics-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .metric-pill strong {
+      color: var(--text-main);
+    }
+    .metric-tag {
+      background: var(--accent-blue-bg);
+      color: var(--accent-blue);
+      border: 1px solid var(--border-subtle);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+
+    /* Card Wrapper */
+    .question-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2rem 2.25rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .question-part-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      background: var(--accent-teal-bg);
+      color: var(--accent-teal);
+      border: 1px solid var(--accent-teal);
+    }
+
+    .question-category {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-faint);
+    }
+
+    .question-stem {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    /* Part I: MCQ Options */
+    .mcq-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .mcq-option-btn {
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.1rem 1.35rem;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      user-select: none;
+      word-break: break-word;
+    }
+
+    .mcq-option-btn:hover:not(:disabled) {
+      background: var(--surface-subtle);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .mcq-option-letter {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.95rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .mcq-option-text {
+      flex: 1;
+      padding-top: 0.2rem;
+    }
+
+    /* Option States */
+    .mcq-option-btn.selected-correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      color: var(--text-main) !important;
+    }
+    .mcq-option-btn.selected-correct .mcq-option-letter {
+      background: var(--success-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .mcq-option-btn.selected-wrong {
+      background: var(--error-bg) !important;
+      border-color: var(--error-border) !important;
+      color: var(--text-main) !important;
+    }
+    .mcq-option-btn.selected-wrong .mcq-option-letter {
+      background: var(--error-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .mcq-option-btn.reveal-correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      border-style: dashed !important;
+    }
+    .mcq-option-btn.reveal-correct .mcq-option-letter {
+      background: var(--success-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .option-status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-left: auto;
+      align-self: center;
+      flex-shrink: 0;
+    }
+    .badge-correct {
+      background: var(--success-border);
+      color: #FFFFFF;
+    }
+    .badge-wrong {
+      background: var(--error-border);
+      color: #FFFFFF;
+    }
+    .badge-target {
+      background: var(--success-bg);
+      color: var(--success-green);
+      border: 1px solid var(--success-border);
+    }
+
+    /* Part II: Identification Form */
+    .id-form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .id-input-row {
+      display: flex;
+      gap: 0.75rem;
+      width: 100%;
+    }
+
+    .id-text-input {
+      flex: 1;
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.95rem 1.25rem;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .id-text-input:focus {
+      border-color: var(--accent-teal);
+      box-shadow: 0 0 0 3px var(--accent-teal-bg);
+      background: var(--surface-card);
+    }
+    .id-text-input:disabled {
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+    .id-text-input.input-correct {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+    }
+    .id-text-input.input-wrong {
+      background: var(--error-bg);
+      border-color: var(--error-border);
+    }
+
+    .btn-submit-action {
+      background: var(--accent-teal);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem 1.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .btn-submit-action:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(38, 121, 107, 0.3);
+    }
+    .btn-submit-action:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Part III: Enumeration Grid */
+    .enum-instruction {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .enum-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .enum-option-card {
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.95rem 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .enum-option-card:hover:not(.locked) {
+      background: var(--surface-subtle);
+      border-color: var(--border-focus);
+    }
+    .enum-option-card.checked {
+      background: var(--accent-blue-bg);
+      border-color: var(--accent-blue);
+    }
+    .enum-checkbox-indicator {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border-focus);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .enum-option-card.checked .enum-checkbox-indicator {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #FFFFFF;
+    }
+
+    .enum-option-card.enum-correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+    }
+    .enum-option-card.enum-correct .enum-checkbox-indicator {
+      background: var(--success-border) !important;
+      border-color: var(--success-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .enum-option-card.enum-wrong {
+      background: var(--error-bg) !important;
+      border-color: var(--error-border) !important;
+    }
+    .enum-option-card.enum-wrong .enum-checkbox-indicator {
+      background: var(--error-border) !important;
+      border-color: var(--error-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .enum-option-card.enum-missed {
+      background: var(--warning-bg) !important;
+      border-color: var(--warning-border) !important;
+      border-style: dashed !important;
+    }
+    .enum-option-card.enum-missed .enum-checkbox-indicator {
+      background: var(--warning-border) !important;
+      border-color: var(--warning-border) !important;
+      color: #FFFFFF !important;
+    }
+
+    .enum-actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .enum-count-helper {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Pedagogical Feedback Card */
+    .feedback-box {
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-box.feedback-correct {
+      background: var(--success-bg);
+      border: 1.5px solid var(--success-border);
+    }
+    .feedback-box.feedback-wrong {
+      background: var(--error-bg);
+      border: 1.5px solid var(--error-border);
+    }
+
+    .feedback-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .feedback-verdict {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .feedback-verdict.correct {
+      color: var(--success-green);
+    }
+    .feedback-verdict.wrong {
+      color: var(--error-red);
+    }
+
+    .feedback-canonical-row {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .feedback-explanation {
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--text-main);
+    }
+
+    .feedback-nav-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn-next-question {
+      background: var(--accent-crimson);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem 1.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(200, 75, 49, 0.25);
+    }
+    .btn-next-question:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200, 75, 49, 0.4);
+    }
+
+    /* Question Navigator Drawer / Modal */
+    .navigator-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .navigator-modal-backdrop.open {
+      display: flex;
+    }
+
+    .navigator-modal {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      width: 720px;
+      max-width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--card-shadow-hover);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.75rem;
+      animation: modalPop 0.25s ease;
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .navigator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.85rem;
+    }
+    .navigator-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .btn-close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .navigator-filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-filter-tab {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-filter-tab.active {
+      background: var(--accent-blue-bg);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    .navigator-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.5rem;
+    }
+    @media (max-width: 600px) {
+      .navigator-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .nav-cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--border-subtle);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-cell:hover {
+      border-color: var(--accent-blue);
+      transform: scale(1.08);
+    }
+    .nav-cell.current {
+      border-color: var(--accent-crimson);
+      box-shadow: 0 0 0 2px var(--accent-crimson);
+    }
+    .nav-cell.cell-correct {
+      background: var(--success-border);
+      border-color: var(--success-border);
+      color: #FFFFFF;
+    }
+    .nav-cell.cell-wrong {
+      background: var(--error-border);
+      border-color: var(--error-border);
+      color: #FFFFFF;
+    }
+
+    .navigator-legend {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 0.85rem;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Master Scorecard Screen */
+    .scorecard-screen {
+      display: none;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .scorecard-screen.visible {
+      display: flex;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .scorecard-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .scorecard-badge {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 9999px;
+      background: var(--accent-teal-bg);
+      color: var(--accent-teal);
+      border: 1px solid var(--accent-teal);
+    }
+
+    .scorecard-honors {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .scorecard-score-big {
+      font-family: var(--font-mono);
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 1;
+      margin: 0.5rem 0;
+    }
+
+    .scorecard-score-sub {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .scorecard-breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .breakdown-card {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .breakdown-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .breakdown-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .breakdown-bar-bg {
+      height: 6px;
+      background: var(--surface-subtle);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .breakdown-bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: var(--accent-teal);
+      transition: width 0.6s ease;
+    }
+
+    .scorecard-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      padding-top: 1rem;
+    }
+
+    .btn-action-primary {
+      background: var(--accent-crimson);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem 1.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(200, 75, 49, 0.35);
+    }
+
+    .btn-action-secondary {
+      background: var(--surface-elevated);
+      border: 1.5px solid var(--border-subtle);
+      color: var(--text-main);
+      border-radius: 12px;
+      padding: 0.95rem 1.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-action-secondary:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.65rem 2.5rem 0.65rem;
+      }
+      .quiz-app-container {
+        gap: 1rem;
+      }
+      .quiz-title {
+        font-size: 1.45rem;
+      }
+      .question-card {
+        padding: 1.35rem 1.15rem;
+        gap: 1.15rem;
+      }
+      .question-stem {
+        font-size: 1.15rem;
+      }
+      .mcq-option-btn {
+        padding: 0.85rem 1rem;
+        font-size: 0.92rem;
+      }
+      .id-input-row {
+        flex-direction: column;
+      }
+      .enum-options-grid {
+        grid-template-columns: 1fr;
+      }
+      .scorecard-screen {
+        padding: 1.5rem 1rem;
+      }
+      .scorecard-score-big {
+        font-size: 3.2rem;
+      }
+      .scorecard-honors {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="top-progress-container">
+    <div class="top-progress-bar" id="topProgressBar"></div>
+  </div>
+
+  <div class="quiz-app-container">
+
+    <!-- Header -->
+    <header class="quiz-header">
+      <div class="header-top-row">
+        <a href="index.html" class="portal-link">
+          <span>&larr; DMA ACADEMIC REVIEWER HUB</span>
+        </a>
+        <div class="header-controls">
+          <button class="control-btn" id="navigatorToggleBtn">
+            <span>📋</span>
+            <span>NAVIGATOR (50)</span>
+          </button>
+          <button class="control-btn" id="themeToggleBtn">
+            <span id="themeIcon">🌓</span>
+            <span id="themeLabel">THEME</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="quiz-title-section">
+        <div class="quiz-eyebrow">PRACTICE EXAMINATION • MODULE 6</div>
+        <h1 class="quiz-title">Supervised vs. Unsupervised Methods: Master Practice Quiz</h1>
+        <p class="quiz-subtitle">
+          50 Rigorous Pedagogical Items spanning Mitchell's Triad, concentric boundary failures, association rule lift, PCA spectral decomposition, semi-supervised confirmation bias, Bellman MDP equations, and glass-box models. Immediate evaluation &amp; feedback per answer.
+        </p>
+      </div>
+
+      <!-- Live Metrics Strip -->
+      <div class="metrics-bar">
+        <div class="metric-pill">
+          <span>QUESTION:</span>
+          <strong id="metricQuestionNumber">1 / 50</strong>
+        </div>
+        <div class="metric-pill">
+          <span>SCORE:</span>
+          <strong id="metricLiveScore">0 / 0 (0%)</strong>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-tag" id="metricTypeTag">PART I: MULTIPLE CHOICE</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Active Question Card -->
+    <main id="activeQuestionSection">
+      <div class="question-card" id="questionCard">
+        <div class="question-meta">
+          <span class="question-part-badge" id="questionPartBadge">PART I: MULTIPLE CHOICE</span>
+          <span class="question-category" id="questionCategory">Epistemological Foundations</span>
+        </div>
+
+        <div class="question-stem" id="questionStem">
+          Loading question prompt...
+        </div>
+
+        <!-- Dynamic Interaction Container -->
+        <div id="interactiveArea">
+          <!-- Populated by JavaScript according to question type -->
+        </div>
+
+        <!-- Immediate Feedback Box (Hidden initially) -->
+        <div class="feedback-box" id="feedbackBox" style="display: none;">
+          <div class="feedback-header-row">
+            <div class="feedback-verdict" id="feedbackVerdict">
+              <!-- Result Icon & Text -->
+            </div>
+            <div class="card-kicker-tag" style="font-size: 0.75rem; color: var(--text-faint);" id="feedbackCitation">
+              MODULE 6 SPECIFICATION
+            </div>
+          </div>
+
+          <div class="feedback-canonical-row" id="feedbackCanonicalRow" style="display: none;">
+            <div><strong>Accepted Canonical Answer:</strong> <span id="feedbackCanonicalAnswer"></span></div>
+            <div id="feedbackUserAnswerRow"><strong>Your Input:</strong> <span id="feedbackUserAnswer"></span></div>
+          </div>
+
+          <div class="feedback-explanation" id="feedbackExplanation">
+            <!-- In-depth pedagogical explanation with KaTeX math -->
+          </div>
+
+          <div class="feedback-nav-row">
+            <button class="btn-next-question" id="nextQuestionBtn">
+              <span>PROCEED TO NEXT QUESTION</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Master Scorecard Screen (Hidden until finished) -->
+    <section class="scorecard-screen" id="scorecardScreen">
+      <div class="scorecard-hero">
+        <span class="scorecard-badge">EXAMINATION COMPLETE</span>
+        <div class="scorecard-score-big" id="finalScoreDisplay">0 / 50</div>
+        <h2 class="scorecard-honors" id="finalHonorsDisplay">Summa Cum Laude</h2>
+        <p class="scorecard-score-sub" id="finalPercentDisplay">Score: 0.0% • 50 of 50 Questions Answered</p>
+      </div>
+
+      <div class="scorecard-breakdown-grid">
+        <div class="breakdown-card">
+          <span class="breakdown-title">Part I: Multiple Choice</span>
+          <div class="breakdown-value" id="part1ScoreDisplay">0 / 25</div>
+          <div class="breakdown-bar-bg">
+            <div class="breakdown-bar-fill" id="part1Bar" style="width: 0%;"></div>
+          </div>
+        </div>
+        <div class="breakdown-card">
+          <span class="breakdown-title">Part II: Identification</span>
+          <div class="breakdown-value" id="part2ScoreDisplay">0 / 15</div>
+          <div class="breakdown-bar-bg">
+            <div class="breakdown-bar-fill" id="part2Bar" style="width: 0%;"></div>
+          </div>
+        </div>
+        <div class="breakdown-card">
+          <span class="breakdown-title">Part III: Enumeration</span>
+          <div class="breakdown-value" id="part3ScoreDisplay">0 / 10</div>
+          <div class="breakdown-bar-bg">
+            <div class="breakdown-bar-fill" id="part3Bar" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scorecard-actions">
+        <button class="btn-action-primary" id="btnDrillMissed" style="display: none;">
+          <span>🎯 DRILL MISSED QUESTIONS (<span id="missedCountLabel">0</span>)</span>
+        </button>
+        <button class="btn-action-secondary" id="btnRetakeAll">
+          <span>🔄 RETAKE FULL QUIZ</span>
+        </button>
+        <a href="DS312_Module6_Supervised_vs_Unsupervised_Learning.html" class="btn-action-secondary">
+          <span>📊 STUDY 3D KEYNOTE DECK</span>
+        </a>
+        <a href="DS312_Module6_Supervised_vs_Unsupervised_Learning_Companion_Guide.md" class="btn-action-secondary">
+          <span>📖 COMPANION GUIDE</span>
+        </a>
+        <a href="index.html" class="btn-action-secondary">
+          <span>🏠 DMA PORTAL</span>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Navigator Modal -->
+  <div class="navigator-modal-backdrop" id="navigatorBackdrop">
+    <div class="navigator-modal">
+      <div class="navigator-header">
+        <h3 class="navigator-title">Question Navigator</h3>
+        <button class="btn-close-modal" id="closeNavigatorBtn">&times;</button>
+      </div>
+
+      <div class="navigator-filter-tabs">
+        <button class="nav-filter-tab active" data-filter="all">All (50)</button>
+        <button class="nav-filter-tab" data-filter="mcq">MCQ (1-25)</button>
+        <button class="nav-filter-tab" data-filter="identification">Identification (26-40)</button>
+        <button class="nav-filter-tab" data-filter="enumeration">Enumeration (41-50)</button>
+        <button class="nav-filter-tab" data-filter="missed">Missed Only</button>
+      </div>
+
+      <div class="navigator-grid" id="navigatorGrid">
+        <!-- 50 cells dynamically generated -->
+      </div>
+
+      <div class="navigator-legend">
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: var(--surface-elevated);"></div>
+          <span>Unanswered</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="border: 2px solid var(--accent-crimson);"></div>
+          <span>Current</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: var(--success-border);"></div>
+          <span>Correct</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: var(--error-border);"></div>
+          <span>Incorrect</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Embed Questions Dataset -->
+  <script>
+    const ALL_QUESTIONS = [{"id": 1, "type": "mcq", "category": "Epistemological Foundations", "question": "What is the primary epistemological distinction between classical data mining and modern machine learning as established in Module 6?", "options": ["Data mining focuses strictly on linear models, whereas machine learning only handles non-linear deep neural architectures.", "Data mining is fundamentally retrospective (discovering patterns in historical records), whereas machine learning is prospective (optimizing hypothesis parameters to generalize and predict on unseen data).", "Data mining requires continuous real-time environment simulation, whereas machine learning only queries static relational SQL tables.", "Data mining guarantees 100% asymptotic consistency, whereas machine learning requires zero supervisory training instances."], "answer": 1, "explanation": "Data mining is historically retrospective—analyzing stored historical repositories to discover past patterns, associations, and anomalies. Machine learning is prospective—learning a parameterized hypothesis function $f(X)$ that generalizes to unseen future distributions."}, {"id": 2, "type": "mcq", "category": "Foundational Definitions", "question": "In Tom Mitchell's foundational 1997 formulation, a computer program is said to learn from experience $E$ with respect to task $T$ and performance measure $P$ if:", "options": ["Its computational runtime on task $T$ decreases linearly with experience $E$.", "Its performance at task $T$, as measured by $P$, improves with experience $E$.", "Its model complexity exceeds the empirical entropy of experience $E$.", "Its weights converge to zero gradient variance under backpropagation."], "answer": 1, "explanation": "Mitchell's (1997) operational definition states: 'A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.'"}, {"id": 3, "type": "mcq", "category": "Paradigm Inversion", "question": "In classical software engineering, humans input (Data + Handcrafted Rules) to produce Answers. What does machine learning feed into the computer to produce Rules (Hypothesis $f$)?", "options": ["Rules + Hyperparameters", "Data + Ground-Truth Answers (Labels)", "Predictions + Empirical Loss Gradients", "Cluster Centroids + Support Vectors"], "answer": 1, "explanation": "Classical programming takes Data + Rules and outputs Answers. Machine learning inverts this pipeline: it inputs Data + Ground-Truth Answers (Labels), executing statistical optimization to output the Rules (the learned model $f_\\theta$)."}, {"id": 4, "type": "mcq", "category": "Concentric AI Topology", "question": "Which of the following correctly describes the concentric topological nesting of Artificial Intelligence (AI), Machine Learning (ML), and Deep Learning (DL)?", "options": ["Deep Learning $\\subset$ Machine Learning $\\subset$ Artificial Intelligence", "Machine Learning $\\subset$ Deep Learning $\\subset$ Artificial Intelligence", "Artificial Intelligence $\\subset$ Machine Learning $\\subset$ Deep Learning", "Machine Learning $\\subset$ Artificial Intelligence $\\subset$ Deep Learning"], "answer": 0, "explanation": "Artificial Intelligence is the broadest field (1950s); Machine Learning is a statistical learning subset of AI (1980s); Deep Learning is a specialized representation-learning subfield of ML (2010s) based on deep neural networks."}, {"id": 5, "type": "mcq", "category": "Representation Learning", "question": "What fundamental engineering mechanism distinguishes Deep Learning from classical statistical machine learning?", "options": ["Deep learning relies on manual handcrafted feature extraction (e.g., SIFT, frequency ratios).", "Deep learning automatically discovers hierarchical, latent geometric representations directly from raw inputs via layered non-linear activations.", "Deep learning is restricted to linear decision hyperplanes with zero interaction terms.", "Deep learning provides 100% closed-form mathematical interpretability for regulatory review."], "answer": 1, "explanation": "Classical ML requires human engineers to manually craft feature representations. Deep learning conducts automated end-to-end representation learning, transforming raw inputs (pixels, tokens, audio) into abstract geometric representations across successive hidden layers."}, {"id": 6, "type": "mcq", "category": "Supervised Learning Formalism", "question": "In supervised learning, the dataset is defined as $\\mathcal{D} = \\{(x_i, y_i)\\}_{i=1}^N$. What do $x_i$ and $y_i$ denote?", "options": ["$x_i$ denotes the transition probability, and $y_i$ denotes the scalar environmental reward.", "$x_i$ denotes the input feature vector, and $y_i$ denotes the verified supervisory ground-truth target.", "$x_i$ denotes an unannotated vector, and $y_i$ denotes an unsupervised cluster assignment.", "$x_i$ denotes the hypothesis parameter, and $y_i$ denotes the regularization penalty."], "answer": 1, "explanation": "Supervised learning operates on input-target pairs: $x_i \\in \\mathbb{R}^p$ represents the $p$-dimensional feature vector, and $y_i$ represents the verified ground-truth target outcome (label or continuous value)."}, {"id": 7, "type": "mcq", "category": "Classification vs Regression", "question": "What is the structural divergence between Classification and Regression in supervised learning?", "options": ["Classification predicts continuous real values $y \\in \\mathbb{R}$, while regression partitions feature space into discrete categories $y \\in \\{C_1, \\dots, C_k\\}$.", "Classification partitions feature space into discrete qualitative classes $y \\in \\{C_1, \\dots, C_k\\}$, while regression predicts an infinite, quantitative real-valued response $y \\in \\mathbb{R}$.", "Classification minimizes Mean Squared Error, while regression minimizes Cross-Entropy loss.", "Classification requires zero ground-truth labels, while regression requires scalar trial-and-error rewards."], "answer": 1, "explanation": "Classification maps feature space into discrete categorical buckets or decision regions ($y \\in \\{0, 1\\}$ or multi-class). Regression models continuous real-valued responses ($y \\in \\mathbb{R}$) by fitting response surfaces or hyperplanes."}, {"id": 8, "type": "mcq", "category": "Unsupervised Learning Objective", "question": "What is the primary learning objective in Unsupervised Learning where the dataset contains only features $\\mathcal{D} = \\{x_i\\}_{i=1}^N$ without target labels $y$?", "options": ["To minimize empirical cross-entropy loss against supervisory answer keys.", "To uncover intrinsic latent geometry, cluster groupings, data manifolds, or density distributions without external guidance.", "To execute policy gradient ascent on scalar environmental feedback.", "To eliminate all variance in feature space by forcing weights to zero."], "answer": 1, "explanation": "Unsupervised learning receives no supervisory feedback or answer keys. Its mathematical objective is to estimate data density $P(X)$, partition instances into coherent clusters, or project data onto lower-dimensional manifolds (dimensionality reduction)."}, {"id": 9, "type": "mcq", "category": "Clustering Mechanics", "question": "Why does standard K-Means clustering fail when applied to datasets with concentric circular manifolds or complex non-convex geometries?", "options": ["K-Means computes geodesic graph distances rather than Euclidean distances.", "K-Means partitions space via linear Voronoi cells based on Euclidean centroids, implicitly assuming spherical isotropic clusters with equal variance.", "K-Means requires labeled target outcomes to converge.", "K-Means cannot compute cluster assignments for datasets with more than two dimensions."], "answer": 1, "explanation": "K-Means relies on Euclidean distance to cluster centroids, partitioning space into convex Voronoi polyhedra. When clusters form non-convex geometries (like concentric rings or interlocking spirals), centroid Euclidean proximity fails."}, {"id": 10, "type": "mcq", "category": "DBSCAN Density Mechanics", "question": "How does DBSCAN categorize data points into clusters without requiring an a priori choice of $k$?", "options": ["By computing tree splits that maximize the Gini impurity reduction.", "By evaluating local point density within radius $\\epsilon$, classifying points as Core ($\\ge \\text{MinPts}$ neighbors), Border, or Noise/Outliers.", "By fitting a multivariate Gaussian mixture model via Expectation-Maximization.", "By projecting data onto the first two orthogonal eigenvectors."], "answer": 1, "explanation": "DBSCAN (Density-Based Spatial Clustering of Applications with Noise) relies on parameters $\\epsilon$ (neighborhood radius) and $\\text{MinPts}$. Points with at least $\\text{MinPts}$ inside $\\epsilon$ are Core points; reachable points with $< \\text{MinPts}$ are Border points; isolated points are labeled Noise."}, {"id": 11, "type": "mcq", "category": "Association Rule Mining", "question": "In Association Rule Mining ($X \\rightarrow Y$), what does a Lift metric greater than 1.0 ($\\text{Lift}(X \\rightarrow Y) > 1$) signify?", "options": ["Items $X$ and $Y$ are negatively correlated and repel each other in customer baskets.", "Itemset $X$ and itemset $Y$ appear together more frequently than expected if they were statistically independent.", "The rule has zero confidence and should be discarded.", "The dataset has severe multicollinearity violating the Gauss-Markov theorem."], "answer": 1, "explanation": "$\\text{Lift}(X \\rightarrow Y) = \\frac{P(X \\cup Y)}{P(X)P(Y)}$. A Lift of 1 implies statistical independence. $\\text{Lift} > 1$ proves positive association—purchasing $X$ elevates the likelihood of purchasing $Y$ beyond baseline random chance."}, {"id": 12, "type": "mcq", "category": "Dimensionality Reduction", "question": "Principal Component Analysis (PCA) performs unsupervised linear dimensionality reduction by:", "options": ["Randomly deleting features that have low correlation with target $y$.", "Diagonalizing the covariance matrix to find orthogonal projection axes (eigenvectors) that maximize captured variance.", "Splitting continuous variables into five discrete percentile bins.", "Iteratively tuning decision boundaries to maximize margin width."], "answer": 1, "explanation": "PCA performs eigendecomposition on the empirical covariance matrix $\\Sigma v_i = \\lambda_i v_i$. It identifies orthogonal principal axes aligned with directions of maximal data variance, ordered by eigenvalue magnitude."}, {"id": 13, "type": "mcq", "category": "Semi-Supervised Learning", "question": "What practical economic reality drives the deployment of Semi-Supervised Learning in industrial data science pipelines?", "options": ["Collecting raw unlabeled data is expensive, while hiring human labelers is completely free.", "Raw unannotated data is abundant and inexpensive to collect, but high-quality ground-truth annotation is scarce, expensive, or hazardous.", "Semi-supervised models achieve higher interpretability than single decision trees.", "Semi-supervised models completely eliminate the need for training validation sets."], "answer": 1, "explanation": "In many domains (e.g., medical pathology, seismic sensing, legal document review), acquiring unannotated samples $U$ is cheap, but expert annotation $L$ requires costly human specialists. SSL leverages $L$ to guide learning across vast $U$."}, {"id": 14, "type": "mcq", "category": "SSL Failure Modes", "question": "What is the primary structural failure mode of naive Pseudo-Labeling / Self-Training in semi-supervised systems?", "options": ["Vanishing gradients in the input layer.", "Confirmation Bias / Error Cascading, where confident but incorrect pseudo-labels reinforce model errors across iterations.", "The curse of dimensionality collapsing all feature distances to zero.", "The model reverting into an unsupervised K-Means algorithm."], "answer": 1, "explanation": "Confirmation Bias occurs when the model assigns a high-confidence pseudo-label to an incorrectly classified unlabeled sample. When retrained on its own incorrect pseudo-labels, the error cascades and degrades accuracy."}, {"id": 15, "type": "mcq", "category": "Reinforcement Learning", "question": "How does Reinforcement Learning fundamentally differ from Supervised Learning in its data acquisition mechanism?", "options": ["Supervised learning interacts with live simulators, while RL requires static historical spreadsheets.", "RL operates through an active closed-loop: an agent executes actions, alters environmental state, and receives delayed evaluative rewards.", "RL models are guaranteed to converge in a single pass without backpropagation.", "Supervised learning does not optimize a loss function."], "answer": 1, "explanation": "Supervised learning learns from passive, static pairs $(x_i, y_i)$ with immediate target error signals. Reinforcement Learning is active and sequential: the agent influences state transitions $s_{t+1}$ and learns from delayed scalar rewards $r_t$."}, {"id": 16, "type": "mcq", "category": "Bellman Optimality", "question": "In the Bellman optimality equation $V^*(s) = \\max_a \\left[ R(s, a) + \\gamma \\sum_{s'} P(s'|s, a) V^*(s') \\right]$, what is the function of the discount factor $\\gamma \\in [0, 1)$?", "options": ["It penalizes regression weights to enforce L1 sparsity.", "It exponentially discounts future rewards, balancing immediate gratification against long-term strategic return.", "It sets the decision threshold for binary classification.", "It limits the maximum depth of an agent's policy tree."], "answer": 1, "explanation": "The discount factor $\\gamma$ ensures mathematical convergence of infinite-horizon returns and models the time value of rewards: rewards received $k$ steps in the future are worth $\\gamma^k$ of immediate reward."}, {"id": 17, "type": "mcq", "category": "Exploration vs Exploitation", "question": "What happens if an RL agent suffers from 'Exploration Collapse' by annealing its exploration parameter $\\epsilon \\rightarrow 0$ too rapidly in an $\\epsilon$-greedy strategy?", "options": ["The agent acts entirely randomly for the remainder of training.", "The agent exploits a suboptimal local policy prematurely and never discovers superior global trajectories.", "The environment terminates immediately with negative reward.", "The agent's policy collapses into a linear regression model."], "answer": 1, "explanation": "If exploration stops prematurely, the agent only exploits actions it currently believes are best based on limited experience. It gets trapped in a suboptimal local optimum and fails to discover higher-reward states."}, {"id": 18, "type": "mcq", "category": "Pareto Frontier", "question": "Along the Accuracy–Interpretability Pareto frontier, which class of models provides maximum parameter transparency ('Glass-Box') at the cost of constrained capacity?", "options": ["Deep Convolutional Neural Networks and Vision Transformers", "Linear Regression, Logistic Regression, and Single Shallow Decision Trees", "XGBoost and LightGBM Ensembles with 500 gradient-boosted trees", "Random Forest classifiers with unconstrained tree depth"], "answer": 1, "explanation": "Glass-box models (Linear/Logistic Regression, single decision trees) offer direct mathematical auditability: each coefficient $\\beta_j$ directly represents a marginal effect $\\frac{\\partial y}{\\partial x_j}$, whereas deep networks are opaque black boxes."}, {"id": 19, "type": "mcq", "category": "Statutory Compliance", "question": "Under the US Equal Credit Opportunity Act (ECOA) and GDPR Article 22, why are high-stakes enterprise lending decisions restricted from using unconstrained black-box models?", "options": ["Deep neural networks cannot process continuous numerical financial features.", "Statutory mandates require specific, auditable Adverse Action notices detailing exact causal variables and thresholds for rejection, which black boxes cannot guarantee.", "Banks are legally prohibited from using any algorithm invented after 1990.", "Black-box algorithms are computationally unable to output probabilities."], "answer": 1, "explanation": "Regulatory statutes (ECOA in the US, GDPR Article 22 in the EU) legally mandate the 'Right to Explanation' and actionable Adverse Action notices. Lenders must prove which specific factors caused credit denial, forbidding opaque models."}, {"id": 20, "type": "mcq", "category": "The Epistemological Parable", "question": "In the Student A (98% In-Distribution Memorizer) vs. Student B (92% Glass-Box Reasoner) parable, why does Student B win in production deployment?", "options": ["Student B achieves a higher score on the original practice examination.", "Student B generalizes reliably under real-world distribution shift and provides auditable, legally defensible decision boundaries.", "Student B requires zero training data and zero feature normalization.", "Student B eliminates all false positive classifications by mathematical definition."], "answer": 1, "explanation": "Student A overfits surface correlations and collapses under covariate or concept shift. Student B learns causal, robust first principles: despite scoring 6% lower in-distribution, Student B resists distribution shift and is 100% auditable."}, {"id": 21, "type": "mcq", "category": "Gauss-Markov LINE+M", "question": "In the Gauss-Markov LINE+M diagnostic framework for Ordinary Least Squares (OLS) regression, what does the 'E' stand for?", "options": ["Entropy (minimizing tree split impurity)", "Equal Variance / Homoscedasticity (constant residual variance across all predicted values)", "Empirical Risk Minimization across the validation fold", "Exponential Weight Decay penalty in gradient descent"], "answer": 1, "explanation": "LINE+M: Linearity ($L$), Independence of errors ($I$, Durbin-Watson $\\approx 2$), Normality of residuals ($N$), Equal variance / Homoscedasticity ($E$), and no Multicollinearity ($M$, $\\text{VIF} < 5$)."}, {"id": 22, "type": "mcq", "category": "Overfitting Diagnostics", "question": "A model achieves 99.8% accuracy on its training split, but drops to 62.4% on a held-out test split. What core engineering obstacle has occurred?", "options": ["High Bias / Underfitting due to model over-simplicity.", "High Variance / Overfitting: the model memorized sample noise rather than the underlying population distribution.", "Target leakage causing artificially depressed test scores.", "The Durbin-Watson statistic exceeding 4.0."], "answer": 1, "explanation": "A massive gap between near-perfect training accuracy and poor test accuracy is the diagnostic signature of Overfitting (High Variance). The model's capacity was too large, fitting stochastic sample noise."}, {"id": 23, "type": "mcq", "category": "Distribution Shift", "question": "When the statistical distribution of features changes ($P(X)$ shifts) while the underlying conditional target mapping ($P(Y|X)$) remains unchanged, this is formally termed:", "options": ["Concept Drift", "Covariate Shift", "Homoscedasticity Violation", "Multicollinearity Cascade"], "answer": 1, "explanation": "Covariate Shift occurs when the input distribution $P(X)$ changes between training and production, but the conditional relationship $P(Y|X)$ remains constant. (When $P(Y|X)$ changes, it is Concept Drift)."}, {"id": 24, "type": "mcq", "category": "Explainable Boosting Machines", "question": "How do Explainable Boosting Machines (EBMs) achieve gradient boosted tree accuracy while maintaining glass-box interpretability?", "options": ["By constraining the model to a linear combination of single-feature and pairwise interaction shape functions: $\\hat{y} = \\sum f_j(x_j) + \\sum f_{ij}(x_i, x_j)$.", "By converting all continuous inputs into PCA eigenvectors before training.", "By restricting decision trees to depth 100 with zero pruning.", "By training solely on unsupervised pseudo-labels."], "answer": 0, "explanation": "EBMs are Generalized Additive Models (GAMs) trained via gradient boosting: $\\hat{y} = \\beta_0 + \\sum f_j(x_j)$. Because each feature $x_j$ has an isolated shape function $f_j$, users can plot and inspect the exact marginal effect curve."}, {"id": 25, "type": "mcq", "category": "Loss Minimization & Regularization", "question": "In regularized Empirical Risk Minimization $\\min_\\theta \\frac{1}{N}\\sum \\mathcal{L}(y_i, f(x_i)) + \\lambda \\Omega(\\theta)$, what does setting $\\lambda = 0$ result in?", "options": ["Pure unregularized empirical risk minimization, maximizing risk of overfitting on high-capacity models.", "Forcing all parameter weights $\\theta$ to exactly zero.", "Converting the supervised task into an unsupervised K-Means clustering algorithm.", "Enforcing infinite bias and zero variance."], "answer": 0, "explanation": "When $\\lambda = 0$, the complexity penalty $\\Omega(\\theta)$ vanishes, leaving pure empirical risk minimization. For high-capacity models (e.g., deep networks, unpruned trees), this maximizes the likelihood of severe overfitting."}, {"id": 26, "type": "identification", "category": "Historical Nomenclature", "question": "Arthur Samuel (1959) coined this term, defining it as the subfield of computer science that gives 'computers the ability to learn without being explicitly programmed'.", "accepted": ["machine learning", "ml"], "display_answer": "Machine Learning", "explanation": "Arthur Samuel coined the term 'Machine Learning' in 1959 while developing an autonomous checkers-playing program at IBM."}, {"id": 27, "type": "identification", "category": "Paradigms", "question": "Name the machine learning paradigm that utilizes a training dataset composed of input feature vectors $x_i$ paired with supervisory target labels $y_i$ to learn a predictive mapping $f(X) \\approx y$.", "accepted": ["supervised learning", "supervised", "supervised machine learning"], "display_answer": "Supervised Learning", "explanation": "Supervised learning algorithms are provided with ground-truth answer keys ($y$) to compute error loss gradients during training."}, {"id": 28, "type": "identification", "category": "Supervised Subtypes", "question": "Name the specific subtype of supervised learning where the target variable $y$ is continuous, numerical, and real-valued ($y \\in \\mathbb{R}$).", "accepted": ["regression", "linear regression", "continuous regression"], "display_answer": "Regression", "explanation": "Regression models quantitative continuous response variables (e.g. house prices, temperature, stock return), in contrast to classification which models discrete labels."}, {"id": 29, "type": "identification", "category": "Unsupervised Algorithms", "question": "Name the density-based clustering algorithm that groups points within radius $\\epsilon$ having at least $\\text{MinPts}$ neighbors, automatically separating noise/outliers without requiring an initial value of $k$.", "accepted": ["dbscan", "density-based spatial clustering of applications with noise", "density based spatial clustering of applications with noise"], "display_answer": "DBSCAN", "explanation": "DBSCAN (Density-Based Spatial Clustering of Applications with Noise) forms clusters by connecting high-density spatial regions, isolating sparse noise points as outliers."}, {"id": 30, "type": "identification", "category": "Association Rules", "question": "In Association Rule Mining, identify the statistical metric defined as the ratio of observed rule support to expected support under independence: $\\frac{P(X \\cup Y)}{P(X)P(Y)}$.", "accepted": ["lift", "lift ratio"], "display_answer": "Lift", "explanation": "Lift measures the strength of association between $X$ and $Y$. A Lift of 1 implies independence; Lift $> 1$ indicates that $X$ and $Y$ co-occur far more frequently than chance."}, {"id": 31, "type": "identification", "category": "Dimensionality Reduction", "question": "Name the popular unsupervised linear transformation technique that computes orthogonal eigenvectors of the sample covariance matrix to project high-dimensional data onto axes of maximum variance.", "accepted": ["pca", "principal component analysis"], "display_answer": "Principal Component Analysis (PCA)", "explanation": "PCA projects multivariate data onto mutually orthogonal principal components that sequentially capture the highest proportions of total empirical variance."}, {"id": 32, "type": "identification", "category": "Semi-Supervised Methods", "question": "Name the semi-supervised technique where a model trained on labeled data $L$ evaluates unlabeled samples $U$, assigning artificial target labels to samples that exceed a high confidence threshold $\\tau$.", "accepted": ["pseudo-labeling", "pseudolabeling", "self-training", "self training", "pseudo labeling"], "display_answer": "Pseudo-Labeling (or Self-Training)", "explanation": "In Pseudo-Labeling / Self-Training, predictions on unlabeled data $\\hat{y}_u = \\text{argmax}(p)$ are treated as synthetic ground-truth labels if the model's confidence $\\max(p) \\ge \\tau$."}, {"id": 33, "type": "identification", "category": "Reinforcement Learning", "question": "Identify the formal mathematical framework used to model decision-making in reinforcement learning environments, represented by the 5-tuple $(S, A, P, R, \\gamma)$.", "accepted": ["markov decision process", "mdp"], "display_answer": "Markov Decision Process (MDP)", "explanation": "An MDP provides the mathematical formalism for RL: State space $S$, Action space $A$, Transition probability $P$, Reward function $R$, and Discount factor $\\gamma$."}, {"id": 34, "type": "identification", "category": "RL Equations", "question": "Name the foundational recurrence equation in dynamic programming and reinforcement learning that decomposes the value of a state into immediate reward plus discounted future value.", "accepted": ["bellman equation", "bellman optimality equation", "bellman"], "display_answer": "Bellman Equation", "explanation": "Richard Bellman formulated the Bellman equation: $V(s) = \\max_a [R(s, a) + \\gamma \\sum P(s'|s, a) V(s')]$, forming the bedrock of Value Iteration, Q-Learning, and DQN."}, {"id": 35, "type": "identification", "category": "Statutory Governance", "question": "Name the European Union data protection regulation whose Article 22 establishes the landmark statutory 'Right to Explanation' for automated algorithmic decisions.", "accepted": ["gdpr", "general data protection regulation", "gdpr article 22"], "display_answer": "GDPR (General Data Protection Regulation)", "explanation": "GDPR Article 22 protects individuals against solely automated decisions that produce legal or significant effects without meaningful explanation and human intervention."}, {"id": 36, "type": "identification", "category": "Regression Diagnostics", "question": "In Ordinary Least Squares regression diagnostics (LINE+M), what statistical term denotes the requirement that error variance remains constant across all predicted values (absence of fan-out)?", "accepted": ["homoscedasticity", "homoskedasticity", "equal variance", "constant variance"], "display_answer": "Homoscedasticity (Equal Variance)", "explanation": "Homoscedasticity requires $\\text{Var}(\\epsilon_i | X) = \\sigma^2$ for all $i$. If variance expands or contracts across predictions, the error is heteroscedastic, invalidating OLS standard errors."}, {"id": 37, "type": "identification", "category": "Regression Diagnostics", "question": "Identify the diagnostic index used to quantify the inflation of regression coefficient variance caused by multicollinearity among independent variables (values $> 5$ or $10$ indicate severe collinearity).", "accepted": ["variance inflation factor", "vif"], "display_answer": "Variance Inflation Factor (VIF)", "explanation": "$\\text{VIF}_j = \\frac{1}{1 - R_j^2}$. A high VIF indicates that predictor $x_j$ is strongly collinear with other predictors, destabilizing parameter estimates."}, {"id": 38, "type": "identification", "category": "Model Diagnostics", "question": "Identify the machine learning pathology where an overly complex model fits the stochastic noise and idiosyncrasies of the training data, leading to severe performance degradation on test data (High Variance).", "accepted": ["overfitting", "overfit", "high variance"], "display_answer": "Overfitting", "explanation": "Overfitting occurs when model capacity exceeds the signal complexity, memorizing sample noise and failing to generalize to the broader population."}, {"id": 39, "type": "identification", "category": "Production Challenges", "question": "Name the operational phenomenon where the statistical relationship between input features $X$ and the target variable $Y$ ($P(Y|X)$) shifts over time after a model is deployed into production.", "accepted": ["concept drift", "model drift", "concept shift"], "display_answer": "Concept Drift", "explanation": "Concept drift occurs when the fundamental relationship between inputs and outputs changes in the real world (e.g. consumer spending patterns altering during a recession or pandemic)."}, {"id": 40, "type": "identification", "category": "Regularization Techniques", "question": "Identify the specific regularization technique (L1 penalty) that adds the sum of absolute parameter weights $\\lambda \\sum |\\theta_j|$ to the loss function, driving redundant coefficients to exactly zero for automated feature selection.", "accepted": ["lasso", "l1 regularization", "l1", "lasso regularization"], "display_answer": "Lasso (L1 Regularization)", "explanation": "Lasso (Least Absolute Shrinkage and Selection Operator) penalizes the L1-norm of weights. Its diamond constraint boundary induces corner solutions, setting uninformative feature weights to exactly 0."}, {"id": 41, "type": "enumeration", "category": "Mitchell Triad", "question": "Enumerate the three (3) essential components of Tom Mitchell's (1997) formal operational definition of Machine Learning. [Select exactly 3]", "options": ["Task ($T$)", "Hyperparameter Grid ($H$)", "Experience ($E$)", "Gradient Descent Momentum ($M$)", "Performance Measure ($P$)", "Cluster Centroid ($K$)"], "correct": [0, 2, 4], "explanation": "Mitchell's 1997 machine learning triad is explicitly composed of: (1) Task $T$, (2) Experience $E$, and (3) Performance Measure $P$."}, {"id": 42, "type": "enumeration", "category": "Core Paradigms", "question": "Enumerate the four (4) primary machine learning paradigms analyzed in Module 6. [Select exactly 4]", "options": ["Supervised Learning", "Deterministic Rule Engineering", "Unsupervised Learning", "Semi-Supervised Learning", "Reinforcement Learning", "Relational Database Normalization"], "correct": [0, 2, 3, 4], "explanation": "The four foundational learning paradigms are: Supervised Learning, Unsupervised Learning, Semi-Supervised Learning, and Reinforcement Learning."}, {"id": 43, "type": "enumeration", "category": "Clustering Algorithms", "question": "Enumerate the three (3) major clustering algorithms covered in Section 4.2 of Module 6. [Select exactly 3]", "options": ["K-Means", "Ordinary Least Squares", "Hierarchical Clustering (Agglomerative / Divisive)", "DBSCAN (Density-Based)", "Apriori Algorithm", "Support Vector Regression"], "correct": [0, 2, 3], "explanation": "Module 6 categorizes unsupervised clustering across three flagship architectures: (1) K-Means centroid clustering, (2) Hierarchical clustering dendrograms, and (3) DBSCAN density clustering."}, {"id": 44, "type": "enumeration", "category": "Association Rule Mining", "question": "Enumerate the three (3) fundamental metrics used to evaluate association rules ($X \\rightarrow Y$) in Market Basket Analysis. [Select exactly 3]", "options": ["Support", "Confidence", "Entropy", "Lift", "Silhouette Score", "Eigenvalue"], "correct": [0, 1, 3], "explanation": "Association rules are quantified by: (1) Support (frequency of occurrence), (2) Confidence (conditional probability $P(Y|X)$), and (3) Lift (ratio of co-occurrence over independence)."}, {"id": 45, "type": "enumeration", "category": "MDP Components", "question": "Enumerate all five (5) formal components of the Markov Decision Process (MDP) tuple $(S, A, P, R, \\gamma)$. [Select exactly 5]", "options": ["State Space ($S$)", "Action Space ($A$)", "Transition Probability Function ($P$)", "Reward Function ($R$)", "Discount Factor ($\\gamma$)", "Cluster Dispersion Matrix ($W$)"], "correct": [0, 1, 2, 3, 4], "explanation": "An MDP is defined by the 5-tuple: State space $S$, Action space $A$, Transition model $P(s'|s, a)$, Reward function $R(s, a)$, and Discount factor $\\gamma \\in [0, 1)$."}, {"id": 46, "type": "enumeration", "category": "Glass-Box Models", "question": "Enumerate the four (4) models situated on the high-interpretability ('Glass-Box') side of the Pareto frontier. [Select exactly 4]", "options": ["Linear Regression", "Logistic Regression", "Single Shallow Decision Tree", "Deep Convolutional Neural Network", "Explainable Boosting Machine (EBM / GAM)", "Ensemble of 1,000 Random Forests"], "correct": [0, 1, 2, 4], "explanation": "The 4 primary glass-box models are: (1) Linear Regression, (2) Logistic Regression, (3) Single Decision Tree, and (4) Explainable Boosting Machines (EBM) / Generalized Additive Models (GAM)."}, {"id": 47, "type": "enumeration", "category": "Gauss-Markov LINE+M", "question": "Enumerate all five (5) diagnostic assumptions of the Gauss-Markov LINE+M framework for Ordinary Least Squares (OLS) regression validity. [Select exactly 5]", "options": ["Linearity of the feature-target relationship ($L$)", "Independence of residual errors ($I$)", "Normality of error distribution ($N$)", "Equal variance / Homoscedasticity of residuals ($E$)", "No problematic Multicollinearity among predictors ($M$)", "Reinforcement reward convergence ($\\gamma$)"], "correct": [0, 1, 2, 3, 4], "explanation": "LINE+M encapsulates the 5 OLS validity criteria: Linearity ($L$), Independence ($I$, Durbin-Watson $\\approx 2$), Normality ($N$), Equal Variance / Homoscedasticity ($E$), and no Multicollinearity ($M$, $\\text{VIF} < 5$)."}, {"id": 48, "type": "enumeration", "category": "Core Challenges in ML", "question": "From the seven (7) core engineering challenges in machine learning identified in Section 6, select four (4) valid obstacles. [Select exactly 4]", "options": ["Insufficient Quantity of Training Data", "Non-representative Data (Selection Bias)", "Poor Data Quality (Outliers, Measurement Noise, Missing Values)", "Absence of Relational Primary Keys in SQL", "Concept Drift / Covariate Shift", "CPU Fan Overheating"], "correct": [0, 1, 2, 4], "explanation": "Module 6 lists 7 engineering obstacles: (1) Insufficient quantity, (2) Non-representative data, (3) Poor data quality, (4) Irrelevant features, (5) Overfitting, (6) Underfitting, and (7) Concept drift."}, {"id": 49, "type": "enumeration", "category": "Overfitting Remedies", "question": "Enumerate three (3) proven engineering techniques used to counteract High Variance / Overfitting in supervised machine learning models. [Select exactly 3]", "options": ["L1 (Lasso) or L2 (Ridge) Weight Regularization", "Decision Tree Pruning & Depth Limitation", "Cross-Validation & Early Stopping", "Adding 500 Uncorrelated Noise Features", "Removing all Regularization Penalties (Setting $\\lambda = 0$)", "Discarding all Validation Sets"], "correct": [0, 1, 2], "explanation": "Overfitting is remediated by: (1) Parameter regularization (L1/L2 penalties), (2) Constraining model architecture (tree pruning, limiting depth), and (3) Early stopping / k-fold cross-validation."}, {"id": 50, "type": "enumeration", "category": "Paradigm Selection Tree", "question": "Enumerate the three (3) foundational architectural decision criteria used in Module 6's Practical Selection Tree to choose the optimal learning paradigm. [Select exactly 3]", "options": ["Ground-Truth Label Availability (Labeled vs. Unlabeled vs. Partially Labeled)", "Statutory or Clinical Human Explainability Requirement (Glass-Box vs. Black-Box)", "Sequential Interactive Environment Feedback with State Transitions (Static Data vs. MDP Loop)", "The Manufacturer of the Server's GPU Card", "The Number of Relational Foreign Keys in the Data Warehouse", "Whether the Code is Compiled in C++ or Python"], "correct": [0, 1, 2], "explanation": "The Module 6 Paradigm Selection Tree is governed by 3 architectural criteria: (1) Label availability ($y$ present vs absent), (2) Statutory interpretability requirement (auditable vs unconstrained), and (3) Problem nature (static data vs sequential interactive agent feedback loop)."}];
+
+    // Application State
+    let activeQuestionList = [...ALL_QUESTIONS];
+    let currentIndex = 0;
+    let userAnswers = {}; // id -> { answered: bool, isCorrect: bool, userValue: any }
+    let isDrillMode = false;
+
+    // DOM Elements
+    const topProgressBar = document.getElementById('topProgressBar');
+    const metricQuestionNumber = document.getElementById('metricQuestionNumber');
+    const metricLiveScore = document.getElementById('metricLiveScore');
+    const metricTypeTag = document.getElementById('metricTypeTag');
+    const questionCard = document.getElementById('questionCard');
+    const questionPartBadge = document.getElementById('questionPartBadge');
+    const questionCategory = document.getElementById('questionCategory');
+    const questionStem = document.getElementById('questionStem');
+    const interactiveArea = document.getElementById('interactiveArea');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const feedbackVerdict = document.getElementById('feedbackVerdict');
+    const feedbackCanonicalRow = document.getElementById('feedbackCanonicalRow');
+    const feedbackCanonicalAnswer = document.getElementById('feedbackCanonicalAnswer');
+    const feedbackUserAnswerRow = document.getElementById('feedbackUserAnswerRow');
+    const feedbackUserAnswer = document.getElementById('feedbackUserAnswer');
+    const feedbackExplanation = document.getElementById('feedbackExplanation');
+    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+
+    const scorecardScreen = document.getElementById('scorecardScreen');
+    const activeQuestionSection = document.getElementById('activeQuestionSection');
+    const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+    const finalHonorsDisplay = document.getElementById('finalHonorsDisplay');
+    const finalPercentDisplay = document.getElementById('finalPercentDisplay');
+    const part1ScoreDisplay = document.getElementById('part1ScoreDisplay');
+    const part2ScoreDisplay = document.getElementById('part2ScoreDisplay');
+    const part3ScoreDisplay = document.getElementById('part3ScoreDisplay');
+    const part1Bar = document.getElementById('part1Bar');
+    const part2Bar = document.getElementById('part2Bar');
+    const part3Bar = document.getElementById('part3Bar');
+    const btnDrillMissed = document.getElementById('btnDrillMissed');
+    const missedCountLabel = document.getElementById('missedCountLabel');
+    const btnRetakeAll = document.getElementById('btnRetakeAll');
+
+    const navigatorBackdrop = document.getElementById('navigatorBackdrop');
+    const navigatorToggleBtn = document.getElementById('navigatorToggleBtn');
+    const closeNavigatorBtn = document.getElementById('closeNavigatorBtn');
+    const navigatorGrid = document.getElementById('navigatorGrid');
+    const filterTabs = document.querySelectorAll('.nav-filter-tab');
+
+    // Theme Management
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('dma_quiz_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeDisplay(savedTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('dma_quiz_theme', next);
+      updateThemeDisplay(next);
+    }
+
+    function updateThemeDisplay(theme) {
+      if (theme === 'dark') {
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'DARK';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'LIGHT';
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // KaTeX Render Helper
+    function triggerKaTeX(container) {
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Helper: Normalize identification answers
+    function cleanAnswerText(txt) {
+      if (!txt) return '';
+      return txt.toLowerCase()
+        .replace(/[^a-z0-9]/g, '')
+        .trim();
+    }
+
+    // Update Progress and Metrics
+    function updateMetrics() {
+      const totalInActive = activeQuestionList.length;
+      const currentDisplayNum = currentIndex + 1;
+      
+      const answeredKeys = Object.keys(userAnswers);
+      const answeredCount = answeredKeys.length;
+      const correctCount = answeredKeys.filter(k => userAnswers[k].isCorrect).length;
+      const pct = answeredCount > 0 ? ((correctCount / answeredCount) * 100).toFixed(1) : 0;
+
+      metricQuestionNumber.textContent = `${currentDisplayNum} / ${totalInActive}`;
+      metricLiveScore.textContent = `${correctCount} / ${answeredCount} (${pct}%)`;
+
+      const progressPercent = ((currentDisplayNum - 1) / totalInActive) * 100;
+      topProgressBar.style.width = `${progressPercent}%`;
+
+      const currentQ = activeQuestionList[currentIndex];
+      if (currentQ) {
+        if (currentQ.type === 'mcq') {
+          metricTypeTag.textContent = 'PART I: MULTIPLE CHOICE';
+          questionPartBadge.textContent = 'PART I: MULTIPLE CHOICE';
+        } else if (currentQ.type === 'identification') {
+          metricTypeTag.textContent = 'PART II: IDENTIFICATION';
+          questionPartBadge.textContent = 'PART II: IDENTIFICATION';
+        } else {
+          metricTypeTag.textContent = 'PART III: ENUMERATION';
+          questionPartBadge.textContent = 'PART III: ENUMERATION';
+        }
+        questionCategory.textContent = currentQ.category;
+      }
+    }
+
+    // Render Current Question
+    function renderQuestion() {
+      if (currentIndex >= activeQuestionList.length) {
+        showScorecard();
+        return;
+      }
+
+      // Ensure active section is visible, scorecard hidden
+      activeQuestionSection.style.display = 'block';
+      scorecardScreen.classList.remove('visible');
+
+      const q = activeQuestionList[currentIndex];
+      questionStem.innerHTML = q.question;
+      interactiveArea.innerHTML = '';
+      feedbackBox.style.display = 'none';
+      feedbackCanonicalRow.style.display = 'none';
+
+      updateMetrics();
+
+      const existingAnswer = userAnswers[q.id];
+
+      if (q.type === 'mcq') {
+        renderMCQ(q, existingAnswer);
+      } else if (q.type === 'identification') {
+        renderIdentification(q, existingAnswer);
+      } else if (q.type === 'enumeration') {
+        renderEnumeration(q, existingAnswer);
+      }
+
+      triggerKaTeX(questionCard);
+      questionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Render Multiple Choice Question
+    function renderMCQ(q, existing) {
+      const container = document.createElement('div');
+      container.className = 'mcq-options-grid';
+
+      const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+      q.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'mcq-option-btn';
+        btn.dataset.index = idx;
+
+        const letterSpan = document.createElement('span');
+        letterSpan.className = 'mcq-option-letter';
+        letterSpan.textContent = letters[idx];
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'mcq-option-text';
+        textSpan.innerHTML = optText;
+
+        btn.appendChild(letterSpan);
+        btn.appendChild(textSpan);
+
+        if (existing) {
+          btn.disabled = true;
+          if (idx === existing.userValue) {
+            btn.classList.add(existing.isCorrect ? 'selected-correct' : 'selected-wrong');
+            const badge = document.createElement('span');
+            badge.className = 'option-status-badge ' + (existing.isCorrect ? 'badge-correct' : 'badge-wrong');
+            badge.textContent = existing.isCorrect ? '✓ Your Answer' : '✗ Your Answer';
+            btn.appendChild(badge);
+          }
+          if (!existing.isCorrect && idx === q.answer) {
+            btn.classList.add('reveal-correct');
+            const badge = document.createElement('span');
+            badge.className = 'option-status-badge badge-target';
+            badge.textContent = '✓ Correct Answer';
+            btn.appendChild(badge);
+          }
+        } else {
+          btn.addEventListener('click', () => handleMCQChoice(q, idx, container));
+        }
+
+        container.appendChild(btn);
+      });
+
+      interactiveArea.appendChild(container);
+
+      if (existing) {
+        showFeedback(q, existing.isCorrect, null, null);
+      }
+    }
+
+    function handleMCQChoice(q, selectedIdx, container) {
+      const isCorrect = selectedIdx === q.answer;
+      userAnswers[q.id] = { answered: true, isCorrect: isCorrect, userValue: selectedIdx };
+
+      // Lock buttons and style
+      const buttons = container.querySelectorAll('.mcq-option-btn');
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === selectedIdx) {
+          btn.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+          const badge = document.createElement('span');
+          badge.className = 'option-status-badge ' + (isCorrect ? 'badge-correct' : 'badge-wrong');
+          badge.textContent = isCorrect ? '✓ Your Answer' : '✗ Your Answer';
+          btn.appendChild(badge);
+        }
+        if (!isCorrect && idx === q.answer) {
+          btn.classList.add('reveal-correct');
+          const badge = document.createElement('span');
+          badge.className = 'option-status-badge badge-target';
+          badge.textContent = '✓ Correct Answer';
+          btn.appendChild(badge);
+        }
+      });
+
+      updateMetrics();
+      showFeedback(q, isCorrect, null, null);
+    }
+
+    // Render Identification Question
+    function renderIdentification(q, existing) {
+      const formContainer = document.createElement('div');
+      formContainer.className = 'id-form-container';
+
+      const inputRow = document.createElement('div');
+      inputRow.className = 'id-input-row';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'id-text-input';
+      input.placeholder = 'Type exact term or phrase here...';
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-submit-action';
+      submitBtn.innerHTML = '<span>SUBMIT ANSWER</span><span>&rarr;</span>';
+
+      inputRow.appendChild(input);
+      inputRow.appendChild(submitBtn);
+      formContainer.appendChild(inputRow);
+      interactiveArea.appendChild(formContainer);
+
+      if (existing) {
+        input.value = existing.userValue;
+        input.disabled = true;
+        submitBtn.disabled = true;
+        input.classList.add(existing.isCorrect ? 'input-correct' : 'input-wrong');
+        showFeedback(q, existing.isCorrect, q.display_answer, existing.userValue);
+      } else {
+        const executeSubmit = () => {
+          const val = input.value.trim();
+          if (!val) {
+            input.focus();
+            return;
+          }
+          const cleanUser = cleanAnswerText(val);
+          const isCorrect = q.accepted.some(acc => cleanAnswerText(acc) === cleanUser);
+
+          userAnswers[q.id] = { answered: true, isCorrect: isCorrect, userValue: val };
+
+          input.disabled = true;
+          submitBtn.disabled = true;
+          input.classList.add(isCorrect ? 'input-correct' : 'input-wrong');
+
+          updateMetrics();
+          showFeedback(q, isCorrect, q.display_answer, val);
+        };
+
+        submitBtn.addEventListener('click', executeSubmit);
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            executeSubmit();
+          }
+        });
+
+        setTimeout(() => input.focus(), 100);
+      }
+    }
+
+    // Render Enumeration Question
+    function renderEnumeration(q, existing) {
+      const container = document.createElement('div');
+      container.className = 'id-form-container';
+
+      const instruction = document.createElement('div');
+      instruction.className = 'enum-instruction';
+      instruction.innerHTML = `<span>ℹ️ Target items: <strong>Select exactly ${q.correct.length} options</strong></span>`;
+      container.appendChild(instruction);
+
+      const grid = document.createElement('div');
+      grid.className = 'enum-options-grid';
+
+      let selectedIndices = new Set(existing ? existing.userValue : []);
+
+      const actionsRow = document.createElement('div');
+      actionsRow.className = 'enum-actions-row';
+
+      const countHelper = document.createElement('div');
+      countHelper.className = 'enum-count-helper';
+      const updateCountHelper = () => {
+        countHelper.innerHTML = `Selected: <strong>${selectedIndices.size}</strong> of ${q.correct.length}`;
+      };
+      updateCountHelper();
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'btn-submit-action';
+      submitBtn.innerHTML = '<span>SUBMIT ENUMERATION</span><span>&rarr;</span>';
+      submitBtn.disabled = existing ? true : false;
+
+      q.options.forEach((optText, idx) => {
+        const card = document.createElement('div');
+        card.className = 'enum-option-card';
+        if (selectedIndices.has(idx)) {
+          card.classList.add('checked');
+        }
+
+        const indicator = document.createElement('div');
+        indicator.className = 'enum-checkbox-indicator';
+        indicator.innerHTML = selectedIndices.has(idx) ? '✓' : '';
+
+        const text = document.createElement('div');
+        text.className = 'enum-option-text';
+        text.innerHTML = optText;
+
+        card.appendChild(indicator);
+        card.appendChild(text);
+
+        if (existing) {
+          card.classList.add('locked');
+          const isUserSelected = selectedIndices.has(idx);
+          const isActuallyCorrect = q.correct.includes(idx);
+
+          if (isUserSelected && isActuallyCorrect) {
+            card.classList.add('enum-correct');
+          } else if (isUserSelected && !isActuallyCorrect) {
+            card.classList.add('enum-wrong');
+          } else if (!isUserSelected && isActuallyCorrect) {
+            card.classList.add('enum-missed');
+          }
+        } else {
+          card.addEventListener('click', () => {
+            if (selectedIndices.has(idx)) {
+              selectedIndices.delete(idx);
+              card.classList.remove('checked');
+              indicator.innerHTML = '';
+            } else {
+              selectedIndices.add(idx);
+              card.classList.add('checked');
+              indicator.innerHTML = '✓';
+            }
+            updateCountHelper();
+          });
+        }
+
+        grid.appendChild(card);
+      });
+
+      if (!existing) {
+        submitBtn.addEventListener('click', () => {
+          if (selectedIndices.size === 0) {
+            alert('Please select at least one option before submitting.');
+            return;
+          }
+
+          const userArray = Array.from(selectedIndices).sort((a,b) => a - b);
+          const correctArray = [...q.correct].sort((a,b) => a - b);
+
+          // Full credit only if exact match
+          const isCorrect = userArray.length === correctArray.length &&
+            userArray.every((val, index) => val === correctArray[index]);
+
+          userAnswers[q.id] = { answered: true, isCorrect: isCorrect, userValue: userArray };
+
+          // Lock cards
+          submitBtn.disabled = true;
+          const cards = grid.querySelectorAll('.enum-option-card');
+          cards.forEach((c, idx) => {
+            c.classList.add('locked');
+            const isUserSelected = selectedIndices.has(idx);
+            const isActuallyCorrect = q.correct.includes(idx);
+
+            if (isUserSelected && isActuallyCorrect) {
+              c.classList.add('enum-correct');
+            } else if (isUserSelected && !isActuallyCorrect) {
+              c.classList.add('enum-wrong');
+            } else if (!isUserSelected && isActuallyCorrect) {
+              c.classList.add('enum-missed');
+            }
+          });
+
+          updateMetrics();
+          showFeedback(q, isCorrect, null, null);
+        });
+      }
+
+      actionsRow.appendChild(countHelper);
+      actionsRow.appendChild(submitBtn);
+
+      container.appendChild(grid);
+      container.appendChild(actionsRow);
+      interactiveArea.appendChild(container);
+
+      if (existing) {
+        showFeedback(q, existing.isCorrect, null, null);
+      }
+    }
+
+    // Show Feedback Box with in-depth pedagogical explanation
+    function showFeedback(q, isCorrect, canonicalAnswer, userAnswer) {
+      feedbackBox.className = 'feedback-box ' + (isCorrect ? 'feedback-correct' : 'feedback-wrong');
+      feedbackBox.style.display = 'flex';
+
+      if (isCorrect) {
+        feedbackVerdict.className = 'feedback-verdict correct';
+        feedbackVerdict.innerHTML = '<span>✓</span><span>CORRECT! FULL CREDIT (+1)</span>';
+      } else {
+        feedbackVerdict.className = 'feedback-verdict wrong';
+        feedbackVerdict.innerHTML = '<span>✗</span><span>INCORRECT (0 / 1)</span>';
+      }
+
+      if (canonicalAnswer) {
+        feedbackCanonicalRow.style.display = 'flex';
+        feedbackCanonicalAnswer.textContent = canonicalAnswer;
+        feedbackUserAnswer.textContent = userAnswer || '(blank)';
+      } else {
+        feedbackCanonicalRow.style.display = 'none';
+      }
+
+      feedbackExplanation.innerHTML = q.explanation;
+
+      // Update button text for final item
+      const isLast = currentIndex === activeQuestionList.length - 1;
+      nextQuestionBtn.innerHTML = isLast 
+        ? '<span>VIEW MASTER SCORECARD</span><span>&rarr;</span>'
+        : '<span>PROCEED TO NEXT QUESTION</span><span>&rarr;</span>';
+
+      triggerKaTeX(feedbackBox);
+
+      // Scroll smoothly to feedback box
+      setTimeout(() => {
+        feedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+
+    // Advance to next question or show scorecard
+    nextQuestionBtn.addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex < activeQuestionList.length) {
+        renderQuestion();
+      } else {
+        showScorecard();
+      }
+    });
+
+    // Scorecard Generation
+    function showScorecard() {
+      activeQuestionSection.style.display = 'none';
+      scorecardScreen.classList.add('visible');
+      topProgressBar.style.width = '100%';
+
+      const total = activeQuestionList.length;
+      let totalCorrect = 0;
+      let p1Correct = 0, p1Total = 0;
+      let p2Correct = 0, p2Total = 0;
+      let p3Correct = 0, p3Total = 0;
+
+      activeQuestionList.forEach(q => {
+        const ua = userAnswers[q.id];
+        const correct = ua && ua.isCorrect;
+        if (correct) totalCorrect++;
+
+        if (q.type === 'mcq') {
+          p1Total++;
+          if (correct) p1Correct++;
+        } else if (q.type === 'identification') {
+          p2Total++;
+          if (correct) p2Correct++;
+        } else if (q.type === 'enumeration') {
+          p3Total++;
+          if (correct) p3Correct++;
+        }
+      });
+
+      const pct = ((totalCorrect / total) * 100).toFixed(1);
+      finalScoreDisplay.textContent = `${totalCorrect} / ${total}`;
+      finalPercentDisplay.textContent = `Score: ${pct}% • ${totalCorrect} Correct out of ${total} Questions`;
+
+      // Honors determination
+      if (pct >= 90) {
+        finalHonorsDisplay.textContent = '🏆 Summa Cum Laude: Master of ML Paradigms';
+      } else if (pct >= 80) {
+        finalHonorsDisplay.textContent = '🌟 Magna Cum Laude: Advanced ML Practitioner';
+      } else if (pct >= 70) {
+        finalHonorsDisplay.textContent = '📚 Cum Laude: Proficient Data Scientist';
+      } else {
+        finalHonorsDisplay.textContent = '⚠️ Remediation Recommended: Study Companion Guide';
+      }
+
+      // Breakdown bars
+      part1ScoreDisplay.textContent = `${p1Correct} / ${p1Total}`;
+      part2ScoreDisplay.textContent = `${p2Correct} / ${p2Total}`;
+      part3ScoreDisplay.textContent = `${p3Correct} / ${p3Total}`;
+
+      part1Bar.style.width = `${p1Total ? (p1Correct/p1Total)*100 : 0}%`;
+      part2Bar.style.width = `${p2Total ? (p2Correct/p2Total)*100 : 0}%`;
+      part3Bar.style.width = `${p3Total ? (p3Correct/p3Total)*100 : 0}%`;
+
+      // Drill Missed Questions button
+      const missedQuestions = activeQuestionList.filter(q => !userAnswers[q.id] || !userAnswers[q.id].isCorrect);
+      if (missedQuestions.length > 0) {
+        btnDrillMissed.style.display = 'inline-flex';
+        missedCountLabel.textContent = missedQuestions.length;
+        btnDrillMissed.onclick = () => {
+          activeQuestionList = missedQuestions;
+          currentIndex = 0;
+          isDrillMode = true;
+          renderQuestion();
+        };
+      } else {
+        btnDrillMissed.style.display = 'none';
+      }
+
+      scorecardScreen.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Retake All Questions
+    btnRetakeAll.addEventListener('click', () => {
+      userAnswers = {};
+      activeQuestionList = [...ALL_QUESTIONS];
+      currentIndex = 0;
+      isDrillMode = false;
+      renderQuestion();
+    });
+
+    // Navigator Modal Implementation
+    function openNavigator() {
+      renderNavigatorGrid('all');
+      navigatorBackdrop.classList.add('open');
+    }
+    function closeNavigator() {
+      navigatorBackdrop.classList.remove('open');
+    }
+
+    navigatorToggleBtn.addEventListener('click', openNavigator);
+    closeNavigatorBtn.addEventListener('click', closeNavigator);
+    navigatorBackdrop.addEventListener('click', (e) => {
+      if (e.target === navigatorBackdrop) closeNavigator();
+    });
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderNavigatorGrid(tab.dataset.filter);
+      });
+    });
+
+    function renderNavigatorGrid(filter) {
+      navigatorGrid.innerHTML = '';
+
+      ALL_QUESTIONS.forEach((q, idx) => {
+        // Filter criteria
+        if (filter === 'mcq' && q.type !== 'mcq') return;
+        if (filter === 'identification' && q.type !== 'identification') return;
+        if (filter === 'enumeration' && q.type !== 'enumeration') return;
+        if (filter === 'missed') {
+          const ua = userAnswers[q.id];
+          if (!ua || ua.isCorrect) return;
+        }
+
+        const cell = document.createElement('div');
+        cell.className = 'nav-cell';
+        cell.textContent = q.id;
+
+        const ua = userAnswers[q.id];
+        if (ua) {
+          if (ua.isCorrect) cell.classList.add('cell-correct');
+          else cell.classList.add('cell-wrong');
+        }
+
+        if (activeQuestionList[currentIndex] && activeQuestionList[currentIndex].id === q.id) {
+          cell.classList.add('current');
+        }
+
+        cell.addEventListener('click', () => {
+          // If in drill mode or filtering, reset activeQuestionList to full questions list
+          if (isDrillMode) {
+            activeQuestionList = [...ALL_QUESTIONS];
+            isDrillMode = false;
+          }
+          const targetIndex = activeQuestionList.findIndex(item => item.id === q.id);
+          if (targetIndex !== -1) {
+            currentIndex = targetIndex;
+            closeNavigator();
+            renderQuestion();
+          }
+        });
+
+        navigatorGrid.appendChild(cell);
+      });
+    }
+
+    // Keyboard Shortcuts (1-4 for MCQ options, ESC to close modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeNavigator();
+      }
+    });
+
+    // Boot the application
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderQuestion();
+    });
+  </script>
+</body>
+</html>
