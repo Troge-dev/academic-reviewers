@@ -3,69 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DS312: Modules 1 to 3 — Foundations & Mining Techniques | Interactive Keynote</title>
+  <title>DS312 Modules 1–3: Foundations, Analytics & Techniques | Interactive Keynote</title>
   
   <!-- Modern Google Fonts Stack -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      /* LIGHT THEME (Warm Linen Alabaster) */
       --bg-canvas: #F8F6F1;
-      --surface-front: #FFFFFF;
-      --surface-back: #F5EFE6;
+      --surface-card: #FFFFFF;
       --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
       --text-main: #1D1A16;
       --text-muted: #5C564E;
       --text-faint: #8E867B;
       --border-subtle: #E2DBD0;
       --border-focus: #C8BAA8;
       
-      /* Vibrant Academic Accent Hues */
       --accent-crimson: #C84B31;
       --accent-ochre: #A96E32;
       --accent-teal: #26796B;
       --accent-blue: #1B365D;
+      --accent-purple: #6B46C1;
 
-      /* Typography */
       --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
       --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
-      /* Elevations */
       --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
-      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
     }
 
     [data-theme="dark"] {
-      /* LUMINOUS DEEP SPACE SLATE */
+      /* DARK THEME (Deep Space Slate) */
       --bg-canvas: #0B0E14;
-      --surface-front: #141821;
-      --surface-back: #181E2A;
+      --surface-card: #141821;
       --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
       --text-main: #F4F6FB;
       --text-muted: #9DA6B8;
       --text-faint: #657085;
       --border-subtle: #242D3D;
       --border-focus: #37435C;
       
-      /* Luminous Neon Accents */
       --accent-crimson: #E0533C;
       --accent-ochre: #E5A967;
       --accent-teal: #2DD4BF;
       --accent-blue: #4A90E2;
+      --accent-purple: #A78BFA;
 
       --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
-      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.65);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-canvas);
@@ -77,155 +71,162 @@
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      user-select: none;
       transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
     }
 
-    /* Top Progress Bar */
-    .progress-bar-container {
+    /* Edge-Hover Header Controls */
+    .edge-header-trigger {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 4px;
-      background: rgba(169, 110, 50, 0.12);
-      z-index: 100;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
-      width: 5.55%;
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Deck Container */
-    .deck-container {
-      width: 1380px;
-      height: 790px;
-      max-width: calc(100vw - 3rem);
-      max-height: calc(100vh - 2.5rem);
+      right: 0;
+      height: 70px;
+      z-index: 999;
       display: flex;
-      flex-direction: column;
-      padding: 1.75rem 2.75rem;
-      position: relative;
-      margin: auto;
-      box-sizing: border-box;
-      transition: width 0.2s ease, height 0.2s ease;
-    }
-
-    /* Header Bar (Collapsible Dropdown) */
-    .slide-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-height: 0;
-      opacity: 0;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      overflow: hidden;
-      border-bottom: 1px solid transparent;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 12px;
       pointer-events: none;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease,
-                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-color 0.25s ease;
     }
 
-    .slide-header.expanded {
-      max-height: 80px;
-      opacity: 1;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom-color: var(--border-subtle);
-      pointer-events: auto;
-    }
+    .edge-header-trigger > * { pointer-events: auto; }
 
-    .slide-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent-ochre);
+    .header-controls {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-    }
-
-    .slide-eyebrow::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background: var(--accent-crimson);
-      border-radius: 50%;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .hint-banner {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent-teal);
-      background: rgba(38, 121, 107, 0.08);
-      border: 1px solid rgba(38, 121, 107, 0.25);
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      letter-spacing: 0.06em;
-      font-weight: 600;
-    }
-
-    .theme-toggle-btn {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      background: var(--surface-front);
+      gap: 1.25rem;
+      background: var(--surface-card);
       border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      color: var(--text-main);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-weight: 600;
+      padding: 0.55rem 1.25rem;
+      border-radius: 9999px;
+      box-shadow: var(--card-shadow);
+      opacity: 0;
+      transform: translateY(-15px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .theme-toggle-btn:hover {
+    .edge-header-trigger:hover .header-controls,
+    .header-controls.force-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-btn {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
       border-color: var(--accent-ochre);
       color: var(--accent-ochre);
     }
 
-    .slide-topic-badge {
+    .slide-counter {
       font-family: var(--font-mono);
       font-size: 0.88rem;
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.95rem;
-      border-radius: 4px;
-      color: var(--text-main);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      font-weight: 800;
+      color: var(--accent-ochre);
+      min-width: 65px;
+      text-align: center;
     }
 
-    /* Main Slide Stage */
-    .slide-stage {
-      flex: 1;
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
       display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.15s ease;
     }
 
-    .slide-view {
+    .theme-toggle-btn:hover { color: var(--accent-crimson); }
+
+    /* Edge-Hover Footer Scrubber */
+    .edge-footer-trigger {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 12px;
+      pointer-events: none;
+    }
+
+    .edge-footer-trigger > * { pointer-events: auto; }
+
+    .footer-scrubber {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      box-shadow: var(--card-shadow);
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .edge-footer-trigger:hover .footer-scrubber,
+    .footer-scrubber.force-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scrubber-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .scrubber-dot.active {
+      background: var(--accent-crimson);
+      transform: scale(1.35);
+      border-color: var(--accent-crimson);
+    }
+
+    /* Presentation Stage & Slide Wrapper */
+    .stage-container {
+      width: 1360px;
+      max-width: 95vw;
+      height: 850px;
+      max-height: 92vh;
+      position: relative;
+      perspective: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
       position: absolute;
       top: 0;
       left: 0;
@@ -233,2168 +234,1423 @@
       height: 100%;
       display: none;
       flex-direction: column;
+      justify-content: space-between;
       opacity: 0;
-      transition: opacity 0.25s ease-in-out;
+      transform: translateY(12px) scale(0.99);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 2.2rem 2.8rem;
+      box-sizing: border-box;
     }
 
-    .slide-view.active {
+    .slide.active {
       display: flex;
       opacity: 1;
-      z-index: 2;
+      transform: translateY(0) scale(1);
     }
 
-    /* Slide Titles */
-    .slide-title-area {
-      margin-bottom: 1.15rem;
-      flex-shrink: 0;
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.1rem;
+      margin-bottom: 1.4rem;
     }
 
-    .slide-headline {
+    .slide-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .slide-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slide-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-crimson);
+    }
+
+    .slide-title {
       font-family: var(--font-display);
       font-size: 2.15rem;
       font-weight: 800;
+      letter-spacing: -0.03em;
       line-height: 1.15;
-      letter-spacing: -0.035em;
       color: var(--text-main);
-      margin-bottom: 0.35rem;
     }
 
-    .slide-subhead {
-      font-size: 1.05rem;
-      font-weight: 500;
+    .slide-subtitle {
+      font-size: 1rem;
       color: var(--text-muted);
+      max-width: 880px;
       line-height: 1.4;
     }
 
-    /* Slide Layout Grids */
-    .grid-container {
+    .slide-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    /* Layout Archetypes */
+    .layout-hero-split {
       display: grid;
-      gap: 1.5rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.2rem;
+      height: 100%;
+      align-items: center;
+    }
+
+    .layout-split-asymmetric {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 1.75rem;
       flex: 1;
       min-height: 0;
     }
 
-    .grid-bifurcated {
+    .layout-dual-vs {
+      display: grid;
       grid-template-columns: 1fr 1fr;
-    }
-
-    .grid-triptych {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .grid-split-hero {
-      grid-template-columns: 1.15fr 1fr;
-    }
-
-    .stack-right-column {
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-      height: 100%;
-    }
-
-    /* 3D Flip Card Container */
-    .flip-card {
-      background-color: transparent;
-      perspective: 1200px;
-      cursor: pointer;
-      height: 100%;
-      position: relative;
-      outline: none;
-    }
-
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform-style: preserve-3d;
-      transform-origin: center center;
-      border-radius: 12px;
-    }
-
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-card-front, .flip-card-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      border-radius: 12px;
-      padding: 1.85rem 1.95rem;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* FRONT DESIGN */
-    .flip-card-front {
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--card-shadow);
-      justify-content: space-between;
-      transform: rotateY(0deg);
-      z-index: 2;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .flip-card:hover .flip-card-front {
-      border-color: var(--border-focus);
-      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
-    }
-
-    .flip-card-front::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: var(--border-subtle);
-    }
-
-    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
-    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
-    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
-    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
-
-    .front-top-meta {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      color: var(--text-faint);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-    }
-
-    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
-    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
-    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
-    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
-
-    .front-hero-container {
-      margin: auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .front-keyword {
-      font-family: var(--font-display);
-      font-size: 2.15rem;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.12;
-      letter-spacing: -0.035em;
-    }
-
-    .front-sub-tag {
-      font-size: 1.15rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
-    .flip-prompt {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 1rem;
-      background: rgba(169, 110, 50, 0.05);
-      border: 1px dashed rgba(169, 110, 50, 0.28);
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: all 0.2s ease;
-    }
-
-    .flip-card:hover .flip-prompt {
-      background: rgba(169, 110, 50, 0.12);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    .flip-card.accent-crimson:hover .flip-prompt {
-      background: rgba(200, 75, 49, 0.1);
-      border-color: var(--accent-crimson);
-      color: var(--accent-crimson);
-    }
-
-    .flip-card.accent-teal:hover .flip-prompt {
-      background: rgba(38, 121, 107, 0.1);
-      border-color: var(--accent-teal);
-      color: var(--accent-teal);
-    }
-
-    /* BACK DESIGN: DEEP MEANING */
-    .flip-card-back {
-      background: var(--surface-back);
-      border: 1px solid var(--border-focus);
-      transform: rotateY(180deg);
-      box-shadow: var(--card-shadow-back);
-      z-index: 1;
-    }
-
-    .back-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 0.95rem;
-    }
-
-    .back-topic-label {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .back-headline {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      font-weight: 800;
-      line-height: 1.22;
-      letter-spacing: -0.02em;
-    }
-
-    .back-content {
-      font-size: 1.05rem;
-      line-height: 1.52;
+      gap: 2rem;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      overflow-y: auto;
-      padding-right: 0.4rem;
-    }
-
-    .back-content p {
-      margin-bottom: 0.35rem;
-    }
-
-    .back-content ul {
-      list-style: none;
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      font-size: 1.02rem;
-      line-height: 1.45;
-    }
-
-    .back-content ul li {
+      min-height: 0;
       position: relative;
-      padding-left: 1.35rem;
     }
 
-    .back-content ul li::before {
-      content: "▸";
-      position: absolute;
-      left: 0;
-      font-weight: 800;
-      font-size: 1.05rem;
+    .layout-timeline-flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
     }
 
-    .back-return-prompt {
-      flex-shrink: 0;
-      margin-top: auto;
+    .layout-grid-6 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 1.15rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .layout-ladder-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .layout-periodic-8 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .layout-quadrant-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1.35rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .stack-vertical {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 0.95rem;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      flex-direction: column;
+      gap: 1.25rem;
+      height: 100%;
     }
 
-    /* LIGHT MODE CARD BACK ACCENT COLORS */
-    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
-    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
-    .flip-card.accent-crimson .back-content { color: var(--text-main); }
-    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
-
-    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
-    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
-    .flip-card.accent-ochre .back-content { color: var(--text-main); }
-    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
-
-    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
-    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-headline { color: var(--text-main); }
-    .flip-card.accent-teal .back-content { color: var(--text-main); }
-    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
-
-    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
-    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
-      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
-      border-color: rgba(224, 83, 60, 0.5);
-      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-header {
-      border-bottom-color: rgba(224, 83, 60, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
-      color: #FF8F7D;
-      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
-      color: #FFAEA0;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content {
-      color: #FCE6E2;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
-      color: #FF7B66;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
-      color: #E0533C;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(224, 83, 60, 0.3);
-      color: #FF8F7D;
-    }
-
-    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
-      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
-      border-color: rgba(229, 169, 103, 0.5);
-      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-header {
-      border-bottom-color: rgba(229, 169, 103, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
-      color: #F5C58A;
-      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
-      color: #FCE1B8;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content {
-      color: #FAF0DF;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
-      color: #F5C58A;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
-      color: #E5A967;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(229, 169, 103, 0.3);
-      color: #F5C58A;
-    }
-
-    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
-      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
-      border-color: rgba(45, 212, 191, 0.5);
-      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-header {
-      border-bottom-color: rgba(45, 212, 191, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
-      color: #5EEAD4;
-      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-headline {
-      color: #99F6E4;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content {
-      color: #E0FAF5;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
-      color: #5EEAD4;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
-      color: #2DD4BF;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(45, 212, 191, 0.3);
-      color: #5EEAD4;
-    }
-
-    /* Stack Flip Cards (Right-hand column mini flip cards) */
-    .stack-flip-card {
-      background-color: transparent;
+    /* 3D Flip Card Mechanics */
+    .card-3d {
       perspective: 1000px;
       cursor: pointer;
-      flex: 1;
-      position: relative;
-      min-height: 85px;
-      transition: box-shadow 0.2s ease;
+      height: 100%;
+      min-height: 100px;
     }
 
-    .stack-flip-card-inner {
+    .card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transform-style: preserve-3d;
-      transform-origin: center center;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
     }
 
-    .stack-flip-card.flipped .stack-flip-card-inner {
-      transform: rotateY(180deg);
-    }
+    .card-3d:hover .card-inner { box-shadow: var(--card-shadow-hover); }
+    .card-3d.flipped .card-inner { transform: rotateY(180deg); }
 
-    .stack-card-front, .stack-card-back {
+    .card-face {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
       width: 100%;
       height: 100%;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 8px;
-      padding: 1.1rem 1.5rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
       border: 1px solid var(--border-subtle);
       box-sizing: border-box;
-      margin: 0;
+      overflow-y: auto;
     }
 
-    .stack-card-front {
-      background: #FFFFFF;
-      box-shadow: var(--card-shadow);
-      transform: rotateY(0deg);
-      z-index: 2;
-    }
+    .card-front { background: var(--surface-card); color: var(--text-main); }
+    .card-back { background: var(--surface-elevated); color: var(--text-main); transform: rotateY(180deg); border-color: var(--accent-ochre); }
 
-    [data-theme="dark"] .stack-card-front {
-      background: var(--surface-front);
-      border-color: var(--border-subtle);
-    }
+    .trim-crimson { border-top: 4px solid var(--accent-crimson); }
+    .trim-teal    { border-top: 4px solid var(--accent-teal); }
+    .trim-ochre   { border-top: 4px solid var(--accent-ochre); }
+    .trim-blue    { border-top: 4px solid var(--accent-blue); }
+    .trim-purple  { border-top: 4px solid var(--accent-purple); }
 
-    .stack-card-front .front-left {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .stack-card-front .stack-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .stack-card-front .stack-keyword {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .stack-card-front .stack-hint {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-    }
-
-    .stack-card-back {
-      background: var(--surface-back);
-      border-color: rgba(169, 110, 50, 0.35);
-      transform: rotateY(180deg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 1.1rem 1.6rem;
-      z-index: 1;
-      box-shadow: var(--card-shadow-back);
-    }
-
-    .stack-card-back p {
-      font-size: 1.05rem;
-      line-height: 1.48;
-      color: var(--text-main);
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
-      background: linear-gradient(155deg, #1C1215, #11151E);
-      border-color: rgba(224, 83, 60, 0.45);
-      color: #FCE6E2;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
-      color: #FF8F7D;
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
-      background: linear-gradient(155deg, #1E1911, #11151E);
-      border-color: rgba(229, 169, 103, 0.45);
-      color: #FAF0DF;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
-      color: #F5C58A;
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
-      background: linear-gradient(155deg, #0F1D1B, #11151E);
-      border-color: rgba(45, 212, 191, 0.45);
-      color: #E0FAF5;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
-      color: #5EEAD4;
-    }
-
-    /* Hero Static Card */
-    .hero-static-box {
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      box-shadow: var(--card-shadow);
-    }
-
-    [data-theme="dark"] .hero-static-box {
-      background: var(--surface-front);
-      border-color: var(--border-subtle);
-    }
-
-    .hero-static-box::after {
-      content: "“";
-      position: absolute;
-      top: 1.25rem;
-      right: 2rem;
-      font-size: 6.5rem;
-      font-family: serif;
-      color: rgba(200, 75, 49, 0.12);
-      line-height: 1;
-    }
-
-    .hero-quote {
-      font-family: var(--font-display);
-      font-size: 2.15rem;
-      font-weight: 700;
-      line-height: 1.3;
-      color: var(--text-main);
-      margin-bottom: 1.3rem;
-    }
-
-    .hero-author {
-      font-family: var(--font-mono);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--accent-ochre);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Metric Static Card */
-    .metric-hero-box {
-      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
-      border: 1px solid var(--border-subtle);
-      border-left: 5px solid var(--accent-crimson);
-      border-radius: 12px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      box-shadow: var(--card-shadow);
-    }
-
-    [data-theme="dark"] .metric-hero-box {
-      background: linear-gradient(135deg, #161D2B, #11151E);
-      border-color: var(--border-subtle);
-      border-left: 5px solid var(--accent-crimson);
-    }
-
-    .big-stat {
-      font-family: var(--font-display);
-      font-size: 5.5rem;
-      font-weight: 800;
-      color: var(--accent-crimson);
-      line-height: 0.92;
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.04em;
-    }
-
-    .stat-label {
-      font-family: var(--font-display);
-      font-size: 1.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-main);
-      margin-bottom: 0.8rem;
-    }
-
-    .stat-desc {
-      font-size: 1.18rem;
-      line-height: 1.5;
-      color: var(--text-main);
-    }
-
-    /* Bottom Footer Bar */
-    .deck-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-height: 0;
-      opacity: 0;
-      margin-top: 0;
-      padding-top: 0;
-      overflow: hidden;
-      border-top: 1px solid transparent;
-      pointer-events: none;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease,
-                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-color 0.25s ease;
-    }
-
-    .deck-footer.expanded {
-      max-height: 80px;
-      opacity: 1;
-      margin-top: 1.35rem;
-      padding-top: 0.85rem;
-      border-top-color: var(--border-subtle);
-      pointer-events: auto;
-    }
-
-    .counter {
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-    }
-
-    .counter span {
-      color: var(--text-main);
-      font-weight: 800;
-    }
-
-    .deck-nav-buttons {
-      display: flex;
-      gap: 0.85rem;
-      align-items: center;
-    }
-
-    .nav-btn {
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      padding: 0.6rem 1.3rem;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    }
-
-    .nav-btn:hover {
-      background: var(--surface-elevated);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    .nav-btn.action-flip {
-      border-color: var(--accent-ochre);
-      background: rgba(169, 110, 50, 0.08);
-      color: var(--accent-ochre);
-      font-weight: 700;
-    }
-
-    .nav-btn.action-flip:hover {
-      background: rgba(169, 110, 50, 0.16);
-    }
-
-    .key-indicator {
-      display: inline-block;
-      padding: 0.12rem 0.38rem;
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 3px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-weight: 700;
-    }
-
-    [data-theme="dark"] .key-indicator {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-faint);
-    }
-
-    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
-    .bar-toggle-pill {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      border-radius: 999px;
-      padding: 0.32rem 1.1rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
-      z-index: 180;
-      user-select: none;
-      outline: none;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    }
-
-    .top-toggle {
-      top: 8px;
-      transform: translateX(-50%) translateY(-6px);
-    }
-
-    .bottom-toggle {
-      bottom: 8px;
-      transform: translateX(-50%) translateY(6px);
-    }
-
-    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
-    .deck-container.hovering-top .top-toggle,
-    .top-toggle:hover,
-    .top-toggle.active {
-      opacity: 0.95;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .deck-container.hovering-bottom .bottom-toggle,
-    .bottom-toggle:hover,
-    .bottom-toggle.active {
-      opacity: 0.95;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .bar-toggle-pill:hover {
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
-      opacity: 1;
-    }
-
-    .bar-toggle-pill.active {
-      background: var(--surface-back);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    /* Fullscreen helper */
-    :fullscreen .deck-container {
-      max-width: 95vw;
-      max-height: 95vh;
-      width: 1440px;
-      height: 820px;
-    }
+    .card-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; }
+    .card-kicker { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-ochre); }
+    .card-flip-cue { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); display: flex; align-items: center; gap: 0.3rem; }
+    .card-title { font-family: var(--font-display); font-size: 1.32rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.65rem; line-height: 1.25; }
+    .card-body-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; flex: 1; }
+    .card-formula-box { font-family: var(--font-mono); font-size: 0.88rem; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.75rem 1rem; color: var(--text-main); margin: 0.75rem 0; line-height: 1.45; }
+    .card-chips-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.85rem; }
+    .chip { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; background: var(--surface-subtle); border: 1px solid var(--border-subtle); padding: 0.2rem 0.55rem; border-radius: 4px; color: var(--text-muted); }
+    .chip-accent { background: var(--surface-elevated); color: var(--accent-crimson); border-color: var(--accent-crimson); }
+    .card-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.65rem; font-size: 0.9rem; color: var(--text-muted); }
+    .card-bullet-list li { position: relative; padding-left: 1.25rem; line-height: 1.4; }
+    .card-bullet-list li::before { content: "•"; position: absolute; left: 0.25rem; color: var(--accent-ochre); font-weight: 900; }
   </style>
 </head>
 <body>
 
-  <!-- Top Real-Time Progress Bar -->
-  <div class="progress-bar-container">
-    <div class="progress-bar-fill" id="progressFill"></div>
+  <!-- Edge-Hover Header Controls -->
+  <div class="edge-header-trigger">
+    <div class="header-controls" id="headerControls">
+      <button class="nav-btn" id="prevBtn" title="Previous Slide (← / PageUp)">← PREV</button>
+      <span class="slide-counter" id="slideCounter">01 / 11</span>
+      <button class="nav-btn" id="nextBtn" title="Next Slide (→ / PageDown)">NEXT →</button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme (T)">
+        <span>◐</span> <span id="themeLabel">DARK</span>
+      </button>
+    </div>
   </div>
 
-  <div class="deck-container" id="deckContainer">
-
-    <!-- Top Floating Hover Pill Trigger -->
-    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
-      <span>▾ EXPAND HEADER</span>
-      <span class="key-indicator">H</span>
-    </button>
-
-    <!-- Collapsible Slide Header -->
-    <header class="slide-header" id="slideHeader">
-      <div class="slide-eyebrow" id="headerEyebrow">
-        DS312 · MODULES 1 TO 3 FOUNDATIONS & TECHNIQUES
-      </div>
-      <div class="header-actions">
-        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
-        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
-        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
-          <span id="themeIcon">◐</span>
-          <span id="themeText">THEME</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Slide Stage Viewport -->
-    <main class="slide-stage" id="slideStage">
-
-      <section class="slide-view active" id="slide-0" data-eyebrow="DS312 · FOUNDATIONS & TECHNIQUES" data-badge="MODULES 1 TO 3">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Data Mining Foundations & Analytical Paradigms</h2>
-          <p class="slide-subhead">Modules 1 to 3: The KDD Process, The 4 Types of Analytics, and The 8 Core Mining Techniques</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-crimson);">FAYYAD ET AL. (1996) DEFINITION</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                Data mining is the non-trivial extraction of implicit, previously unknown, valid, and potentially actionable patterns from massive data repositories.
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">DS312 · DATA MINING & APPLICATIONS</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-            
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">MODULE 1: INTRODUCTION</span>
-                    <h4 class="stack-keyword">History, Drivers & Dimensionality</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Module 1:</strong> Evolution from 1960s flat files to modern cloud analytics, the 3 modern drivers, and the mathematical Curse of Dimensionality.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">MODULE 2: 4 ANALYTIC TYPES</span>
-                    <h4 class="stack-keyword">Descriptive to Prescriptive</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Module 2:</strong> The Value vs. Complexity spectrum and the definitive Clinical Doctor Analogy (Fever ➔ Culture ➔ Sepsis ➔ Rx).</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">MODULE 3: 8 TECHNIQUES</span>
-                    <h4 class="stack-keyword">Supervised & Unsupervised Taxonomy</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Module 3:</strong> Classification, Clustering, Regression, Association Rules (Support/Confidence/Lift), Anomaly Detection, and PCA.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-1" data-eyebrow="MODULE 1 · KDD FOUNDATIONS" data-badge="KDD PROCESS">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">The KDD Framework: The 5 Pillars of Data Mining</h2>
-          <p class="slide-subhead">Deconstructing the formal Knowledge Discovery in Databases pipeline and criteria of validity</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">THE 5 CRITERIA</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">What Makes a Pattern "Mined"?</h3>
-                  <p class="front-sub-tag">Non-trivial, valid, novel, useful, understandable</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">KDD CRITERIA</span>
-                  <h4 class="back-headline">The 5 Pillars of Pattern Discovery</h4>
-                </div>
-                <div class="back-content">
-                  <p>Why standard SQL lookups are NOT data mining.</p>
-                  <ul><li><strong>Non-Trivial:</strong> Involves inductive inference and machine learning algorithms, not simple SELECT queries.</li><li><strong>Valid:</strong> Patterns must hold true on new, unseen test sets with statistical confidence.</li><li><strong>Novel:</strong> Uncovers non-obvious, surprising relationships that defy superficial intuition.</li><li><strong>Actionable & Understandable:</strong> Must provide clear operational utility interpretable by domain experts.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">THE KDD STAGES</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Knowledge Discovery Pipeline</h3>
-                  <p class="front-sub-tag">From raw databases to business knowledge</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">KDD PIPELINE</span>
-                  <h4 class="back-headline">The 5 Sequential Stages of KDD</h4>
-                </div>
-                <div class="back-content">
-                  <p>The universal engineering framework of data mining.</p>
-                  <ul><li><strong>1. Selection:</strong> Isolating relevant target datasets from data lakes or transaction logs.</li><li><strong>2. Preprocessing:</strong> Cleaning noise, handling missing data (MCAR/MAR), and treating outliers.</li><li><strong>3. Transformation:</strong> Normalizing, scaling, encoding categorical dummies, and reducing dimensions.</li><li><strong>4. Data Mining:</strong> Applying algorithms (Random Forest, K-Means, Apriori) to discover patterns.</li><li><strong>5. Evaluation:</strong> Interpreting patterns, visualizing models, and translating insights into decisions.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-2" data-eyebrow="MODULE 1 · HISTORICAL EVOLUTION" data-badge="CHRONOLOGY">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Historical Evolution Timeline: 1960s to The Modern Era</h2>
-          <p class="slide-subhead">Tracing data architecture from flat magnetic tapes to distributed cloud machine learning clusters</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="metric-hero-box">
-            <span class="card-kicker">SIX DECADES OF EVOLUTION</span>
-            <div class="big-stat">1960s</div>
-            <h3 class="stat-label">To Cloud MLOps</h3>
-            <p class="stat-desc">
-              From deterministic batch record keeping to autonomous prescriptive optimization across distributed GPU/TPU cloud architectures.
-            </p>
-          </div>
-          <div class="stack-right-column">
-            
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">1960s–1980s: RELATIONAL ERA</span>
-                    <h4 class="stack-keyword">Flat Files to Codd's RDBMS & SQL</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>RDBMS Revolution:</strong> Edgar Codd creates the relational model. SQL allows structured queries to answer deterministic historical questions.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">1990s: WAREHOUSING & OLAP</span>
-                    <h4 class="stack-keyword">Multidimensional Cubes & KDD Birth</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Inmon & Kimball:</strong> Enterprise Data Warehousing, star schemas, slice-and-dice OLAP cubes, and early association rule mining.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">2000s–PRESENT: BIG DATA & AI</span>
-                    <h4 class="stack-keyword">Hadoop, Spark, Deep Learning & MLOps</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>The 3 V's & Beyond:</strong> Unstructured big data, distributed computing (Spark), gradient boosted trees, and real-time inference engines.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-3" data-eyebrow="MODULE 1 · INDUSTRY FORCES" data-badge="DRIVERS & CHALLENGES">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">The 3 Modern Drivers & The Curse of Dimensionality</h2>
-          <p class="slide-subhead">Understanding why analytics became indispensable and the mathematical limits of high-dimensional space</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">THE 3 DRIVERS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Why Data Mining Exploded</h3>
-                  <p class="front-sub-tag">Data volume, hardware economics & algorithmic maturity</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">MODERN DRIVERS</span>
-                  <h4 class="back-headline">The Triad of Modern Analytics</h4>
-                </div>
-                <div class="back-content">
-                  <p>Three converging tailwinds that made data mining mandatory.</p>
-                  <ul><li><strong>1. Data Explosion:</strong> IoT sensors, mobile transactions, clickstreams, and electronic health records.</li><li><strong>2. Hardware Economics:</strong> Storage cost per gigabyte dropped to near-zero; GPUs enabled mass parallelism.</li><li><strong>3. Algorithmic Maturation:</strong> Optimization breakthroughs (Adam, Backprop, XGBoost, Random Forests).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">MATHEMATICAL CHALLENGE</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">The Curse of Dimensionality</h3>
-                  <p class="front-sub-tag">Volume grows exponentially with feature count D</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">DIMENSIONALITY TRAP</span>
-                  <h4 class="back-headline">High-Dimensional Distance Collapse</h4>
-                </div>
-                <div class="back-content">
-                  <p>Why adding more columns can destroy distance-based algorithms.</p>
-                  <ul><li><strong>Hypercube Volume:</strong> As dimensions D grow, hypercube volume increases as 2^D, making data sparse.</li><li><strong>Distance Metric Breakdown:</strong> The ratio of Euclidean distance between nearest and farthest points approaches 1.</li><li><strong>Overfitting:</strong> Models memorize noise; mitigated via PCA, feature selection, or L1/L2 regularization.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-4" data-eyebrow="MODULE 2 · ANALYTICAL TAXONOMY" data-badge="4 TYPES OF ANALYTICS">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">The Four Types of Data Analytics: Value vs. Complexity</h2>
-          <p class="slide-subhead">Navigating the spectrum from retrospective historical dashboards to automated prescriptive optimization</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">PAST HINDSIGHT</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Descriptive & Diagnostic</h3>
-                  <p class="front-sub-tag">Summarizing history and isolating root causes</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">HINDSIGHT ANALYTICS</span>
-                  <h4 class="back-headline">Understanding Past Performance</h4>
-                </div>
-                <div class="back-content">
-                  <p>Focuses on historical data to describe and diagnose events.</p>
-                  <ul><li><strong>Descriptive (*What happened?*):</strong> Aggregations, mean readmission rates, revenue charts, KPI dashboards.</li><li><strong>Diagnostic (*Why did it happen?*):</strong> Drill-down multidimensional queries, variance analysis, correlation audits.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">FUTURE FORESIGHT</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Predictive & Prescriptive</h3>
-                  <p class="front-sub-tag">Forecasting likelihoods and optimizing decisions</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">FORESIGHT ANALYTICS</span>
-                  <h4 class="back-headline">Driving Autonomous Future Action</h4>
-                </div>
-                <div class="back-content">
-                  <p>Applies statistical modeling and mathematical optimization.</p>
-                  <ul><li><strong>Predictive (*What will happen?*):</strong> Machine learning classifiers, time-series forecasting, readmission risk scores.</li><li><strong>Prescriptive (*What should we do?*):</strong> Simulation, linear programming, clinical triage protocols, dynamic pricing.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-5" data-eyebrow="MODULE 2 · PEDAGOGICAL FRAMEWORK" data-badge="DOCTOR ANALOGY">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">The Doctor Analogy: Clinical Analytics Framework</h2>
-          <p class="slide-subhead">The gold-standard academic framework for explaining the 4 analytical tiers in oral defense</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-ochre);">ORAL EXAMINATION GOLD STANDARD</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                A thermometer describes a fever. Lab tests diagnose the bacterial infection. Risk models predict sepsis. Clinical protocols prescribe the exact antibiotic dosage.
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">THE CLINICAL PHYSICIAN ANALYTICS PARADIGM</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-            
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">1. DESCRIPTIVE (THERMOMETER)</span>
-                    <h4 class="stack-keyword">Temperature = 39.5°C</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Thermometer Reading:</strong> Records that the patient currently has a high fever. Pure historical observation.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">2. DIAGNOSTIC (BLOOD CULTURE)</span>
-                    <h4 class="stack-keyword">Bacterial Pneumonia Isolated</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Root Cause:</strong> Blood cultures and chest X-rays isolate the exact causal agent responsible for the fever.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">3. PREDICTIVE & PRESCRIPTIVE</span>
-                    <h4 class="stack-keyword">Sepsis Risk 82% ➔ IV Vancomycin Rx</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Predictive:</strong> Calculates 82% risk of sepsis within 24h. <strong>Prescriptive:</strong> Prescribes 1.5g IV Vancomycin and 30 mL/kg saline resuscitation.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-6" data-eyebrow="MODULE 3 · LEARNING PARADIGMS" data-badge="SUPERVISED VS UNSUPERVISED">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Supervised vs. Unsupervised Learning Paradigms</h2>
-          <p class="slide-subhead">Distinguishing between target-guided predictive models and pattern discovery over unlabelled manifolds</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">TARGET SUPERVISION</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Supervised Learning</h3>
-                  <p class="front-sub-tag">Training with ground-truth target labels y</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">SUPERVISED PARADIGM</span>
-                  <h4 class="back-headline">Mapping Inputs to Target Labels</h4>
-                </div>
-                <div class="back-content">
-                  <p>Optimizes model weights to minimize prediction error against known outcomes.</p>
-                  <ul><li><strong>Data Structure:</strong> Features X paired with verified target labels y.</li><li><strong>Objective:</strong> Learn mapping function f(X) ≈ y that generalizes to unseen test records.</li><li><strong>Evaluation:</strong> Accuracy, Precision, Recall, F1-Score, ROC-AUC, RMSE, MAE.</li><li><strong>Techniques:</strong> Classification (discrete y) and Regression (continuous y).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">INTRINSIC GEOMETRY</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Unsupervised Learning</h3>
-                  <p class="front-sub-tag">Discovering natural clusters and affinities without labels</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">UNSUPERVISED PARADIGM</span>
-                  <h4 class="back-headline">Discovering Latent Data Structure</h4>
-                </div>
-                <div class="back-content">
-                  <p>Explores underlying geometric distributions and co-occurrences without ground truth.</p>
-                  <ul><li><strong>Data Structure:</strong> Feature matrix X with zero target labels y.</li><li><strong>Objective:</strong> Discover latent clusters, association rules, or reduce dimensionality.</li><li><strong>Evaluation:</strong> Silhouette score, Davies-Bouldin index, Support/Confidence, Explained Variance.</li><li><strong>Techniques:</strong> Clustering, Association Rule Mining, PCA, Anomaly Detection.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-7" data-eyebrow="MODULE 3 · SUPERVISED TECHNIQUES" data-badge="CLASSIFICATION & REGRESSION">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Techniques 1 & 2: Classification vs. Regression</h2>
-          <p class="slide-subhead">Contrasting discrete boundary partitioning against continuous conditional expectation surfaces</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DISCRETE TARGETS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 1: Classification</h3>
-                  <p class="front-sub-tag">Predicting categorical class boundaries</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">CLASSIFICATION</span>
-                  <h4 class="back-headline">Predicting Discrete Labels</h4>
-                </div>
-                <div class="back-content">
-                  <p>Supervised task where the target variable is a discrete category.</p>
-                  <ul><li><strong>Target Scale:</strong> Nominal or Ordinal classes (e.g. Readmitted: Yes/No; Disease Severity: Low/Med/High).</li><li><strong>Decision Boundaries:</strong> Hyperplanes or partition trees separating feature space into class regions.</li><li><strong>Key Algorithms:</strong> Decision Trees, Random Forest, XGBoost, Logistic Regression, Support Vector Machines.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">CONTINUOUS TARGETS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 2: Regression</h3>
-                  <p class="front-sub-tag">Predicting quantitative numerical trajectories</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">REGRESSION</span>
-                  <h4 class="back-headline">Predicting Continuous Numbers</h4>
-                </div>
-                <div class="back-content">
-                  <p>Supervised task where the target variable is an unbounded continuous scalar.</p>
-                  <ul><li><strong>Target Scale:</strong> Ratio or Interval numbers (e.g. Length of Stay: 1 to 14 days; Patient Medical Cost: $).</li><li><strong>Mathematical Objective:</strong> Minimize Ordinary Least Squares (OLS) residual sum of squares: ∑(y_i - ŷ_i)^2.</li><li><strong>Key Algorithms:</strong> Multiple Linear Regression, Ridge (L2), Lasso (L1), Support Vector Regression (SVR).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-8" data-eyebrow="MODULE 3 · UNSUPERVISED TECHNIQUES" data-badge="CLUSTERING & ASSOCIATION">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Techniques 3 & 4: Clustering & Association Rule Mining</h2>
-          <p class="slide-subhead">Unsupervised discovery of geometric customer cohorts and transactional market basket affinity rules</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">GEOMETRIC PARTITIONING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 3: Clustering</h3>
-                  <p class="front-sub-tag">Grouping unlabelled records by similarity</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">CLUSTERING</span>
-                  <h4 class="back-headline">K-Means, DBSCAN & Hierarchical</h4>
-                </div>
-                <div class="back-content">
-                  <p>Unsupervised partitioning of data points based on geometric proximity.</p>
-                  <ul><li><strong>K-Means:</strong> Partitions data into k clusters minimizing Within-Cluster Sum of Squares (WCSS).</li><li><strong>DBSCAN:</strong> Density-based spatial clustering capable of discovering arbitrary non-spherical shapes.</li><li><strong>Evaluation:</strong> Silhouette Coefficient (range -1 to +1; score > 0.5 indicates dense, well-separated clusters).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">MARKET BASKET MINING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 4: Association Rules</h3>
-                  <p class="front-sub-tag">Discovering transactional affinities: A ➔ B</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">ASSOCIATION RULES</span>
-                  <h4 class="back-headline">Support, Confidence & Lift</h4>
-                </div>
-                <div class="back-content">
-                  <p>Unsupervised discovery of item co-occurrence rules in transactional logs.</p>
-                  <ul><li><strong>Support:</strong> P(A ∩ B) = Frequency of joint occurrence across all transactions.</li><li><strong>Confidence:</strong> P(B|A) = Conditional certainty of purchasing B given A.</li><li><strong>Lift:</strong> P(A ∩ B) / (P(A)·P(B)). Lift > 1.0 indicates strong positive correlation over random chance.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-9" data-eyebrow="MODULE 3 · SPECIALIZED TECHNIQUES" data-badge="ANOMALY & SEQUENCES">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Techniques 5 & 6: Anomaly Detection & Sequential Patterns</h2>
-          <p class="slide-subhead">Detecting extreme behavioral deviations and discovering time-dependent procedural pathways</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">OUTLIER PROFILING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 5: Anomaly Detection</h3>
-                  <p class="front-sub-tag">Flagging rare deviations from normal distributions</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">ANOMALY DETECTION</span>
-                  <h4 class="back-headline">Isolation Forests & Local Outlier Factor</h4>
-                </div>
-                <div class="back-content">
-                  <p>Identifying fraudulent transactions, equipment failures, or clinical anomalies.</p>
-                  <ul><li><strong>Isolation Forest:</strong> Recursively isolates observations; anomalies require fewer random splits to isolate.</li><li><strong>Local Outlier Factor (LOF):</strong> Measures local density deviation relative to surrounding k-nearest neighbors.</li><li><strong>Challenge:</strong> Severe class imbalance (anomalies represent < 0.1% of transactions).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">TIME-ORDERED MINING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 6: Sequential Patterns</h3>
-                  <p class="front-sub-tag">Discovering frequent ordered event sequences</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">SEQUENTIAL MINING</span>
-                  <h4 class="back-headline">GSP & PrefixSpan Algorithms</h4>
-                </div>
-                <div class="back-content">
-                  <p>Mining time-ordered sequences across user history or clinical timelines.</p>
-                  <ul><li><strong>Sequence vs. Basket:</strong> Market basket is order-invariant; sequential mining respects temporal chronology.</li><li><strong>Clinical Example:</strong> {Diagnosis: Prediabetes} ➔ {Rx: Metformin} ➔ {Complication: Neuropathy}.</li><li><strong>Web Mining:</strong> Analyzing clickstream trajectories before completing an e-commerce checkout.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-10" data-eyebrow="MODULE 3 · ADVANCED TECHNIQUES" data-badge="NLP & PCA">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Techniques 7 & 8: Text Mining & Dimensionality Reduction</h2>
-          <p class="slide-subhead">Converting free-text EHR narratives into numerical matrices and compressing feature spaces with PCA</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">UNSTRUCTURED SIGNALS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 7: Text Mining & NLP</h3>
-                  <p class="front-sub-tag">Transforming free-form text into structured vectors</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">TEXT MINING</span>
-                  <h4 class="back-headline">NLP Preprocessing & Vectorization</h4>
-                </div>
-                <div class="back-content">
-                  <p>Extracting structured numerical signals from clinical narratives and customer feedback.</p>
-                  <ul><li><strong>Preprocessing:</strong> Lowercasing, tokenization, stopword filtering, lemmatization.</li><li><strong>Vectorization:</strong> Term Frequency-Inverse Document Frequency (TF-IDF) penalizes ubiquitous words.</li><li><strong>Thematic Modeling:</strong> Latent Dirichlet Allocation (LDA) models documents as mixtures of topics.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">VARIANCE PRESERVATION</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Technique 8: Dimensionality Reduction</h3>
-                  <p class="front-sub-tag">Compressing feature dimensions while preserving variance</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">DIMENSIONALITY REDUCTION</span>
-                  <h4 class="back-headline">Principal Component Analysis (PCA)</h4>
-                </div>
-                <div class="back-content">
-                  <p>Defeating the Curse of Dimensionality through orthogonal linear projections.</p>
-                  <ul><li><strong>PCA Mathematics:</strong> Computes eigenvectors and eigenvalues of the feature covariance matrix.</li><li><strong>Orthogonal Components:</strong> Principal components are completely uncorrelated (VIF = 1.0).</li><li><strong>Elbow Rule:</strong> Retain components explaining 80%–90% of total cumulative variance.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-11" data-eyebrow="MODULES 1–3 · EXECUTIVE CHECKPOINT" data-badge="DECISION RUBRIC">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Executive Checkpoint: Technique Selection Rubric</h2>
-          <p class="slide-subhead">A deterministic decision framework for selecting analytical tiers and data mining algorithms</p>
-        </div>
-        <div class="grid-container grid-triptych">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DECISION RULE 1</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Supervised vs. Unsupervised</h3>
-                  <p class="front-sub-tag">Does ground truth exist in your dataset?</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">DECISION MATRIX</span>
-                  <h4 class="back-headline">Target Variable Verification</h4>
-                </div>
-                <div class="back-content">
-                  <p>Determine your primary learning paradigm in seconds.</p>
-                  <ul><li><strong>Have y labels?</strong> Supervised. If y is discrete (Readmitted) ➔ Classification. If y is continuous (Stay Length) ➔ Regression.</li><li><strong>No y labels?</strong> Unsupervised. If grouping rows ➔ Clustering. If finding item affinities ➔ Association Rules. If compressing columns ➔ PCA.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DECISION RULE 2</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Selecting the Analytic Tier</h3>
-                  <p class="front-sub-tag">Aligning business questions with analytical depth</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">ANALYTIC SELECTION</span>
-                  <h4 class="back-headline">Hindsight vs. Foresight Selection</h4>
-                </div>
-                <div class="back-content">
-                  <p>Pick the right level of complexity for organizational stakeholders.</p>
-                  <ul><li><strong>Past Status:</strong> Descriptive ("What was our Q3 readmission rate?").</li><li><strong>Root Cause:</strong> Diagnostic ("Why did geriatric readmissions surge?").</li><li><strong>Prediction:</strong> Predictive ("Which current patients are high risk?").</li><li><strong>Prescription:</strong> Prescriptive ("Which intervention plan maximizes post-discharge recovery?").</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DECISION RULE 3</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Association Rule Evaluation</h3>
-                  <p class="front-sub-tag">Support vs Confidence vs Lift Decision</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">ASSOCIATION RULES</span>
-                  <h4 class="back-headline">Interpreting Market Basket Metrics</h4>
-                </div>
-                <div class="back-content">
-                  <p>Defending association rule validity.</p>
-                  <ul><li><strong>Support:</strong> Filters out rare coincidences (minimum threshold e.g. 0.05).</li><li><strong>Confidence:</strong> Direct measure of rule certainty P(B|A).</li><li><strong>Lift > 1.0:</strong> True statistical association; eliminates rules driven purely by ubiquitous popular items.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-12" data-eyebrow="MODULES 1–3 · QUIZ REVIEWER" data-badge="EXAM WORD BANK">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">High-Yield Identification Quiz & Exam Traps</h2>
-          <p class="slide-subhead">Active recall cards covering Fayyad's criteria, analytical tiers, and algorithm identification</p>
-        </div>
-        <div class="grid-container grid-triptych">
-          
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">QUIZ ITEM 1</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Fayyad's 5 Criteria & Analytics Types</h3>
-                  <p class="front-sub-tag">Key definitions tested on exams</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">WORD BANK QUIZ</span>
-                  <h4 class="back-headline">Fayyad Criteria & Analytics Tiers</h4>
-                </div>
-                <div class="back-content">
-                  <p>High-probability identification questions.</p>
-                  <ul><li><strong>Q: 5 criteria of mined patterns?</strong> Valid, novel, potentially useful, understandable, and non-trivial.</li><li><strong>Q: Type of analytics answering "What will happen"?</strong> Predictive Analytics.</li><li><strong>Q: Type of analytics recommending the optimal dosage?</strong> Prescriptive Analytics.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-ochre" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">QUIZ ITEM 2</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Curse of Dimensionality & Drivers</h3>
-                  <p class="front-sub-tag">Understanding high-dimensional geometry</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">WORD BANK QUIZ</span>
-                  <h4 class="back-headline">Curse of Dimensionality & Drivers</h4>
-                </div>
-                <div class="back-content">
-                  <p>Core theoretical questions.</p>
-                  <ul><li><strong>Q: Phenomenon where space volume increases exponentially?</strong> Curse of Dimensionality.</li><li><strong>Q: 3 modern drivers of data mining?</strong> Data explosion, hardware cost drop, algorithmic maturation.</li><li><strong>Q: Who invented the relational database model (RDBMS)?</strong> Edgar F. Codd (1970).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">QUIZ ITEM 3</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">The 8 Techniques Identification</h3>
-                  <p class="front-sub-tag">Mapping business scenarios to techniques</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">WORD BANK QUIZ</span>
-                  <h4 class="back-headline">Algorithm & Metric Identification</h4>
-                </div>
-                <div class="back-content">
-                  <p>Technique classification questions.</p>
-                  <ul><li><strong>Q: Supervised technique predicting continuous values?</strong> Regression.</li><li><strong>Q: Unsupervised technique discovering basket co-occurrences?</strong> Association Rule Mining.</li><li><strong>Q: Association metric measuring affinity over random chance?</strong> Lift.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-13" data-eyebrow="MODULES 1–3 · MASTER SYNTHESIS" data-badge="FLASHCARD SUMMARY">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Modules 1–3 Master Synthesis & Defense Checklist</h2>
-          <p class="slide-subhead">Consolidated memory anchors and pre-flight verification checklist for oral examinations</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-crimson);">THE GOLDEN CORE</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                Data mining turns raw historical bytes into actionable future leverage by aligning problem definitions with appropriate algorithmic geometry.
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">DS312 MODULES 1 TO 3 COMPREHENSIVE MASTERY</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-            
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">KDD PIPELINE CHECKLIST</span>
-                    <h4 class="stack-keyword">Selection ➔ Prep ➔ Transform ➔ Mine ➔ Eval</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Pre-Flight Check:</strong> Defend that data preprocessing consumes 70-80% of real-world project effort, ensuring clean data enters mining.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">ANALYTICS SPECTRUM DEFENSE</span>
-                    <h4 class="stack-keyword">Thermometer ➔ Culture ➔ Sepsis ➔ Rx</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Doctor Analogy:</strong> Walk the panel through the 4 clinical tiers to demonstrate seamless conceptual understanding.</p>
-                </div>
-              </div>
-            </div>
-
-            
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">ALGORITHM DISCIPLINE</span>
-                    <h4 class="stack-keyword">Match Scale to Technique</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Verification:</strong> Ensure continuous targets use regression, discrete use classification, and unlabelled use clustering or association rules.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Bottom Floating Hover Pill Trigger -->
-    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
-      <span>▴ SHOW CONTROLS</span>
-      <span class="key-indicator">C</span>
-    </button>
-
-    <!-- Collapsible Slide Footer Controls -->
-    <footer class="deck-footer" id="deckFooter">
-      <div class="counter" id="slideCounter">
-        <span>01</span> / 14
-      </div>
-
-      <div class="deck-nav-buttons">
-        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
-          <span>← PREV</span>
-          <span class="key-indicator">←</span>
-        </button>
-        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
-          <span>FLIP ALL</span>
-          <span class="key-indicator">TAB</span>
-        </button>
-        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
-          <span>NEXT →</span>
-          <span class="key-indicator">→</span>
-        </button>
-        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
-          <span id="fsIcon">⛶</span>
-          <span class="key-indicator">F</span>
-        </button>
-      </div>
-    </footer>
-
+  <!-- Edge-Hover Footer Scrubber -->
+  <div class="edge-footer-trigger">
+    <div class="footer-scrubber" id="footerScrubber"></div>
   </div>
+
+  <!-- Main Stage -->
+  <main class="stage-container" id="stageContainer">
+
+    <!-- SLIDE 01: [Bespoke Hero Split] -->
+    <section class="slide active" data-slide="1">
+      <div class="layout-hero-split">
+        <div style="display: flex; flex-direction: column; gap: 1.4rem;">
+          <div style="display: flex; gap: 0.65rem;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; background: var(--surface-elevated); border: 1px solid var(--border-subtle); color: var(--accent-ochre);">DS312 · MODULES 1 TO 3</span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; background: var(--surface-elevated); border: 1px solid var(--border-subtle); color: var(--accent-crimson);">FOUNDATIONS &amp; TECHNIQUES</span>
+          </div>
+          <h1 style="font-family: var(--font-display); font-size: 3.2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.08; color: var(--text-main);">
+            Data Mining Foundations, Analytics &amp; The 8 Techniques
+          </h1>
+          <p style="font-size: 1.12rem; color: var(--text-muted); line-height: 1.55;">
+            The complete foundational curriculum: 250 years of data history (1763–Today), the "Fuel, Engine, and Race" evolution, the 4 types of analytics (Clinical Doctor Parable &amp; SoleMate case), and the 8 core mining algorithms with mathematical association rule derivation.
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 0.5rem;">
+            <div style="background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 0.9rem 1.1rem; box-shadow: var(--card-shadow);">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-faint);">CORE DEFINITION</span>
+              <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--accent-crimson); margin-top: 0.25rem;">IBM Pattern Discovery</div>
+            </div>
+            <div style="background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 0.9rem 1.1rem; box-shadow: var(--card-shadow);">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-faint);">ALGORITHM ARENA</span>
+              <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--accent-ochre); margin-top: 0.25rem;">8 Mining Techniques</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Preview Card -->
+        <div class="card-3d" style="height: 100%;">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">THE TRIUMVIRATE OF MODERN MINING</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title" style="font-size: 1.6rem;">Fuel, Engine, and the Race</h3>
+                <p class="card-body-text">
+                  Why did data mining explode into the defining corporate discipline of the 21st century? A simple three-step technological convergence:
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                1. <strong>FUEL:</strong> Data is ubiquitous (app queries, hovers, IoT clicks)<br>
+                2. <strong>ENGINE:</strong> Technology caught up (cloud storage for pennies)<br>
+                3. <strong>RACE:</strong> Competition demands speed (real-time automated decisions)
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">Ubiquitous Data</span>
+                <span class="chip">Cheap Storage</span>
+                <span class="chip">Real-Time Action</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-crimson);">THE CORE TAKEAWAY</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">Storage vs. Intelligence</h3>
+              <p class="card-body-text">
+                Simply holding terabytes of stored data confers zero competitive advantage. It is merely a digital landfill. Data mining is the vital catalytic engine that turns passive stored bits into active revenue and clinical survival.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 02: [Chronological Evolution Timeline (1763 to 2015)] -->
+    <section class="slide" data-slide="2">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">HISTORICAL EVOLUTION</div>
+          <h2 class="slide-title">A Brief History of Data Mining: 250 Years</h2>
+          <p class="slide-subtitle">Statistics gave data mining its logic → The Computer Age gave it its power → Modern Era gave it scale.</p>
+        </div>
+        <span class="slide-tag">TIMELINE (1763–TODAY)</span>
+      </div>
+
+      <div class="layout-timeline-flow">
+        <!-- Era 1: Statistics -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">ERA 01 · 1763–1805</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">The Statistics Era</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Centuries-old mathematics establishing the foundational probability logic for machine reasoning.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                <strong>1763:</strong> Bayes' Theorem<br>
+                <strong>1805:</strong> Legendre &amp; Gauss OLS
+              </div>
+              <span class="chip chip-accent">The Mathematical Logic</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">MILESTONE DEEP DIVE</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Gauss utilized least squares regression to calculate the orbit of the asteroid Ceres from only a few noisy observational points, establishing the first empirical parameter optimization.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Era 2: Computer Age -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">ERA 02 · 1936–1975</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">The Computer Age</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Hardware computation makes storing, querying, and optimizing massive numerical arrays physically possible.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                <strong>1936:</strong> Turing Machine<br>
+                <strong>1970:</strong> Relational Databases<br>
+                <strong>1975:</strong> Genetic Algorithms
+              </div>
+              <span class="chip">The Computational Power</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">MILESTONE DEEP DIVE</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Edgar F. Codd's 1970 relational database model enabled enterprise tables and declarative SQL querying, setting the stage for mining historical transaction stores.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Era 3: Data Mining Birth -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">ERA 03 · 1989–2003</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">Data Mining Emergence</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Formal birth of automated pattern discovery as an independent scientific and corporate discipline.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                <strong>1989:</strong> KDD Coined (Fayyad)<br>
+                <strong>1992:</strong> Non-linear SVM<br>
+                <strong>2003:</strong> Moneyball Movement
+              </div>
+              <span class="chip">The Pattern Discovery</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">MILESTONE DEEP DIVE</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Usama Fayyad organized the first KDD workshop in 1989, separating exploratory data mining from standard database queries and classical statistics.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Era 4: Modern Scale -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">ERA 04 · 2010s–TODAY</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">The Modern Scale</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Cloud hyper-scale, distributed GPU clusters, automated pipelines, and national governance.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                <strong>2010s:</strong> Big Data Ecosystems<br>
+                <strong>2015:</strong> DJ Patil (US Chief DS)<br>
+                <strong>2020s:</strong> Foundation Models
+              </div>
+              <span class="chip">The Enterprise Scale</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">MILESTONE DEEP DIVE</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">DJ Patil coining 'Data Scientist' and serving in the White House cemented data mining's role as the primary strategic engine of national and commercial governance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 03: [The 6 Data Mining Engineering Challenges (Grid 6)] -->
+    <section class="slide" data-slide="3">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">OPERATIONAL ROADBLOCKS</div>
+          <h2 class="slide-title">The 6 Real-World Data Mining Challenges</h2>
+          <p class="slide-subtitle">Curriculum taxonomy of technical and ethical friction encountered in enterprise deployments.</p>
+        </div>
+        <span class="slide-tag">CHALLENGES TAXONOMY</span>
+      </div>
+
+      <div class="layout-grid-6">
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker">01 · HYGIENE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Data Quality Issues</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Noise (inaccurate measurements), Missing Values (unrecorded entries), and Inconsistent Data formatting.</p>
+              <span class="chip chip-accent">Noise &amp; Missingness</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Corrupted categorical values fragment group frequencies, distorting downstream association rules and cluster centroids.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">02 · SCALE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Data Volume &amp; Complexity</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Terabyte-scale datasets requiring distributed engines (Spark) alongside complex unstructured text, images, and audio.</p>
+              <span class="chip">Big Data / Unstructured</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">High dimensionality causes distance metrics to degenerate; memory limits prevent loading full matrices into RAM.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker">03 · GENERALIZATION</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Model Overfitting</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Creating an algorithm that is too flexible, memorizing training sample noise and collapsing on unseen production records.</p>
+              <span class="chip">High Variance</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Remedied via cross-validation, regularization penalties ($L_1 / L_2$), tree pruning, and feature selection.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-blue">
+              <span class="card-kicker">04 · AUDITABILITY</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Black Box Interpretability</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Complex non-linear models whose internal reasoning cannot be audited or explained to domain clinicians and regulators.</p>
+              <span class="chip">Explainable AI (XAI)</span>
+            </div>
+            <div class="card-face card-back trim-blue">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Violates GDPR Article 22 Right to Explanation, blocking deployment in credit scoring and medicine.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <span class="card-kicker">05 · SOCIETAL</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Ethical &amp; Privacy Bias</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Privacy violations under HIPAA/GDPR, and historical human bias reflected in training data producing discriminatory model outputs.</p>
+              <span class="chip">Demographic Parity</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Biased training data causes hiring models to penalize female candidates and credit models to redline zip codes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker">06 · INFRASTRUCTURE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Computational Resources</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">Extremely compute-intensive operations requiring specialized GPU clusters, high-speed RAM, and expensive cloud infrastructure.</p>
+              <span class="chip">GPU / Cloud Cost</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker">IMPACT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Running unconstrained grid searches or Apriori candidate generation causes out-of-memory kernel crashes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 04: [Analytics vs. Mining: Interactive Dual-Vs Split Screen] -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">EPISTEMOLOGICAL DISTINCTION</div>
+          <h2 class="slide-title">Data Analytics vs. Data Mining</h2>
+          <p class="slide-subtitle">Top-down business hypothesis testing vs. bottom-up automated algorithmic pattern discovery.</p>
+        </div>
+        <span class="slide-tag">ANALYTICS VS MINING</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- Data Analytics Left -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">THE OVERARCHING DISCIPLINE</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Data Analytics</h3>
+                <p class="card-body-text">
+                  The broad discipline of examining, cleaning, transforming, and modeling data to <strong>answer specific business questions</strong> and guide executive decision-making.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Orientation:</strong> Top-Down &amp; Hypothesis-Driven<br>
+                <strong>Starts With:</strong> Specific business problem ("Why did Q3 sales fall?")<br>
+                <strong>Outcome:</strong> Executive reports, KPI dashboards, strategic roadmaps
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Scope:</strong> Encompasses business intelligence, metrics, and strategy.</li>
+                <li><strong>Human Involvement:</strong> High (domain experts formulate the hypotheses).</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">THE DRIVER ANALOGY</span>
+              <h4 class="card-title">The Driver at the Steering Wheel</h4>
+              <p class="card-body-text">
+                Analytics is the driver deciding which route to navigate, interpreting the road signs, and deciding when to brake or accelerate to reach the corporate destination.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Mining Right -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">THE ALGORITHMIC ENGINE</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Data Mining</h3>
+                <p class="card-body-text">
+                  The specialized mathematical and machine learning techniques that <strong>uncover previously unknown patterns, clusters, and relationships</strong> within raw data.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Orientation:</strong> Bottom-Up &amp; Data-Driven<br>
+                <strong>Starts With:</strong> Raw data without a predetermined hypothesis<br>
+                <strong>Outcome:</strong> Latent association rules, clusters, anomaly scores
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Scope:</strong> The algorithmic engine under the hood.</li>
+                <li><strong>Human Involvement:</strong> Automated (algorithms extract latent structure).</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">THE ENGINE UNDER THE HOOD</span>
+              <h4 class="card-title">The Powertrain</h4>
+              <p class="card-body-text">
+                Data mining is the turbocharger under the vehicle hood. Without data mining, the driver (analytics) is pushing an empty chassis with no mechanical propulsion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 05: [The 4 Analytics Types: The Value & Complexity Ladder] -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">MATURITY CONTINUUM</div>
+          <h2 class="slide-title">The 4 Types of Data Analytics</h2>
+          <p class="slide-subtitle">Ascending the Complexity &amp; Value Ladder: From past hindsight to optimized prescriptive action.</p>
+        </div>
+        <span class="slide-tag">THE 4 TYPES</span>
+      </div>
+
+      <div class="layout-ladder-4">
+        <!-- 1. Descriptive -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">LEVEL 01 · PAST</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">Descriptive Analytics</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                <em>"What happened?"</em> Summarizes historical data to deliver a clear snapshot of past or current performance.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                Mean, Median, Standard Deviation, Histograms, Bar Charts
+              </div>
+              <span class="chip chip-accent">Hindsight</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">ROLE</span>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Establishes baseline facts. Shows that revenue dropped 15% or patient readmission rate is 8.4%.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Diagnostic -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">LEVEL 02 · PAST/PRESENT</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">Diagnostic Analytics</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                <em>"Why did it happen?"</em> Drills down into granular data to isolate root causes and causal correlations.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                Drill-down, Cross-referencing, Root Cause Analysis (RCA)
+              </div>
+              <span class="chip">Insight</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">ROLE</span>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Discovers that revenue dropped because competitor RunFast ran a 30% sale, causing a 40% bounce rate.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Predictive -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">LEVEL 03 · FUTURE</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">Predictive Analytics</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                <em>"What is likely to happen?"</em> Leverages statistical learning to forecast future risks, trends, and outcomes.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                Machine Learning, Regression, Random Forests, ARIMA
+              </div>
+              <span class="chip">Foresight</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">ROLE</span>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Predicts that RunFast will repeat its sale in August, causing an additional $50,000 revenue loss.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Prescriptive -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">LEVEL 04 · ACTION</span>
+              <h4 class="card-title" style="font-size: 1.15rem;">Prescriptive Analytics</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                <em>"What should we do?"</em> Simulates potential options to recommend optimal, mathematically justified decisions.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.78rem;">
+                Optimization, Monte Carlo Simulation, Heuristics
+              </div>
+              <span class="chip">Optimization</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">ROLE</span>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Prescribes launching a preemptive 20% discount on July 3, projecting an $18,000 net revenue recovery.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 06: [The Clinical Doctor Analogy: Interactive Scenario Split] -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">PEDAGOGICAL ANALOGY</div>
+          <h2 class="slide-title">The Clinical Doctor Analogy</h2>
+          <p class="slide-subtitle">How a clinical patient encounter illustrates the 4 analytics tiers and data mining's background role.</p>
+        </div>
+        <span class="slide-tag">DOCTOR PARABLE</span>
+      </div>
+
+      <div class="layout-split-asymmetric">
+        <!-- Doctor Analogy Steps Left -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">CLINICAL ENCOUNTER</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The Four Doctor Decisions</h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.88rem; line-height: 1.45;">
+                <div style="background: var(--surface-subtle); padding: 0.6rem 0.85rem; border-radius: 6px; border-left: 3px solid var(--accent-crimson);">
+                  <strong>1. DESCRIPTIVE (Nurse Intake):</strong> Records temperature of $39^\circ\text{C}$ and BP 150/90. (<em>What is happening?</em>)
+                </div>
+                <div style="background: var(--surface-subtle); padding: 0.6rem 0.85rem; border-radius: 6px; border-left: 3px solid var(--accent-ochre);">
+                  <strong>2. DIAGNOSTIC (Physician Exam):</strong> Reviews blood culture lab tests; diagnoses acute streptococcal infection. (<em>Why did it happen?</em>)
+                </div>
+                <div style="background: var(--surface-subtle); padding: 0.6rem 0.85rem; border-radius: 6px; border-left: 3px solid var(--accent-teal);">
+                  <strong>3. PREDICTIVE (Clinical Prognosis):</strong> Warns that without intervention, infection will spread to lungs in 48 hours. (<em>What will happen?</em>)
+                </div>
+                <div style="background: var(--surface-subtle); padding: 0.6rem 0.85rem; border-radius: 6px; border-left: 3px solid var(--accent-purple);">
+                  <strong>4. PRESCRIPTIVE (Medical Treatment):</strong> Writes prescription for 500mg Amoxicillin 3× daily for 7 days. (<em>What should be done?</em>)
+                </div>
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip">Vital Signs</span>
+                <span class="chip">Lab Diagnosis</span>
+                <span class="chip">Prognosis</span>
+                <span class="chip">Rx Treatment</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">CRITICAL DISTINCTION</span>
+              <h4 class="card-title">Analytics vs. Decisions</h4>
+              <p class="card-body-text">
+                Notice that moving from Descriptive to Prescriptive increases business value exponentially. A hospital that only measures temperature (Descriptive) cures zero patients. Value is only realized at the Prescriptive intervention.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Role of Data Mining Right -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">WHERE IS DATA MINING?</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The Laboratory Assays</h3>
+                <p class="card-body-text">
+                  In this analogy, <strong>Data Mining</strong> is the automated spectrophotometer, flow cytometer, and chemical assay machinery operating silently in the hospital basement.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                Data Mining extracts the latent white blood cell anomaly pattern from the blood sample that the doctor uses to make the diagnosis.
+              </div>
+
+              <p style="font-size: 0.88rem; color: var(--text-muted);">
+                Data mining does not see the patient; it processes the raw high-dimensional matrix to surface the critical diagnostic signal.
+              </p>
+            </div>
+
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">SYMBIOTIC REALITY</span>
+              <h4 class="card-title">Why Both Are Required</h4>
+              <p class="card-body-text">
+                Without the laboratory equipment (Data Mining), the doctor is guessing based on crude visual observation. Without the doctor (Analytics), the laboratory printout sits unread on a desk while the patient deteriorates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 07: [The SoleMate Case Study: Real-World Business Walkthrough] -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">APPLIED CASE STUDY</div>
+          <h2 class="slide-title">The SoleMate Retail Analytics Case Study</h2>
+          <p class="slide-subtitle">A real-world commercial walkthrough illustrating the 4-tier analytics progression in footwear e-commerce.</p>
+        </div>
+        <span class="slide-tag">SOLEMATE CASE</span>
+      </div>
+
+      <div class="layout-ladder-4">
+        <!-- Phase 1 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">PHASE 01 · DESCRIPTIVE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Sales Plunge Detected</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                July dashboard reveals revenue plunged from $500,000 in June to $425,000 (15% drop), isolated strictly to Men's Running Shoes (-32%).
+              </p>
+              <div class="card-formula-box" style="font-size: 0.74rem;">-$75,000 Monthly Delta</div>
+              <span class="chip chip-accent">Dashboard KPI</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker">AUDIT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Women's shoes and apparel remained flat. The collapse was 100% concentrated in a single product category.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">PHASE 02 · DIAGNOSTIC</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">RunFast Sitewide Sale</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Drill-down reveals rival RunFast ran a 30% off sale from July 5–20. Web logs confirm a 40% bounce rate from SoleMate cart to RunFast.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.74rem;">40% Cart Bounce Rate</div>
+              <span class="chip">Root Cause</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">AUDIT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Price sensitivity drove high-intent shoppers away at the final checkout screen.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">PHASE 03 · PREDICTIVE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">August Repeat Warning</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                A 3-year time-series model of competitor behavior forecasts that RunFast always repeats its promotion in August, predicting another $54k loss.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.74rem;">Projected -$54k Loss</div>
+              <span class="chip">ARIMA Forecast</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker">AUDIT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Without executive intervention, SoleMate will bleed over $120,000 across the two-month summer quarter.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">PHASE 04 · PRESCRIPTIVE</span>
+              <h4 class="card-title" style="font-size: 1.1rem;">Preemptive Counter-Sale</h4>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Prescriptive optimization recommends launching a 20% discount on July 3 (2 days before RunFast), limiting losses to only $27,000.
+              </p>
+              <div class="card-formula-box" style="font-size: 0.74rem;">+$27,000 Value Recovered</div>
+              <span class="chip">Optimization Engine</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker">AUDIT</span>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Preemption captured customer purchase intent before competitors could launch advertising campaigns.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 08: [The 8 Core Data Mining Techniques: Periodic Matrix Arena] -->
+    <section class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">ALGORITHMIC TAXONOMY</div>
+          <h2 class="slide-title">The 8 Core Data Mining Techniques</h2>
+          <p class="slide-subtitle">Curriculum taxonomy of algorithmic methods classified by learning paradigm and mathematical objective.</p>
+        </div>
+        <span class="slide-tag">THE 8 TECHNIQUES</span>
+      </div>
+
+      <div class="layout-periodic-8">
+        <!-- 1. Classification -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">01 · SUPERVISED</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Classification</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Assigns items to predefined discrete categories based on training labels.</p>
+              <span class="chip chip-accent">Spam / Diagnosis</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <p style="font-size: 0.8rem;">Models: Decision Trees, Logistic Regression, Random Forest, SVM.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Clustering -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">02 · UNSUPERVISED</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Clustering</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Partitions unlabeled data into natural groups based on distance similarity.</p>
+              <span class="chip">K-Means / DBSCAN</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <p style="font-size: 0.8rem;">Minimizes intra-cluster distance; maximizes inter-cluster distance.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Association Rules -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">03 · UNSUPERVISED</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Association Rules</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Discovers transactional dependencies formatted as "If X, then Y".</p>
+              <span class="chip">Market Basket</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <p style="font-size: 0.8rem;">Governed by Support, Confidence, Lift, and the Apriori principle.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Regression -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">04 · SUPERVISED</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Regression</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Models quantitative relationships with a continuous numeric target.</p>
+              <span class="chip chip-accent">Price / Risk Score</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <p style="font-size: 0.8rem;">Models: OLS, Ridge, Lasso, Polynomial, SVR.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Anomaly Detection -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">05 · UNSUP / SEMI</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Anomaly Detection</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Flags rare observations that deviate significantly from baseline distributions.</p>
+              <span class="chip">Fraud / Intrusion</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <p style="font-size: 0.8rem;">Models: Isolation Forest, One-Class SVM, Local Outlier Factor (LOF).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Dimensionality Reduction -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-blue">
+              <span class="card-kicker">06 · UNSUPERVISED</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Dimensionality Reduction</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Compresses feature space while preserving maximal variance.</p>
+              <span class="chip">PCA / t-SNE</span>
+            </div>
+            <div class="card-face card-back trim-blue">
+              <p style="font-size: 0.8rem;">Solves the Curse of Dimensionality via orthogonal eigendecomposition.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Text Mining -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">07 · NLP / MINING</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Text Mining</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Extracts structured semantic patterns and sentiment from narrative prose.</p>
+              <span class="chip">TF-IDF / LDA</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <p style="font-size: 0.8rem;">Tokenization, Lemmatization, Vectorization, Sentiment Acuity.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Time Series Analysis -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <span class="card-kicker">08 · TEMPORAL</span>
+              <h4 class="card-title" style="font-size: 1.05rem;">Time Series Analysis</h4>
+              <p class="card-body-text" style="font-size: 0.82rem;">Models sequential data recorded at fixed time intervals to isolate trends.</p>
+              <span class="chip">ARIMA / GARCH</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <p style="font-size: 0.8rem;">Decomposes Trend, Seasonality, Cyclical, and Residual white noise.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 09: [Formula Workbench: Association Rules & Apriori Mathematics] -->
+    <section class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">MATHEMATICAL DERIVATION</div>
+          <h2 class="slide-title">Association Rules: Support, Confidence, Lift &amp; Apriori</h2>
+          <p class="slide-subtitle">Rakesh Agrawal: Mathematical formulation of transactional co-occurrence rules and search space pruning.</p>
+        </div>
+        <span class="slide-tag">ASSOCIATION MATH</span>
+      </div>
+
+      <div class="layout-split-asymmetric">
+        <!-- Hero Left Formula Card -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">TRANSACTIONAL PROBABILITIES</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The Association Rule Metric Suite</h3>
+                <p class="card-body-text">
+                  For an association rule $X \implies Y$ across transaction database $D$ containing $N$ baskets:
+                </p>
+              </div>
+
+              <div class="card-formula-box" style="font-size: 0.88rem; line-height: 1.55;">
+                $\text{Support}(X \implies Y) = \frac{\sigma(X \cup Y)}{N} = P(X \cap Y)$<br><br>
+                $\text{Confidence}(X \implies Y) = \frac{\text{Support}(X \cup Y)}{\text{Support}(X)} = P(Y | X)$<br><br>
+                $\text{Lift}(X \implies Y) = \frac{\text{Confidence}(X \implies Y)}{\text{Support}(Y)} = \frac{P(X \cap Y)}{P(X)P(Y)}$<br><br>
+                $\text{Conviction}(X \implies Y) = \frac{1 - \text{Support}(Y)}{1 - \text{Confidence}(X \implies Y)} = \frac{P(X)P(\neg Y)}{P(X \cap \neg Y)}$
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">Lift > 1 = Affinity</span>
+                <span class="chip">Lift = 1 = Independence</span>
+                <span class="chip">Lift < 1 = Substitution</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-ochre">
+              <div class="card-meta-row">
+                <span class="card-kicker">WHY CONFIDENCE ALONE FAILS</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">The High-Confidence Illusion</h3>
+              <p class="card-body-text">
+                Suppose 90% of shoppers buy Bread. If 90% of Tea buyers also buy Bread, $\text{Confidence}(\text{Tea} \rightarrow \text{Bread}) = 90\%$. This looks impressive, but:
+              </p>
+              <div class="card-formula-box" style="font-size: 0.82rem;">
+                $\text{Lift} = \frac{0.90}{0.90} = 1.0 \quad (\text{Pure Independence!})$
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Tea buyers are no more likely to buy bread than a random customer. Lift reveals whether the association represents true behavioral affinity or just a popular background item.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Stacked: Apriori Principle -->
+        <div class="stack-vertical">
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-teal">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker" style="color: var(--accent-teal);">SEARCH PRUNING</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">The Apriori Principle</h3>
+                  <p class="card-body-text">
+                    <strong>Anti-Monotonicity Property:</strong> If an itemset is infrequent, all of its supersets must also be infrequent!
+                  </p>
+                </div>
+                <div class="card-formula-box" style="font-size: 0.8rem;">
+                  If {Beer} is infrequent ➔ {Beer, Diapers} is guaranteed infrequent!
+                </div>
+              </div>
+
+              <div class="card-face card-back trim-teal">
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">COMPLEXITY SAVINGS</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Defeating Exponential Explosion</h3>
+                <p class="card-body-text">
+                  With 10,000 supermarket items, testing all subsets requires $2^{10000}$ operations (more than atoms in the universe!). Apriori prunes 99.9% of candidate branches at $k=1$ and $k=2$.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-crimson">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker" style="color: var(--accent-crimson);">CONVICTION RATIO</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">What is Conviction?</h3>
+                  <p class="card-body-text">
+                    Unlike Lift which is symmetrical, Conviction measures the directional dependency of rule $X \implies Y$. It quantifies how often the rule would be incorrect if $X$ and $Y$ were completely independent.
+                  </p>
+                </div>
+              </div>
+
+              <div class="card-face card-back trim-crimson">
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">CONVICTION INTERPRETATION</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Infinite Conviction</h3>
+                <p class="card-body-text">
+                  A Conviction score of $\infty$ indicates a perfect logical implication: $Y$ is never observed without $X$. A score of 1.0 indicates complete statistical independence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: [Technique Comparison Showdown: Dual-Vs Split] -->
+    <section class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">CROSS-TECHNIQUE BENCHMARK</div>
+          <h2 class="slide-title">Technique Comparisons: Supervised vs. Unsupervised Mining</h2>
+          <p class="slide-subtitle">Resolving core confusion: Classification vs. Clustering and Association Rules vs. Correlation.</p>
+        </div>
+        <span class="slide-tag">TECHNIQUE SHOWDOWN</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- Classification vs Clustering -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">SHOWDOWN 01</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Classification vs. Clustering</h3>
+                <p class="card-body-text">
+                  Both group data points, but under completely opposite supervision regimes:
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Classification (Supervised):</strong><br>
+                • Predefined labels exist in advance.<br>
+                • Learns decision boundaries to separate classes.<br>
+                • Evaluated via Precision, Recall, F1-score.<br><br>
+                <strong>Clustering (Unsupervised):</strong><br>
+                • Zero predefined labels.<br>
+                • Discovers natural geometric clusters.<br>
+                • Evaluated via Silhouette Score &amp; WCSS.
+              </div>
+
+              <span class="chip chip-accent">Ground Truth Dependent</span>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">EXAM TRAP</span>
+              <h4 class="card-title">"Can K-Means classify spam?"</h4>
+              <p class="card-body-text">
+                No! K-Means has no concept of "spam". It might group emails into 2 clusters, but one cluster might be "emails with images" and the other "text emails". To predict an exact predefined target, you must deploy supervised classification.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Association Rules vs Correlation -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">SHOWDOWN 02</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Association Rules vs. Correlation</h3>
+                <p class="card-body-text">
+                  Both find relationships, but operate on completely different measurement scales:
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Correlation (Pearson / Spearman):</strong><br>
+                • Continuous / numerical feature variables.<br>
+                • Quantifies linear co-variation $[-1.0, +1.0]$.<br>
+                • Symmetrical: $\text{Corr}(X, Y) = \text{Corr}(Y, X)$.<br><br>
+                <strong>Association Rule Mining:</strong><br>
+                • Discrete binary transaction items.<br>
+                • Asymmetrical implications: $X \implies Y \neq Y \implies X$.<br>
+                • Governed by Support, Confidence, and Lift.
+              </div>
+
+              <span class="chip">Asymmetrical Implication</span>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">DIRECTIONAL ASYMMETRY</span>
+              <h4 class="card-title">Why Direction Matters</h4>
+              <p class="card-body-text">
+                $\text{Confidence}(\text{Peanut Butter} \implies \text{Jelly})$ is 85%, but $\text{Confidence}(\text{Jelly} \implies \text{Peanut Butter})$ may be only 40% (because Jelly is used on toast and pancakes). Correlation cannot model directional purchase flow.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: [Diagnostic Oral Defense Arena: 4 Foundations Panel Scenarios] -->
+    <section class="slide" data-slide="11">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">EXAMINATION MASTERY</div>
+          <h2 class="slide-title">Diagnostic Oral Defense Arena</h2>
+          <p class="slide-subtitle">High-rigor faculty examination questions testing foundational data mining theory.</p>
+        </div>
+        <span class="slide-tag">ORAL DEFENSE</span>
+      </div>
+
+      <div class="layout-quadrant-matrix">
+        <!-- Q1 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-crimson);">CHALLENGE 01 · KDD VS OLAP</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"How does Data Mining differ from SQL queries and OLAP cubes?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Explain hypothesis testing versus automated latent pattern extraction.</p>
+              <span class="chip chip-accent">Deductive vs Inductive</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"SQL and OLAP are deductive reporting tools. They require a human analyst to formulate an explicit query ('What were July sales in Region 3?'). If the analyst doesn't ask, the database reveals nothing. Data mining is inductive. It runs automated algorithms across high-dimensional spaces to uncover non-obvious patterns, correlations, and anomalies that no human thought to ask."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-teal);">CHALLENGE 02 · LIFT VS CONFIDENCE</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"Why can a rule with 95% Confidence still be completely useless?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Deconstruct background item popularity and the Lift formula.</p>
+              <span class="chip">Statistical Independence</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"A rule $X \implies Y$ can have 95% confidence simply because item $Y$ is purchased in 95% of all transactions across the entire store (e.g. Milk). In that scenario, $\text{Lift} = \frac{0.95}{0.95} = 1.0$. The presence of $X$ had zero effect on purchasing $Y$. Lift is mandatory because it divides confidence by the baseline support of $Y$, proving whether true behavioral affinity exists beyond random chance."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div class="card-meta-row">
+                <span class="card-kicker">CHALLENGE 03 · APRIORI PRUNING</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"Explain the anti-monotonicity property that powers the Apriori algorithm."</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">How does Apriori prevent combinatorial candidate explosion?</p>
+              <span class="chip">Anti-Monotonicity</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"The anti-monotonicity property states that if an itemset $S$ is infrequent (its support is below minimum threshold), all supersets of $S$ are mathematically guaranteed to be infrequent. If $\{A, B\}$ appears in only 1% of transactions, $\{A, B, C\}$ cannot appear in more than 1%. This allows Apriori to immediately prune entire combinatorial sub-trees without scanning the database."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-purple);">CHALLENGE 04 · PRESCRIPTIVE RISK</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"Why does Prescriptive Analytics carry the highest operational risk?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Compare descriptive hindsight against automated prescriptive execution.</p>
+              <span class="chip">Operational Risk</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"Descriptive analytics is passive; a mistake on a dashboard costs nothing except a re-query. Prescriptive analytics recommends or executes concrete real-world actions (e.g. changing drug dosages, buying millions in stock, shutting down electrical grids). An error in the prescriptive optimization model directly triggers financial losses, regulatory sanctions, or patient harm."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <script>
-    (function() {
-      let currentSlide = 0;
-      const totalSlides = 14;
-      const slides = document.querySelectorAll('.slide-view');
-      const progressFill = document.getElementById('progressFill');
-      const slideCounter = document.getElementById('slideCounter');
-      const headerEyebrow = document.getElementById('headerEyebrow');
-      const slideTopicBadge = document.getElementById('slideTopicBadge');
+    let currentSlide = 1;
+    const totalSlides = 11;
 
-      const deckContainer = document.getElementById('deckContainer');
-      const slideHeader = document.getElementById('slideHeader');
-      const deckFooter = document.getElementById('deckFooter');
-      const topToggleBtn = document.getElementById('topToggleBtn');
-      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+    const slides = document.querySelectorAll('.slide');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const themeLabel = document.getElementById('themeLabel');
+    const scrubberContainer = document.getElementById('footerScrubber');
+    const headerControls = document.getElementById('headerControls');
+    const footerScrubber = document.getElementById('footerScrubber');
 
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const flipAllBtn = document.getElementById('flipAllBtn');
-      const themeToggleBtn = document.getElementById('themeToggleBtn');
-      const fullscreenBtn = document.getElementById('fullscreenBtn');
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = `scrubber-dot ${i === 1 ? 'active' : ''}`;
+      dot.title = `Go to slide ${i}`;
+      dot.addEventListener('click', () => goToSlide(i));
+      scrubberContainer.appendChild(dot);
+    }
+    const dots = document.querySelectorAll('.scrubber-dot');
 
-      let headerPinned = false;
-      let footerPinned = false;
+    function goToSlide(n) {
+      if (n < 1 || n > totalSlides) return;
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
 
-      function initCardFlipListeners() {
-        document.querySelectorAll('.flip-card').forEach(card => {
-          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
-          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
-        });
-        document.querySelectorAll('.stack-flip-card').forEach(card => {
-          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
-          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
-        });
-      }
+      currentSlide = n;
+      const target = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+      if (target) target.classList.add('active');
+      if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
 
-      function updateSlide(index) {
-        if (index < 0) index = 0;
-        if (index >= totalSlides) index = totalSlides - 1;
+      slideCounter.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+    }
 
-        const currentActive = slides[currentSlide];
-        if (currentActive) {
-          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
-          currentActive.classList.remove('active');
-        }
+    prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
 
-        currentSlide = index;
-        const newActive = slides[currentSlide];
-        newActive.classList.add('active');
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
-        progressFill.style.width = progressPct + '%';
-
-        const padIndex = String(currentSlide + 1).padStart(2, '0');
-        slideCounter.innerHTML = `<span>${padIndex}</span> / 14`;
-
-        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'DS312 · MODULES 1 TO 3 FOUNDATIONS & TECHNIQUES';
-        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'MODULES 1 TO 3';
-      }
-
-      function toggleFlipAll() {
-        const activeSlide = slides[currentSlide];
-        if (!activeSlide) return;
-        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
-        if (!cards.length) return;
-
-        let allFlipped = true;
-        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
-        cards.forEach(c => {
-          if (allFlipped) c.classList.remove('flipped');
-          else c.classList.add('flipped');
-        });
-      }
-
-      function toggleHeader(forceState) {
-        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
-        if (headerPinned) {
-          slideHeader.classList.add('expanded');
-          topToggleBtn.classList.add('active');
-          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
-        } else {
-          slideHeader.classList.remove('expanded');
-          topToggleBtn.classList.remove('active');
-          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
-        }
-      }
-
-      function toggleFooter(forceState) {
-        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
-        if (footerPinned) {
-          deckFooter.classList.add('expanded');
-          bottomToggleBtn.classList.add('active');
-          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
-        } else {
-          deckFooter.classList.remove('expanded');
-          bottomToggleBtn.classList.remove('active');
-          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
-        }
-      }
-
-      function initHoverTriggers() {
-        document.addEventListener('mousemove', function(e) {
-          const windowHeight = window.innerHeight;
-          const mouseY = e.clientY;
-          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
-          else deckContainer.classList.remove('hovering-top');
-
-          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
-          else deckContainer.classList.remove('hovering-bottom');
-        });
-      }
-
-      function initThemeToggle() {
-        const root = document.documentElement;
-        themeToggleBtn.addEventListener('click', function() {
-          const isDark = root.getAttribute('data-theme') === 'dark';
-          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
-          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
-          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
-        });
-      }
-
-      function initFullscreen() {
-        fullscreenBtn.addEventListener('click', function() {
-          if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => console.warn(err));
-          } else {
-            document.exitFullscreen();
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        goToSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        goToSlide(currentSlide - 1);
+      } else if (e.key === 't' || e.key === 'T') {
+        toggleTheme();
+      } else if (e.key === 'c' || e.key === 'C') {
+        headerControls.classList.toggle('force-visible');
+        footerScrubber.classList.toggle('force-visible');
+      } else if (e.key === ' ' || e.key === 'Enter') {
+        const activeSlideEl = document.querySelector('.slide.active');
+        if (activeSlideEl) {
+          const hoveredCard = activeSlideEl.querySelector('.card-3d:hover') || activeSlideEl.querySelector('.card-3d');
+          if (hoveredCard) {
+            hoveredCard.classList.toggle('flipped');
+            e.preventDefault();
           }
-        });
+        }
       }
+    });
 
-      function initKeyboardShortcuts() {
-        document.addEventListener('keydown', function(e) {
-          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-          switch(e.key) {
-            case 'ArrowRight': case 'PageDown': case ' ':
-              e.preventDefault(); updateSlide(currentSlide + 1); break;
-            case 'ArrowLeft': case 'PageUp':
-              e.preventDefault(); updateSlide(currentSlide - 1); break;
-            case 'Tab': case 'x': case 'X':
-              e.preventDefault(); toggleFlipAll(); break;
-            case 't': case 'T':
-              e.preventDefault(); themeToggleBtn.click(); break;
-            case 'f': case 'F':
-              e.preventDefault(); fullscreenBtn.click(); break;
-            case 'h': case 'H':
-              e.preventDefault(); toggleHeader(); break;
-            case 'c': case 'C':
-              e.preventDefault(); toggleFooter(); break;
-            case 'Home':
-              e.preventDefault(); updateSlide(0); break;
-            case 'End':
-              e.preventDefault(); updateSlide(totalSlides - 1); break;
-            case 'Escape':
-              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
-          }
-        });
-      }
+    document.querySelectorAll('.card-3d').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' || e.target.closest('a')) return;
+        card.classList.toggle('flipped');
+      });
+    });
 
-      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
-      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
-      flipAllBtn.addEventListener('click', () => toggleFlipAll());
-      topToggleBtn.addEventListener('click', () => toggleHeader());
-      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('dma_deck_theme', theme);
+      themeLabel.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+    }
 
-      initCardFlipListeners();
-      initHoverTriggers();
-      initThemeToggle();
-      initFullscreen();
-      initKeyboardShortcuts();
-      updateSlide(0);
-    })();
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      setTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+
+    themeBtn.addEventListener('click', toggleTheme);
+    const savedTheme = localStorage.getItem('dma_deck_theme') || 'light';
+    setTheme(savedTheme);
   </script>
 </body>
 </html>

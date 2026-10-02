@@ -3,69 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DS312: Module 5 — Unstructured Text Mining & Clinical NLP | Interactive Keynote</title>
+  <title>DS312 Module 5: Unstructured Text Mining & Clinical NLP | Interactive Keynote</title>
   
   <!-- Modern Google Fonts Stack -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      /* LIGHT THEME (Warm Linen Alabaster) */
       --bg-canvas: #F8F6F1;
-      --surface-front: #FFFFFF;
-      --surface-back: #F5EFE6;
+      --surface-card: #FFFFFF;
       --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
       --text-main: #1D1A16;
       --text-muted: #5C564E;
       --text-faint: #8E867B;
       --border-subtle: #E2DBD0;
       --border-focus: #C8BAA8;
       
-      /* Vibrant Academic Accent Hues */
       --accent-crimson: #C84B31;
       --accent-ochre: #A96E32;
       --accent-teal: #26796B;
       --accent-blue: #1B365D;
+      --accent-purple: #6B46C1;
 
-      /* Typography */
       --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
       --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
-      /* Elevations */
       --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
-      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
     }
 
     [data-theme="dark"] {
-      /* LUMINOUS DEEP SPACE SLATE */
+      /* DARK THEME (Deep Space Slate) */
       --bg-canvas: #0B0E14;
-      --surface-front: #141821;
-      --surface-back: #181E2A;
+      --surface-card: #141821;
       --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
       --text-main: #F4F6FB;
       --text-muted: #9DA6B8;
       --text-faint: #657085;
       --border-subtle: #242D3D;
       --border-focus: #37435C;
       
-      /* Luminous Neon Accents */
       --accent-crimson: #E0533C;
       --accent-ochre: #E5A967;
       --accent-teal: #2DD4BF;
       --accent-blue: #4A90E2;
+      --accent-purple: #A78BFA;
 
       --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
-      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.65);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-canvas);
@@ -77,155 +71,162 @@
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      user-select: none;
       transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
     }
 
-    /* Top Progress Bar */
-    .progress-bar-container {
+    /* Edge-Hover Header Controls */
+    .edge-header-trigger {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 4px;
-      background: rgba(169, 110, 50, 0.12);
-      z-index: 100;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
-      width: 5.55%;
-      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Deck Container */
-    .deck-container {
-      width: 1380px;
-      height: 790px;
-      max-width: calc(100vw - 3rem);
-      max-height: calc(100vh - 2.5rem);
+      right: 0;
+      height: 70px;
+      z-index: 999;
       display: flex;
-      flex-direction: column;
-      padding: 1.75rem 2.75rem;
-      position: relative;
-      margin: auto;
-      box-sizing: border-box;
-      transition: width 0.2s ease, height 0.2s ease;
-    }
-
-    /* Header Bar (Collapsible Dropdown) */
-    .slide-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-height: 0;
-      opacity: 0;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      overflow: hidden;
-      border-bottom: 1px solid transparent;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 12px;
       pointer-events: none;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease,
-                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-color 0.25s ease;
     }
 
-    .slide-header.expanded {
-      max-height: 80px;
-      opacity: 1;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom-color: var(--border-subtle);
-      pointer-events: auto;
-    }
+    .edge-header-trigger > * { pointer-events: auto; }
 
-    .slide-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent-ochre);
+    .header-controls {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-    }
-
-    .slide-eyebrow::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background: var(--accent-crimson);
-      border-radius: 50%;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .hint-banner {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--accent-teal);
-      background: rgba(38, 121, 107, 0.08);
-      border: 1px solid rgba(38, 121, 107, 0.25);
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      letter-spacing: 0.06em;
-      font-weight: 600;
-    }
-
-    .theme-toggle-btn {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      background: var(--surface-front);
+      gap: 1.25rem;
+      background: var(--surface-card);
       border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      color: var(--text-main);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-weight: 600;
+      padding: 0.55rem 1.25rem;
+      border-radius: 9999px;
+      box-shadow: var(--card-shadow);
+      opacity: 0;
+      transform: translateY(-15px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .theme-toggle-btn:hover {
+    .edge-header-trigger:hover .header-controls,
+    .header-controls.force-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-btn {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
       border-color: var(--accent-ochre);
       color: var(--accent-ochre);
     }
 
-    .slide-topic-badge {
+    .slide-counter {
       font-family: var(--font-mono);
       font-size: 0.88rem;
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.95rem;
-      border-radius: 4px;
-      color: var(--text-main);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      font-weight: 800;
+      color: var(--accent-ochre);
+      min-width: 65px;
+      text-align: center;
     }
 
-    /* Main Slide Stage */
-    .slide-stage {
-      flex: 1;
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
       display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.15s ease;
     }
 
-    .slide-view {
+    .theme-toggle-btn:hover { color: var(--accent-crimson); }
+
+    /* Edge-Hover Footer Scrubber */
+    .edge-footer-trigger {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 12px;
+      pointer-events: none;
+    }
+
+    .edge-footer-trigger > * { pointer-events: auto; }
+
+    .footer-scrubber {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      box-shadow: var(--card-shadow);
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .edge-footer-trigger:hover .footer-scrubber,
+    .footer-scrubber.force-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scrubber-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .scrubber-dot.active {
+      background: var(--accent-crimson);
+      transform: scale(1.35);
+      border-color: var(--accent-crimson);
+    }
+
+    /* Presentation Stage & Slide Wrapper */
+    .stage-container {
+      width: 1360px;
+      max-width: 95vw;
+      height: 850px;
+      max-height: 92vh;
+      position: relative;
+      perspective: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
       position: absolute;
       top: 0;
       left: 0;
@@ -233,2220 +234,1369 @@
       height: 100%;
       display: none;
       flex-direction: column;
+      justify-content: space-between;
       opacity: 0;
-      transition: opacity 0.25s ease-in-out;
+      transform: translateY(12px) scale(0.99);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 2.2rem 2.8rem;
+      box-sizing: border-box;
     }
 
-    .slide-view.active {
+    .slide.active {
       display: flex;
       opacity: 1;
-      z-index: 2;
+      transform: translateY(0) scale(1);
     }
 
-    /* Slide Titles */
-    .slide-title-area {
-      margin-bottom: 1.15rem;
-      flex-shrink: 0;
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.1rem;
+      margin-bottom: 1.4rem;
     }
 
-    .slide-headline {
+    .slide-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .slide-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slide-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-crimson);
+    }
+
+    .slide-title {
       font-family: var(--font-display);
       font-size: 2.15rem;
       font-weight: 800;
+      letter-spacing: -0.03em;
       line-height: 1.15;
-      letter-spacing: -0.035em;
       color: var(--text-main);
-      margin-bottom: 0.35rem;
     }
 
-    .slide-subhead {
-      font-size: 1.05rem;
-      font-weight: 500;
+    .slide-subtitle {
+      font-size: 1rem;
       color: var(--text-muted);
+      max-width: 880px;
       line-height: 1.4;
     }
 
-    /* Slide Layout Grids */
-    .grid-container {
+    .slide-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    /* Layout Archetypes */
+    .layout-hero-split {
       display: grid;
-      gap: 1.5rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.2rem;
+      height: 100%;
+      align-items: center;
+    }
+
+    .layout-split-asymmetric {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 1.75rem;
       flex: 1;
       min-height: 0;
     }
 
-    .grid-bifurcated {
+    .layout-dual-vs {
+      display: grid;
       grid-template-columns: 1fr 1fr;
-    }
-
-    .grid-triptych {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .grid-split-hero {
-      grid-template-columns: 1.15fr 1fr;
-    }
-
-    .stack-right-column {
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-      height: 100%;
-    }
-
-    /* 3D Flip Card Container */
-    .flip-card {
-      background-color: transparent;
-      perspective: 1200px;
-      cursor: pointer;
-      height: 100%;
-      position: relative;
-      outline: none;
-    }
-
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform-style: preserve-3d;
-      transform-origin: center center;
-      border-radius: 12px;
-    }
-
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-card-front, .flip-card-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      border-radius: 12px;
-      padding: 1.85rem 1.95rem;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* FRONT DESIGN */
-    .flip-card-front {
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--card-shadow);
-      justify-content: space-between;
-      transform: rotateY(0deg);
-      z-index: 2;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .flip-card:hover .flip-card-front {
-      border-color: var(--border-focus);
-      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
-    }
-
-    .flip-card-front::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: var(--border-subtle);
-    }
-
-    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
-    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
-    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
-    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
-
-    .front-top-meta {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      color: var(--text-faint);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-    }
-
-    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
-    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
-    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
-    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
-
-    .front-hero-container {
-      margin: auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .front-keyword {
-      font-family: var(--font-display);
-      font-size: 2.15rem;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.12;
-      letter-spacing: -0.035em;
-    }
-
-    .front-sub-tag {
-      font-size: 1.15rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      line-height: 1.35;
-    }
-
-    .flip-prompt {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 1rem;
-      background: rgba(169, 110, 50, 0.05);
-      border: 1px dashed rgba(169, 110, 50, 0.28);
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: all 0.2s ease;
-    }
-
-    .flip-card:hover .flip-prompt {
-      background: rgba(169, 110, 50, 0.12);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    .flip-card.accent-crimson:hover .flip-prompt {
-      background: rgba(200, 75, 49, 0.1);
-      border-color: var(--accent-crimson);
-      color: var(--accent-crimson);
-    }
-
-    .flip-card.accent-teal:hover .flip-prompt {
-      background: rgba(38, 121, 107, 0.1);
-      border-color: var(--accent-teal);
-      color: var(--accent-teal);
-    }
-
-    /* BACK DESIGN: DEEP MEANING */
-    .flip-card-back {
-      background: var(--surface-back);
-      border: 1px solid var(--border-focus);
-      transform: rotateY(180deg);
-      box-shadow: var(--card-shadow-back);
-      z-index: 1;
-    }
-
-    .back-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 0.95rem;
-    }
-
-    .back-topic-label {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .back-headline {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      font-weight: 800;
-      line-height: 1.22;
-      letter-spacing: -0.02em;
-    }
-
-    .back-content {
-      font-size: 1.05rem;
-      line-height: 1.52;
+      gap: 2rem;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      overflow-y: auto;
-      padding-right: 0.4rem;
-    }
-
-    .back-content p {
-      margin-bottom: 0.35rem;
-    }
-
-    .back-content ul {
-      list-style: none;
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      font-size: 1.02rem;
-      line-height: 1.45;
-    }
-
-    .back-content ul li {
+      min-height: 0;
       position: relative;
-      padding-left: 1.35rem;
     }
 
-    .back-content ul li::before {
-      content: "▸";
-      position: absolute;
-      left: 0;
-      font-weight: 800;
-      font-size: 1.05rem;
+    .layout-tri-asymmetric {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.35rem;
+      flex: 1;
+      min-height: 0;
     }
 
-    .back-return-prompt {
-      flex-shrink: 0;
-      margin-top: auto;
+    .layout-quadrant-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1.35rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .layout-pipeline-horizontal {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .pipeline-conduit-bar-10 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .conduit-step {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 0.95rem;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      gap: 0.65rem;
+      box-shadow: var(--card-shadow);
+      border-left: 3px solid var(--accent-ochre);
     }
 
-    /* LIGHT MODE CARD BACK ACCENT COLORS */
-    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
-    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
-    .flip-card.accent-crimson .back-content { color: var(--text-main); }
-    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
-    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+    .conduit-num { font-family: var(--font-mono); font-weight: 800; font-size: 0.88rem; color: var(--accent-crimson); }
+    .conduit-name { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; color: var(--text-main); }
 
-    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
-    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
-    .flip-card.accent-ochre .back-content { color: var(--text-main); }
-    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
-    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
-
-    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
-    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-headline { color: var(--text-main); }
-    .flip-card.accent-teal .back-content { color: var(--text-main); }
-    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
-    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
-
-    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
-    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
-      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
-      border-color: rgba(224, 83, 60, 0.5);
-      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-header {
-      border-bottom-color: rgba(224, 83, 60, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
-      color: #FF8F7D;
-      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
-      color: #FFAEA0;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content {
-      color: #FCE6E2;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
-      color: #FF7B66;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
-      color: #E0533C;
-    }
-    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(224, 83, 60, 0.3);
-      color: #FF8F7D;
+    .stack-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      height: 100%;
     }
 
-    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
-      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
-      border-color: rgba(229, 169, 103, 0.5);
-      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-header {
-      border-bottom-color: rgba(229, 169, 103, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
-      color: #F5C58A;
-      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
-      color: #FCE1B8;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content {
-      color: #FAF0DF;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
-      color: #F5C58A;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
-      color: #E5A967;
-    }
-    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(229, 169, 103, 0.3);
-      color: #F5C58A;
-    }
-
-    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
-      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
-      border-color: rgba(45, 212, 191, 0.5);
-      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-header {
-      border-bottom-color: rgba(45, 212, 191, 0.2);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
-      color: #5EEAD4;
-      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-headline {
-      color: #99F6E4;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content {
-      color: #E0FAF5;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
-      color: #5EEAD4;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
-      color: #2DD4BF;
-    }
-    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
-      background: #181E2A;
-      border: 1px solid rgba(45, 212, 191, 0.3);
-      color: #5EEAD4;
-    }
-
-    /* Stack Flip Cards (Right-hand column mini flip cards) */
-    .stack-flip-card {
-      background-color: transparent;
+    /* 3D Flip Card Mechanics */
+    .card-3d {
       perspective: 1000px;
       cursor: pointer;
-      flex: 1;
-      position: relative;
-      min-height: 85px;
-      transition: box-shadow 0.2s ease;
+      height: 100%;
+      min-height: 100px;
     }
 
-    .stack-flip-card-inner {
+    .card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transform-style: preserve-3d;
-      transform-origin: center center;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
     }
 
-    .stack-flip-card.flipped .stack-flip-card-inner {
-      transform: rotateY(180deg);
-    }
+    .card-3d:hover .card-inner { box-shadow: var(--card-shadow-hover); }
+    .card-3d.flipped .card-inner { transform: rotateY(180deg); }
 
-    .stack-card-front, .stack-card-back {
+    .card-face {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
       width: 100%;
       height: 100%;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 8px;
-      padding: 1.1rem 1.5rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
       border: 1px solid var(--border-subtle);
       box-sizing: border-box;
-      margin: 0;
+      overflow-y: auto;
     }
 
-    .stack-card-front {
-      background: #FFFFFF;
-      box-shadow: var(--card-shadow);
-      transform: rotateY(0deg);
-      z-index: 2;
-    }
+    .card-front { background: var(--surface-card); color: var(--text-main); }
+    .card-back { background: var(--surface-elevated); color: var(--text-main); transform: rotateY(180deg); border-color: var(--accent-ochre); }
 
-    [data-theme="dark"] .stack-card-front {
-      background: var(--surface-front);
-      border-color: var(--border-subtle);
-    }
+    .trim-crimson { border-top: 4px solid var(--accent-crimson); }
+    .trim-teal    { border-top: 4px solid var(--accent-teal); }
+    .trim-ochre   { border-top: 4px solid var(--accent-ochre); }
+    .trim-blue    { border-top: 4px solid var(--accent-blue); }
+    .trim-purple  { border-top: 4px solid var(--accent-purple); }
 
-    .stack-card-front .front-left {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .stack-card-front .stack-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .stack-card-front .stack-keyword {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .stack-card-front .stack-hint {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-ochre);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-    }
-
-    .stack-card-back {
-      background: var(--surface-back);
-      border-color: rgba(169, 110, 50, 0.35);
-      transform: rotateY(180deg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 1.1rem 1.6rem;
-      z-index: 1;
-      box-shadow: var(--card-shadow-back);
-    }
-
-    .stack-card-back p {
-      font-size: 1.05rem;
-      line-height: 1.48;
-      color: var(--text-main);
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
-      background: linear-gradient(155deg, #1C1215, #11151E);
-      border-color: rgba(224, 83, 60, 0.45);
-      color: #FCE6E2;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
-      color: #FF8F7D;
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
-      background: linear-gradient(155deg, #1E1911, #11151E);
-      border-color: rgba(229, 169, 103, 0.45);
-      color: #FAF0DF;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
-      color: #F5C58A;
-    }
-
-    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
-      background: linear-gradient(155deg, #0F1D1B, #11151E);
-      border-color: rgba(45, 212, 191, 0.45);
-      color: #E0FAF5;
-    }
-    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
-      color: #5EEAD4;
-    }
-
-    /* Hero Static Card */
-    .hero-static-box {
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      box-shadow: var(--card-shadow);
-    }
-
-    [data-theme="dark"] .hero-static-box {
-      background: var(--surface-front);
-      border-color: var(--border-subtle);
-    }
-
-    .hero-static-box::after {
-      content: "“";
-      position: absolute;
-      top: 1.25rem;
-      right: 2rem;
-      font-size: 6.5rem;
-      font-family: serif;
-      color: rgba(200, 75, 49, 0.12);
-      line-height: 1;
-    }
-
-    .hero-quote {
-      font-family: var(--font-display);
-      font-size: 2.15rem;
-      font-weight: 700;
-      line-height: 1.3;
-      color: var(--text-main);
-      margin-bottom: 1.3rem;
-    }
-
-    .hero-author {
-      font-family: var(--font-mono);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--accent-ochre);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Metric Static Card */
-    .metric-hero-box {
-      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
-      border: 1px solid var(--border-subtle);
-      border-left: 5px solid var(--accent-crimson);
-      border-radius: 12px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      box-shadow: var(--card-shadow);
-    }
-
-    [data-theme="dark"] .metric-hero-box {
-      background: linear-gradient(135deg, #161D2B, #11151E);
-      border-color: var(--border-subtle);
-      border-left: 5px solid var(--accent-crimson);
-    }
-
-    .big-stat {
-      font-family: var(--font-display);
-      font-size: 5.5rem;
-      font-weight: 800;
-      color: var(--accent-crimson);
-      line-height: 0.92;
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.04em;
-    }
-
-    .stat-label {
-      font-family: var(--font-display);
-      font-size: 1.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-main);
-      margin-bottom: 0.8rem;
-    }
-
-    .stat-desc {
-      font-size: 1.18rem;
-      line-height: 1.5;
-      color: var(--text-main);
-    }
-
-    /* Bottom Footer Bar */
-    .deck-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-height: 0;
-      opacity: 0;
-      margin-top: 0;
-      padding-top: 0;
-      overflow: hidden;
-      border-top: 1px solid transparent;
-      pointer-events: none;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease,
-                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-color 0.25s ease;
-    }
-
-    .deck-footer.expanded {
-      max-height: 80px;
-      opacity: 1;
-      margin-top: 1.35rem;
-      padding-top: 0.85rem;
-      border-top-color: var(--border-subtle);
-      pointer-events: auto;
-    }
-
-    .counter {
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-    }
-
-    .counter span {
-      color: var(--text-main);
-      font-weight: 800;
-    }
-
-    .deck-nav-buttons {
-      display: flex;
-      gap: 0.85rem;
-      align-items: center;
-    }
-
-    .nav-btn {
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      padding: 0.6rem 1.3rem;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    }
-
-    .nav-btn:hover {
-      background: var(--surface-elevated);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    .nav-btn.action-flip {
-      border-color: var(--accent-ochre);
-      background: rgba(169, 110, 50, 0.08);
-      color: var(--accent-ochre);
-      font-weight: 700;
-    }
-
-    .nav-btn.action-flip:hover {
-      background: rgba(169, 110, 50, 0.16);
-    }
-
-    .key-indicator {
-      display: inline-block;
-      padding: 0.12rem 0.38rem;
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 3px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-weight: 700;
-    }
-
-    [data-theme="dark"] .key-indicator {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-faint);
-    }
-
-    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
-    .bar-toggle-pill {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--surface-front);
-      border: 1px solid var(--border-subtle);
-      border-radius: 999px;
-      padding: 0.32rem 1.1rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
-      z-index: 180;
-      user-select: none;
-      outline: none;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    }
-
-    .top-toggle {
-      top: 8px;
-      transform: translateX(-50%) translateY(-6px);
-    }
-
-    .bottom-toggle {
-      bottom: 8px;
-      transform: translateX(-50%) translateY(6px);
-    }
-
-    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
-    .deck-container.hovering-top .top-toggle,
-    .top-toggle:hover,
-    .top-toggle.active {
-      opacity: 0.95;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .deck-container.hovering-bottom .bottom-toggle,
-    .bottom-toggle:hover,
-    .bottom-toggle.active {
-      opacity: 0.95;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .bar-toggle-pill:hover {
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
-      opacity: 1;
-    }
-
-    .bar-toggle-pill.active {
-      background: var(--surface-back);
-      border-color: var(--accent-ochre);
-      color: var(--accent-ochre);
-    }
-
-    /* Fullscreen helper */
-    :fullscreen .deck-container {
-      max-width: 95vw;
-      max-height: 95vh;
-      width: 1440px;
-      height: 820px;
-    }
+    .card-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; }
+    .card-kicker { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-ochre); }
+    .card-flip-cue { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); display: flex; align-items: center; gap: 0.3rem; }
+    .card-title { font-family: var(--font-display); font-size: 1.32rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.65rem; line-height: 1.25; }
+    .card-body-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; flex: 1; }
+    .card-formula-box { font-family: var(--font-mono); font-size: 0.88rem; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.75rem 1rem; color: var(--text-main); margin: 0.75rem 0; line-height: 1.45; }
+    .card-chips-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.85rem; }
+    .chip { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; background: var(--surface-subtle); border: 1px solid var(--border-subtle); padding: 0.2rem 0.55rem; border-radius: 4px; color: var(--text-muted); }
+    .chip-accent { background: var(--surface-elevated); color: var(--accent-crimson); border-color: var(--accent-crimson); }
+    .card-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.65rem; font-size: 0.9rem; color: var(--text-muted); }
+    .card-bullet-list li { position: relative; padding-left: 1.25rem; line-height: 1.4; }
+    .card-bullet-list li::before { content: "•"; position: absolute; left: 0.25rem; color: var(--accent-ochre); font-weight: 900; }
   </style>
 </head>
 <body>
 
-  <!-- Top Real-Time Progress Bar -->
-  <div class="progress-bar-container">
-    <div class="progress-bar-fill" id="progressFill"></div>
+  <!-- Edge-Hover Header Controls -->
+  <div class="edge-header-trigger">
+    <div class="header-controls" id="headerControls">
+      <button class="nav-btn" id="prevBtn" title="Previous Slide (← / PageUp)">← PREV</button>
+      <span class="slide-counter" id="slideCounter">01 / 11</span>
+      <button class="nav-btn" id="nextBtn" title="Next Slide (→ / PageDown)">NEXT →</button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme (T)">
+        <span>◐</span> <span id="themeLabel">DARK</span>
+      </button>
+    </div>
   </div>
 
-  <div class="deck-container" id="deckContainer">
-
-    <!-- Top Floating Hover Pill Trigger -->
-    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
-      <span>▾ EXPAND HEADER</span>
-      <span class="key-indicator">H</span>
-    </button>
-
-    <!-- Collapsible Slide Header -->
-    <header class="slide-header" id="slideHeader">
-      <div class="slide-eyebrow" id="headerEyebrow">
-        DS312 · MODULE 5 TEXT MINING & CLINICAL NLP
-      </div>
-      <div class="header-actions">
-        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
-        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
-        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
-          <span id="themeIcon">◐</span>
-          <span id="themeText">THEME</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Slide Stage Viewport -->
-    <main class="slide-stage" id="slideStage">
-
-      <section class="slide-view active" id="slide-0" data-eyebrow="DS312 · MODULE 5 TEXT MINING & NLP" data-badge="UNSTRUCTURED DATA">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Unstructured Text Mining & Clinical NLP</h2>
-          <p class="slide-subhead">Module 5: The 10-Step Pipeline, Morphological Lemmatization, TF-IDF Mathematics, LDA Topic Modeling, and Clinical Notes Mining</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-ochre);">UNSTRUCTURED FRONTIER</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                Over 80% of enterprise and clinical healthcare data exists as unstructured text—physician progress notes, discharge summaries, nursing logs, and pathology reports.
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">DS312 MODULE 5 · CLINICAL NLP PROTOCOL</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">5.1 THE 10-STEP PIPELINE</span>
-                    <h4 class="stack-keyword">Denoising to Vectorization</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Text Pipeline:</strong> Ingestion, cleaning/regex, sentence splitting, tokenization, lowercasing, stop word pruning, lemmatization, N-grams, TF-IDF, and embedding.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">5.2 VECTOR SPACE & TF-IDF</span>
-                    <h4 class="stack-keyword">Term Salience vs. Document Frequency</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Mathematical Modeling:</strong> Bag-of-Words vs. TF-IDF downweighting. Formula: TF(t,d) &times; IDF(t,D) to isolate diagnostic discriminators.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">5.3 TOPIC MODELING & EHR</span>
-                    <h4 class="stack-keyword">Latent Dirichlet Allocation & NegEx</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Probabilistic Mining:</strong> LDA Bayesian mixtures (&alpha;, &beta; priors), coherence score (C_v), VADER sentiment, and clinical negation detection.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-1" data-eyebrow="MODULE 5 · NLP ARCHITECTURE" data-badge="10-STEP PIPELINE">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">The 10-Step Unstructured NLP Preprocessing Pipeline</h2>
-          <p class="slide-subhead">From raw physician narratives and noisy clinical notes to dense machine-learnable numerical vectors</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">PHASE 1: DENOISING & SPLITTING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Steps 1 to 4: Raw to Tokens</h3>
-                  <p class="front-sub-tag">Ingestion and Lexical Division</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">LEXICAL PREPROCESSING</span>
-                  <h4 class="back-headline">Cleaning to Tokenization</h4>
-                </div>
-                <div class="back-content">
-                  <p>Initial preparation of raw unstructured text strings.</p>
-                  <ul><li><strong>Step 1: Text Cleaning / Denoising:</strong> Strip HTML/XML tags, non-printable characters, escape codes, and corrupted glyphs via Regex.</li><li><strong>Step 2: Sentence Segmentation:</strong> Splitting raw text into coherent sentence boundaries (<code>nltk.sent_tokenize</code>) to preserve clausal meaning.</li><li><strong>Step 3: Contraction Expansion:</strong> Normalizing colloquial contractions (e.g., "didn't" &rarr; "did not", "pt's" &rarr; "patient is") before boundary slicing.</li><li><strong>Step 4: Tokenization:</strong> Breaking continuous character streams into discrete linguistic atomic units (words, punctuation, subwords).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">PHASE 2: NORMALIZATION & VECTORIZATION</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Steps 5 to 10: Tokens to Matrices</h3>
-                  <p class="front-sub-tag">Morphology to Mathematical Space</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">VECTOR SPACE PIPELINE</span>
-                  <h4 class="back-headline">Normalization & Modeling</h4>
-                </div>
-                <div class="back-content">
-                  <p>Transforming lexical tokens into dense numerical vectors.</p>
-                  <ul><li><strong>Step 5: Case Normalization:</strong> Lowercasing all characters to collapse redundant vocabulary (e.g., "Diabetes", "DIABETES", "diabetes").</li><li><strong>Step 6: Stop Word Removal:</strong> Pruning ultra-high-frequency syntactic glue words (with strict clinical negation retention: "no", "not").</li><li><strong>Step 7: Lemmatization / Stemming:</strong> Reducing inflectional forms to root lemmas using morphological dictionary lookup and POS tagging.</li><li><strong>Step 8: N-Gram Construction:</strong> Binding adjacent co-occurring words (bigrams, trigrams) to preserve phrases (e.g., "acute renal failure").</li><li><strong>Step 9: Vectorization (BoW / TF-IDF):</strong> Mapping token indices into numerical sparse matrices with statistical frequency weighting.</li><li><strong>Step 10: Dimensionality Reduction:</strong> Truncated SVD / PCA / LDA to project sparse high-dimensional matrices into dense semantic spaces.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-2" data-eyebrow="MODULE 5 · TEXT DENOISING" data-badge="REGEX CLEANING">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Text Denoising, Regex Sanitization & Contraction Expansion</h2>
-          <p class="slide-subhead">Eliminating markup artifacts, handling unicode anomalies, and establishing baseline lexical consistency</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-crimson);">REGEX SANITIZATION</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                Raw real-world clinical text is littered with EHR markup tags, ASCII artifacts, escaped linefeeds, and shorthand abbreviations that destroy downstream vectorizers if not cleansed upfront.
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">RE_PATTERN = r'&lt;[^&gt;]+&gt;|[^\w\s\.-]'</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">MARKUP & WHITESPACE STRIPPING</span>
-                    <h4 class="stack-keyword">HTML / XML / Escape Codes</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Denoising Protocols:</strong> Stripping XML tags (&lt;note&gt;, &lt;br/&gt;), converting multiple tabs/newlines into single spaces, and removing non-ASCII artifacts.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">CONTRACTION EXPANSION</span>
-                    <h4 class="stack-keyword">Syntactic Standardization</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Disambiguation:</strong> Expanding "won't" &rarr; "will not", "can't" &rarr; "cannot". Critical in clinical text where contracted negatives carry life-or-death diagnostic polarity.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">CASE NORMALIZATION</span>
-                    <h4 class="stack-keyword">Vocabulary Compression</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Lowercasing Impact:</strong> Compresses vocabulary space by up to 35% by unifying "Hypertension", "HYPERTENSION", and "hypertension" into a single dictionary entry.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-3" data-eyebrow="MODULE 5 · TOKENIZATION DYNAMICS" data-badge="LEXICAL SEGMENTATION">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Tokenization Paradigms: Word, Sentence & Subword BPE</h2>
-          <p class="slide-subhead">Segmenting unstructured language streams while preserving medical terminology and semantic clauses</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">WORD & SENTENCE LEVEL</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Lexical & Clausal Boundary Slicing</h3>
-                  <p class="front-sub-tag">White-space, Regex & NLTK Tokenizers</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">TOKENIZATION STRATEGIES</span>
-                  <h4 class="back-headline">Word vs. Sentence Tokenization</h4>
-                </div>
-                <div class="back-content">
-                  <p>Traditional rule-based and linguistic segmentation.</p>
-                  <ul><li><strong>Word Tokenization (<code>word_tokenize</code>):</strong> Splits text into individual words and punctuation tokens based on punctuation boundaries and treebank rules.</li><li><strong>Sentence Tokenization (<code>sent_tokenize</code>):</strong> Splits continuous blocks of text into individual grammatical sentences using unsupervised boundary models (Punkt).</li><li><strong>Clinical Pitfall:</strong> Abbreviations with periods (e.g., "Dr.", "e.g.", "b.i.d.", "mg/dL") can cause naive regex splitters to falsely trigger sentence cuts.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">SUBWORD & STATISTICAL LEVEL</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Subword BPE & WordPiece Paradigms</h3>
-                  <p class="front-sub-tag">Handling Out-Of-Vocabulary (OOV) Terms</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">MODERN SUBWORD METHODS</span>
-                  <h4 class="back-headline">Byte-Pair Encoding & WordPiece</h4>
-                </div>
-                <div class="back-content">
-                  <p>Modern statistical tokenization in clinical language models.</p>
-                  <ul><li><strong>Out-Of-Vocabulary (OOV) Problem:</strong> Traditional word-level tokenizers map unseen medical jargon or rare compounds to a generic <code>&lt;UNK&gt;</code> token, losing vital diagnostic signal.</li><li><strong>Byte-Pair Encoding (BPE):</strong> Iteratively merges frequent character pairs. Rare medical terms are split into recognizable morphological subwords (e.g., "hypo" + "glycemia").</li><li><strong>Clinical Advantage:</strong> Enables transformers (BioBERT, ClinicalBERT) to parse novel dosage forms and medication brand names without out-of-vocabulary collapse.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-4" data-eyebrow="MODULE 5 · MORPHOLOGICAL PROCESSING" data-badge="STEMMING VS. LEMMATIZATION">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Stemming vs. Lemmatization: Heuristics vs. Morphological Rigor</h2>
-          <p class="slide-subhead">Contrasting crude affix-stripping algorithms with dictionary-backed Part-of-Speech canonicalization</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">HEURISTIC AFFIX STRIPPING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Stemming (Porter / Snowball)</h3>
-                  <p class="front-sub-tag">Fast, Crudely Truncated Stems</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">STEMMING ANALYSIS</span>
-                  <h4 class="back-headline">Porter & Snowball Mechanics</h4>
-                </div>
-                <div class="back-content">
-                  <p>Algorithmic chopping of word endings without linguistic awareness.</p>
-                  <ul><li><strong>Heuristic Affix Stripping:</strong> Applies fixed sequential transformation rules to chop suffixes like "-ing", "-ed", "-s", "-ly" (e.g., "consulting" &rarr; "consult").</li><li><strong>Crucial Flaw — Non-Words:</strong> Often outputs non-dictionary strings (e.g., "hospital" &rarr; "hospit", "medical" &rarr; "medic", "stabilize" &rarr; "stabil").</li><li><strong>Over-Stemming Error:</strong> Chopping disparate words to identical roots (e.g., "university" and "universe" both stemmed to "univers").</li><li><strong>Under-Stemming Error:</strong> Failing to connect words with common roots (e.g., "alumnus", "alumni", "alumnae" remain separate stems).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">MORPHOLOGICAL DICTIONARY LOOKUP</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Lemmatization (WordNet / spaCy)</h3>
-                  <p class="front-sub-tag">Accurate Canonical Base Forms (Lemmas)</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">LEMMATIZATION ANALYSIS</span>
-                  <h4 class="back-headline">WordNet & POS-Aware Lemmas</h4>
-                </div>
-                <div class="back-content">
-                  <p>Context-aware morphological reduction utilizing lexical dictionaries.</p>
-                  <ul><li><strong>Morphological & POS Awareness:</strong> Requires Part-of-Speech (POS) tagging to correctly resolve grammar (noun, verb, adjective, adverb).</li><li><strong>Valid Dictionary Word Guarantee:</strong> The resulting lemma is always an actual dictionary word (e.g., "better" [adj] &rarr; "good", "saw" [verb] &rarr; "see").</li><li><strong>Contextual Disambiguation:</strong> "meeting" as a noun remains "meeting"; "meeting" as a progressive verb lemmatizes to "meet".</li><li><strong>Computational Trade-Off:</strong> 5&times; to 10&times; slower than rule-based stemming, but essential for biomedical precision and semantic interpretability.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-5" data-eyebrow="MODULE 5 · VOCABULARY FILTERING" data-badge="STOP WORD LOGIC">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Stop Word Removal & Domain Adaptation in Healthcare</h2>
-          <p class="slide-subhead">Balancing vocabulary size reduction against catastrophic medical negation inversion</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="metric-hero-box">
-            <span class="card-kicker">VOCABULARY REDUCTION</span>
-            <div class="big-stat">40%</div>
-            <h3 class="stat-label">Corpus Size Compression</h3>
-            <p class="stat-desc">
-              Removing standard English stop words (is, the, at, which, on) dramatically reduces sparse matrix dimensionality without loss of topical semantic signal.
-            </p>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">THE CATASTROPHIC CLINICAL TRAP</span>
-                    <h4 class="stack-keyword">Stripping Negation Particles</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Diagnostic Inversion:</strong> Naively removing "no", "not", "without", or "never" turns "Patient has NO history of myocardial infarction" into "Patient has history myocardial infarction"—inverting clinical ground truth!</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">DOMAIN-SPECIFIC STOP LISTS</span>
-                    <h4 class="stack-keyword">Hospital Boilerplate Pruning</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Institutional Denoising:</strong> Hospital discharge notes contain repetitive boilerplate: "Hospital", "Dr.", "Discharge Summary", "Admission Date", "Page". These must be explicitly added to custom domain stop lists.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">BEST PRACTICE PROTOCOL</span>
-                    <h4 class="stack-keyword">Custom Whitelist Engineering</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Safeguard Protocol:</strong> <code>custom_stopwords = set(stopwords.words("english")) - {"no", "not", "without", "never", "none"}</code> ensures negation tokens remain intact for clinical classifiers.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-6" data-eyebrow="MODULE 5 · VECTOR SPACE MODELS" data-badge="BOW VS. TF-IDF">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Vector Space Models: Bag-of-Words (BoW) vs. TF-IDF</h2>
-          <p class="slide-subhead">Contrasting naive frequency counting against statistical discriminative weighting across text corpora</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">RAW FREQUENCY COUNTING</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Bag-of-Words (CountVectorizer)</h3>
-                  <p class="front-sub-tag">Simple Occurrence Matrices</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">BAG-OF-WORDS ARCHITECTURE</span>
-                  <h4 class="back-headline">CountVectorizer Mechanics</h4>
-                </div>
-                <div class="back-content">
-                  <p>Vectorization based strictly on raw term recurrence in documents.</p>
-                  <ul><li><strong>Unordered Token Collection:</strong> Discards word order, syntax, and grammar; represents documents solely by token occurrence counts f(t, d).</li><li><strong>Extreme Sparsity:</strong> Produces massive, sparse rectangular matrices where 95%+ of cells are zero.</li><li><strong>Frequency Bias Flaw:</strong> Long, verbose documents artificially dominate distance calculations due to inflated raw counts, even if content is redundant.</li><li><strong>Universal Term Blindness:</strong> Words appearing in every single document receive high weights simply because of raw occurrence frequency.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">INVERSE FREQUENCY PENALIZATION</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">TF-IDF Vectorization</h3>
-                  <p class="front-sub-tag">Downweighting Universal Words</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">TF-IDF ARCHITECTURE</span>
-                  <h4 class="back-headline">TfidfVectorizer Mechanics</h4>
-                </div>
-                <div class="back-content">
-                  <p>Vectorization balancing document frequency against corpus rarity.</p>
-                  <ul><li><strong>Dual-Weighting Balance:</strong> Rewards words frequent in a given document (Term Frequency) while penalizing words ubiquitous across the entire corpus (Inverse Document Frequency).</li><li><strong>Salience Isolation:</strong> Discriminant domain words (e.g., "ketoacidosis", "metformin") receive high TF-IDF scores; ubiquitous filler words receive scores approaching zero.</li><li><strong>L2 Normalization:</strong> Document length disparities are neutralized through Euclidean unit-vector normalization (||v||_2 = 1).</li><li><strong>Production Baseline:</strong> The premier linear baseline for clinical classification, topic discovery, and text information retrieval.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-7" data-eyebrow="MODULE 5 · MATHEMATICAL FOUNDATIONS" data-badge="TF-IDF FORMULATION">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">TF-IDF Mathematical Mechanics & Step-by-Step Weighting</h2>
-          <p class="slide-subhead">Formal mathematical formulation and step-by-step derivation of discriminative feature weights</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="metric-hero-box">
-            <span class="card-kicker">MATHEMATICAL FORMULA</span>
-            <div class="big-stat" style="font-size: 2.2rem; margin: 0.8rem 0;">TF &times; IDF</div>
-            <h3 class="stat-label">TF-IDF(t, d, D) = TF(t, d) &times; IDF(t, D)</h3>
-            <p class="stat-desc">
-              TF(t, d) = f(t, d) / &sum; f(t', d)<br>
-              IDF(t, D) = ln( (1 + N) / (1 + df(t)) ) + 1
-            </p>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">TERM FREQUENCY: TF(t, d)</span>
-                    <h4 class="stack-keyword">Local Document Salience</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Local Importance:</strong> Ratio of the count of term t in document d to total words in d: TF(t, d) = f(t, d) / &sum; f(t', d). Measures how intensely a document focuses on that specific clinical concept.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">INVERSE DOCUMENT FREQUENCY: IDF(t, D)</span>
-                    <h4 class="stack-keyword">Global Corpus Discrimination</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Global Penalizer:</strong> Logarithm of total corpus documents N divided by document frequency df(t): IDF(t, D) = ln(N / df(t)) + 1. If a term appears in every document (df = N), its IDF approaches ln(1) = 0. Rare terms yield large positive IDF values.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">SMOOTHING & NORMALIZATION</span>
-                    <h4 class="stack-keyword">Scikit-Learn Implementation</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Smooth IDF:</strong> <code>smooth_idf=True</code> adds 1 to numerator and denominator inside the log: ln((1+N)/(1+df(t))) + 1. Prevents zero-division errors when a term is unseen.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-8" data-eyebrow="MODULE 5 · SEQUENCE MODELING" data-badge="N-GRAM ARCHITECTURE">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">N-Gram Modeling: Preserving Local Context & Collocations</h2>
-          <p class="slide-subhead">Overcoming Bag-of-Words syntactic blindness by constructing multi-token grammatical sequences</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">UNIGRAM LIMITATIONS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Single Token Isolation</h3>
-                  <p class="front-sub-tag">Bag-of-Words Context Blindness</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">UNIGRAM ISOLATION</span>
-                  <h4 class="back-headline">Why Single Words Fail Context</h4>
-                </div>
-                <div class="back-content">
-                  <p>Loss of meaning when words are examined in complete isolation.</p>
-                  <ul><li><strong>Atomic Tokenization:</strong> Considers tokens individually: ["acute", "myocardial", "infarction"] or ["not", "responsive"].</li><li><strong>Semantic Distortion:</strong> Cannot distinguish "high blood pressure" from "pressure" and "blood" mentioned in separate unrelated paragraphs.</li><li><strong>Negation Inversion:</strong> Treats "not" and "diabetic" as independent features, losing the combined negation phrase "not diabetic".</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">HIGHER-ORDER COLLOCATIONS</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Bigrams, Trigrams & n-grams</h3>
-                  <p class="front-sub-tag">Capturing Phrases & Syntax</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">MULTI-WORD EXPRESSIONS</span>
-                  <h4 class="back-headline">N-Gram Syntax Retention</h4>
-                </div>
-                <div class="back-content">
-                  <p>Binding adjacent words to capture clinical idioms and negation context.</p>
-                  <ul><li><strong>Bigrams (n=2):</strong> Consecutive word pairs: ("myocardial infarction", "blood pressure", "not responsive", "renal failure").</li><li><strong>Trigrams (n=3):</strong> Three-word chains: ("acute kidney injury", "shortness of breath", "congestive heart failure").</li><li><strong>Dimensionality Explosion:</strong> Adding bigrams/trigrams causes vocabulary size to grow exponentially (V^n), drastically increasing memory overhead.</li><li><strong>Optimization Rule:</strong> Restrict vocabulary using <code>ngram_range=(1, 2)</code>, <code>min_df=5</code>, and <code>max_features=10000</code> to capture key collocations without memory exhaustion.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-9" data-eyebrow="MODULE 5 · UNSUPERVISED TOPIC DISCOVERY" data-badge="LDA FOUNDATIONS">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Topic Modeling: Latent Dirichlet Allocation (LDA) Foundations</h2>
-          <p class="slide-subhead">Unsupervised probabilistic generative Bayesian modeling of thematic document structures</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-ochre);">BAYESIAN GENERATIVE MODEL</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                LDA assumes every document is a probability mixture over latent topics (&theta;_d ~ Dir(&alpha;)), and every topic is a probability distribution over words (&phi;_k ~ Dir(&beta;)).
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">BLEI, NG, & JORDAN (2003) · LATENT DIRICHLET ALLOCATION</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">DOCUMENT-TOPIC DISTRIBUTION: &theta;_d</span>
-                    <h4 class="stack-keyword">Dirichlet Prior &alpha; (Alpha)</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Alpha (&alpha;) Sparsity:</strong> High &alpha; means documents contain a broad mixture of many topics; low &alpha; (e.g., &alpha; &lt; 0.1) forces documents to focus exclusively on 1–2 dominant themes.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">TOPIC-WORD DISTRIBUTION: &phi;_k</span>
-                    <h4 class="stack-keyword">Dirichlet Prior &beta; (Beta / Eta)</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Beta (&beta;) Sparsity:</strong> High &beta; means topics contain a diffuse distribution across most vocabulary words; low &beta; forces topics to be defined by a concise, sharp set of specialized keywords.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">INFERENCE VIA GIBBS SAMPLING</span>
-                    <h4 class="stack-keyword">Markov Chain Monte Carlo (MCMC)</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Iterative Estimation:</strong> Words are iteratively reassigned to topics based on current document-topic proportions and word-topic prevalence until convergence.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-10" data-eyebrow="MODULE 5 · MODEL EVALUATION" data-badge="COHERENCE VS. PERPLEXITY">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">LDA Model Evaluation: Coherence Score (C_v) vs. Perplexity</h2>
-          <p class="slide-subhead">Resolving the statistical paradox: Why language perplexity diverges from human semantic interpretability</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">STATISTICAL METRIC: PERPLEXITY</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Log-Likelihood Fit on Held-Out Text</h3>
-                  <p class="front-sub-tag">Why Perplexity Fails Human Judgement</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">PERPLEXITY PARADOX</span>
-                  <h4 class="back-headline">Statistical Goodness-of-Fit</h4>
-                </div>
-                <div class="back-content">
-                  <p>Theoretical information-theoretic measure of language predictability.</p>
-                  <ul><li><strong>Mathematical Definition:</strong> Perplexity measures how well the probability model predicts unseen held-out test documents: Perplexity = exp(-L / N).</li><li><strong>Optimization Goal:</strong> Lower perplexity indicates superior statistical prediction of unseen tokens.</li><li><strong>The Chang et al. (2009) Paradox:</strong> Human interpretability experiments proved that models with lower perplexity often produce nonsensical, uninterpretable topics ("word salad")!</li><li><strong>Diagnostic Rule:</strong> Never select optimal topic count K solely based on minimizing perplexity.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">SEMANTIC METRIC: COHERENCE (C_v)</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Sliding-Window Word Pair Association</h3>
-                  <p class="front-sub-tag">Human-Aligned Semantic Interpretability</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">COHERENCE METRICS</span>
-                  <h4 class="back-headline">Coherence Score (C_v & U_mass)</h4>
-                </div>
-                <div class="back-content">
-                  <p>Measures semantic similarity between high-scoring topic words.</p>
-                  <ul><li><strong>Semantic Association:</strong> Calculates normalized pointwise mutual information (NPMI) and cosine similarity among top-N words of each topic.</li><li><strong>C_v Coherence Range:</strong> Ranges from 0.0 to 1.0. Scores above 0.55 indicate strong thematic cohesion; scores below 0.40 indicate noisy, fragmented topics.</li><li><strong>The K-Optimization Curve:</strong> Plot C_v across candidate topic numbers K in [2, 20]. Select the "elbow" or peak C_v before degradation.</li><li><strong>Clinical Interpretability:</strong> Coherent topics cluster meaningful disease profiles (e.g., Topic 1: [insulin, glucose, ketoacidosis, a1c, diabetes]).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-11" data-eyebrow="MODULE 5 · SENTIMENT ANALYSIS" data-badge="VADER VS. SUPERVISED">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Sentiment Analysis: Rule-Based VADER vs. Supervised Classifiers</h2>
-          <p class="slide-subhead">Comparing lexicon-heuristic scoring systems against trained statistical discriminators</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="metric-hero-box">
-            <span class="card-kicker">COMPOUND VALENCE SCORE</span>
-            <div class="big-stat" style="font-size: 2.5rem;">[-1, +1]</div>
-            <h3 class="stat-label">VADER Normalized Metric</h3>
-            <p class="stat-desc">
-              Positive: Compound &ge; +0.05<br>
-              Neutral: -0.05 &lt; Compound &lt; +0.05<br>
-              Negative: Compound &le; -0.05
-            </p>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">VADER HEURISTIC RULES</span>
-                    <h4 class="stack-keyword">Punctuation, Caps & Emoticons</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Five Grammatical Heuristics:</strong> Capitalization intensity ("GREAT" &gt; "great"), punctuation repetition ("good!!!" &gt; "good"), degree adverbs ("extremely poor"), negation shifting ("not good"), and contrastive conjunctions ("service was good BUT food was awful").</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">SUPERVISED CLASSIFIERS</span>
-                    <h4 class="stack-keyword">TF-IDF + Logistic / Naive Bayes</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Trained Classifiers:</strong> Requires labeled training corpora. Learns domain-specific sentiment weights without hand-engineered lexicons; superior for subtle clinical nuance and formal prose.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">CLINICAL NARRATIVE LIMITATION</span>
-                    <h4 class="stack-keyword">Domain-Mismatched Lexicons</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Healthcare Failure Mode:</strong> VADER treats words like "acute", "morbid", "positive" (e.g., "tested positive for COVID-19") as emotional sentiment rather than objective medical diagnostic indicators.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-12" data-eyebrow="MODULE 5 · CLINICAL APPLICATIONS" data-badge="EHR MINING & NEGEX">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Clinical NLP & Electronic Health Records (EHR) Mining</h2>
-          <p class="slide-subhead">Extracting diagnostic signals, medication regimens, and comorbidity risk from physician progress notes</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">EHR NARRATIVE COMPLEXITIES</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Clinical Shorthand & Jargon</h3>
-                  <p class="front-sub-tag">The Messy Reality of Physician Notes</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">CLINICAL CORPUS CHALLENGES</span>
-                  <h4 class="back-headline">Physician Note Idiosyncrasies</h4>
-                </div>
-                <div class="back-content">
-                  <p>Structural and lexical hurdles unique to healthcare narratives.</p>
-                  <ul><li><strong>Ungrammatical Telegraphic Shorthand:</strong> Clinical notes frequently omit verbs, articles, and pronouns: "Pt alert, oriented x3. Lungs CTA bilat. No CP/SOB."</li><li><strong>Dense Acronyms & Polysemy:</strong> "CA" can mean Calcium, Cancer, or Cardiac Arrest depending on clinical subspecialty context.</li><li><strong>Copy-Paste Template Bloat:</strong> EHR software leads clinicians to paste prior day progress notes, duplicating paragraphs and inflating false frequency counts.</li><li><strong>Temporal Ordering:</strong> Medical notes mix historical conditions (family history of diabetes) with acute current complaints (presenting with ketoacidosis).</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">NEGATION DETECTION & REGEX</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">The NegEx Algorithm Architecture</h3>
-                  <p class="front-sub-tag">Resolving Clinical True-Negatives</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">NEGEX ALGORITHM</span>
-                  <h4 class="back-headline">Rule-Based Negation Modeling</h4>
-                </div>
-                <div class="back-content">
-                  <p>Syntactic parsing to isolate negated clinical findings.</p>
-                  <ul><li><strong>The Scope of Negation:</strong> Distinguishes confirmed diagnoses from ruled-out conditions in clinical text.</li><li><strong>Pre-Condition Triggers:</strong> Phrases like "denies", "no evidence of", "patient denies", "free of" negate following concepts up to a termination boundary.</li><li><strong>Post-Condition Triggers:</strong> Words like "unlikely", "ruled out", "has been excluded" negate preceding concepts.</li><li><strong>Pseudo-Negation Filtering:</strong> Rejects false negation cues like "no increase", "not only", "gram negative" that do not signify clinical absence.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-13" data-eyebrow="MODULE 5 · DIAGNOSTIC PITFALLS" data-badge="EXAM FAILURE MODES">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">NLP Engineering Pitfalls & High-Frequency Exam Traps</h2>
-          <p class="slide-subhead">Critical operational errors, vector leakage vulnerabilities, and modeling misconceptions</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="hero-static-box">
-            <div>
-              <span class="card-kicker" style="color: var(--accent-crimson);">EXAM TRAP WARNING</span>
-              <p class="hero-quote" style="margin-top: 0.85rem;">
-                "Vectorizing text before splitting the dataset into train and test folds leaks corpus-level IDF vocabulary weights into the validation partition, invalidating test metrics."
-              </p>
-            </div>
-            <div>
-              <p class="hero-author">DS312 AUDIT PROTOCOL · ZERO DATA LEAKAGE</p>
-            </div>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">TRAP 1: NAIVE STOP WORD PRUNING</span>
-                    <h4 class="stack-keyword">Inverting Clinical Negation</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Diagnostic Inversion:</strong> Pruning "no" or "not" flips patient records from negative to positive. Always preserve negation particles or implement NegEx tagging before stop word filtering.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">TRAP 2: TF-IDF TARGET LEAKAGE</span>
-                    <h4 class="stack-keyword">Vectorizing Full Corpus Pre-Split</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Leakage Vulnerability:</strong> Fitting <code>TfidfVectorizer</code> on the complete dataset leaks document frequency and IDF scores from test records into training space. Always call <code>fit_transform</code> on train, and <code>transform</code> on test!</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">TRAP 3: OVER-STEMMING JARGON</span>
-                    <h4 class="stack-keyword">Collapsing Distinct Clinical Terms</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Root Corruption:</strong> Stemmers reduce "medical", "medicinal", and "medication" to "medic", destroying pharmacological distinctions. Always use Lemmatization with POS tagging for healthcare corpora.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-14" data-eyebrow="MODULE 5 · MASTERY VERIFICATION" data-badge="DIAGNOSTIC Q&A">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Diagnostic Reviewer Q&A: Text Mining & Clinical NLP Duo-Lenses</h2>
-          <p class="slide-subhead">Testing conceptual depth on morphological analysis, vector leakage, and Bayesian Dirichlet distributions</p>
-        </div>
-        <div class="grid-container grid-bifurcated">
-
-          <div class="flip-card accent-crimson" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DIAGNOSTIC Q&A 1</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">Lemmatization vs. Stemming</h3>
-                  <p class="front-sub-tag">Why POS Tagging is Required</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">EXAMINATION QUESTION 1</span>
-                  <h4 class="back-headline">Morphological Lemmatization</h4>
-                </div>
-                <div class="back-content">
-                  <p>Why does lemmatization require Part-of-Speech tagging while stemming does not?</p>
-                  <ul><li><strong>Core Rationale:</strong> Stemming applies blind character-stripping heuristics without grammatical awareness (e.g. cutting "-ing" or "-es").</li><li><strong>The POS Dependency:</strong> Words change canonical base lemmas based on their grammatical role. E.g., "running" as a verb becomes "run", but as a noun ("the running of the bulls") it remains "running".</li><li><strong>Exam Conclusion:</strong> Lemmatization accesses lexical dictionaries (WordNet) indexed by POS tags; without a POS tag, the lemmatizer defaults to noun, failing on verbs like "was" &rarr; "be".</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card accent-teal" tabindex="0">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <div class="front-top-meta">
-                  <span class="card-kicker">DIAGNOSTIC Q&A 2</span>
-                </div>
-                <div class="front-hero-container">
-                  <h3 class="front-keyword">LDA Dirichlet Priors (&alpha;, &beta;)</h3>
-                  <p class="front-sub-tag">Impact of Small vs. Large Hyperparameters</p>
-                </div>
-                <div class="flip-prompt">
-                  <span>CLICK OR TAB TO FLIP</span>
-                  <span>↻</span>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-header">
-                  <span class="back-topic-label">EXAMINATION QUESTION 2</span>
-                  <h4 class="back-headline">Dirichlet Hyperparameter Tuning</h4>
-                </div>
-                <div class="back-content">
-                  <p>How do hyperparameter values &alpha; = 0.01 vs &alpha; = 10 affect document-topic compositions?</p>
-                  <ul><li><strong>Low Alpha (&alpha; = 0.01):</strong> Induces extreme sparsity in &theta;_d. Each document is constrained to express only 1 or 2 dominant topics. Ideal for short texts or specialized clinical notes.</li><li><strong>High Alpha (&alpha; = 10.0):</strong> Forces diffuse mixture distributions. Every document is assumed to contain a uniform blend of nearly all K topics, blurring thematic distinction.</li><li><strong>Beta (&beta;) Parallel:</strong> Low &beta; forces topics to be defined by a few distinct words; high &beta; causes topics to share common vocabulary.</li></ul>
-                </div>
-                <div class="back-return-prompt">
-                  <span>← RETURN TO SUMMARY</span>
-                  <span>↻</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <section class="slide-view" id="slide-15" data-eyebrow="MODULE 5 · EXECUTIVE SUMMARY" data-badge="CURRICULUM SYNTHESIS">
-        <div class="slide-title-area">
-          <h2 class="slide-headline">Module 5 Executive Summary: Text Mining & Clinical NLP</h2>
-          <p class="slide-subhead">Core competencies, production design rules, and algorithmic invariants for unstructured data</p>
-        </div>
-        <div class="grid-container grid-split-hero">
-          <div class="metric-hero-box">
-            <span class="card-kicker">MODULE 5 MASTERY</span>
-            <div class="big-stat" style="font-size: 2.6rem;">100%</div>
-            <h3 class="stat-label">Unstructured Text Competency</h3>
-            <p class="stat-desc">
-              From regex denoising and POS lemmatization to TF-IDF mathematical vectorization, LDA semantic coherence (C_v), and NegEx clinical negation.
-            </p>
-          </div>
-          <div class="stack-right-column">
-
-            <div class="stack-flip-card accent-crimson" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">PREPROCESSING AXIOMS</span>
-                    <h4 class="stack-keyword">Denoise, Tokenize, Lemmatize</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Lexical Protocol:</strong> Clean text via regex, segment sentences with Punkt, normalize contractions, lowercase tokens, preserve clinical negations, and lemmatize with POS tags.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-ochre" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">VECTOR SPACE AXIOMS</span>
-                    <h4 class="stack-keyword">TF-IDF & N-Gram Bounding</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Mathematical Modeling:</strong> Fit TF-IDF strictly on training sets; combine unigrams and bigrams (<code>ngram_range=(1,2)</code>) to preserve contextual negation without memory blowout.</p>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="stack-flip-card accent-teal" tabindex="0">
-              <div class="stack-flip-card-inner">
-                <div class="stack-card-front">
-                  <div class="front-left">
-                    <span class="stack-kicker">UNSUPERVISED MINING AXIOMS</span>
-                    <h4 class="stack-keyword">LDA Coherence & NegEx Detection</h4>
-                  </div>
-                  <div class="stack-hint">CLICK TO FLIP ↻</div>
-                </div>
-                <div class="stack-card-back">
-                  <p><strong>Topic & Healthcare Protocol:</strong> Optimize LDA topic number K by maximizing C_v semantic coherence; apply NegEx rules to avoid false positive disease attribution.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Bottom Floating Hover Pill Trigger -->
-    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
-      <span>▴ SHOW CONTROLS</span>
-      <span class="key-indicator">C</span>
-    </button>
-
-    <!-- Collapsible Slide Footer Controls -->
-    <footer class="deck-footer" id="deckFooter">
-      <div class="counter" id="slideCounter">
-        <span>01</span> / 16
-      </div>
-
-      <div class="deck-nav-buttons">
-        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
-          <span>← PREV</span>
-          <span class="key-indicator">←</span>
-        </button>
-        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
-          <span>FLIP ALL</span>
-          <span class="key-indicator">TAB</span>
-        </button>
-        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
-          <span>NEXT →</span>
-          <span class="key-indicator">→</span>
-        </button>
-        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
-          <span id="fsIcon">⛶</span>
-          <span class="key-indicator">F</span>
-        </button>
-      </div>
-    </footer>
-
+  <!-- Edge-Hover Footer Scrubber -->
+  <div class="edge-footer-trigger">
+    <div class="footer-scrubber" id="footerScrubber"></div>
   </div>
+
+  <!-- Main Stage -->
+  <main class="stage-container" id="stageContainer">
+
+    <!-- SLIDE 01: [Bespoke Hero Split] -->
+    <section class="slide active" data-slide="1">
+      <div class="layout-hero-split">
+        <div style="display: flex; flex-direction: column; gap: 1.4rem;">
+          <div style="display: flex; gap: 0.65rem;">
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; background: var(--surface-elevated); border: 1px solid var(--border-subtle); color: var(--accent-ochre);">DS312 · MODULE 5</span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; background: var(--surface-elevated); border: 1px solid var(--border-subtle); color: var(--accent-blue);">UNSTRUCTURED TEXT &amp; CLINICAL NLP</span>
+          </div>
+          <h1 style="font-family: var(--font-display); font-size: 3.2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.08; color: var(--text-main);">
+            Clinical NLP &amp; Unstructured Text Mining
+          </h1>
+          <p style="font-size: 1.12rem; color: var(--text-muted); line-height: 1.55;">
+            Mastering unstructured narrative intelligence: The 10-step clinical text preprocessing pipeline, PDF extraction artifact denoising, POS-aware morphological lemmatization, clinical negation whitelisting, TF-IDF derivation, Word2Vec vector spaces, VADER acuity scoring, and Latent Dirichlet Allocation (LDA).
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 0.5rem;">
+            <div style="background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 0.9rem 1.1rem; box-shadow: var(--card-shadow);">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-faint);">DATA VOLUME</span>
+              <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--accent-crimson); margin-top: 0.25rem;">80%+ Unstructured Text</div>
+            </div>
+            <div style="background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 0.9rem 1.1rem; box-shadow: var(--card-shadow);">
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-faint);">CORE LAB CORPUS</span>
+              <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--accent-teal); margin-top: 0.25rem;">Physician Clinical Notes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Preview Card -->
+        <div class="card-3d" style="height: 100%;">
+          <div class="card-inner">
+            <div class="card-face card-front trim-blue">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-blue);">THE UNSTRUCTURED FRONTIER</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title" style="font-size: 1.6rem;">From Raw Physician Prose to Computable Vector Space</h3>
+                <p class="card-body-text">
+                  While relational databases store categorical diagnoses and numerical lab values, the critical diagnostic context—patient symptom evolution, physician reasoning, and nuanced treatment responses—is locked in messy, unformatted narrative text.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Raw Clinical Strings:</strong> PDF noise, OCR artifacts, abbreviations<br>
+                <strong>10-Step Pipeline:</strong> Denoise ➔ Tokenize ➔ POS Lemmatize ➔ TF-IDF<br>
+                <strong>Outcome:</strong> Dense semantic embedding spaces &amp; LDA topics
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">10-Step Pipeline</span>
+                <span class="chip">Negation Whitelist</span>
+                <span class="chip">TF-IDF vs Word2Vec</span>
+                <span class="chip">LDA Dirichlet</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-crimson);">THE RISK OF STANDARD NLP</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">Why General NLP Fails in Medicine</h3>
+              <p class="card-body-text">
+                Standard NLP libraries (e.g. NLTK, spaCy default) strip stopwords like "no", "not", and "without". In clinical medicine, this is fatal:
+              </p>
+              <div class="card-formula-box" style="font-size: 0.8rem;">
+                <em>"Patient denies chest pain"</em> ➔ Stripping 'denies' ➔ <em>"Patient chest pain"</em>!
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                A completely healthy patient is converted into an acute coronary emergency. Clinical NLP mandates custom negation whitelists and NegEx regular expressions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 02: [Clinical Terminal Inspector: Raw Extraction Noise vs. Cleaned Corpus] -->
+    <section class="slide" data-slide="2">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">PDF EXTRACTION AUDIT</div>
+          <h2 class="slide-title">Raw Extraction Noise vs. Sanitized Text</h2>
+          <p class="slide-subtitle">Inspecting real-world PDF extraction artifacts: Unescaped linefeeds, broken hyphenations, and ASCII corruption.</p>
+        </div>
+        <span class="slide-tag">TERMINAL INSPECTOR</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- Raw Text Terminal Left -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson" style="background: #0B0E14; color: #F4F6FB;">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">RAW EXTRACTION BUFFER</span>
+                  <span class="card-flip-cue" style="color: #9DA6B8;">Flip ⟳</span>
+                </div>
+                <h3 class="card-title" style="color: #F4F6FB;">Note 1: Raw Uncleaned Input</h3>
+              </div>
+
+              <div style="font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.55; background: #141821; border: 1px solid #242D3D; border-radius: 8px; padding: 1.1rem; color: #9DA6B8;">
+                [PAGE 1 / DISCHARGE SUMMARY] \r\n<br>
+                Pt admitted w/ severe <span style="background: rgba(224, 83, 60, 0.35); color: #FFAEA0; padding: 0.1rem 0.3rem; border-radius: 3px;">hyper-\ntension</span> and acute chest pain.<br>
+                Labs: HbA1c <span style="background: rgba(224, 83, 60, 0.35); color: #FFAEA0; padding: 0.1rem 0.3rem; border-radius: 3px;">9.4% &lt;HIGH&gt;</span>, BP 160/95.\r\n<br>
+                &lt;NOTE_DATA id="882"&gt; Denies SOB, nausea.<br>
+                Pt's meds: <span style="background: rgba(224, 83, 60, 0.35); color: #FFAEA0; padding: 0.1rem 0.3rem; border-radius: 3px;">Metformin 500mg b.i.d.</span><br>
+                *** CONFIDENTIAL DISCHARGE NOTE ***\x0c
+              </div>
+
+              <p style="font-size: 0.85rem; color: #9DA6B8; margin-top: 0.65rem;">
+                <strong>Artifacts:</strong> Broken words over line breaks (`hyper-\ntension`), XML tags, escaped form feeds `\x0c`, dosage formatting (`500mg`), and clinical shorthand (`b.i.d.`, `SOB`).
+              </p>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">WHY EXTRACTION DESTROYS NLP</span>
+              <h4 class="card-title">Token Shattering</h4>
+              <p class="card-body-text">
+                Without regex sanitization, a tokenizer splits `hyper-\ntension` into three tokens: `['hyper', '-', 'tension']`. `hyper` becomes a low-frequency noise token, destroying TF-IDF and topic modeling coherence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cleaned Text Terminal Right -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">SANITIZED TOKEN STREAM</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Note 1: After 10-Step Pipeline</h3>
+              </div>
+
+              <div style="font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.55; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 1.1rem; color: var(--text-main);">
+                ['patient', 'admitted', 'severe', <span style="background: rgba(38, 121, 107, 0.2); color: var(--accent-teal); font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 3px;">'hypertension'</span>, 'acute', 'chest', 'pain', 'laboratory', 'hba1c', 'high', 'blood_pressure', <span style="background: rgba(200, 75, 49, 0.2); color: var(--accent-crimson); font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 3px;">'denies'</span>, <span style="background: rgba(200, 75, 49, 0.2); color: var(--accent-crimson); font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 3px;">'shortness_of_breath'</span>, 'nausea', 'patient', 'medication', 'metformin', 'twice_daily']
+              </div>
+
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.65rem;">
+                <strong>Transformations:</strong> Hyphen recombination (`hypertension`), abbreviation expansion (`SOB` ➔ `shortness_of_breath`), XML tag stripping, and negation preservation (`denies`).
+              </p>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">PIPELINE VERIFICATION</span>
+              <h4 class="card-title">Tracking Word Count Impact</h4>
+              <p class="card-body-text">
+                Note 1 shrunk from 42 raw tokens to 19 dense, high-signal medical lemmas. Type-Token Ratio (TTR) increased by 28%, eliminating 100% of non-semantic syntactic noise.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 03: [Interactive 10-Step Sequential Conduit Stepper] -->
+    <section class="slide" data-slide="3">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">END-TO-END PIPELINE</div>
+          <h2 class="slide-title">The 10-Step Clinical NLP Preprocessing Pipeline</h2>
+          <p class="slide-subtitle">A strict sequential order of operations transforming unstructured prose into mathematical vector matrices.</p>
+        </div>
+        <span class="slide-tag">10-STEP PIPELINE</span>
+      </div>
+
+      <div class="layout-pipeline-horizontal">
+        <div class="pipeline-conduit-bar-10">
+          <div class="conduit-step"><span class="conduit-num">01</span><span class="conduit-name">PDF Extraction</span></div>
+          <div class="conduit-step"><span class="conduit-num">02</span><span class="conduit-name">Regex Cleaning</span></div>
+          <div class="conduit-step"><span class="conduit-num">03</span><span class="conduit-name">Sent Segmentation</span></div>
+          <div class="conduit-step"><span class="conduit-num">04</span><span class="conduit-name">Contraction Exp</span></div>
+          <div class="conduit-step"><span class="conduit-num">05</span><span class="conduit-name">Case Normalization</span></div>
+          <div class="conduit-step" style="border-left-color: var(--accent-crimson);"><span class="conduit-num">06</span><span class="conduit-name">Stopwords (Negation)</span></div>
+          <div class="conduit-step" style="border-left-color: var(--accent-teal);"><span class="conduit-num">07</span><span class="conduit-name">POS Lemmatization</span></div>
+          <div class="conduit-step"><span class="conduit-num">08</span><span class="conduit-name">N-Gram Collocation</span></div>
+          <div class="conduit-step"><span class="conduit-num">09</span><span class="conduit-name">TF-IDF / Word2Vec</span></div>
+          <div class="conduit-step" style="border-left-color: var(--accent-purple);"><span class="conduit-num">10</span><span class="conduit-name">LDA Topic Modeling</span></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; flex: 1;">
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-ochre">
+                <span class="card-kicker">PHASE I (STEPS 1 TO 5) · LEXICAL DENOISING</span>
+                <h4 class="card-title">Sanitizing Strings &amp; Establishing Tokens</h4>
+                <p class="card-body-text">
+                  Before extracting semantics, text strings must be standardized:
+                </p>
+                <ul class="card-bullet-list">
+                  <li><strong>Regex Stripping:</strong> Eliminate markup tags while protecting dosage decimals (`2.5mg`).</li>
+                  <li><strong>Sentence Slicing:</strong> `nltk.sent_tokenize` establishes clause boundaries.</li>
+                  <li><strong>Contraction Expansion:</strong> "didn't" ➔ "did not" ensures negative particles are isolated.</li>
+                  <li><strong>Case Exceptions:</strong> Lowercase general prose, but whitelist acronyms (ALL, AIDS, US).</li>
+                </ul>
+              </div>
+              <div class="card-face card-back trim-ochre">
+                <span class="card-kicker">ORDER OF OPERATIONS</span>
+                <p style="font-size: 0.88rem; margin-top: 0.5rem;">Why expand contractions before removing punctuation? If you strip punctuation first, "don't" becomes "dont", making dictionary expansion impossible!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-teal">
+                <span class="card-kicker" style="color: var(--accent-teal);">PHASE II (STEPS 6 TO 10) · SEMANTIC MODELING</span>
+                <h4 class="card-title">Morphological Reduction to Latent Space</h4>
+                <p class="card-body-text">
+                  Converting discrete word tokens into computable matrices:
+                </p>
+                <ul class="card-bullet-list">
+                  <li><strong>Negation Whitelist:</strong> Preserve "not", "no", "denies", "without".</li>
+                  <li><strong>Lemmatization + POS:</strong> Reduce inflections to canonical dictionary roots.</li>
+                  <li><strong>N-Grams:</strong> Bind medical collocations ("acute myocardial infarction").</li>
+                  <li><strong>Vector Space:</strong> Map vocabulary to sparse TF-IDF or dense Word2Vec vectors.</li>
+                </ul>
+              </div>
+              <div class="card-face card-back trim-teal">
+                <span class="card-kicker" style="color: var(--accent-teal);">FINAL VECTOR REPRESENTATION</span>
+                <p style="font-size: 0.88rem; margin-top: 0.5rem;">The output is a document-term matrix $M \in \mathbb{R}^{D \times V}$ where $D$ is patient notes and $V$ is cleaned medical vocabulary, ready for clustering or LDA topic modeling.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 04: [Interactive Dual-Vs Split: Lemmatization vs. Stemming] -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">MORPHOLOGICAL NORMALIZATION</div>
+          <h2 class="slide-title">Lemmatization vs. Stemming</h2>
+          <p class="slide-subtitle">Crude affix chopping vs. Part-of-Speech aware vocabulary lookup: Why clinical text mandates lemmatization.</p>
+        </div>
+        <span class="slide-tag">MORPHOLOGY SHOWDOWN</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- Stemming -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">ALGORITHMIC HEURISTIC</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Stemming (Porter / Snowball)</h3>
+                <p class="card-body-text">
+                  Applies crude rule-based heuristic chopping to slice suffixes and prefixes. Ignores context, grammar, and parts of speech.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                "operating" ➔ <strong>"oper"</strong> (Non-word)<br>
+                "operation" ➔ <strong>"oper"</strong><br>
+                "medical" ➔ <strong>"medic"</strong><br>
+                "better" ➔ <strong>"better"</strong> (Fails to link to "good")
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Over-Stemming:</strong> Conflates unrelated words (e.g. "organization" and "organ" ➔ "organ").</li>
+                <li><strong>Speed Advantage:</strong> Extremely fast (pure string slicing).</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">CLINICAL OVER-STEMMING CATASTROPHE</span>
+              <h4 class="card-title">Semantic Conflation</h4>
+              <p class="card-body-text">
+                Stemming chops "ulcer", "ulcerative", and "ulcerate" into "ulcer", which is acceptable; but it also chops "policy" and "police" into "polic", conflating insurance policy notes with law enforcement interventions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lemmatization -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">LEXICOGRAPHICAL ANALYSIS</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Lemmatization (WordNet / spaCy)</h3>
+                <p class="card-body-text">
+                  Utilizes a formal vocabulary dictionary and morphological analysis. Identifies the Part of Speech (POS) to return the true root lemma.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                "operating" [VERB] ➔ <strong>"operate"</strong> (Valid root)<br>
+                "operation" [NOUN] ➔ <strong>"operation"</strong><br>
+                "medical" [ADJ] ➔ <strong>"medical"</strong><br>
+                "better" [ADJ] ➔ <strong>"good"</strong> (Irregular mapping)
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>POS Dependency:</strong> Must pass POS tag (`pos='v'`, `pos='n'`) for accuracy.</li>
+                <li><strong>Compute Cost:</strong> Slower due to lexical database lookups.</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">THE CLINICAL VERDICT</span>
+              <h4 class="card-title">Why Medicine Mandates Lemmatization</h4>
+              <p class="card-body-text">
+                Medical terminology requires exact lexicographical precision. Physician notes discussing surgical "operation" must not be conflated with mathematical "operator". Lemmatization preserves semantic purity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 05: [The Clinical Negation Paradox: Whitelist Architecture] -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">CLINICAL SAFETY</div>
+          <h2 class="slide-title">Stopword Filtering &amp; The Clinical Negation Paradox</h2>
+          <p class="slide-subtitle">Wendy Chapman's NegEx Algorithm: Preventing catastrophic polarity inversion in EHR text.</p>
+        </div>
+        <span class="slide-tag">NEGATION PRESERVATION</span>
+      </div>
+
+      <div class="layout-split-asymmetric">
+        <!-- Hero Left Card -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">THE FATAL TRAP</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The Standard Stopword Failure</h3>
+                <p class="card-body-text">
+                  In web scraping, stripping stopwords ("the", "is", "at", "not") removes syntactic glue. In medicine, up to <strong>50%</strong> of recorded clinical conditions are negative findings!
+                </p>
+              </div>
+
+              <div class="card-formula-box" style="font-size: 0.92rem;">
+                <strong>Physician Note:</strong> <em>"Patient denies diabetic symptoms; no history of stroke."</em><br><br>
+                <strong>Standard NLTK Stopwords Filtered:</strong><br>
+                <code>['patient', 'diabetic', 'symptoms', 'history', 'stroke']</code>
+              </div>
+
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.45;">
+                The patient was completely negative for diabetes and stroke, but the cleaned token vector reports they actively suffer from both! An automated readmission model triggers an emergency flag based on an inverted polarity error.
+              </p>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">Polarity Inversion</span>
+                <span class="chip">Negation Whitelist</span>
+                <span class="chip">NegEx Algorithm</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-crimson);">THE WHITELIST PROTOCOL</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">How to Whitelist in Python</h3>
+              <p class="card-body-text">
+                Before pruning stopwords, remove all negation cues from the stopword set:
+              </p>
+              <div class="card-formula-box" style="font-size: 0.8rem;">
+                negations = {'no', 'not', 'never', 'none', 'without', 'denies', 'negative'}<br>
+                custom_stopwords = set(stopwords.words('english')) - negations
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                This preserves negative modifiers, allowing downstream bigrams (`no_chest_pain`, `denies_sob`) to capture true diagnostic polarity.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Stacked: NegEx Algorithm -->
+        <div class="stack-vertical">
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-teal">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker" style="color: var(--accent-teal);">CLINICAL NEGATION ALGORITHM</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">The NegEx Algorithm (Chapman, 2001)</h3>
+                  <p class="card-body-text">
+                    A regular expression rule-based algorithm that determines whether a medical concept is confirmed, negated, or historical within a token scope window.
+                  </p>
+                </div>
+                <div class="card-formula-box" style="font-size: 0.8rem;">
+                  [Pre-Negation Trigger] ➔ [Scope: 1 to 6 Tokens] ➔ [Clinical Finding]
+                </div>
+              </div>
+
+              <div class="card-face card-back trim-teal">
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">NEGEX MECHANICS</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Triggers &amp; Termination</h3>
+                <ul class="card-bullet-list">
+                  <li><strong>Pre-triggers:</strong> "denies", "rules out", "no evidence of".</li>
+                  <li><strong>Post-triggers:</strong> "unlikely", "is absent".</li>
+                  <li><strong>Termination Cues:</strong> Conjunctions like "but", "however", "although" immediately close the negation window.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-ochre">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker">N-GRAM BINDING</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">Binding Negation into Bigrams</h3>
+                  <p class="card-body-text">
+                    In bag-of-words vectorizers that ignore word order, prepend `NOT_` to all words within a negation scope:
+                  </p>
+                </div>
+                <div class="card-formula-box" style="font-size: 0.8rem;">
+                  "no chest pain" ➔ <code>['no', 'NOT_chest', 'NOT_pain']</code>
+                </div>
+              </div>
+
+              <div class="card-face card-back trim-ochre">
+                <div class="card-meta-row">
+                  <span class="card-kicker">VECTOR INDEPENDENCE</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Distinct Vector Coordinates</h3>
+                <p class="card-body-text">
+                  `NOT_pain` is mapped to an entirely distinct column index in the TF-IDF matrix than `pain`, allowing linear classifiers to assign opposite weights to presence versus absence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 06: [Text Exploratory Data Analysis: Distributions & TTR] -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">TEXT EDA PROTOCOL</div>
+          <h2 class="slide-title">Text Exploratory Data Analysis: Distributions &amp; TTR</h2>
+          <p class="slide-subtitle">Quantifying document length skewness and measuring lexical diversity with the Type-Token Ratio.</p>
+        </div>
+        <span class="slide-tag">TEXT EDA</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- Document Length Distributions -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">DISTRIBUTION AUDIT</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Document Length Distribution</h3>
+                <p class="card-body-text">
+                  Clinical narratives exhibit severe right-skewness: brief nursing check-ins (30 words) alongside multi-page trauma discharge summaries (2,500 words).
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Dual Boxplot + KDE Distribution:</strong><br>
+                • <strong>Mean vs. Median:</strong> Mean is heavily inflated by long notes.<br>
+                • <strong>Before vs. After Cleaning:</strong> Denoising and stopword removal shifts the median leftward by ~45%, eliminating length variance driven by boilerplate headers.
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip">Right-Skewed</span>
+                <span class="chip">Dual Boxplot</span>
+                <span class="chip">Boilerplate Pruning</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">DOWNSTREAM IMPACT</span>
+              <h4 class="card-title">Why Length Matters for TF-IDF</h4>
+              <p class="card-body-text">
+                Long documents naturally repeat words more frequently. Without Euclidean $L_2$ document length normalization, long notes will dominate cosine distance calculations purely due to verbosity rather than clinical severity.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Type-Token Ratio (TTR) -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">LEXICAL DIVERSITY</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Type-Token Ratio (TTR)</h3>
+                <p class="card-body-text">
+                  Quantifies the lexical richness and vocabulary breadth of a corpus:
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                $\text{TTR} = \frac{V}{N} = \frac{\text{Total Unique Words (Types)}}{\text{Total Running Word Count (Tokens)}}$
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>High TTR ($\approx 0.8$):</strong> Highly varied vocabulary, detailed specialist notes.</li>
+                <li><strong>Low TTR ($\approx 0.2$):</strong> Repetitive boilerplate, automated EHR copy-pasting.</li>
+                <li><strong>Impact of Lemmatization:</strong> Compresses $V$, lowering raw TTR but vastly increasing semantic density.</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">HERDAN'S LAW</span>
+              <h4 class="card-title">Sample-Size Sensitivity</h4>
+              <p class="card-body-text">
+                TTR naturally decays as document length increases because grammar words repeat while vocabulary saturates (Herdan's Law: $V = k N^\beta$). In production, use Root TTR ($\frac{V}{\sqrt{N}}$) to compare documents of unequal lengths.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 07: [Formula Workbench: TF-IDF Mathematical Derivation] -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">VECTOR SPACE MODEL</div>
+          <h2 class="slide-title">TF-IDF Vectorization: Mathematical Derivation</h2>
+          <p class="slide-subtitle">Karen Spärck Jones: Penalizing ubiquitous background words while rewarding document-specific clinical terms.</p>
+        </div>
+        <span class="slide-tag">TF-IDF DERIVATION</span>
+      </div>
+
+      <div class="layout-split-asymmetric">
+        <!-- Hero Left Formula Card -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">CORE EQUATION</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The TF-IDF Master Formulation</h3>
+                <p class="card-body-text">
+                  Computes the statistical weight of token $t$ in document $d$ relative to corpus $D$:
+                </p>
+              </div>
+
+              <div class="card-formula-box" style="font-size: 1rem; text-align: center;">
+                $\text{TF-IDF}(t, d, D) = \text{TF}(t, d) \times \text{IDF}(t, D)$
+              </div>
+
+              <div style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5;">
+                <p><strong>Term Frequency ($\text{TF}$):</strong> $\text{TF}(t, d) = \frac{f_{t, d}}{\sum_{t' \in d} f_{t', d}}$ (Relative frequency of word in note $d$).</p>
+                <p style="margin-top: 0.4rem;"><strong>Inverse Document Frequency ($\text{IDF}$):</strong> $\text{IDF}(t, D) = \ln\left(\frac{N}{|\{d \in D : t \in d\}|} + 1\right) + 1$ (Scikit-Learn smooth IDF).</p>
+                <p style="margin-top: 0.4rem;"><strong>Intuition:</strong> A word appearing in 100% of notes has $\text{IDF} \approx 0$; a rare medical diagnosis appearing in only 2 notes receives a massive $\text{IDF}$ weight.</p>
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">Scikit-Learn smooth_idf</span>
+                <span class="chip">L2 Euclidean Normalization</span>
+                <span class="chip">Sublinear TF Scaling</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-teal);">L2 EUCLIDEAN NORMALIZATION</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">Why Normalize by L2 Norm?</h3>
+              <p class="card-body-text">
+                After multiplying $\text{TF} \times \text{IDF}$, Scikit-Learn applies Euclidean vector normalization:
+              </p>
+              <div class="card-formula-box" style="font-size: 0.85rem;">
+                $v_{\text{norm}} = \frac{v}{\sqrt{\sum v_i^2}} \quad \implies \|v_{\text{norm}}\|_2 = 1.0$
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                This projects all document vectors onto a unit hypersphere, making the Dot Product between any two notes exactly equal to their Cosine Similarity!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Stacked Cards -->
+        <div class="stack-vertical">
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-ochre">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker">NUMERICAL BEHAVIOR</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">What Gets the Highest Weight?</h3>
+                  <p class="card-body-text">
+                    The highest TF-IDF values belong to terms that occur frequently in a specific patient's record (high TF) but are rare across the hospital corpus (high IDF), such as <em>"pheochromocytoma"</em> or <em>"ketoacidosis"</em>.
+                  </p>
+                </div>
+              </div>
+              <div class="card-face card-back trim-ochre">
+                <span class="card-kicker">WHAT GETS ZERO WEIGHT?</span>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Words like "patient", "hospital", and "discharge" that appear in every document receive near-zero IDF, effectively functioning as an automated corpus-specific stopword filter.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-crimson">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker" style="color: var(--accent-crimson);">SUBLINEAR SCALING</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">Sublinear TF Scaling (Log-TF)</h3>
+                  <p class="card-body-text">
+                    Does a physician repeating the word "pain" 20 times mean the patient is 20× more in pain than someone who mentions it once?
+                  </p>
+                </div>
+                <div class="card-formula-box" style="font-size: 0.8rem;">
+                  $\text{TF}_{\text{sublinear}} = 1 + \ln(\text{TF}) \quad \text{for } \text{TF} > 0$
+                </div>
+              </div>
+              <div class="card-face card-back trim-crimson">
+                <span class="card-kicker" style="color: var(--accent-crimson);">DIMINISHING RETURNS</span>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Sublinear scaling damps the influence of repetitive terminology, ensuring a 20-word repetition only provides $\approx 3.99\times$ weight rather than $20\times$.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 08: [Interactive Dual-Vs Split: TF-IDF vs. Word2Vec Embeddings] -->
+    <section class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">VECTORIZATION TAXONOMY</div>
+          <h2 class="slide-title">Vectorization: TF-IDF vs. Word2Vec Embeddings</h2>
+          <p class="slide-subtitle">Sparse orthogonal frequency matrices vs. dense continuous distributed neural embeddings.</p>
+        </div>
+        <span class="slide-tag">VECTOR SPACE SHOWDOWN</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- TF-IDF Column -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker">FREQUENCY-BASED MATRIX</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">TF-IDF (Bag-of-Words Model)</h3>
+                <p class="card-body-text">
+                  Represents each document as a sparse vector in a high-dimensional vocabulary space ($V \approx 50,000$ dimensions).
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Geometry:</strong> Sparse Orthogonal Axes<br>
+                <strong>Semantic Awareness:</strong> Zero (Synonyms are orthogonal)<br>
+                <strong>Cosine:</strong> $\cos(\vec{v}_{\text{doctor}}, \vec{v}_{\text{physician}}) = 0.0$!
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Strength:</strong> Highly interpretable; exact term attribution.</li>
+                <li><strong>Fatal Flaw:</strong> Blind to synonyms and word order ("not sick" = "sick not").</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">THE ORTHOGONALITY TRAP</span>
+              <h4 class="card-title">The Synonym Vacuum</h4>
+              <p class="card-body-text">
+                In TF-IDF, "hypertension" and "high blood pressure" are completely perpendicular vectors ($90^\circ$ angle). A search query for "renal disease" will retrieve zero documents containing "kidney failure".
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Word2Vec Column -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-purple);">DISTRIBUTED SEMANTICS</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">Word2Vec (Mikolov, 2013)</h3>
+                <p class="card-body-text">
+                  Projects words into a dense, continuous latent manifold ($d \in [100, 300]$). Words appearing in similar contexts cluster together.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                <strong>Geometry:</strong> Dense Continuous Semantic Space<br>
+                <strong>Semantic Vector Arithmetic:</strong><br>
+                $\vec{v}_{\text{aspirin}} - \vec{v}_{\text{headache}} + \vec{v}_{\text{infection}} \approx \vec{v}_{\text{antibiotic}}$
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Architecture:</strong> CBOW (Predicts target from context) vs. Skip-Gram (Predicts context from target).</li>
+                <li><strong>Cosine Proximity:</strong> $\cos(\vec{v}_{\text{infarction}}, \vec{v}_{\text{stroke}}) \approx 0.88$.</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">ARCHITECTURAL TRADEOFF</span>
+              <h4 class="card-title">Out-of-Vocabulary (OOV) Limits</h4>
+              <p class="card-body-text">
+                Standard Word2Vec cannot generate embeddings for unseen words or typos during inference. FastText solves this by learning subword n-gram embeddings, while clinical models use ClinicalBERT.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 09: [Latent Dirichlet Allocation (LDA) Bayesian Architecture] -->
+    <section class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">UNSUPERVISED TOPIC MODELING</div>
+          <h2 class="slide-title">Topic Modeling: Latent Dirichlet Allocation (LDA)</h2>
+          <p class="slide-subtitle">Blei, Ng, Jordan (2003): A three-level hierarchical Bayesian generative model discovering latent themes in corpus text.</p>
+        </div>
+        <span class="slide-tag">BAYESIAN LDA</span>
+      </div>
+
+      <div class="layout-split-asymmetric">
+        <!-- Hero Left Card -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">GENERATIVE PROBABILISTIC MODEL</span>
+                  <span class="card-flip-cue">Click to Flip ⟳</span>
+                </div>
+                <h3 class="card-title">How LDA Conceives a Document</h3>
+                <p class="card-body-text">
+                  LDA assumes every document is a probability mixture over $K$ latent topics, and each topic is a probability mixture over vocabulary $V$:
+                </p>
+              </div>
+
+              <div class="card-formula-box" style="font-size: 0.9rem; text-align: center;">
+                $P(w | d) = \sum_{k=1}^K P(w | \text{Topic } k) \times P(\text{Topic } k | \text{Doc } d)$
+              </div>
+
+              <div style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5;">
+                <p><strong>Document-Topic Prior ($\alpha$):</strong> Controls the sparsity of topics per document. High $\alpha \implies$ documents contain a blend of many topics; low $\alpha \implies$ documents focus on 1–2 topics.</p>
+                <p style="margin-top: 0.4rem;"><strong>Topic-Word Prior ($\beta$):</strong> Controls the sparsity of words per topic. High $\beta \implies$ topics contain a broad vocabulary; low $\beta \implies$ topics are defined by distinct keywords.</p>
+              </div>
+
+              <div class="card-chips-row">
+                <span class="chip chip-accent">Dirichlet Distribution</span>
+                <span class="chip">Gibbs Sampling</span>
+                <span class="chip">Topic Coherence (Cv)</span>
+              </div>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-teal);">INFERENCE ENGINE</span>
+                <span class="card-flip-cue">Click to Flip ⟳</span>
+              </div>
+              <h3 class="card-title">Collapsed Gibbs Sampling</h3>
+              <p class="card-body-text">
+                How does LDA learn topics without ground-truth labels? It iteratively resamples the topic assignment $z_{d,n}$ of every word in every document:
+              </p>
+              <div class="card-formula-box" style="font-size: 0.8rem;">
+                $P(z_i = k | z_{-i}, w, \alpha, \beta) \propto \frac{n_{d, k} + \alpha}{n_d + K\alpha} \times \frac{n_{k, w} + \beta}{n_k + V\beta}$
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Balances how prevalent topic $k$ is in document $d$ against how common word $w$ is within topic $k$.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Stacked: Topic Coherence & Heatmaps -->
+        <div class="stack-vertical">
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-ochre">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker">MODEL EVALUATION</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">Topic Coherence Score ($C_v$)</h3>
+                  <p class="card-body-text">
+                    Perplexity measures predictive likelihood but correlates poorly with human interpretability. Coherence ($C_v$) measures whether top topic words co-occur together in reference texts.
+                  </p>
+                </div>
+                <div class="card-formula-box" style="font-size: 0.8rem;">
+                  Optimal Topics $K$: Peak of the $C_v$ Curve
+                </div>
+              </div>
+              <div class="card-face card-back trim-ochre">
+                <span class="card-kicker">EMPIRICAL TUNING</span>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Plot $C_v$ against $K \in [2, 15]$. Select the elbow or global maximum before coherence drops into uninterpretable noise.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-3d">
+            <div class="card-inner">
+              <div class="card-face card-front trim-purple">
+                <div>
+                  <div class="card-meta-row">
+                    <span class="card-kicker" style="color: var(--accent-purple);">VISUALIZATION</span>
+                    <span class="card-flip-cue">Click to Flip ⟳</span>
+                  </div>
+                  <h3 class="card-title">Document-Topic Mixture Heatmap</h3>
+                  <p class="card-body-text">
+                    Displays the probability matrix $\Theta \in \mathbb{R}^{D \times K}$ where cell $(i, k)$ reveals the percentage probability that patient note $i$ belongs to clinical topic $k$ (e.g. 85% Cardiac, 10% Renal).
+                  </p>
+                </div>
+              </div>
+              <div class="card-face card-back trim-purple">
+                <span class="card-kicker" style="color: var(--accent-purple);">CLINICAL UTILITY</span>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Patients with multi-topic mixture spikes (e.g. 50% Cardiac + 45% Sepsis) represent complex multimorbid cases with 3× higher 30-day mortality risk.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: [Clinical Acuity & Sentiment Scoring: VADER Engine] -->
+    <section class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">SENTIMENT & ACUITY</div>
+          <h2 class="slide-title">Clinical Acuity Scoring: VADER Sentiment Engine</h2>
+          <p class="slide-subtitle">Valence Aware Dictionary and sEntiment Reasoner: Rule-based heuristics for real-time deterioration alerting.</p>
+        </div>
+        <span class="slide-tag">VADER ACUITY</span>
+      </div>
+
+      <div class="layout-dual-vs">
+        <!-- VADER Mechanics -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-crimson);">RULE-BASED HEURISTICS</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">The VADER Compound Score</h3>
+                <p class="card-body-text">
+                  VADER combines a curated lexical valence dictionary with five linguistic heuristics: punctuation emphasis, capitalization, degree adverbs, contrastive conjunctions ("but"), and negation scope.
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                $\text{Compound Score: } x = \frac{\sum v}{\sqrt{\left(\sum v\right)^2 + \alpha}} \in [-1.0, +1.0]$
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Positive $(\ge +0.05)$:</strong> Patient stable, recovering, improving.</li>
+                <li><strong>Neutral $(-0.05 < x < +0.05)$:</strong> Objective diagnostic measurements.</li>
+                <li><strong>Negative $(\le -0.05)$:</strong> Acute pain, respiratory distress, deterioration.</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">NORMALIZATION PARAMETER</span>
+              <h4 class="card-title">Why $\alpha = 15$?</h4>
+              <p class="card-body-text">
+                The constant $\alpha = 15$ acts as a normalization damper, ensuring the compound score approaches $\pm 1.0$ asymptotically while remaining highly sensitive around zero to catch subtle clinical shifts.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clinical Early Warning -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div>
+                <div class="card-meta-row">
+                  <span class="card-kicker" style="color: var(--accent-teal);">OPERATIONAL DEPLOYMENT</span>
+                  <span class="card-flip-cue">Flip ⟳</span>
+                </div>
+                <h3 class="card-title">EHR Surveillance &amp; Early Warning (EWS)</h3>
+                <p class="card-body-text">
+                  How hospitals deploy VADER acuity scores to intercept decompensating patients before cardiac arrest:
+                </p>
+              </div>
+
+              <div class="card-formula-box">
+                $\Delta \text{Acuity} = \text{VADER}_{t} - \text{VADER}_{t-12\text{hr}} < -0.40$
+              </div>
+
+              <ul class="card-bullet-list">
+                <li><strong>Nursing Notes Surveillance:</strong> Flags nursing shift reports showing abrupt negative sentiment drops even when vitals appear borderline stable.</li>
+                <li><strong>Intervention:</strong> Automated rapid response team dispatch.</li>
+              </ul>
+            </div>
+
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">CLINICAL LEXICON CALIBRATION</span>
+              <h4 class="card-title">Why General VADER Must Be Calibrated</h4>
+              <p class="card-body-text">
+                In standard English, "positive" is good. In medicine, a "positive biopsy" means malignant cancer! Deploying uncalibrated sentiment tools in healthcare produces catastrophic misinterpretations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: [Diagnostic Oral Defense Arena: 4 Clinical NLP Panel Scenarios] -->
+    <section class="slide" data-slide="11">
+      <div class="slide-header">
+        <div class="slide-header-left">
+          <div class="slide-kicker">EXAMINATION MASTERY</div>
+          <h2 class="slide-title">Diagnostic Oral Defense Arena</h2>
+          <p class="slide-subtitle">High-rigor faculty examination questions testing clinical NLP architecture and vector space theory.</p>
+        </div>
+        <span class="slide-tag">ORAL DEFENSE</span>
+      </div>
+
+      <div class="layout-quadrant-matrix">
+        <!-- Q1 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-crimson">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-crimson);">CHALLENGE 01 · NEGATION</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"Why is standard stopword removal legally dangerous in clinical healthcare models?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Explain the polarity inversion problem and Chapman's NegEx safeguards.</p>
+              <span class="chip chip-accent">Polarity Inversion</span>
+            </div>
+            <div class="card-face card-back trim-crimson">
+              <span class="card-kicker" style="color: var(--accent-crimson);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"Standard stopword lists remove negation particles like 'no', 'not', 'without', and 'denies'. In clinical medicine, up to 50% of findings are explicit negatives. Removing stopwords converts 'patient denies shortness of breath' into 'patient shortness of breath'. A healthy patient is falsely classified as decompensating. Clinical NLP requires custom whitelisting and NegEx trigger algorithms."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-teal">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-teal);">CHALLENGE 02 · MORPHOLOGY</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"Why prefer POS-aware Lemmatization over Snowball Stemming for medical notes?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Deconstruct semantic distortion and grammatical context preservation.</p>
+              <span class="chip">WordNet vs Snowball</span>
+            </div>
+            <div class="card-face card-back trim-teal">
+              <span class="card-kicker" style="color: var(--accent-teal);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"Stemming uses crude heuristic slicing that produces non-words ('operating' ➔ 'oper') and conflates unrelated concepts (over-stemming 'organization' and 'organ' to 'organ'). Lemmatization utilizes a morphological lexicon and POS tagging. It correctly resolves 'operating' as verb to 'operate' while preserving 'operation' as a surgical procedure noun, ensuring diagnostic accuracy."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-ochre">
+              <div class="card-meta-row">
+                <span class="card-kicker">CHALLENGE 03 · VECTOR GEOMETRY</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"When should you choose TF-IDF over Word2Vec embeddings?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Compare vector space dimensionality, computational cost, and exact keyword attribution.</p>
+              <span class="chip">Exact Match vs Semantics</span>
+            </div>
+            <div class="card-face card-back trim-ochre">
+              <span class="card-kicker">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"Choose TF-IDF when exact keyword matching, legal explainability, and computational speed are paramount. TF-IDF allows direct attribution of model predictions to specific terms. Choose Word2Vec when capturing conceptual synonyms ('kidney failure' vs 'renal disease') and semantic analogies is required, and sufficient corpus data exists to train dense 300D embeddings."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="card-3d">
+          <div class="card-inner">
+            <div class="card-face card-front trim-purple">
+              <div class="card-meta-row">
+                <span class="card-kicker" style="color: var(--accent-purple);">CHALLENGE 04 · LDA TOPICS</span>
+                <span class="card-flip-cue">Flip for Response ⟳</span>
+              </div>
+              <h4 class="card-title" style="font-size: 1.1rem;">"How do Dirichlet priors $\alpha$ and $\beta$ govern LDA topic separation?"</h4>
+              <p class="card-body-text" style="font-size: 0.86rem;">Explain sparse versus dense topic distributions across documents and vocabularies.</p>
+              <span class="chip">Bayesian Hyperparameters</span>
+            </div>
+            <div class="card-face card-back trim-purple">
+              <span class="card-kicker" style="color: var(--accent-purple);">MODEL ORAL DEFENSE</span>
+              <p style="font-size: 0.82rem; line-height: 1.45; margin-top: 0.4rem;">
+                <em>"Prior $\alpha$ controls document-topic mixture sparsity. A low $\alpha$ forces each document to be composed of only 1 or 2 dominant topics, producing clean patient categorization. Prior $\beta$ controls topic-word mixture sparsity. A low $\beta$ forces each topic to be characterized by a few distinct, non-overlapping keywords. We tune $K$ by maximizing the Topic Coherence Score $C_v$."</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <script>
-    (function() {
-      let currentSlide = 0;
-      const totalSlides = 16;
-      const slides = document.querySelectorAll('.slide-view');
-      const progressFill = document.getElementById('progressFill');
-      const slideCounter = document.getElementById('slideCounter');
-      const headerEyebrow = document.getElementById('headerEyebrow');
-      const slideTopicBadge = document.getElementById('slideTopicBadge');
+    let currentSlide = 1;
+    const totalSlides = 11;
 
-      const deckContainer = document.getElementById('deckContainer');
-      const slideHeader = document.getElementById('slideHeader');
-      const deckFooter = document.getElementById('deckFooter');
-      const topToggleBtn = document.getElementById('topToggleBtn');
-      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+    const slides = document.querySelectorAll('.slide');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const themeLabel = document.getElementById('themeLabel');
+    const scrubberContainer = document.getElementById('footerScrubber');
+    const headerControls = document.getElementById('headerControls');
+    const footerScrubber = document.getElementById('footerScrubber');
 
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const flipAllBtn = document.getElementById('flipAllBtn');
-      const themeToggleBtn = document.getElementById('themeToggleBtn');
-      const fullscreenBtn = document.getElementById('fullscreenBtn');
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = `scrubber-dot ${i === 1 ? 'active' : ''}`;
+      dot.title = `Go to slide ${i}`;
+      dot.addEventListener('click', () => goToSlide(i));
+      scrubberContainer.appendChild(dot);
+    }
+    const dots = document.querySelectorAll('.scrubber-dot');
 
-      let headerPinned = false;
-      let footerPinned = false;
+    function goToSlide(n) {
+      if (n < 1 || n > totalSlides) return;
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
 
-      function initCardFlipListeners() {
-        document.querySelectorAll('.flip-card').forEach(card => {
-          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
-          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
-        });
-        document.querySelectorAll('.stack-flip-card').forEach(card => {
-          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
-          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
-        });
-      }
+      currentSlide = n;
+      const target = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+      if (target) target.classList.add('active');
+      if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
 
-      function updateSlide(index) {
-        if (index < 0) index = 0;
-        if (index >= totalSlides) index = totalSlides - 1;
+      slideCounter.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+    }
 
-        const currentActive = slides[currentSlide];
-        if (currentActive) {
-          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
-          currentActive.classList.remove('active');
-        }
+    prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
 
-        currentSlide = index;
-        const newActive = slides[currentSlide];
-        newActive.classList.add('active');
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
-        progressFill.style.width = progressPct + '%';
-
-        const padIndex = String(currentSlide + 1).padStart(2, '0');
-        slideCounter.innerHTML = `<span>${padIndex}</span> / 16`;
-
-        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'MODULE 5 · TEXT MINING & NLP';
-        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'UNSTRUCTURED DATA';
-      }
-
-      function toggleFlipAll() {
-        const activeSlide = slides[currentSlide];
-        if (!activeSlide) return;
-        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
-        if (!cards.length) return;
-
-        let allFlipped = true;
-        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
-        cards.forEach(c => {
-          if (allFlipped) c.classList.remove('flipped');
-          else c.classList.add('flipped');
-        });
-      }
-
-      function toggleHeader(forceState) {
-        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
-        if (headerPinned) {
-          slideHeader.classList.add('expanded');
-          topToggleBtn.classList.add('active');
-          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
-        } else {
-          slideHeader.classList.remove('expanded');
-          topToggleBtn.classList.remove('active');
-          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
-        }
-      }
-
-      function toggleFooter(forceState) {
-        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
-        if (footerPinned) {
-          deckFooter.classList.add('expanded');
-          bottomToggleBtn.classList.add('active');
-          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
-        } else {
-          deckFooter.classList.remove('expanded');
-          bottomToggleBtn.classList.remove('active');
-          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
-        }
-      }
-
-      function initHoverTriggers() {
-        document.addEventListener('mousemove', function(e) {
-          const windowHeight = window.innerHeight;
-          const mouseY = e.clientY;
-          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
-          else deckContainer.classList.remove('hovering-top');
-
-          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
-          else deckContainer.classList.remove('hovering-bottom');
-        });
-      }
-
-      function initThemeToggle() {
-        const root = document.documentElement;
-        themeToggleBtn.addEventListener('click', function() {
-          const isDark = root.getAttribute('data-theme') === 'dark';
-          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
-          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
-          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
-        });
-      }
-
-      function initFullscreen() {
-        fullscreenBtn.addEventListener('click', function() {
-          if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => console.warn(err));
-          } else {
-            document.exitFullscreen();
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        goToSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        goToSlide(currentSlide - 1);
+      } else if (e.key === 't' || e.key === 'T') {
+        toggleTheme();
+      } else if (e.key === 'c' || e.key === 'C') {
+        headerControls.classList.toggle('force-visible');
+        footerScrubber.classList.toggle('force-visible');
+      } else if (e.key === ' ' || e.key === 'Enter') {
+        const activeSlideEl = document.querySelector('.slide.active');
+        if (activeSlideEl) {
+          const hoveredCard = activeSlideEl.querySelector('.card-3d:hover') || activeSlideEl.querySelector('.card-3d');
+          if (hoveredCard) {
+            hoveredCard.classList.toggle('flipped');
+            e.preventDefault();
           }
-        });
+        }
       }
+    });
 
-      function initKeyboardShortcuts() {
-        document.addEventListener('keydown', function(e) {
-          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-          switch(e.key) {
-            case 'ArrowRight': case 'PageDown': case ' ':
-              e.preventDefault(); updateSlide(currentSlide + 1); break;
-            case 'ArrowLeft': case 'PageUp':
-              e.preventDefault(); updateSlide(currentSlide - 1); break;
-            case 'Tab': case 'x': case 'X':
-              e.preventDefault(); toggleFlipAll(); break;
-            case 't': case 'T':
-              e.preventDefault(); themeToggleBtn.click(); break;
-            case 'f': case 'F':
-              e.preventDefault(); fullscreenBtn.click(); break;
-            case 'h': case 'H':
-              e.preventDefault(); toggleHeader(); break;
-            case 'c': case 'C':
-              e.preventDefault(); toggleFooter(); break;
-            case 'Home':
-              e.preventDefault(); updateSlide(0); break;
-            case 'End':
-              e.preventDefault(); updateSlide(totalSlides - 1); break;
-            case 'Escape':
-              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
-          }
-        });
-      }
+    document.querySelectorAll('.card-3d').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' || e.target.closest('a')) return;
+        card.classList.toggle('flipped');
+      });
+    });
 
-      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
-      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
-      flipAllBtn.addEventListener('click', () => toggleFlipAll());
-      topToggleBtn.addEventListener('click', () => toggleHeader());
-      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('dma_deck_theme', theme);
+      themeLabel.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+    }
 
-      initCardFlipListeners();
-      initHoverTriggers();
-      initThemeToggle();
-      initFullscreen();
-      initKeyboardShortcuts();
-      updateSlide(0);
-    })();
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      setTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+
+    themeBtn.addEventListener('click', toggleTheme);
+    const savedTheme = localStorage.getItem('dma_deck_theme') || 'light';
+    setTheme(savedTheme);
   </script>
 </body>
 </html>
