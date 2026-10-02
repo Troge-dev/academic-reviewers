@@ -446,7 +446,49 @@
     .card-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.65rem; font-size: 0.9rem; color: var(--text-muted); }
     .card-bullet-list li { position: relative; padding-left: 1.25rem; line-height: 1.4; }
     .card-bullet-list li::before { content: "•"; position: absolute; left: 0.25rem; color: var(--accent-ochre); font-weight: 900; }
+  
+    /* KaTeX Math Styling & Palette Harmony */
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.2em 0;
+    }
+    .katex {
+      font-size: 1.05em;
+      color: inherit;
+    }
+    [data-theme="dark"] .katex {
+      color: #F4F6FB;
+    }
+    [data-theme="dark"] .card-formula-box .katex {
+      color: var(--accent-ochre);
+    }
+    .card-formula-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.5rem 0.85rem;
+      overflow-x: auto;
+    }
+
   </style>
+  
+  <!-- KaTeX High-Performance LaTeX Math Engine -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    });"></script>
 </head>
 <body>
 
@@ -906,7 +948,7 @@
             </div>
             <div class="card-face card-back trim-teal">
               <span class="card-kicker" style="color: var(--accent-teal);">ROLE</span>
-              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Predicts that RunFast will repeat its sale in August, causing an additional $50,000 revenue loss.</p>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Predicts that RunFast will repeat its sale in August, causing an additional &#36;50,000 revenue loss.</p>
             </div>
           </div>
         </div>
@@ -927,7 +969,7 @@
             </div>
             <div class="card-face card-back trim-purple">
               <span class="card-kicker" style="color: var(--accent-purple);">ROLE</span>
-              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Prescribes launching a preemptive 20% discount on July 3, projecting an $18,000 net revenue recovery.</p>
+              <p style="font-size: 0.84rem; margin-top: 0.4rem;">Prescribes launching a preemptive 20% discount on July 3, projecting an &#36;18,000 net revenue recovery.</p>
             </div>
           </div>
         </div>
@@ -1046,9 +1088,9 @@
               <span class="card-kicker" style="color: var(--accent-crimson);">PHASE 01 · DESCRIPTIVE</span>
               <h4 class="card-title" style="font-size: 1.1rem;">Sales Plunge Detected</h4>
               <p class="card-body-text" style="font-size: 0.85rem;">
-                July dashboard reveals revenue plunged from $500,000 in June to $425,000 (15% drop), isolated strictly to Men's Running Shoes (-32%).
+                July dashboard reveals revenue plunged from &#36;500,000 in June to &#36;425,000 (15% drop), isolated strictly to Men's Running Shoes (-32%).
               </p>
-              <div class="card-formula-box" style="font-size: 0.74rem;">-$75,000 Monthly Delta</div>
+              <div class="card-formula-box" style="font-size: 0.74rem;">-&#36;75,000 Monthly Delta</div>
               <span class="chip chip-accent">Dashboard KPI</span>
             </div>
             <div class="card-face card-back trim-crimson">
@@ -1084,14 +1126,14 @@
               <span class="card-kicker" style="color: var(--accent-teal);">PHASE 03 · PREDICTIVE</span>
               <h4 class="card-title" style="font-size: 1.1rem;">August Repeat Warning</h4>
               <p class="card-body-text" style="font-size: 0.85rem;">
-                A 3-year time-series model of competitor behavior forecasts that RunFast always repeats its promotion in August, predicting another $54k loss.
+                A 3-year time-series model of competitor behavior forecasts that RunFast always repeats its promotion in August, predicting another &#36;54k loss.
               </p>
-              <div class="card-formula-box" style="font-size: 0.74rem;">Projected -$54k Loss</div>
+              <div class="card-formula-box" style="font-size: 0.74rem;">Projected -&#36;54k Loss</div>
               <span class="chip">ARIMA Forecast</span>
             </div>
             <div class="card-face card-back trim-teal">
               <span class="card-kicker">AUDIT</span>
-              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Without executive intervention, SoleMate will bleed over $120,000 across the two-month summer quarter.</p>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem;">Without executive intervention, SoleMate will bleed over &#36;120,000 across the two-month summer quarter.</p>
             </div>
           </div>
         </div>
@@ -1103,9 +1145,9 @@
               <span class="card-kicker" style="color: var(--accent-purple);">PHASE 04 · PRESCRIPTIVE</span>
               <h4 class="card-title" style="font-size: 1.1rem;">Preemptive Counter-Sale</h4>
               <p class="card-body-text" style="font-size: 0.85rem;">
-                Prescriptive optimization recommends launching a 20% discount on July 3 (2 days before RunFast), limiting losses to only $27,000.
+                Prescriptive optimization recommends launching a 20% discount on July 3 (2 days before RunFast), limiting losses to only &#36;27,000.
               </p>
-              <div class="card-formula-box" style="font-size: 0.74rem;">+$27,000 Value Recovered</div>
+              <div class="card-formula-box" style="font-size: 0.74rem;">+&#36;27,000 Value Recovered</div>
               <span class="chip">Optimization Engine</span>
             </div>
             <div class="card-face card-back trim-purple">
@@ -1651,6 +1693,24 @@
     themeBtn.addEventListener('click', toggleTheme);
     const savedTheme = localStorage.getItem('dma_deck_theme') || 'light';
     setTheme(savedTheme);
-  </script>
+  
+    // KaTeX Auto-Render Invoker
+    function triggerMathRender() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false,
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', triggerMathRender);
+    window.addEventListener('load', triggerMathRender);
+</script>
 </body>
 </html>

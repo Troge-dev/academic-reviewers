@@ -690,7 +690,49 @@
       border-radius: 8px;
       border-left: 3px solid var(--accent-crimson);
     }
+  
+    /* KaTeX Math Styling & Palette Harmony */
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.2em 0;
+    }
+    .katex {
+      font-size: 1.05em;
+      color: inherit;
+    }
+    [data-theme="dark"] .katex {
+      color: #F4F6FB;
+    }
+    [data-theme="dark"] .card-formula-box .katex {
+      color: var(--accent-ochre);
+    }
+    .card-formula-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.5rem 0.85rem;
+      overflow-x: auto;
+    }
+
   </style>
+  
+  <!-- KaTeX High-Performance LaTeX Math Engine -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    });"></script>
 </head>
 <body>
 
@@ -1113,7 +1155,7 @@
                 <div>
                   <span class="slide-kicker">FORMULA 1 · CO-OCCURRENCE FREQUENCY</span>
                   <h4 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--text-main);">Support: P(X ∪ Y)</h4>
-                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-crimson); margin-top: 0.3rem;">Support(X → Y) = σ(X ∪ Y) / N</p>
+                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-crimson); margin-top: 0.3rem;">$$\text{Support}(X \implies Y) = \frac{\sigma(X \cup Y)}{N} = P(X \cap Y)$$</p>
                   <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">Fraction of total transactions containing both antecedent X and consequent Y.</p>
                 </div>
                 <div class="flip-indicator">FLIP FOR CLINICAL TRAP ↻</div>
@@ -1134,7 +1176,7 @@
                 <div>
                   <span class="slide-kicker">FORMULA 2 · CONDITIONAL CERTAINTY</span>
                   <h4 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--text-main);">Confidence: P(Y | X)</h4>
-                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-ochre); margin-top: 0.3rem;">Confidence(X → Y) = σ(X ∪ Y) / σ(X) = Support(X ∪ Y) / Support(X)</p>
+                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-ochre); margin-top: 0.3rem;">$$\text{Confidence}(X \implies Y) = \frac{\sigma(X \cup Y)}{\sigma(X)} = P(Y | X)$$</p>
                   <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">Conditional probability that transaction contains Y given it already contains X.</p>
                 </div>
                 <div class="flip-indicator">FLIP FOR CONFIDENCE FLAW ↻</div>
@@ -1155,7 +1197,7 @@
                 <div>
                   <span class="slide-kicker">FORMULA 3 · INDEPENDENCE BENCHMARK</span>
                   <h4 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--text-main);">Lift: P(X ∪ Y) / [P(X) · P(Y)]</h4>
-                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-teal); margin-top: 0.3rem;">Lift(X → Y) = Confidence(X → Y) / Support(Y)</p>
+                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-teal); margin-top: 0.3rem;">$$\text{Lift}(X \implies Y) = \frac{P(X \cap Y)}{P(X) \cdot P(Y)}$$</p>
                   <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.35rem;">Ratio of observed joint support to expected support under statistical independence.</p>
                 </div>
                 <div class="flip-indicator">FLIP FOR 3-WAY INTERPRETATION ↻</div>
@@ -1519,7 +1561,7 @@
               <div class="card-face card-face-back">
                 <div>
                   <h4>Chi-Square Invariants</h4>
-                  <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">χ² = ∑ (O - E)² / E with df = (r-1)(c-1). <strong>Invariant:</strong> Expected frequencies in all contingency cells must exceed 5. If any cell E &lt; 5, Cochran's rule is violated; use <strong>Fisher's Exact Test</strong> instead!</p>
+                  <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">$$\chi^2 = \sum \frac{(O - E)^2}{E} \quad \text{with } df = (r-1)(c-1)$$. <strong>Invariant:</strong> Expected frequencies in all contingency cells must exceed 5. If any cell E &lt; 5, Cochran's rule is violated; use <strong>Fisher's Exact Test</strong> instead!</p>
                 </div>
                 <div class="flip-indicator">RETURN ↻</div>
               </div>
@@ -1566,7 +1608,7 @@
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Weighting terms by intra-document frequency and penalizing corpus-wide ubiquity; collocations (bigrams/trigrams).</p>
           </div>
           <div style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--surface-subtle); padding: 0.5rem; border-radius: 4px; color: var(--accent-teal);">
-            TF(t,d) × log(N / [1 + DF(t)])
+            $$\text{TF-IDF}(t,d) = \text{TF}(t,d) \times \log\left(\frac{N}{1 + \text{DF}(t)}\right)$$
           </div>
         </div>
 
@@ -1671,7 +1713,7 @@
             <div class="card-face card-face-back">
               <div>
                 <h4>Supervised Empirical Objective</h4>
-                <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">min 1/N ∑ L(yᵢ, f(xᵢ)) + λΩ(w). Penalizes misclassifications and prediction errors against known ground truth labels.</p>
+                <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">$$\min_w \frac{1}{N}\sum_{i=1}^N \mathcal{L}(y_i, f(x_i; w)) + \lambda \Omega(w)$$. Penalizes misclassifications and prediction errors against known ground truth labels.</p>
               </div>
               <div class="flip-indicator">RETURN ↻</div>
             </div>
@@ -1853,7 +1895,7 @@
             </div>
           </div>
           <div style="margin-top: auto; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main); font-weight: 700;">
-            THE ML LAW: Minimize E_{test}[L(y, f(x))], NOT E_{train}[L(y, f(x))]!
+            THE ML LAW: Minimize $\mathbb{E}_{\text{test}}[\mathcal{L}(y, f(x))]$, NOT $\mathbb{E}_{\text{train}}[\mathcal{L}(y, f(x))]$!
           </div>
         </div>
 
@@ -1972,7 +2014,7 @@
               <div class="card-face card-face-back">
                 <div>
                   <h4>Cost-Sensitive Threshold Tuning</h4>
-                  <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">A False Negative (missed readmission) costs $15,200 in readmission costs + penalty. A False Positive (unneeded nurse call) costs $75. Lowering threshold maximizes patient survival and hospital finances.</p>
+                  <p style="font-size: 0.88rem; margin-top: 0.4rem; color: var(--text-main);">A False Negative (missed readmission) costs &#36;15,200 in readmission costs + penalty. A False Positive (unneeded nurse call) costs &#36;75. Lowering threshold maximizes patient survival and hospital finances.</p>
                 </div>
                 <div class="flip-indicator">RETURN ↻</div>
               </div>
@@ -2177,6 +2219,24 @@
     });
 
     window.onload = initDeck;
-  </script>
+  
+    // KaTeX Auto-Render Invoker
+    function triggerMathRender() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false,
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', triggerMathRender);
+    window.addEventListener('load', triggerMathRender);
+</script>
 </body>
 </html>

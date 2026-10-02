@@ -459,7 +459,49 @@
     .card-bullet-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.65rem; font-size: 0.9rem; color: var(--text-muted); }
     .card-bullet-list li { position: relative; padding-left: 1.25rem; line-height: 1.4; }
     .card-bullet-list li::before { content: "•"; position: absolute; left: 0.25rem; color: var(--accent-ochre); font-weight: 900; }
+  
+    /* KaTeX Math Styling & Palette Harmony */
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.2em 0;
+    }
+    .katex {
+      font-size: 1.05em;
+      color: inherit;
+    }
+    [data-theme="dark"] .katex {
+      color: #F4F6FB;
+    }
+    [data-theme="dark"] .card-formula-box .katex {
+      color: var(--accent-ochre);
+    }
+    .card-formula-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.5rem 0.85rem;
+      overflow-x: auto;
+    }
+
   </style>
+  
+  <!-- KaTeX High-Performance LaTeX Math Engine -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    });"></script>
 </head>
 <body>
 
@@ -1090,7 +1132,7 @@
               <span class="card-kicker" style="color: var(--accent-crimson);">OUTLIER COMPRESSION</span>
               <h4 class="card-title">The Vanishing Variance Disaster</h4>
               <p class="card-body-text">
-                If income ranges from $20k to $100k, but one billionaire ($1B) is in the dataset, all 99.9% of citizens are compressed between $0.00002$ and $0.00010$, destroying the model's ability to discriminate between middle-class earners.
+                If income ranges from &#36;20k to &#36;100k, but one billionaire (&#36;1B) is in the dataset, all 99.9% of citizens are compressed between $0.00002$ and $0.00010$, destroying the model's ability to discriminate between middle-class earners.
               </p>
             </div>
           </div>
@@ -1743,6 +1785,24 @@
     themeBtn.addEventListener('click', toggleTheme);
     const savedTheme = localStorage.getItem('dma_deck_theme') || 'light';
     setTheme(savedTheme);
-  </script>
+  
+    // KaTeX Auto-Render Invoker
+    function triggerMathRender() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false,
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', triggerMathRender);
+    window.addEventListener('load', triggerMathRender);
+</script>
 </body>
 </html>

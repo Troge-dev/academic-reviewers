@@ -820,7 +820,49 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+  
+    /* KaTeX Math Styling & Palette Harmony */
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.2em 0;
+    }
+    .katex {
+      font-size: 1.05em;
+      color: inherit;
+    }
+    [data-theme="dark"] .katex {
+      color: #F4F6FB;
+    }
+    [data-theme="dark"] .card-formula-box .katex {
+      color: var(--accent-ochre);
+    }
+    .card-formula-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.5rem 0.85rem;
+      overflow-x: auto;
+    }
+
   </style>
+  
+  <!-- KaTeX High-Performance LaTeX Math Engine -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    });"></script>
 </head>
 <body>
 
@@ -2747,6 +2789,24 @@
     themeBtn.addEventListener('click', toggleTheme);
     const savedTheme = localStorage.getItem('dma_deck_theme') || 'light';
     setTheme(savedTheme);
-  </script>
+  
+    // KaTeX Auto-Render Invoker
+    function triggerMathRender() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false,
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', triggerMathRender);
+    window.addEventListener('load', triggerMathRender);
+</script>
 </body>
 </html>
