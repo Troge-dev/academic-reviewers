@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS312: Module 6 — Supervised vs. Unsupervised Methods | Interactive Keynote</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* EMPATHETIC LIGHT THEME (Warm Soft Linen Alabaster) */
+      --bg-canvas: #F8F6F1;
+      --surface-front: #FFFFFF;
+      --surface-back: #F5EFE6;
+      --surface-elevated: #EDE6DC;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      /* Vibrant Academic Accent Hues */
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Elevations */
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-back: 0 10px 30px -4px rgba(45, 35, 20, 0.1), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* LUMINOUS DEEP SPACE SLATE */
+      --bg-canvas: #0B0E14;
+      --surface-front: #141821;
+      --surface-back: #181E2A;
+      --surface-elevated: #1F2636;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      /* Luminous Neon Accents */
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-back: 0 12px 36px -4px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Progress Bar */
+    .progress-bar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(169, 110, 50, 0.12);
+      z-index: 100;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-ochre), var(--accent-crimson), var(--accent-teal));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Deck Container */
+    .deck-container {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 2.5rem);
+      display: flex;
+      flex-direction: column;
+      padding: 1.75rem 2.75rem;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    /* Header Bar (Collapsible Dropdown) */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      border-bottom: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .slide-header.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-ochre);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slide-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-crimson);
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      background: rgba(38, 121, 107, 0.08);
+      border: 1px solid rgba(38, 121, 107, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .slide-topic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.95rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .slide-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    .slide-view.active {
+      display: flex;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Slide Titles */
+    .slide-title-area {
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .slide-subhead {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Slide Layout Grids */
+    .grid-container {
+      display: grid;
+      gap: 1.5rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .grid-bifurcated {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-triptych {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .grid-split-hero {
+      grid-template-columns: 1.15fr 1fr;
+    }
+
+    .stack-right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      height: 100%;
+    }
+
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1200px;
+      cursor: pointer;
+      height: 100%;
+      position: relative;
+      outline: none;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 12px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      padding: 1.85rem 1.95rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FRONT DESIGN */
+    .flip-card-front {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--card-shadow);
+      justify-content: space-between;
+      transform: rotateY(0deg);
+      z-index: 2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flip-card:hover .flip-card-front {
+      border-color: var(--border-focus);
+      box-shadow: 0 10px 30px -4px rgba(45, 35, 20, 0.08);
+    }
+
+    .flip-card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--border-subtle);
+    }
+
+    .flip-card.accent-crimson .flip-card-front::before { background: var(--accent-crimson); }
+    .flip-card.accent-ochre .flip-card-front::before { background: var(--accent-ochre); }
+    .flip-card.accent-teal .flip-card-front::before { background: var(--accent-teal); }
+    .flip-card.accent-blue .flip-card-front::before { background: var(--accent-blue); }
+
+    .front-top-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .flip-card.accent-crimson .card-kicker { color: var(--accent-crimson); }
+    .flip-card.accent-ochre .card-kicker { color: var(--accent-ochre); }
+    .flip-card.accent-teal .card-kicker { color: var(--accent-teal); }
+    .flip-card.accent-blue .card-kicker { color: var(--accent-blue); }
+
+    .front-hero-container {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .front-keyword {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .front-sub-tag {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .flip-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+      background: rgba(169, 110, 50, 0.05);
+      border: 1px dashed rgba(169, 110, 50, 0.28);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .flip-card:hover .flip-prompt {
+      background: rgba(169, 110, 50, 0.12);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .flip-card.accent-crimson:hover .flip-prompt {
+      background: rgba(200, 75, 49, 0.1);
+      border-color: var(--accent-crimson);
+      color: var(--accent-crimson);
+    }
+
+    .flip-card.accent-teal:hover .flip-prompt {
+      background: rgba(38, 121, 107, 0.1);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* BACK DESIGN: DEEP MEANING */
+    .flip-card-back {
+      background: var(--surface-back);
+      border: 1px solid var(--border-focus);
+      transform: rotateY(180deg);
+      box-shadow: var(--card-shadow-back);
+      z-index: 1;
+    }
+
+    .back-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 0.95rem;
+    }
+
+    .back-topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .back-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .back-content {
+      font-size: 1.05rem;
+      line-height: 1.52;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .back-content p {
+      margin-bottom: 0.35rem;
+    }
+
+    .back-content ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .back-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .back-content ul li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .back-return-prompt {
+      flex-shrink: 0;
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.95rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    /* LIGHT MODE CARD BACK ACCENT COLORS */
+    .flip-card.accent-crimson .flip-card-back { border-color: rgba(200, 75, 49, 0.35); }
+    .flip-card.accent-crimson .back-topic-label { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-headline { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content { color: var(--text-main); }
+    .flip-card.accent-crimson .back-content strong { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-content ul li::before { color: var(--accent-crimson); }
+    .flip-card.accent-crimson .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-crimson); }
+
+    .flip-card.accent-ochre .flip-card-back { border-color: rgba(169, 110, 50, 0.35); }
+    .flip-card.accent-ochre .back-topic-label { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-headline { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content { color: var(--text-main); }
+    .flip-card.accent-ochre .back-content strong { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-content ul li::before { color: var(--accent-ochre); }
+    .flip-card.accent-ochre .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-ochre); }
+
+    .flip-card.accent-teal .flip-card-back { border-color: rgba(38, 121, 107, 0.35); }
+    .flip-card.accent-teal .back-topic-label { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-headline { color: var(--text-main); }
+    .flip-card.accent-teal .back-content { color: var(--text-main); }
+    .flip-card.accent-teal .back-content strong { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-content ul li::before { color: var(--accent-teal); }
+    .flip-card.accent-teal .back-return-prompt { background: #FFFFFF; border: 1px solid var(--border-subtle); color: var(--accent-teal); }
+
+    /* ENHANCED DARK MODE CARD BACK COLOR CORRESPONDENCE */
+    [data-theme="dark"] .flip-card.accent-crimson .flip-card-back {
+      background: linear-gradient(155deg, #1C1215 0%, #11151E 100%);
+      border-color: rgba(224, 83, 60, 0.5);
+      box-shadow: 0 10px 36px rgba(224, 83, 60, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-header {
+      border-bottom-color: rgba(224, 83, 60, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-topic-label {
+      color: #FF8F7D;
+      text-shadow: 0 0 12px rgba(224, 83, 60, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-headline {
+      color: #FFAEA0;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content {
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content strong {
+      color: #FF7B66;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-content ul li::before {
+      color: #E0533C;
+    }
+    [data-theme="dark"] .flip-card.accent-crimson .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(224, 83, 60, 0.3);
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .flip-card.accent-ochre .flip-card-back {
+      background: linear-gradient(155deg, #1E1911 0%, #11151E 100%);
+      border-color: rgba(229, 169, 103, 0.5);
+      box-shadow: 0 10px 36px rgba(229, 169, 103, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-header {
+      border-bottom-color: rgba(229, 169, 103, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-topic-label {
+      color: #F5C58A;
+      text-shadow: 0 0 12px rgba(229, 169, 103, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-headline {
+      color: #FCE1B8;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content {
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content strong {
+      color: #F5C58A;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-content ul li::before {
+      color: #E5A967;
+    }
+    [data-theme="dark"] .flip-card.accent-ochre .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(229, 169, 103, 0.3);
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .flip-card.accent-teal .flip-card-back {
+      background: linear-gradient(155deg, #0F1D1B 0%, #11151E 100%);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 10px 36px rgba(45, 212, 191, 0.16);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-header {
+      border-bottom-color: rgba(45, 212, 191, 0.2);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-topic-label {
+      color: #5EEAD4;
+      text-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-headline {
+      color: #99F6E4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content {
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content strong {
+      color: #5EEAD4;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-content ul li::before {
+      color: #2DD4BF;
+    }
+    [data-theme="dark"] .flip-card.accent-teal .back-return-prompt {
+      background: #181E2A;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      color: #5EEAD4;
+    }
+
+    /* Stack Flip Cards (Right-hand column mini flip cards) */
+    .stack-flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+      min-height: 85px;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .stack-flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      border-radius: 8px;
+    }
+
+    .stack-flip-card.flipped .stack-flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .stack-card-front, .stack-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-subtle);
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .stack-card-front {
+      background: #FFFFFF;
+      box-shadow: var(--card-shadow);
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .stack-card-front {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .stack-card-front .front-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stack-card-front .stack-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .stack-card-front .stack-keyword {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stack-card-front .stack-hint {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-ochre);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .stack-card-back {
+      background: var(--surface-back);
+      border-color: rgba(169, 110, 50, 0.35);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.1rem 1.6rem;
+      z-index: 1;
+      box-shadow: var(--card-shadow-back);
+    }
+
+    .stack-card-back p {
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--text-main);
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back {
+      background: linear-gradient(155deg, #1C1215, #11151E);
+      border-color: rgba(224, 83, 60, 0.45);
+      color: #FCE6E2;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-crimson .stack-card-back strong {
+      color: #FF8F7D;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back {
+      background: linear-gradient(155deg, #1E1911, #11151E);
+      border-color: rgba(229, 169, 103, 0.45);
+      color: #FAF0DF;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-ochre .stack-card-back strong {
+      color: #F5C58A;
+    }
+
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back {
+      background: linear-gradient(155deg, #0F1D1B, #11151E);
+      border-color: rgba(45, 212, 191, 0.45);
+      color: #E0FAF5;
+    }
+    [data-theme="dark"] .stack-flip-card.accent-teal .stack-card-back strong {
+      color: #5EEAD4;
+    }
+
+    /* Hero Static Card */
+    .hero-static-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .hero-static-box {
+      background: var(--surface-front);
+      border-color: var(--border-subtle);
+    }
+
+    .hero-static-box::after {
+      content: "“";
+      position: absolute;
+      top: 1.25rem;
+      right: 2rem;
+      font-size: 6.5rem;
+      font-family: serif;
+      color: rgba(200, 75, 49, 0.12);
+      line-height: 1;
+    }
+
+    .hero-quote {
+      font-family: var(--font-display);
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-author {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Metric Static Card */
+    .metric-hero-box {
+      background: linear-gradient(135deg, #FFFFFF, #F5EFE8);
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+      border-radius: 12px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    [data-theme="dark"] .metric-hero-box {
+      background: linear-gradient(135deg, #161D2B, #11151E);
+      border-color: var(--border-subtle);
+      border-left: 5px solid var(--accent-crimson);
+    }
+
+    .big-stat {
+      font-family: var(--font-display);
+      font-size: 5.5rem;
+      font-weight: 800;
+      color: var(--accent-crimson);
+      line-height: 0.92;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-desc {
+      font-size: 1.18rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Bottom Footer Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      pointer-events: none;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease,
+                  margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.25s ease;
+    }
+
+    .deck-footer.expanded {
+      max-height: 80px;
+      opacity: 1;
+      margin-top: 1.35rem;
+      padding-top: 0.85rem;
+      border-top-color: var(--border-subtle);
+      pointer-events: auto;
+    }
+
+    .counter {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    .counter span {
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .deck-nav-buttons {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    .nav-btn.action-flip {
+      border-color: var(--accent-ochre);
+      background: rgba(169, 110, 50, 0.08);
+      color: var(--accent-ochre);
+      font-weight: 700;
+    }
+
+    .nav-btn.action-flip:hover {
+      background: rgba(169, 110, 50, 0.16);
+    }
+
+    .key-indicator {
+      display: inline-block;
+      padding: 0.12rem 0.38rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .key-indicator {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-faint);
+    }
+
+    /* Toggle Pills (Invisible by default; reveals ONLY when mouse hovers near location) */
+    .bar-toggle-pill {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-front);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 0.32rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 10px rgba(35, 30, 25, 0.08);
+      z-index: 180;
+      user-select: none;
+      outline: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .top-toggle {
+      top: 8px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    .bottom-toggle {
+      bottom: 8px;
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    /* Reveal pills when mouse hovers near top/bottom OR when pinned */
+    .deck-container.hovering-top .top-toggle,
+    .top-toggle:hover,
+    .top-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .deck-container.hovering-bottom .bottom-toggle,
+    .bottom-toggle:hover,
+    .bottom-toggle.active {
+      opacity: 0.95;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bar-toggle-pill:hover {
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+      box-shadow: 0 4px 16px rgba(169, 110, 50, 0.16);
+      opacity: 1;
+    }
+
+    .bar-toggle-pill.active {
+      background: var(--surface-back);
+      border-color: var(--accent-ochre);
+      color: var(--accent-ochre);
+    }
+
+    /* Fullscreen helper */
+    :fullscreen .deck-container {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 1440px;
+      height: 820px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-Time Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <div class="deck-container" id="deckContainer">
+
+    <!-- Top Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill top-toggle" id="topToggleBtn" title="Click to toggle header (Shortcut: H)">
+      <span>▾ EXPAND HEADER</span>
+      <span class="key-indicator">H</span>
+    </button>
+
+    <!-- Collapsible Slide Header -->
+    <header class="slide-header" id="slideHeader">
+      <div class="slide-eyebrow" id="headerEyebrow">
+        DS312 · MODULE 6 SUPERVISED VS. UNSUPERVISED METHODS
+      </div>
+      <div class="header-actions">
+        <div class="hint-banner">PRESS TAB / X TO FLIP ALL CARDS</div>
+        <div class="slide-topic-badge" id="slideTopicBadge">MODULE OVERVIEW</div>
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme (Shortcut: T)">
+          <span id="themeIcon">◐</span>
+          <span id="themeText">THEME</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Slide Stage Viewport -->
+    <main class="slide-stage" id="slideStage">
+
+      <section class="slide-view active" id="slide-0" data-eyebrow="DS312 · MODULE 6 ML PARADIGMS" data-badge="LEARNING TAXONOMY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Supervised vs. Unsupervised Methods</h2>
+          <p class="slide-subhead">Module 6: From Data Mining to Machine Learning, The 4 Learning Paradigms, Accuracy–Interpretability Frontier, and Model Selection</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">THE LEARNING CONTINUUM</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                "Data mining discovers valuable patterns already resting in data; machine learning builds models that generalize and make predictions on data they have never seen before."
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS312 MODULE 6 · INSTRUCTOR: NICOLE S. MENORIAS</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">6.1 THE 4 LEARNING TYPES</span>
+                    <h4 class="stack-keyword">Supervised, Unsupervised, Semi & RL</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Paradigm Taxonomy:</strong> Categorized by information available during training: labeled ground truth, unlabeled structure, hybrid label pools, and environment reward signals.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">6.2 THE ACCURACY–EXPLAINABILITY FRONTIER</span>
+                    <h4 class="stack-keyword">Black Boxes vs. Glass Boxes</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Fundamental Trade-off:</strong> Highly accurate neural networks and random forests trade off human interpretability against transparent linear models and decision trees.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">6.3 ENGINEERING OBSTACLES</span>
+                    <h4 class="stack-keyword">Overfitting, Underfitting & Drift</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Operational Obstacles:</strong> Navigating the bias-variance tradeoff, poor data quality (Garbage In, Garbage Out), computational latency, and real-world concept drift.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-1" data-eyebrow="MODULE 6 · DISCIPLINE TAXONOMY" data-badge="DATA MINING VS. ML">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Data Mining vs. Machine Learning: The Symbiotic Continuum</h2>
+          <p class="slide-subhead">Contrasting retrospective pattern discovery against predictive statistical generalization</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DISCOVERY-CENTRIC</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Data Mining Foundations</h3>
+                  <p class="front-sub-tag">Uncovering Latent Historic Patterns</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DATA MINING AXIOMS</span>
+                  <h4 class="back-headline">Retrospective Discovery</h4>
+                </div>
+                <div class="back-content">
+                  <p>The systematic process of extracting novel patterns from stored repositories.</p>
+                  <ul><li><strong>Process of Discovery:</strong> Focuses on identifying non-trivial, valid, novel, and understandable patterns in existing databases (Fayyad et al., 1996).</li><li><strong>Retrospective Exploration:</strong> Examines historical data to uncover latent associations (Apriori), clusters (K-Means), and anomalies.</li><li><strong>Human-in-the-Loop:</strong> Translates raw data into human-interpretable domain insights and business intelligence.</li><li><strong>Foundational Groundwork:</strong> Provides exploratory data analysis, distribution auditing, and data cleaning necessary before any model training.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">INFERENCE-CENTRIC</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Machine Learning Foundations</h3>
+                  <p class="front-sub-tag">Learning from Experience to Predict Unseen Data</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">MACHINE LEARNING AXIOMS</span>
+                  <h4 class="back-headline">Predictive Generalization</h4>
+                </div>
+                <div class="back-content">
+                  <p>Algorithms that improve performance metrics with experience.</p>
+                  <ul><li><strong>Algorithmic Learning:</strong> Builds computational models that learn mappings from input features X to targets y without hand-coded procedural rules.</li><li><strong>Prospective Generalization:</strong> The ultimate goal is making accurate predictions or decisions on novel, unseen out-of-sample data.</li><li><strong>Loss Function Optimization:</strong> Iteratively minimizes mathematical error metrics (MSE, Cross-Entropy) via gradient descent or statistical estimation.</li><li><strong>Symbiotic Interdependence:</strong> ML powers the predictive stage of data mining; data mining provides the curated feature space for ML models.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-2" data-eyebrow="MODULE 6 · THE BIGGER PICTURE" data-badge="AI · ML · DL HIERARCHY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Bigger Picture: AI, Machine Learning & Deep Learning</h2>
+          <p class="slide-subhead">Understanding nested conceptual layers: every Deep Learning system is ML, and every ML system is AI</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">CONCENTRIC TOPOLOGY</span>
+            <div class="big-stat" style="font-size: 3.5rem; margin: 0.8rem 0;">AI &sup3;</div>
+            <h3 class="stat-label">AI &supe; ML &supe; DL</h3>
+            <p class="stat-desc">
+              All deep learning is machine learning, and all machine learning is AI; but a deterministic rule-based chess engine is AI without being machine learning.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1. ARTIFICIAL INTELLIGENCE (AI)</span>
+                    <h4 class="stack-keyword">The Broadest Umbrella</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Broadest Frontier:</strong> Any technique enabling machines to mimic human intelligence and decision-making. Encompasses symbolic reasoning, expert systems, search graphs, and rule engines (e.g. 1990s Deep Blue).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2. MACHINE LEARNING (ML)</span>
+                    <h4 class="stack-keyword">Statistical Learning from Experience</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Statistical Core:</strong> A subset of AI where systems improve performance on specific tasks through exposure to empirical data rather than hand-coded procedural instructions.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3. DEEP LEARNING (DL)</span>
+                    <h4 class="stack-keyword">Hierarchical Multi-Layer Networks</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Deep Representation:</strong> A subset of ML utilizing multi-layered artificial neural networks to automatically extract hierarchical representations directly from raw, high-dimensional unstructured data (pixels, waveforms, tokens).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-3" data-eyebrow="MODULE 6 · LEARNING PARADIGMS" data-badge="4 LEARNING TYPES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Four Types of Machine Learning: Information Matrix</h2>
+          <p class="slide-subhead">How machine learning models are fundamentally categorized by the nature and timing of available supervisory signals</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">FEEDBACK FROM DATASETS</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Supervised & Unsupervised Learning</h3>
+                  <p class="front-sub-tag">Known Labels vs. Intrinsic Structure</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">STATIC DATASET PARADIGMS</span>
+                  <h4 class="back-headline">Supervised vs. Unsupervised</h4>
+                </div>
+                <div class="back-content">
+                  <p>Learning governed by presence or absence of target variables.</p>
+                  <ul><li><strong>Supervised Learning:</strong> Trained on labeled data tuples (X, y). The model learns an explicit mapping function f: X &rarr; y. Evaluated against ground-truth targets (Spam, Fraud, Disease).</li><li><strong>Unsupervised Learning:</strong> Operates on unlabeled datasets (X only). The algorithm uncovers latent structure, geometric affinities, clusters, or associations without pre-existing answers (Customer segments, PCA).</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HYBRIDS & SEQUENTIAL FEEDBACK</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Semi-Supervised & Reinforcement Learning</h3>
+                  <p class="front-sub-tag">Sparse Labels & Trial-and-Error Environments</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DYNAMIC & HYBRID PARADIGMS</span>
+                  <h4 class="back-headline">Semi-Supervised vs. RL</h4>
+                </div>
+                <div class="back-content">
+                  <p>Learning with scarce labels or interactive environmental feedback.</p>
+                  <ul><li><strong>Semi-Supervised Learning:</strong> Leverages a small pool of expensive labeled data (L) augmented by a vast ocean of cheap unlabeled data (U). Uses self-training and label propagation.</li><li><strong>Reinforcement Learning (RL):</strong> No static dataset. An autonomous agent navigates an environment, executing sequential actions and receiving rewards or penalties to learn optimal policies.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-4" data-eyebrow="MODULE 6 · SUPERVISED PARADIGM" data-badge="THE ANSWER KEY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Supervised Learning: Learning with an Empirical Answer Key</h2>
+          <p class="slide-subhead">Mapping input feature matrices to verified target ground truth across labeled training cohorts</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-crimson);">SUPERVISED FORMULATION</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                Given training dataset D = {(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}, find function f(x) that minimizes expected risk: E[L(y, f(x))].
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">VAPNIK (1998) · EMPIRICAL RISK MINIMIZATION</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE INPUT-OUTPUT TUPLE: (X, y)</span>
+                    <h4 class="stack-keyword">Input Features & Target Vector</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Data Structure:</strong> Every observation i consists of feature vector x_i &isin; R^p and ground-truth target y_i. The model optimizes weights to approximate y &asymp; f(X).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE "ANSWER KEY" ANALOGY</span>
+                    <h4 class="stack-keyword">Supervised Pedagogy</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Learning with Solutions:</strong> Like a student practicing exam problems with the answer key provided at the back of the textbook. The model compares its preliminary guess with the true answer, calculating loss.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">EMPIRICAL EVALUATION METRICS</span>
+                    <h4 class="stack-keyword">Comparing Predictions to Ground Truth</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Measurable Performance:</strong> Because true labels exist, models are objectively audited using Accuracy, Precision, Recall, F1-Score, ROC-AUC (classification), or RMSE and MAE (regression).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-5" data-eyebrow="MODULE 6 · SUPERVISED TASKS" data-badge="CLASSIFICATION VS. REGRESSION">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Supervised Tasks: Classification vs. Regression</h2>
+          <p class="slide-subhead">Distinguishing categorical class boundary partitioning from continuous numerical curve approximation</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DISCRETE TARGET: y &isin; {C_1, ..., C_k}</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Supervised Classification</h3>
+                  <p class="front-sub-tag">Predicting Qualitative Class Categories</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">CLASSIFICATION ANALYSIS</span>
+                  <h4 class="back-headline">Qualitative Boundary Slicing</h4>
+                </div>
+                <div class="back-content">
+                  <p>Categorizing observations into discrete categorical buckets.</p>
+                  <ul><li><strong>Target Output:</strong> Categorical class label (binary, multi-class, or multi-label). E.g. Spam / Not Spam, Sepsis / Healthy, Credit Default (Yes/No).</li><li><strong>Mathematical Decision Boundary:</strong> Partitions feature space into regions separated by decision hyperplanes or non-linear manifolds.</li><li><strong>Core Algorithms:</strong> Logistic Regression (sigmoid probability), Decision Trees, Random Forests, Support Vector Machines (max-margin hyperplanes), Naive Bayes, Neural Networks.</li><li><strong>Primary Objective:</strong> Maximize class separation and minimize misclassification penalty.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">CONTINUOUS TARGET: y &isin; R</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Supervised Regression</h3>
+                  <p class="front-sub-tag">Predicting Quantitative Numerical Responses</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">REGRESSION ANALYSIS</span>
+                  <h4 class="back-headline">Continuous Function Approximation</h4>
+                </div>
+                <div class="back-content">
+                  <p>Estimating exact numerical quantities along continuous scales.</p>
+                  <ul><li><strong>Target Output:</strong> Real-valued continuous number with meaningful arithmetic properties. E.g. Housing prices (&#8369;4.5M), Patient Length of Stay (days), Blood Glucose (mg/dL).</li><li><strong>Mathematical Curve Fitting:</strong> Estimates conditional expectation E[Y | X = x] by minimizing squared residual errors &sum; (y_i - &ycirc;_i)^2.</li><li><strong>Core Algorithms:</strong> Ordinary Least Squares (OLS) Linear Regression, Ridge/Lasso, Polynomial Regression, Decision Tree Regressors, Gradient Boosting, Neural Networks.</li><li><strong>Primary Objective:</strong> Minimize continuous distance between predictions and actual measurements.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-6" data-eyebrow="MODULE 6 · UNSUPERVISED PARADIGM" data-badge="INTRINSIC STRUCTURE">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Unsupervised Learning: Discovering Latent Structural Topology</h2>
+          <p class="slide-subhead">Mining high-dimensional feature spaces without pre-assigned class labels or supervision</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">UNSUPERVISED MOTTO</span>
+            <div class="big-stat" style="font-size: 2.8rem; margin: 0.8rem 0;">X ONLY</div>
+            <h3 class="stat-label">No Target Column</h3>
+            <p class="stat-desc">
+              "Here is the data. Discover the meaningful patterns, subgroups, affinities, or anomalies that describe how the records organize themselves."
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">UNLABELED FEATURE SPACE: X</span>
+                    <h4 class="stack-keyword">Zero Ground-Truth Answers</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>No Target Vector:</strong> The dataset contains only input features X = [x_1, ..., x_p]. There is no "y" column to guide the model or penalize wrong classifications.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">INTRINSIC STRUCTURE DISCOVERY</span>
+                    <h4 class="stack-keyword">Finding Latent Affinities</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Data Geometry:</strong> The algorithm searches for natural groupings, high-density clusters, lower-dimensional manifolds, and recurring co-occurrence patterns inherent in the data.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">VALIDATION COMPLEXITY</span>
+                    <h4 class="stack-keyword">Subjective & Heuristic Evaluation</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Evaluation Challenge:</strong> Without an answer key, model quality cannot be tested with accuracy. We rely on internal heuristics: Silhouette scores, Davies-Bouldin index, inertia, and domain expert review.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-7" data-eyebrow="MODULE 6 · UNSUPERVISED TASKS" data-badge="CLUSTERING · RULES · PCA">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Unsupervised Core Tasks: Clustering, Association Rules & PCA</h2>
+          <p class="slide-subhead">Deconstructing cluster partitioning, density-based noise filtering, transaction affinities, and dimensional projection</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">COHORT & PATTERN MINING</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Clustering & Association Rule Mining</h3>
+                  <p class="front-sub-tag">Grouping Affinities & Transaction Bundles</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">UNSUPERVISED PATTERNS</span>
+                  <h4 class="back-headline">Clustering & Rules</h4>
+                </div>
+                <div class="back-content">
+                  <p>Organizing observations and frequent item affinities.</p>
+                  <ul><li><strong>K-Means Clustering:</strong> Partitions data into K distinct Voronoi cells by iteratively updating cluster centroids to minimize within-cluster sum of squares (WCSS).</li><li><strong>Hierarchical Clustering:</strong> Builds a nested dendrogram of clusters using agglomerative bottom-up linkage (Ward, Complete, Average).</li><li><strong>DBSCAN:</strong> Density-Based Spatial Clustering of Applications with Noise. Discovers arbitrarily shaped clusters and isolates anomalous noise points.</li><li><strong>Association Rules (Apriori):</strong> Identifies co-occurrence affinities in transaction records (Bread &rarr; Milk) evaluated via Support, Confidence, and Lift.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">MANIFOLD COMPRESSION</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Principal Component Analysis (PCA)</h3>
+                  <p class="front-sub-tag">Orthogonal Variance Projection</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">DIMENSIONALITY REDUCTION</span>
+                  <h4 class="back-headline">PCA Mechanics</h4>
+                </div>
+                <div class="back-content">
+                  <p>Compressing feature dimensions while retaining maximum informational variance.</p>
+                  <ul><li><strong>Curse of Dimensionality Relief:</strong> High-dimensional datasets (p = 500) suffer from geometric emptiness and collinearity. PCA compresses them into k &Lt; p components.</li><li><strong>Eigenvector Decomposition:</strong> Finds orthogonal axes of maximum variance via covariance matrix eigendecomposition or Singular Value Decomposition (SVD).</li><li><strong>Data Visualization:</strong> Projects 50+ clinical or financial features onto 2D/3D scatter plots for human perceptual inspection.</li><li><strong>Noise Reduction:</strong> Discards low-eigenvalue components containing predominantly white measurement noise.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-8" data-eyebrow="MODULE 6 · SEMI-SUPERVISED HYBRID" data-badge="SEMI-SUPERVISED LEARNING">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Semi-Supervised Learning: Maximizing Scarce Expert Labels</h2>
+          <p class="slide-subhead">Fusing small pools of ground-truth annotations with massive volumes of unlabeled structural context</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">DATASET PROPORTION</span>
+            <div class="big-stat" style="font-size: 2.5rem; margin: 0.8rem 0;">5% : 95%</div>
+            <h3 class="stat-label">Labeled vs. Unlabeled</h3>
+            <p class="stat-desc">
+              Leverages the geometry of the 95% unlabeled records to refine decision boundaries established by the 5% labeled anchor points.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE ASYMMETRIC REALITY: |U| >> |L|</span>
+                    <h4 class="stack-keyword">Labels are Scarce & Expensive</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Data Asymmetry:</strong> In real-world healthcare and industry, collecting raw records (X) is trivial, but expert medical annotation (y) requires thousands of physician hours. E.g., 500 labeled scans vs. 9,500 unlabeled scans.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">SELF-TRAINING & PSEUDO-LABELING</span>
+                    <h4 class="stack-keyword">Iterative Bootstrap Amplification</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Self-Supervised Loop:</strong> A model is trained on labeled set L, generates predictions on unlabeled set U, selects top-confidence predictions as "pseudo-labels", and adds them to L for retraining.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">GRAPH LABEL PROPAGATION</span>
+                    <h4 class="stack-keyword">Smoothness on Manifolds</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Manifold Assumption:</strong> Assumes that data points connected by high-density paths in feature space share identical class labels. Labels diffuse outward across the affinity graph.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-9" data-eyebrow="MODULE 6 · SEQUENTIAL INTERACTION" data-badge="REINFORCEMENT LEARNING">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Reinforcement Learning: Autonomous Trial-and-Error Policies</h2>
+          <p class="slide-subhead">Learning optimal sequential control policies through continuous environmental reward feedback</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-teal);">AGENT-ENVIRONMENT DYNAMICS</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                No static dataset exists. The agent actively generates its own experience through interaction, optimizing cumulative discounted return: G_t = &sum; &gamma;^k r_{t+k+1}.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">SUTTON & BARTO (2018) · REINFORCEMENT LEARNING</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE REINFORCEMENT CYCLE</span>
+                    <h4 class="stack-keyword">State &rarr; Action &rarr; Reward &rarr; Policy</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Markov Decision Process:</strong> The Agent observes current State s_t, executes Action a_t into Environment, receives immediate Reward r_t, and transitions to State s_{t+1}.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">EXPLORATION VS. EXPLOITATION</span>
+                    <h4 class="stack-keyword">The Fundamental RL Dilemma</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Multi-Armed Bandit Tension:</strong> Should the agent exploit known high-reward actions, or explore uncertain actions to discover potentially superior long-term strategies? Balanced via &epsilon;-greedy policies.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">CORE ALGORITHMIC FAMILIES</span>
+                    <h4 class="stack-keyword">Value-Based vs. Policy-Based</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Algorithms:</strong> Q-Learning (tabular state-action values), SARSA (on-policy), Deep Q-Networks (DQN, neural Q-function approximation), and Policy Gradients (REINFORCE, PPO).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-10" data-eyebrow="MODULE 6 · CORE TRADEOFF" data-badge="ACCURACY VS. INTERPRETABILITY">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Accuracy–Interpretability Frontier: Black Boxes vs. Glass Boxes</h2>
+          <p class="slide-subhead">Balancing statistical predictive power against human comprehensibility, clinical safety, and regulatory compliance</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">HIGH ACCURACY / OPAQUE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Complex Black-Box Models</h3>
+                  <p class="front-sub-tag">Deep Neural Nets, Ensembles & Kernel SVM</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">BLACK-BOX ARCHITECTURES</span>
+                  <h4 class="back-headline">High Accuracy / Low Transparency</h4>
+                </div>
+                <div class="back-content">
+                  <p>Non-linear universal approximators with impenetrable internal mechanics.</p>
+                  <ul><li><strong>Deep Neural Networks:</strong> Billions of non-linear parameter weights across dozens of layers. Captures complex manifolds, but internal reasoning is inscrutable.</li><li><strong>Random Forests & Gradient Boosted Trees:</strong> Averages predictions across 500+ deep trees. Accurately models interactions, but impossible to audit via simple heuristics.</li><li><strong>Kernel Support Vector Machines:</strong> Projects features into infinite-dimensional Hilbert spaces via RBF kernels; decision boundary cannot be written as a simple equation.</li><li><strong>Failure Liability:</strong> Vulnerable to hidden biases, shortcut learning, and rejection by regulated clinical panels.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">TRANSPARENT / INTUITIVE</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Glass-Box Interpretable Models</h3>
+                  <p class="front-sub-tag">Linear Models, Decision Trees & Rule Sets</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">GLASS-BOX ARCHITECTURES</span>
+                  <h4 class="back-headline">Lower Accuracy / High Transparency</h4>
+                </div>
+                <div class="back-content">
+                  <p>Transparent statistical models with direct causal interpretability.</p>
+                  <ul><li><strong>Linear & Logistic Regression:</strong> Each parameter coefficient &beta;_j represents the exact marginal rate of change in target y per unit increase in x_j.</li><li><strong>Single Decision Trees:</strong> Mimics human clinical diagnostic flowcharts: "If Age &gt; 65 and Glucose &gt; 180 &rarr; High Risk".</li><li><strong>Classification IF-THEN Rules:</strong> Disjunctive normal form rules that can be audited directly by legal compliance and clinical physicians.</li><li><strong>Regulatory Gold Standard:</strong> Mandatory in high-stakes healthcare, parole sentencing, credit lending, and GDPR "Right to Explanation" domains.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-11" data-eyebrow="MODULE 6 · PEDAGOGICAL PARABLE" data-badge="STUDENT A VS. STUDENT B">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Trade-off Parable: Student A vs. Student B</h2>
+          <p class="slide-subhead">Understanding why algorithmic complexity increases predictive nuance while destroying human interpretability</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="hero-static-box">
+            <div>
+              <span class="card-kicker" style="color: var(--accent-ochre);">THE GOVERNANCE DILEMMA</span>
+              <p class="hero-quote" style="margin-top: 0.85rem;">
+                A hospital doctor or loan officer cannot tell an applicant: "The neural network gave you a 0.87 risk score because layer 4 node 18 activated." They require causal explanation.
+              </p>
+            </div>
+            <div>
+              <p class="hero-author">DS312 MLOPS & MODEL GOVERNANCE PRINCIPLE</p>
+            </div>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STUDENT A: THE DEEP NETWORK</span>
+                    <h4 class="stack-keyword">High Score, Inscrutable Steps</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Complex Strategy:</strong> Considers hundreds of microscopic feature interactions. Scores 98% on the exam, but cannot articulate why question #42 was answered "True". Highly vulnerable to overfitting on noise.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">STUDENT B: THE DECISION TREE</span>
+                    <h4 class="stack-keyword">Simple Rule, Total Clarity</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Simple Transparent Heuristic:</strong> "If X &gt; 50 &rarr; predict A; else predict B". Scores 85%, but can defend every single answer to a professor or judge in 10 seconds. May underfit complex nonlinearities.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">THE REAL-WORLD COMPROMISE</span>
+                    <h4 class="stack-keyword">Domain-Determined Selection</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>The Engineering Verdict:</strong> In ad tech or video game recommendations, pick Student A (accuracy is king). In credit denial, criminal justice, or ICU triage, pick Student B (accountability is mandatory).</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-12" data-eyebrow="MODULE 6 · ENGINEERING CHALLENGES" data-badge="7 CORE CHALLENGES">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Core Machine Learning Obstacles: Bias-Variance & Concept Drift</h2>
+          <p class="slide-subhead">Navigating the mathematical traps of underfitting, overfitting, poor data hygiene, and temporal distribution decay</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">THE BIAS-VARIANCE DILEMMA</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Underfitting vs. Overfitting</h3>
+                  <p class="front-sub-tag">Model Capacity vs. Generalization</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">BIAS-VARIANCE DYNAMICS</span>
+                  <h4 class="back-headline">Underfitting & Overfitting</h4>
+                </div>
+                <div class="back-content">
+                  <p>The dual failure modes of statistical generalization.</p>
+                  <ul><li><strong>Underfitting (High Bias):</strong> The model is too simple to capture the underlying data manifold (e.g. fitting a straight line to a quadratic curve). Performs poorly on both train and test sets. Fix: Add features, increase model depth, reduce regularization.</li><li><strong>Overfitting (High Variance):</strong> The model is overly flexible, memorizing stochastic noise and training sample idiosyncrasies. Achieves 99% train accuracy but collapses on test data. Fix: L1/L2 regularization, tree pruning, dropout, more data.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">OPERATIONAL OBSTACLES</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">Data Quality, Latency & Concept Drift</h3>
+                  <p class="front-sub-tag">Production Realities of MLOps</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">MLOPS LIFECYCLE</span>
+                  <h4 class="back-headline">Quality, Speed & Drift</h4>
+                </div>
+                <div class="back-content">
+                  <p>Real-world deployment hurdles beyond offline benchmarks.</p>
+                  <ul><li><strong>Poor Data Quality (Garbage In, Garbage Out):</strong> Missing values, measurement bias, and corrupted logs destroy models regardless of algorithm sophistication (why Modules 4–5 matter!).</li><li><strong>Lack of Training Data:</strong> Complex architectures collapse into catastrophic overfitting without massive training cohorts.</li><li><strong>Concept & Covariate Drift:</strong> Real-world distributions change over time (e.g. consumer spending shifts during economic recessions), degrading static model accuracy and requiring continuous retraining.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-13" data-eyebrow="MODULE 6 · DECISION ENGINE" data-badge="CHOOSING AN APPROACH">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">The Algorithmic Selection Engine: Practical Decision Guide</h2>
+          <p class="slide-subhead">A systematic decision framework mapping business requirements and data availability to optimal machine learning methods</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">SELECTION MATRIX</span>
+            <div class="big-stat" style="font-size: 2.3rem; margin: 0.8rem 0;">4 PATHS</div>
+            <h3 class="stat-label">Data-Driven Routing</h3>
+            <p class="stat-desc">
+              Audit supervisory signals first, then evaluate the accuracy-interpretability frontier based on regulatory, clinical, or operational constraints.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1. IF LABELED OUTCOMES EXIST</span>
+                    <h4 class="stack-keyword">Deploy Supervised Learning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Target Present:</strong> If target is categorical class &rarr; Classification (Logistic, Random Forest, SVM). If target is continuous numerical &rarr; Regression (Linear, Ridge, Tree Ensembles).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2. IF LABELS ARE TOTALLY ABSENT</span>
+                    <h4 class="stack-keyword">Deploy Unsupervised Learning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Target Absent:</strong> Group records by similarity &rarr; Clustering (K-Means, DBSCAN). Discover basket co-occurrences &rarr; Apriori. Compress feature count &rarr; PCA.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3. IF LABELS ARE SPARSE & EXPENSIVE</span>
+                    <h4 class="stack-keyword">Deploy Semi-Supervised Learning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Small L, Large U:</strong> Exploit unlabeled structure via Pseudo-Labeling, Self-Training, or Graph Label Propagation to amplify scarce expert annotations.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">4. IF SEQUENTIAL ENVIRONMENT ACTIONS</span>
+                    <h4 class="stack-keyword">Deploy Reinforcement Learning</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Interactive Control:</strong> No static dataset. Optimize cumulative policy return via Q-Learning, PPO, or DQN through state-action-reward interactions.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-14" data-eyebrow="MODULE 6 · MASTERY AUDIT" data-badge="DIAGNOSTIC Q&A">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Diagnostic Reviewer Q&A: Supervised vs. Unsupervised Duo-Lenses</h2>
+          <p class="slide-subhead">Testing conceptual depth on algorithmic governance, statutory explainability, and density-based anomaly mechanics</p>
+        </div>
+        <div class="grid-container grid-bifurcated">
+
+          <div class="flip-card accent-crimson" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DIAGNOSTIC Q&A 1</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">The Interpretability Imperative</h3>
+                  <p class="front-sub-tag">Why Deploy a Model with 5% Lower Accuracy?</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EXAMINATION QUESTION 1</span>
+                  <h4 class="back-headline">Regulatory Model Selection</h4>
+                </div>
+                <div class="back-content">
+                  <p>Under what conditions is a data scientist ethically and operationally mandated to deploy a model with lower accuracy?</p>
+                  <ul><li><strong>The High-Stakes Domain Axiom:</strong> In regulated domains (credit underwriting, criminal recidivism risk, organ transplant allocation, oncology diagnosis), model decisions must be legally defensible.</li><li><strong>Right to Explanation (GDPR Article 22):</strong> Consumers have a statutory right to know the exact causal factors behind an adverse automated decision.</li><li><strong>Auditability & Bias Mitigation:</strong> Linear models and decision trees allow auditors to inspect feature coefficients directly to guarantee that protected attributes (race, gender, age) are not proxy-encoded.</li><li><strong>Exam Conclusion:</strong> A 92% accurate decision tree is overwhelmingly preferred over a 97% accurate deep neural network when human life, civil liberty, or statutory compliance is at stake.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card accent-teal" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="front-top-meta">
+                  <span class="card-kicker">DIAGNOSTIC Q&A 2</span>
+                </div>
+                <div class="front-hero-container">
+                  <h3 class="front-keyword">DBSCAN & Anomaly Detection</h3>
+                  <p class="front-sub-tag">Bridging Clustering and Outlier Mining</p>
+                </div>
+                <div class="flip-prompt">
+                  <span>CLICK OR TAB TO FLIP</span>
+                  <span>↻</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-header">
+                  <span class="back-topic-label">EXAMINATION QUESTION 2</span>
+                  <h4 class="back-headline">Unsupervised Density Mechanics</h4>
+                </div>
+                <div class="back-content">
+                  <p>How does DBSCAN uniquely bridge the boundary between unsupervised clustering and anomaly detection?</p>
+                  <ul><li><strong>Density-Based Topology:</strong> Unlike K-Means, which forces every observation into one of K clusters, DBSCAN groups points based on local density (Epsilon radius &epsilon; and MinPts threshold).</li><li><strong>Three Point Classifications:</strong> Points are classified as Core Points (dense clusters), Border Points (cluster edges), or Noise Points (sparse outliers).</li><li><strong>Automatic Outlier Isolation:</strong> Any data point located in a low-density region that fails both Core and Border criteria is explicitly assigned cluster label -1 (Noise/Anomaly).</li><li><strong>Exam Conclusion:</strong> DBSCAN simultaneously discovers arbitrary cluster shapes and extracts anomalous outliers without requiring a pre-labeled anomaly dataset.</li></ul>
+                </div>
+                <div class="back-return-prompt">
+                  <span>← RETURN TO SUMMARY</span>
+                  <span>↻</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section class="slide-view" id="slide-15" data-eyebrow="MODULE 6 · EXECUTIVE SUMMARY" data-badge="CURRICULUM SYNTHESIS">
+        <div class="slide-title-area">
+          <h2 class="slide-headline">Module 6 Executive Summary: Machine Learning Paradigms</h2>
+          <p class="slide-subhead">Core theoretical principles, trade-off invariants, and algorithmic selection rules for data science practitioners</p>
+        </div>
+        <div class="grid-container grid-split-hero">
+          <div class="metric-hero-box">
+            <span class="card-kicker">MODULE 6 MASTERY</span>
+            <div class="big-stat" style="font-size: 2.6rem;">100%</div>
+            <h3 class="stat-label">ML Paradigm Competency</h3>
+            <p class="stat-desc">
+              From the Fayyad KDD transition to the 4 learning types, accuracy-interpretability frontiers, and bias-variance tradeoff governance.
+            </p>
+          </div>
+          <div class="stack-right-column">
+
+            <div class="stack-flip-card accent-crimson" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">1. FOUR PARADIGMS AXIOM</span>
+                    <h4 class="stack-keyword">Know Your Supervisory Signal</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Core Taxonomy:</strong> Supervised (X, y labeled), Unsupervised (X structure only), Semi-Supervised (|U| >> |L| hybrid), and Reinforcement Learning (Agent &harr; Environment sequential rewards).</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-ochre" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">2. THE FRONTIER COMPROMISE</span>
+                    <h4 class="stack-keyword">Accuracy vs. Human Trust</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Explainability Rule:</strong> Never optimize predictive accuracy in a vacuum. High-stakes domains demand glass-box models (Linear Regression, Decision Trees) over opaque neural networks.</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="stack-flip-card accent-teal" tabindex="0">
+              <div class="stack-flip-card-inner">
+                <div class="stack-card-front">
+                  <div class="front-left">
+                    <span class="stack-kicker">3. MLOPS HYGIENE AXIOM</span>
+                    <h4 class="stack-keyword">Clean Data & Monitor Drift</h4>
+                  </div>
+                  <div class="stack-hint">CLICK TO FLIP ↻</div>
+                </div>
+                <div class="stack-card-back">
+                  <p><strong>Operational Rule:</strong> Sophisticated algorithms cannot rescue corrupted data (Garbage In, Garbage Out). Guard against overfitting via regularization and continuously monitor models against real-world concept drift.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Floating Hover Pill Trigger -->
+    <button class="bar-toggle-pill bottom-toggle" id="bottomToggleBtn" title="Click to toggle controls (Shortcut: C)">
+      <span>▴ SHOW CONTROLS</span>
+      <span class="key-indicator">C</span>
+    </button>
+
+    <!-- Collapsible Slide Footer Controls -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="counter" id="slideCounter">
+        <span>01</span> / 16
+      </div>
+
+      <div class="deck-nav-buttons">
+        <button class="nav-btn" id="prevBtn" title="Previous Slide (Shortcut: ← or PageUp)">
+          <span>← PREV</span>
+          <span class="key-indicator">←</span>
+        </button>
+        <button class="nav-btn action-flip" id="flipAllBtn" title="Flip All Cards on Current Slide (Shortcut: Tab or X)">
+          <span>FLIP ALL</span>
+          <span class="key-indicator">TAB</span>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="Next Slide (Shortcut: →, Space, or PageDown)">
+          <span>NEXT →</span>
+          <span class="key-indicator">→</span>
+        </button>
+        <button class="nav-btn" id="fullscreenBtn" title="Toggle Fullscreen (Shortcut: F)">
+          <span id="fsIcon">⛶</span>
+          <span class="key-indicator">F</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      let currentSlide = 0;
+      const totalSlides = 16;
+      const slides = document.querySelectorAll('.slide-view');
+      const progressFill = document.getElementById('progressFill');
+      const slideCounter = document.getElementById('slideCounter');
+      const headerEyebrow = document.getElementById('headerEyebrow');
+      const slideTopicBadge = document.getElementById('slideTopicBadge');
+
+      const deckContainer = document.getElementById('deckContainer');
+      const slideHeader = document.getElementById('slideHeader');
+      const deckFooter = document.getElementById('deckFooter');
+      const topToggleBtn = document.getElementById('topToggleBtn');
+      const bottomToggleBtn = document.getElementById('bottomToggleBtn');
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const flipAllBtn = document.getElementById('flipAllBtn');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+      let headerPinned = false;
+      let footerPinned = false;
+
+      function initCardFlipListeners() {
+        document.querySelectorAll('.flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+        document.querySelectorAll('.stack-flip-card').forEach(card => {
+          card.addEventListener('click', function() { this.classList.toggle('flipped'); });
+          card.addEventListener('keydown', function(e) { if (e.key === 'Enter') this.classList.toggle('flipped'); });
+        });
+      }
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        const currentActive = slides[currentSlide];
+        if (currentActive) {
+          currentActive.querySelectorAll('.flip-card.flipped, .stack-flip-card.flipped').forEach(c => c.classList.remove('flipped'));
+          currentActive.classList.remove('active');
+        }
+
+        currentSlide = index;
+        const newActive = slides[currentSlide];
+        newActive.classList.add('active');
+
+        const progressPct = ((currentSlide + 1) / totalSlides) * 100;
+        progressFill.style.width = progressPct + '%';
+
+        const padIndex = String(currentSlide + 1).padStart(2, '0');
+        slideCounter.innerHTML = `<span>${padIndex}</span> / 16`;
+
+        headerEyebrow.textContent = newActive.getAttribute('data-eyebrow') || 'DS312 · MODULE 6 ML PARADIGMS';
+        slideTopicBadge.textContent = newActive.getAttribute('data-badge') || 'SUPERVISED VS UNSUPERVISED';
+      }
+
+      function toggleFlipAll() {
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+        const cards = activeSlide.querySelectorAll('.flip-card, .stack-flip-card');
+        if (!cards.length) return;
+
+        let allFlipped = true;
+        cards.forEach(c => { if (!c.classList.contains('flipped')) allFlipped = false; });
+        cards.forEach(c => {
+          if (allFlipped) c.classList.remove('flipped');
+          else c.classList.add('flipped');
+        });
+      }
+
+      function toggleHeader(forceState) {
+        headerPinned = (typeof forceState === 'boolean') ? forceState : !headerPinned;
+        if (headerPinned) {
+          slideHeader.classList.add('expanded');
+          topToggleBtn.classList.add('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▴ HIDE HEADER';
+        } else {
+          slideHeader.classList.remove('expanded');
+          topToggleBtn.classList.remove('active');
+          topToggleBtn.querySelector('span:first-child').textContent = '▾ EXPAND HEADER';
+        }
+      }
+
+      function toggleFooter(forceState) {
+        footerPinned = (typeof forceState === 'boolean') ? forceState : !footerPinned;
+        if (footerPinned) {
+          deckFooter.classList.add('expanded');
+          bottomToggleBtn.classList.add('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▾ HIDE CONTROLS';
+        } else {
+          deckFooter.classList.remove('expanded');
+          bottomToggleBtn.classList.remove('active');
+          bottomToggleBtn.querySelector('span:first-child').textContent = '▴ SHOW CONTROLS';
+        }
+      }
+
+      function initHoverTriggers() {
+        document.addEventListener('mousemove', function(e) {
+          const windowHeight = window.innerHeight;
+          const mouseY = e.clientY;
+          if (mouseY <= 65) deckContainer.classList.add('hovering-top');
+          else deckContainer.classList.remove('hovering-top');
+
+          if (mouseY >= windowHeight - 65) deckContainer.classList.add('hovering-bottom');
+          else deckContainer.classList.remove('hovering-bottom');
+        });
+      }
+
+      function initThemeToggle() {
+        const root = document.documentElement;
+        themeToggleBtn.addEventListener('click', function() {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+          document.getElementById('themeIcon').textContent = isDark ? '◐' : '◑';
+          document.getElementById('themeText').textContent = isDark ? 'LIGHT' : 'DARK';
+        });
+      }
+
+      function initFullscreen() {
+        fullscreenBtn.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => console.warn(err));
+          } else {
+            document.exitFullscreen();
+          }
+        });
+      }
+
+      function initKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+          switch(e.key) {
+            case 'ArrowRight': case 'PageDown': case ' ':
+              e.preventDefault(); updateSlide(currentSlide + 1); break;
+            case 'ArrowLeft': case 'PageUp':
+              e.preventDefault(); updateSlide(currentSlide - 1); break;
+            case 'Tab': case 'x': case 'X':
+              e.preventDefault(); toggleFlipAll(); break;
+            case 't': case 'T':
+              e.preventDefault(); themeToggleBtn.click(); break;
+            case 'f': case 'F':
+              e.preventDefault(); fullscreenBtn.click(); break;
+            case 'h': case 'H':
+              e.preventDefault(); toggleHeader(); break;
+            case 'c': case 'C':
+              e.preventDefault(); toggleFooter(); break;
+            case 'Home':
+              e.preventDefault(); updateSlide(0); break;
+            case 'End':
+              e.preventDefault(); updateSlide(totalSlides - 1); break;
+            case 'Escape':
+              e.preventDefault(); toggleHeader(false); toggleFooter(false); break;
+          }
+        });
+      }
+
+      prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+      flipAllBtn.addEventListener('click', () => toggleFlipAll());
+      topToggleBtn.addEventListener('click', () => toggleHeader());
+      bottomToggleBtn.addEventListener('click', () => toggleFooter());
+
+      initCardFlipListeners();
+      initHoverTriggers();
+      initThemeToggle();
+      initFullscreen();
+      initKeyboardShortcuts();
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

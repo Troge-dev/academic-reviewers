@@ -2,8 +2,8 @@
 
 [![Live Reviewer Portal](https://img.shields.io/badge/Live_Portal-GitHub_Pages-2DD4BF?style=for-the-badge&logo=github)](https://troge-dev.github.io/academic-reviewers/)
 [![Disciplines](https://img.shields.io/badge/Disciplines-3_Courses-E5A967?style=for-the-badge)](https://troge-dev.github.io/academic-reviewers/)
-[![Interactive Keynotes](https://img.shields.io/badge/Keynote_Decks-10_Interactive_Decks-E0533C?style=for-the-badge)](https://troge-dev.github.io/academic-reviewers/)
-[![Presentation Slides](https://img.shields.io/badge/Slides-124+_Interactive-4A90E2?style=for-the-badge)](https://troge-dev.github.io/academic-reviewers/)
+[![Interactive Keynotes](https://img.shields.io/badge/Keynote_Decks-11_Interactive_Decks-E0533C?style=for-the-badge)](https://troge-dev.github.io/academic-reviewers/)
+[![Presentation Slides](https://img.shields.io/badge/Slides-140+_Interactive-4A90E2?style=for-the-badge)](https://troge-dev.github.io/academic-reviewers/)
 
 > **Live Interactive Keynote Hub:**  
 > 🔗 **[https://troge-dev.github.io/academic-reviewers/](https://troge-dev.github.io/academic-reviewers/)**
@@ -22,7 +22,7 @@ This repository serves as the centralized academic repository for **BS Data Scie
 
 | Course | Subject Focus | Keynote Presentations | Companion Guides |
 | :--- | :--- | :--- | :--- |
-| **DS312** | **Data Mining & Applications** | <ul><li>[DS312 Master Synthesis Deck](dma/DS312_Master_Synthesis_Keynote_Deck.html) (18 slides)</li><li>[Modules 1–3 Foundations & Techniques](dma/DS312_Module1_to_3_Foundations_and_Techniques.html) (14 slides)</li><li>[Module 4 Structured Data & EDA](dma/DS312_Module4_Structured_Data_and_EDA.html) (16 slides)</li><li>[Module 5 Clinical NLP & Text Mining](dma/DS312_Module5_Unstructured_Text_Mining_and_NLP.html) (16 slides)</li></ul> | [DS312 Master Academic Reviewer Textbook](dma/DS312_Master_Academic_Reviewer_and_Companion_Guide.md) |
+| **DS312** | **Data Mining & Applications** | <ul><li>[DS312 Master Synthesis Deck](dma/DS312_Master_Synthesis_Keynote_Deck.html) (18 slides)</li><li>[Modules 1–3 Foundations & Techniques](dma/DS312_Module1_to_3_Foundations_and_Techniques.html) (14 slides)</li><li>[Module 4 Structured Data & EDA](dma/DS312_Module4_Structured_Data_and_EDA.html) (16 slides)</li><li>[Module 5 Clinical NLP & Text Mining](dma/DS312_Module5_Unstructured_Text_Mining_and_NLP.html) (16 slides)</li><li>[Module 6 Supervised vs Unsupervised](dma/DS312_Module6_Supervised_vs_Unsupervised_Learning.html) (16 slides)</li></ul> | <ul><li>[DS312 Master Academic Reviewer Textbook](dma/DS312_Master_Academic_Reviewer_and_Companion_Guide.md)</li><li>[Module 6 Theoretical Companion Guide](dma/DS312_Module6_Supervised_vs_Unsupervised_Learning_Companion_Guide.md)</li></ul> |
 | **DS314** | **Generative AI & LLM Systems** | <ul><li>[Topics 1–3 Master Synthesis Deck](genai/DS314_Topics1_to_3_Master_Interactive_Presentation.html) (15 slides)</li><li>[Topic 1 Foundations & Sampling](genai/DS314_Topic1_Foundations_Interactive_Presentation.html) (8 slides)</li><li>[Topic 2 Advanced RAG & Vector DBs](genai/DS314_Topic2_RAG_Systems_Interactive_Presentation.html) (8 slides)</li><li>[Topic 3 LangChain & Autonomy](genai/DS314_Topic3_LangChain_Autonomy_Interactive_Presentation.html) (8 slides)</li><li>[Week 4 Prompt Engineering Deck](genai/DS314_Week4_Prompt_Engineering_Interactive_Presentation.html) (9 slides)</li></ul> | <ul><li>[Topics 1–3 Ultimate Companion Guide](genai/DS314_Topics1_to_3_Ultimate_Companion_Guide.md)</li><li>[Week 4 Prompt Engineering Guide](genai/DS314_Week4_Prompt_Engineering_Companion_Guide.md)</li></ul> |
 | **GE** | **Gender & Society** | <ul><li>[Chapter 6: Architecture of GBV Presentation](gbv/index.html) (12 slides)</li></ul> | <ul><li>[GBV Speaker Companion & Study Guide](gbv/gbv_speaker_companion_and_study_guide.md)</li><li>[Executive Slide Deck Spec](gbv/gbv_executive_slide_deck.md)</li></ul> |
 
@@ -53,7 +53,10 @@ academic-reviewers/
 │   ├── DS312_Module1_to_3_Foundations_and_Techniques.html
 │   ├── DS312_Module4_Structured_Data_and_EDA.html
 │   ├── DS312_Module5_Unstructured_Text_Mining_and_NLP.html
-│   └── DS312_Master_Academic_Reviewer_and_Companion_Guide.md
+│   ├── DS312_Module6_Supervised_vs_Unsupervised_Learning.html
+│   ├── DS312_Master_Academic_Reviewer_and_Companion_Guide.md
+│   └── DS312_Module6_Supervised_vs_Unsupervised_Learning_Companion_Guide.md
+│
 │
 ├── genai/                                            # DS314: Generative AI & LLM Systems
 │   ├── index.html                                    # GENAI Dedicated Portal

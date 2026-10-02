@@ -530,19 +530,19 @@
     <!-- Stats Ribbon -->
     <section class="stats-ribbon">
       <div class="stat-pill">
-        <span class="stat-num">4</span>
+        <span class="stat-num">5</span>
         <span class="stat-label">Interactive Keynote Decks</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">64</span>
+        <span class="stat-num">80</span>
         <span class="stat-label">Presentation Slides</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">140+</span>
+        <span class="stat-num">180+</span>
         <span class="stat-label">3D Flip Flashcards</span>
       </div>
       <div class="stat-pill">
-        <span class="stat-num">7</span>
+        <span class="stat-num">6</span>
         <span class="stat-label">Curriculum Modules</span>
       </div>
     </section>
@@ -554,13 +554,14 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search topics, algorithms, formulas (e.g. TF-IDF, MCAR, LINE, Lift, LDA, Winsorization)...">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search topics, algorithms, formulas (e.g. TF-IDF, MCAR, LINE, Lift, LDA, Pareto, FixMatch)...">
       </div>
       <div class="filter-tag-group">
         <button class="filter-tag active" data-filter="all">ALL DECKS</button>
         <button class="filter-tag" data-filter="foundations">FOUNDATIONS</button>
         <button class="filter-tag" data-filter="structured">STRUCTURED</button>
         <button class="filter-tag" data-filter="unstructured">CLINICAL NLP</button>
+        <button class="filter-tag" data-filter="ml-paradigms">ML PARADIGMS</button>
         <button class="filter-tag" data-filter="synthesis">MASTER DECK</button>
       </div>
     </section>
@@ -701,20 +702,61 @@
         </div>
       </article>
 
+      <!-- Card 5: Module 6 Supervised vs Unsupervised Methods -->
+      <article class="deck-card" data-category="ml-paradigms" style="--card-accent: var(--accent-crimson);">
+        <div class="card-top">
+          <div class="card-meta-row">
+            <span class="card-kicker-tag" style="color: var(--accent-crimson);">LEARNING PARADIGMS · 16 SLIDES</span>
+            <span class="card-badge">MODULE 6 NEW</span>
+          </div>
+          <h2 class="card-deck-title">Module 6: Supervised vs. Unsupervised Methods</h2>
+          <p class="card-deck-desc">
+            The epistemological transition from exploratory data mining to machine learning: AI vs. ML vs. DL taxonomy, the 4 learning paradigms (Supervised, Unsupervised, Semi-Supervised, Reinforcement Learning), the Accuracy–Interpretability Pareto frontier, black-box vs. glass-box models (Student A vs. B), 7 engineering obstacles, and the practical paradigm selection matrix.
+          </p>
+          <div class="card-curriculum-topics">
+            <span class="curriculum-chip">DM vs ML Symbiosis</span>
+            <span class="curriculum-chip">AI/ML/DL Hierarchy</span>
+            <span class="curriculum-chip">Supervised (Class/Reg)</span>
+            <span class="curriculum-chip">Unsupervised (Cluster/Assoc/PCA)</span>
+            <span class="curriculum-chip">Semi-Supervised (FixMatch)</span>
+            <span class="curriculum-chip">Reinforcement (MDP / Bellman)</span>
+            <span class="curriculum-chip">Pareto Frontier</span>
+            <span class="curriculum-chip">Student A vs B Parable</span>
+            <span class="curriculum-chip">Bias-Variance Tradeoff</span>
+            <span class="curriculum-chip">Concept Drift</span>
+            <span class="curriculum-chip">Selection Matrix</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="DS312_Module6_Supervised_vs_Unsupervised_Learning.html" class="btn-launch" style="background: var(--accent-crimson);">
+            <span>LAUNCH DECK</span>
+            <span>&rarr;</span>
+          </a>
+          <a href="DS312_Module6_Supervised_vs_Unsupervised_Learning_Companion_Guide.md" class="btn-secondary">
+            <span>COMPANION GUIDE</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+      </article>
+
     </section>
 
     <!-- Master Academic Reviewer & Companion Guide Banner -->
     <aside class="master-guide-banner">
       <div class="guide-info">
-        <span class="card-kicker-tag" style="color: var(--accent-ochre);">4-TIER PEDAGOGICAL STUDY COMPANION · 25 KB</span>
-        <h3 class="guide-title">DS312 Master Academic Reviewer &amp; Companion Guide</h3>
+        <span class="card-kicker-tag" style="color: var(--accent-ochre);">4-TIER PEDAGOGICAL STUDY COMPANIONS · 57 KB TOTAL</span>
+        <h3 class="guide-title">DS312 Master Academic Companion Guides</h3>
         <p class="guide-desc">
-          Uncompromised 4-tier theoretical textbook covering Fayyad KDD foundations, 4 analytics types, 8 mining algorithms, NOIR scales, outlier geometry, missing data imputation trees, LINE+M assumptions, 10-step clinical NLP pipeline, TF-IDF derivation, LDA Bayesian priors, Diabetes 130-US Hospitals case study, and 4 diagnostic oral defense Q&amp;As.
+          Uncompromised 4-tier theoretical textbooks covering Fayyad KDD foundations, 4 analytics types, 8 mining algorithms, NOIR scales, outlier geometry, missing data imputation trees, LINE+M assumptions, 10-step clinical NLP pipeline, TF-IDF derivation, LDA Bayesian priors, Diabetes 130-US Hospitals case study, Module 6 ML learning paradigms, and 8 diagnostic oral defense Q&amp;As.
         </p>
       </div>
-      <div>
+      <div style="display: flex; flex-direction: column; gap: 0.65rem;">
         <a href="DS312_Master_Academic_Reviewer_and_Companion_Guide.md" class="btn-secondary" style="font-weight: 800; border-color: var(--accent-ochre); color: var(--accent-ochre);">
-          <span>OPEN MARKDOWN GUIDE</span>
+          <span>MODULES 1–5 MASTER GUIDE</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="DS312_Module6_Supervised_vs_Unsupervised_Learning_Companion_Guide.md" class="btn-secondary" style="font-weight: 800; border-color: var(--accent-crimson); color: var(--accent-crimson);">
+          <span>MODULE 6 COMPANION GUIDE</span>
           <span>&rarr;</span>
         </a>
       </div>
