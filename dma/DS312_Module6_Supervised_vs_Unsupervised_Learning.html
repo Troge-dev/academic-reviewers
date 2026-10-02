@@ -1093,6 +1093,346 @@
       color: var(--text-main);
     }
 
+  
+    /* =========================================================================
+       MOBILE & TOUCH RESPONSIVE STYLES (Screen widths <= 860px)
+       Desktop (> 860px) is 100% UNTOUCHED
+       ========================================================================= */
+    @media (max-width: 860px) {
+      body {
+        min-height: 100vh;
+        height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+
+      .stage-container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        max-height: none !important;
+        padding: 68px 12px 75px 12px !important;
+        box-sizing: border-box !important;
+        display: block !important;
+        perspective: none !important;
+      }
+
+      .slide {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: calc(100vh - 145px) !important;
+        padding: 0.25rem 0.2rem 1.5rem 0.2rem !important;
+        box-sizing: border-box !important;
+        display: none !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        gap: 1.15rem !important;
+        opacity: 0 !important;
+        transform: none !important;
+      }
+
+      .slide.active {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* Mobile Docked Header Controls */
+      .edge-header-trigger {
+        height: auto !important;
+        padding: 8px 10px !important;
+        pointer-events: auto !important;
+        background: linear-gradient(180deg, var(--bg-canvas) 85%, transparent 100%) !important;
+      }
+
+      .header-controls {
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+        gap: 0.45rem !important;
+        padding: 0.35rem 0.75rem !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+      }
+
+      .nav-btn {
+        padding: 0.35rem 0.6rem !important;
+        font-size: 0.70rem !important;
+        letter-spacing: 0.03em !important;
+      }
+
+      .slide-counter {
+        font-size: 0.75rem !important;
+        min-width: 48px !important;
+        text-align: center !important;
+      }
+
+      .theme-toggle-btn {
+        padding: 0.35rem 0.6rem !important;
+        font-size: 0.70rem !important;
+      }
+
+      /* Mobile Docked Footer Scrubber */
+      .edge-footer-trigger {
+        height: auto !important;
+        padding: 6px 10px 10px 10px !important;
+        pointer-events: auto !important;
+        background: linear-gradient(0deg, var(--bg-canvas) 85%, transparent 100%) !important;
+      }
+
+      .footer-scrubber {
+        opacity: 0.95 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+        padding: 0.35rem 0.65rem !important;
+        gap: 0.4rem !important;
+        max-width: 92vw !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .scrubber-dot {
+        width: 8px !important;
+        height: 8px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .scrubber-dot.active {
+        width: 20px !important;
+      }
+
+      /* Slide Header Typography */
+      .slide-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.35rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+
+      .slide-title {
+        font-size: 1.35rem !important;
+        line-height: 1.25 !important;
+      }
+
+      .slide-subtitle {
+        font-size: 0.84rem !important;
+        line-height: 1.4 !important;
+      }
+
+      .slide-tag {
+        align-self: flex-start !important;
+        font-size: 0.68rem !important;
+        padding: 0.2rem 0.55rem !important;
+      }
+
+      /* 3D Cards Sizing & Padding on Mobile */
+      .card-3d {
+        height: 420px !important;
+        min-height: 420px !important;
+        width: 100% !important;
+        perspective: 1000px !important;
+        margin-bottom: 0.5rem !important;
+      }
+
+      .card-inner {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .card-face {
+        padding: 1.15rem 1rem !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .card-title {
+        font-size: 1.15rem !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      .card-body-text {
+        font-size: 0.84rem !important;
+        line-height: 1.42 !important;
+      }
+
+      .card-formula-box {
+        padding: 0.45rem 0.7rem !important;
+        font-size: 0.82rem !important;
+      }
+
+      .card-bullet-list {
+        font-size: 0.80rem !important;
+        gap: 0.4rem !important;
+      }
+
+      /* Slide 1: Hero */
+      .layout-hero-split {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+      }
+
+      .hero-typography-box {
+        padding-right: 0 !important;
+      }
+
+      .hero-main-title {
+        font-size: 1.85rem !important;
+        line-height: 1.2 !important;
+      }
+
+      .hero-desc {
+        font-size: 0.90rem !important;
+        line-height: 1.45 !important;
+      }
+
+      .hero-meta-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.65rem !important;
+      }
+
+      .hero-summary-card {
+        padding: 1.15rem !important;
+      }
+
+      /* Slide 2: Concentric AI */
+      .layout-tri-asymmetric {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .layout-tri-asymmetric .card-3d {
+        height: 380px !important;
+        min-height: 380px !important;
+      }
+
+      /* Slide 3 & Slide 14: Quadrant Matrix */
+      .layout-quadrant-matrix {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        gap: 1rem !important;
+      }
+
+      .layout-quadrant-matrix .card-3d {
+        height: 380px !important;
+        min-height: 380px !important;
+      }
+
+      /* Slide 4, 6, 7, 10: Asymmetric Splits */
+      .layout-split-asymmetric {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .layout-split-asymmetric .card-3d {
+        height: 400px !important;
+        min-height: 400px !important;
+      }
+
+      /* Slide 5: Dual VS */
+      .layout-dual-vs {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+
+      .layout-dual-vs .card-3d {
+        height: 410px !important;
+        min-height: 410px !important;
+      }
+
+      .vs-badge-floating {
+        position: static !important;
+        transform: none !important;
+        margin: -0.2rem auto !important;
+        align-self: center !important;
+        order: 2 !important;
+      }
+
+      .layout-dual-vs .card-3d:first-of-type {
+        order: 1 !important;
+      }
+
+      .layout-dual-vs .card-3d:last-of-type {
+        order: 3 !important;
+      }
+
+      /* Slide 8: Loop Diagram */
+      .layout-loop-diagram {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .loop-visual-card {
+        padding: 1.15rem !important;
+      }
+
+      .layout-loop-diagram .card-3d {
+        height: 400px !important;
+        min-height: 400px !important;
+      }
+
+      /* Slide 9: Benchmark Matrix */
+      .layout-matrix-container {
+        padding: 0.85rem !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .benchmark-table {
+        min-width: 580px !important;
+        font-size: 0.78rem !important;
+      }
+
+      /* Slide 11: Parable */
+      .parable-columns {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .layout-parable .card-3d {
+        height: 440px !important;
+        min-height: 440px !important;
+      }
+
+      .statutory-banner {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.65rem !important;
+        padding: 0.75rem 1rem !important;
+      }
+
+      /* Slide 12: 7 Obstacles */
+      .layout-grid-7 {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        gap: 0.75rem !important;
+      }
+
+      .layout-grid-7 .card-3d {
+        height: 270px !important;
+        min-height: 270px !important;
+      }
+
+      /* Slide 13: Decision Tree */
+      .layout-decision-tree {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+
+      .layout-decision-tree .card-3d {
+        height: 380px !important;
+        min-height: 380px !important;
+      }
+    }
+
   </style>
   
   <!-- KaTeX High-Performance LaTeX Math Engine -->
@@ -3063,6 +3403,7 @@
       if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
 
       slideCounter.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
@@ -3136,6 +3477,40 @@
     }
     document.addEventListener('DOMContentLoaded', triggerMathRender);
     window.addEventListener('load', triggerMathRender);
+
+    // =========================================================================
+    // MOBILE TOUCH SWIPE NAVIGATION (Passive Listeners)
+    // =========================================================================
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipeGesture();
+    }, { passive: true });
+
+    function handleSwipeGesture() {
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      
+      // Horizontal swipe threshold: min 55px distance and predominantly horizontal
+      if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+        if (diffX < 0) {
+          goToSlide(currentSlide + 1); // Swipe left -> Next Slide
+        } else {
+          goToSlide(currentSlide - 1); // Swipe right -> Previous Slide
+        }
+      }
+    }
+
 </script>
 </body>
 </html>
