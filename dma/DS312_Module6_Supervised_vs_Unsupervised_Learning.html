@@ -937,6 +937,162 @@
       display: none !important;
     }
 
+  
+    /* Slide 11: High-Density Scorecard Matrix */
+    .scorecard-block {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin: 0.65rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .scorecard-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.45rem;
+    }
+
+    .scorecard-pill {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pill-alert {
+      background: rgba(200, 75, 49, 0.12);
+      color: var(--accent-crimson);
+      border: 1px solid rgba(200, 75, 49, 0.3);
+    }
+
+    .pill-success {
+      background: rgba(38, 121, 107, 0.12);
+      color: var(--accent-teal);
+      border: 1px solid rgba(38, 121, 107, 0.3);
+    }
+
+    .scorecard-kv-grid {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 0.4rem 0.75rem;
+      align-items: baseline;
+      font-size: 0.84rem;
+      line-height: 1.42;
+    }
+
+    .scorecard-label {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .scorecard-value {
+      color: var(--text-main);
+    }
+
+    /* Slide 13: Decision Tree Outcome Widgets */
+    .decision-branch-widget {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
+      margin: 0.65rem 0;
+    }
+
+    .branch-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.82rem;
+      line-height: 1.38;
+      color: var(--text-main);
+    }
+
+    .branch-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.16rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .pill-yes {
+      background: rgba(38, 121, 107, 0.12);
+      color: var(--accent-teal);
+      border: 1px solid rgba(38, 121, 107, 0.3);
+    }
+
+    .pill-no {
+      background: rgba(200, 75, 49, 0.12);
+      color: var(--accent-crimson);
+      border: 1px solid rgba(200, 75, 49, 0.3);
+    }
+
+    .pill-partial {
+      background: rgba(169, 110, 50, 0.12);
+      color: var(--accent-ochre);
+      border: 1px solid rgba(169, 110, 50, 0.3);
+    }
+
+  
+    .layout-parable {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .parable-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .layout-parable .card-face {
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    .layout-decision-tree .card-face {
+      padding: 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    .branch-row {
+      display: grid;
+      grid-template-columns: 80px 1fr !important;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.80rem;
+      line-height: 1.35;
+      color: var(--text-main);
+    }
+
   </style>
   
   <!-- KaTeX High-Performance LaTeX Math Engine -->
@@ -2317,26 +2473,40 @@
               <div class="card-face card-front trim-crimson">
                 <div>
                   <div class="card-meta-row">
-                    <span class="card-kicker" style="color: var(--accent-crimson);">THE MEMORIZER · 98% SCORE</span>
+                    <span class="card-kicker" style="color: var(--accent-crimson);">THE MEMORIZER · BLACK-BOX</span>
                     <span class="card-flip-cue">Click to Flip ⟳</span>
                   </div>
                   <h3 class="card-title">Student A: The Black-Box Model</h3>
-                  <p class="card-body-text">
-                    Memorizes thousands of past examination questions. Scores an astounding <strong>98%</strong> on the practice test by fitting complex surface patterns.
+                  <p class="card-body-text" style="font-size: 0.86rem; line-height: 1.4; margin-bottom: 0.25rem;">
+                    Memorizes thousands of past practice exam questions. Scores an astounding 98% in training by fitting complex surface patterns without underlying comprehension.
                   </p>
                 </div>
 
-                <div class="card-formula-box">
-                  <strong>Test Score:</strong> 98% Accuracy (In-Distribution)<br>
-                  <strong>Internal Logic:</strong> Opaque memorized correlation patterns<br>
-                  <strong>Explanation Ability:</strong> "The answer is C because that question had word X."
+                <div class="scorecard-block">
+                  <div class="scorecard-header-row">
+                    <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">PERFORMANCE SCORECARD</span>
+                    <span class="scorecard-pill pill-alert">98% In-Distribution</span>
+                  </div>
+                  <div class="scorecard-kv-grid">
+                    <span class="scorecard-label">Test Score:</span>
+                    <span class="scorecard-value"><strong>98% Accuracy</strong> (In-Distribution Data)</span>
+
+                    <span class="scorecard-label">Internal Logic:</span>
+                    <span class="scorecard-value">Opaque memorized correlation patterns</span>
+
+                    <span class="scorecard-label">Explanation:</span>
+                    <span class="scorecard-value">&ldquo;The answer is C because that question had word X.&rdquo;</span>
+
+                    <span class="scorecard-label">Brittleness:</span>
+                    <span class="scorecard-value" style="color: var(--accent-crimson); font-weight: 600;">Collapses on rephrased or adversarial tests</span>
+                  </div>
                 </div>
 
-                <ul class="card-bullet-list">
-                  <li><strong>Brittleness:</strong> Fails catastrophically on novel adversarial edge cases.</li>
-                  <li><strong>Auditing Failure:</strong> Cannot justify why an answer was chosen.</li>
-                  <li><strong>Real-World Equivalent:</strong> Deep Neural Network with zero constraint.</li>
-                </ul>
+                <div class="card-chips-row">
+                  <span class="chip chip-accent">Deep Neural Net</span>
+                  <span class="chip">Zero Constraints</span>
+                  <span class="chip">Opaque Logic</span>
+                </div>
               </div>
 
               <div class="card-face card-back trim-crimson">
@@ -2345,9 +2515,21 @@
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
                 <h3 class="card-title">Distribution Shift Collapse</h3>
-                <p class="card-body-text">
-                  When the test questions are rephrased or external conditions shift (e.g. Covid pandemic altering consumer spending), Student A's memorized correlations become completely invalid, causing silent model collapse.
+                <p class="card-body-text" style="font-size: 0.86rem; line-height: 1.4;">
+                  When test questions are rephrased or external conditions shift (e.g. pandemic altering consumer spending), Student A's memorized correlations become completely invalid, causing silent model collapse.
                 </p>
+                <div class="scorecard-block" style="margin-top: 0.6rem;">
+                  <div class="scorecard-header-row">
+                    <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">PRODUCTION RISK AUDIT</span>
+                    <span class="scorecard-pill pill-alert">CRITICAL LIABILITY</span>
+                  </div>
+                  <div class="scorecard-kv-grid">
+                    <span class="scorecard-label">Brittleness:</span>
+                    <span class="scorecard-value">Cannot detect when input violates training assumptions</span>
+                    <span class="scorecard-label">Statute:</span>
+                    <span class="scorecard-value">Violates GDPR Article 22 Right to Explanation</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2358,26 +2540,40 @@
               <div class="card-face card-front trim-teal">
                 <div>
                   <div class="card-meta-row">
-                    <span class="card-kicker" style="color: var(--accent-teal);">THE REASONER · 92% SCORE</span>
+                    <span class="card-kicker" style="color: var(--accent-teal);">THE REASONER · GLASS-BOX</span>
                     <span class="card-flip-cue">Click to Flip ⟳</span>
                   </div>
                   <h3 class="card-title">Student B: The Glass-Box Model</h3>
-                  <p class="card-body-text">
-                    Truly understands the core first principles and mathematical theorems. Scores <strong>92%</strong> on the practice test, slightly lower than Student A.
+                  <p class="card-body-text" style="font-size: 0.86rem; line-height: 1.4; margin-bottom: 0.25rem;">
+                    Truly understands core first principles and mathematical theorems. Scores 92% on practice tests, trading raw surface memorization for universal robustness.
                   </p>
                 </div>
 
-                <div class="card-formula-box">
-                  <strong>Test Score:</strong> 92% Accuracy (Robust & Auditable)<br>
-                  <strong>Internal Logic:</strong> Fundamental physical/economic equations<br>
-                  <strong>Explanation Ability:</strong> Clearly articulates the step-by-step rationale.
+                <div class="scorecard-block">
+                  <div class="scorecard-header-row">
+                    <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">PERFORMANCE SCORECARD</span>
+                    <span class="scorecard-pill pill-success">92% Robust Generalizer</span>
+                  </div>
+                  <div class="scorecard-kv-grid">
+                    <span class="scorecard-label">Test Score:</span>
+                    <span class="scorecard-value"><strong>92% Accuracy</strong> (Robust &amp; Fully Auditable)</span>
+
+                    <span class="scorecard-label">Internal Logic:</span>
+                    <span class="scorecard-value">Fundamental physical &amp; causal equations</span>
+
+                    <span class="scorecard-label">Explanation:</span>
+                    <span class="scorecard-value">Step-by-step mathematical reasoning</span>
+
+                    <span class="scorecard-label">Production Win:</span>
+                    <span class="scorecard-value" style="color: var(--accent-teal); font-weight: 600;">Seamlessly handles out-of-distribution shifts</span>
+                  </div>
                 </div>
 
-                <ul class="card-bullet-list">
-                  <li><strong>Robustness:</strong> Seamlessly adapts to rephrased novel edge cases.</li>
-                  <li><strong>Auditable:</strong> Can defend every derivation before a regulatory panel.</li>
-                  <li><strong>Real-World Equivalent:</strong> Regularized GLM / Auditable Decision Tree.</li>
-                </ul>
+                <div class="card-chips-row">
+                  <span class="chip chip-accent">Regularized GLM</span>
+                  <span class="chip">Decision Tree</span>
+                  <span class="chip">Full Auditability</span>
+                </div>
               </div>
 
               <div class="card-face card-back trim-teal">
@@ -2386,25 +2582,37 @@
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
                 <h3 class="card-title">Why Student B Wins in Production</h3>
-                <p class="card-body-text">
+                <p class="card-body-text" style="font-size: 0.86rem; line-height: 1.4;">
                   In high-stakes enterprise applications, leadership will gladly sacrifice 6% accuracy to gain 100% legal auditability, guaranteed failure boundary detection, and regulatory immunity.
                 </p>
+                <div class="scorecard-block" style="margin-top: 0.6rem;">
+                  <div class="scorecard-header-row">
+                    <span style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">COMPLIANCE BENCHMARK</span>
+                    <span class="scorecard-pill pill-success">STATUTORY READY</span>
+                  </div>
+                  <div class="scorecard-kv-grid">
+                    <span class="scorecard-label">Auditability:</span>
+                    <span class="scorecard-value">Coefficients can be directly defended before a regulatory judge</span>
+                    <span class="scorecard-label">ECOA / FDA:</span>
+                    <span class="scorecard-value">Generates instant adverse action notices with zero black-box risk</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Statutory Callout Banner Bottom -->
-        <aside class="statutory-banner">
+        <aside class="statutory-banner" style="padding: 0.65rem 1.15rem; gap: 1rem;">
           <div>
-            <span style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 800; color: var(--accent-ochre); text-transform: uppercase;">
+            <span style="font-family: var(--font-mono); font-size: 0.74rem; font-weight: 800; color: var(--accent-ochre); text-transform: uppercase;">
               LEGAL &amp; STATUTORY COMPLIANCE IMPLICATIONS
             </span>
-            <p style="font-size: 0.92rem; color: var(--text-main); margin-top: 0.25rem;">
-              <strong>GDPR Article 22:</strong> Grants citizens the "Right to Explanation" for automated decisions. | <strong>US Equal Credit Opportunity Act (ECOA):</strong> Mandates exact Adverse Action notices specifying which financial factors caused loan rejection.
+            <p style="font-size: 0.86rem; color: var(--text-main); margin-top: 0.15rem; line-height: 1.35;">
+              <strong>GDPR Article 22:</strong> Mandates "Right to Explanation" for automated decisions. | <strong>US ECOA:</strong> Requires specific adverse action notices for credit/loan decisions.
             </p>
           </div>
-          <span class="chip chip-accent" style="white-space: nowrap; font-size: 0.8rem; padding: 0.4rem 0.8rem;">
+          <span class="chip chip-accent" style="white-space: nowrap; font-size: 0.76rem; padding: 0.35rem 0.7rem;">
             Student B Legally Mandated
           </span>
         </aside>
@@ -2560,7 +2768,7 @@
       </div>
     </section>
 
-    <!-- SLIDE 13: [Interactive Diagnostic Decision Tree: Paradigm Selection] -->
+        <!-- SLIDE 13: [Interactive Diagnostic Decision Tree: Paradigm Selection] -->
     <section class="slide" data-slide="13">
       <div class="slide-header">
         <div class="slide-header-left">
@@ -2582,19 +2790,28 @@
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
                 <h3 class="card-title">Are Ground-Truth Labels Available?</h3>
-                <p class="card-body-text">
-                  Do you possess verified historical targets $y$ corresponding to inputs $X$?
+                <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4; margin-bottom: 0.35rem;">
+                  Do you possess verified historical target outcomes $y$ corresponding to feature inputs $X$?
                 </p>
               </div>
 
-              <div class="card-formula-box">
-                <strong>YES:</strong> Proceed to Supervised Pathway.<br>
-                <strong>NO:</strong> Proceed to Unsupervised Discovery.<br>
-                <strong>TINY FRACTION:</strong> Proceed to Semi-Supervised Bootstrapping.
+              <div class="decision-branch-widget">
+                <div class="branch-row">
+                  <span class="branch-pill pill-yes">YES</span>
+                  <span class="branch-text"><strong>Supervised:</strong> Classification or Regression $y = f(X)$</span>
+                </div>
+                <div class="branch-row">
+                  <span class="branch-pill pill-no">NO</span>
+                  <span class="branch-text"><strong>Unsupervised:</strong> Clustering (K-Means/DBSCAN) or PCA</span>
+                </div>
+                <div class="branch-row">
+                  <span class="branch-pill pill-partial">&le;5% LABELS</span>
+                  <span class="branch-text"><strong>Semi-Supervised:</strong> FixMatch pseudo-labeling</span>
+                </div>
               </div>
 
-              <p style="font-size: 0.88rem; color: var(--text-muted);">
-                Verify label reliability! If human inter-rater reliability $\kappa < 0.60$, labels are noisy and will cripple supervised loss convergence.
+              <p style="font-size: 0.80rem; color: var(--text-muted); line-height: 1.35; margin: 0;">
+                Verify label reliability! If inter-rater reliability $\kappa &lt; 0.60$, noisy labels cripple loss convergence.
               </p>
             </div>
 
@@ -2604,8 +2821,8 @@
                 <span class="card-flip-cue">Click to Flip ⟳</span>
               </div>
               <h3 class="card-title">Label Acquisition Budget</h3>
-              <p class="card-body-text">
-                If labels are absent, calculate whether the expected business gain from a supervised model exceeds the human labeling budget ($N \times \text{Cost per label}$). If not, deploy unsupervised clustering or few-shot LLM prompting.
+              <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4;">
+                If labels are absent, calculate whether expected business gain from a supervised model exceeds the human labeling budget ($N \times \text{Cost per label}$). If not, deploy unsupervised clustering or few-shot LLM prompting.
               </p>
             </div>
           </div>
@@ -2621,18 +2838,24 @@
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
                 <h3 class="card-title">Is Human Explainability Mandated?</h3>
-                <p class="card-body-text">
-                  Does the model operate under legal statutory compliance, life-critical clinical care, or credit risk?
+                <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4; margin-bottom: 0.35rem;">
+                  Does the model operate under legal statutory compliance, clinical diagnostics, or credit risk?
                 </p>
               </div>
 
-              <div class="card-formula-box">
-                <strong>YES (Regulated):</strong> Mandate Glass-Box Models (Linear, Logistic, Single Decision Tree, EBM).<br>
-                <strong>NO (Unregulated):</strong> Deploy High-Capacity Ensembles (XGBoost, Random Forests, Deep Neural Nets).
+              <div class="decision-branch-widget">
+                <div class="branch-row">
+                  <span class="branch-pill pill-yes">MANDATED</span>
+                  <span class="branch-text"><strong>Glass-Box:</strong> GLMs, Decision Trees, EBMs (Audit-ready)</span>
+                </div>
+                <div class="branch-row">
+                  <span class="branch-pill pill-no">UNREGULATED</span>
+                  <span class="branch-text"><strong>Ensembles:</strong> XGBoost, LightGBM, Neural Networks</span>
+                </div>
               </div>
 
-              <p style="font-size: 0.88rem; color: var(--text-muted);">
-                Never deploy an unconstrained deep network into credit underwriting where ECOA adverse action notices are legally mandated.
+              <p style="font-size: 0.80rem; color: var(--text-muted); line-height: 1.35; margin: 0;">
+                Never deploy unconstrained deep networks into credit underwriting where ECOA adverse action notices are mandated.
               </p>
             </div>
 
@@ -2642,8 +2865,8 @@
                 <span class="card-flip-cue">Click to Flip ⟳</span>
               </div>
               <h3 class="card-title">Explainable Boosting (EBM)</h3>
-              <p class="card-body-text">
-                If interpretability is required but linear regression underfits, utilize Generalized Additive Models (GAMs) or Explainable Boosting Machines (EBMs): $\hat{y} = \sum f_j(x_j)$. They match tree ensemble accuracy while keeping exact visual feature curves.
+              <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4;">
+                If interpretability is required but linear models underfit, utilize Generalized Additive Models (GAMs) or Explainable Boosting Machines (EBMs): $\hat{y} = \sum f_j(x_j)$. They match tree ensemble accuracy while keeping exact visual feature curves.
               </p>
             </div>
           </div>
@@ -2658,19 +2881,25 @@
                   <span class="card-kicker" style="color: var(--accent-purple);">DECISION NODE 03</span>
                   <span class="card-flip-cue">Click to Flip ⟳</span>
                 </div>
-                <h3 class="card-title">Is the Problem Interactive &amp; Sequential?</h3>
-                <p class="card-body-text">
-                  Does an agent influence state transitions and receive delayed rewards in a closed feedback loop?
+                <h3 class="card-title">Is Problem Interactive &amp; Sequential?</h3>
+                <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4; margin-bottom: 0.35rem;">
+                  Does an agent influence state transitions and receive delayed scalar rewards in a closed feedback loop?
                 </p>
               </div>
 
-              <div class="card-formula-box">
-                <strong>YES:</strong> Deploy Reinforcement Learning (MDP / Policy Optimization).<br>
-                <strong>NO (Static Dataset):</strong> Retain Supervised or Unsupervised Learning.
+              <div class="decision-branch-widget">
+                <div class="branch-row">
+                  <span class="branch-pill pill-yes">INTERACTIVE</span>
+                  <span class="branch-text"><strong>Reinforcement:</strong> MDP / Bellman optimization</span>
+                </div>
+                <div class="branch-row">
+                  <span class="branch-pill pill-no">STATIC DATA</span>
+                  <span class="branch-text"><strong>Standard ML:</strong> Retain Supervised or Unsupervised</span>
+                </div>
               </div>
 
-              <p style="font-size: 0.88rem; color: var(--text-muted);">
-                Do not deploy RL for static classification tasks. RL requires an interactive simulator or safe environment sandbox.
+              <p style="font-size: 0.80rem; color: var(--text-muted); line-height: 1.35; margin: 0;">
+                Do not deploy RL for static classification tasks. RL strictly requires an interactive simulator or safe environment sandbox.
               </p>
             </div>
 
@@ -2680,7 +2909,7 @@
                 <span class="card-flip-cue">Click to Flip ⟳</span>
               </div>
               <h3 class="card-title">Simulator Verification</h3>
-              <p class="card-body-text">
+              <p class="card-body-text" style="font-size: 0.84rem; line-height: 1.4;">
                 Reinforcement learning requires millions of sample iterations to learn basic policies. Without a high-speed physics or economic simulation environment (e.g. Isaac Gym, OpenAI Gym), training an RL agent in the physical real world is virtually impossible.
               </p>
             </div>
