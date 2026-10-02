@@ -847,6 +847,83 @@
       overflow-x: auto;
     }
 
+  
+    /* Mitchell Callout Box on Slide 1 */
+    .mitchell-callout-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-ochre);
+      border-radius: 8px;
+      padding: 0.85rem 1.15rem;
+      margin: 0.75rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: left;
+    }
+
+    .mitchell-callout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-ochre);
+      letter-spacing: 0.06em;
+    }
+
+    .mitchell-author {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .mitchell-quote {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      font-style: normal;
+    }
+
+    .mitchell-triad-row {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+
+    .triad-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 0.22rem 0.55rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .triad-badge {
+      background: var(--accent-ochre);
+      color: #FFFFFF;
+      font-weight: 800;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.72rem;
+    }
+
+    [data-theme="dark"] .triad-badge {
+      background: var(--accent-ochre);
+      color: #141821;
+    }
+
+    /* Force Hide KaTeX MathML so Screen-Reader Math never duplicates visual text */
+    .katex-mathml {
+      display: none !important;
+    }
+
   </style>
   
   <!-- KaTeX High-Performance LaTeX Math Engine -->
@@ -902,8 +979,8 @@
           </p>
           <div class="hero-meta-grid">
             <div class="hero-meta-item">
-              <span class="hero-meta-label">Curriculum Lead</span>
-              <span class="hero-meta-val">Nicole S. Menorias</span>
+              <span class="hero-meta-label">Curriculum Module</span>
+              <span class="hero-meta-val">DS312 Module 6</span>
             </div>
             <div class="hero-meta-item">
               <span class="hero-meta-label">Theoretical Focus</span>
@@ -931,13 +1008,23 @@
                 </div>
                 <h3 class="card-title" style="font-size: 1.6rem;">Data Mining vs. Machine Learning</h3>
                 <p class="card-body-text">
-                  Data Mining uncovers latent historical relationships in static databases (KDD paradigm), while Machine Learning optimizes parameter weights to generalize from experience onto unseen future records ($T, P, E$).
+                  Data Mining uncovers latent historical relationships in static databases (KDD paradigm), while Machine Learning optimizes parameter weights to generalize from experience onto unseen future records (E, T, P).
                 </p>
               </div>
 
-              <div class="card-formula-box" style="font-size: 0.82rem;">
-                <strong>Mitchell's Definition (1997):</strong><br>
-                A program learns from Experience <strong>$E$</strong> with respect to Task <strong>$T$</strong> and Performance <strong>$P$</strong>, if its performance at <strong>$T$</strong>, as measured by <strong>$P$</strong>, improves with <strong>$E$</strong>.
+                            <div class="mitchell-callout-box">
+                <div class="mitchell-callout-header">
+                  <span>TOM MITCHELL'S MACHINE LEARNING AXIOM (1997)</span>
+                  <span class="mitchell-author">McGraw-Hill · <em>Machine Learning</em></span>
+                </div>
+                <p class="mitchell-quote">
+                  &ldquo;A computer program is said to <strong>learn</strong> from Experience <strong>E</strong> with respect to Task <strong>T</strong> and Performance Measure <strong>P</strong>, if its performance at <strong>T</strong>, as measured by <strong>P</strong>, improves with <strong>E</strong>.&rdquo;
+                </p>
+                <div class="mitchell-triad-row">
+                  <div class="triad-chip"><span class="triad-badge">E</span> <span>Experience (Historical Training Records)</span></div>
+                  <div class="triad-chip"><span class="triad-badge">T</span> <span>Task (Clinical Prediction / Action)</span></div>
+                  <div class="triad-chip"><span class="triad-badge">P</span> <span>Performance (Metric: ROC-AUC / Loss)</span></div>
+                </div>
               </div>
 
               <div class="card-chips-row">
