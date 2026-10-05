@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENVISCI 101: 50-Item Comprehensive Examination Reviewer</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Zero-footprint scrollbars */
+    html, body, * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
+    :root {
+      /* LIGHT THEME (Warm Linen Alabaster / Nature Palette) */
+      --bg-canvas: #F8F6F1;
+      --surface-card: #FFFFFF;
+      --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      --accent-emerald: #059669;
+      --accent-emerald-light: #ECFDF5;
+      --accent-teal: #0D9488;
+      --accent-teal-light: #F0FDFA;
+      --accent-crimson: #DC2626;
+      --accent-crimson-light: #FEF2F2;
+      --accent-ochre: #D97706;
+      --accent-ochre-light: #FFFBEB;
+      --accent-blue: #2563EB;
+      --accent-blue-light: #EFF6FF;
+
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME (Deep Space Slate / Emerald Bioluminescence) */
+      --bg-canvas: #0B0E14;
+      --surface-card: #141821;
+      --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      --accent-emerald: #10B981;
+      --accent-emerald-light: rgba(16, 185, 129, 0.12);
+      --accent-teal: #2DD4BF;
+      --accent-teal-light: rgba(45, 212, 191, 0.12);
+      --accent-crimson: #EF4444;
+      --accent-crimson-light: rgba(239, 68, 68, 0.15);
+      --accent-ochre: #F59E0B;
+      --accent-ochre-light: rgba(245, 158, 11, 0.12);
+      --accent-blue: #3B82F6;
+      --accent-blue-light: rgba(59, 130, 246, 0.15);
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 0;
+    }
+
+    /* Global Container */
+    .portal-container {
+      width: 1360px;
+      max-width: 100%;
+      padding: 1.5rem 1.5rem 5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* Header Nav */
+    .hub-header {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--card-shadow);
+      position: sticky;
+      top: 1rem;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .hub-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-emerald);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hub-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .hub-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Mode Pill Selector */
+    .mode-selector {
+      display: flex;
+      background: var(--surface-subtle);
+      padding: 0.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      gap: 0.25rem;
+    }
+
+    .mode-btn {
+      padding: 0.5rem 0.9rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active {
+      background: var(--surface-card);
+      color: var(--accent-emerald);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Generic Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-focus);
+    }
+
+    .btn-primary {
+      background: var(--accent-emerald);
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px rgba(5, 150, 105, 0.25);
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--accent-crimson);
+      color: #FFFFFF;
+    }
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle-btn:hover {
+      background: var(--surface-elevated);
+    }
+
+    /* Top Stats & Progress Bar */
+    .exam-dock {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.25rem 1.75rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .timer-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface-subtle);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+    }
+
+    .timer-display {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.05em;
+    }
+
+    .timer-display.warning {
+      color: var(--accent-ochre);
+      animation: pulse 1s infinite;
+    }
+
+    .timer-display.danger {
+      color: var(--accent-crimson);
+      animation: pulse 0.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .timer-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .timer-btn:hover {
+      color: var(--text-main);
+      background: var(--surface-elevated);
+    }
+
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: var(--surface-elevated);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-emerald));
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .stats-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .stat-pill {
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .stat-pill.success {
+      color: var(--accent-emerald);
+      background: var(--accent-emerald-light);
+      border-color: rgba(5, 150, 105, 0.2);
+    }
+    .stat-pill.flagged {
+      color: var(--accent-ochre);
+      background: var(--accent-ochre-light);
+      border-color: rgba(217, 119, 6, 0.2);
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .chapter-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: 0.45rem 0.9rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-chip:hover {
+      border-color: var(--border-focus);
+      color: var(--text-main);
+    }
+    .filter-chip.active {
+      background: var(--accent-emerald);
+      color: #FFFFFF;
+      border-color: var(--accent-emerald);
+    }
+
+    .search-filter-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .search-input {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-card);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      min-width: 240px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .search-input:focus {
+      border-color: var(--accent-emerald);
+    }
+
+    .quick-status-filter {
+      padding: 0.5rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-card);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Main Grid Layout: Sidebar (Navigator) + Content (Questions) */
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* Sidebar Navigator */
+    .navigator-sidebar {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      position: sticky;
+      top: 6.5rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .nav-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .legend-dot.unanswered { background: var(--surface-elevated); border: 1px solid var(--border-subtle); }
+    .legend-dot.answered { background: var(--accent-blue); }
+    .legend-dot.correct { background: var(--accent-emerald); }
+    .legend-dot.incorrect { background: var(--accent-crimson); }
+    .legend-dot.flagged { background: var(--accent-ochre); }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+    }
+
+    .nav-pill {
+      aspect-ratio: 1;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+
+    .nav-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-emerald);
+      color: var(--text-main);
+    }
+
+    .nav-pill.active {
+      border-color: var(--accent-emerald) !important;
+      outline: 2px solid var(--accent-emerald);
+    }
+
+    .nav-pill.answered {
+      background: var(--accent-blue-light);
+      color: var(--accent-blue);
+      border-color: rgba(37, 99, 235, 0.4);
+    }
+
+    .nav-pill.correct {
+      background: var(--accent-emerald) !important;
+      color: #FFFFFF !important;
+      border-color: var(--accent-emerald) !important;
+    }
+
+    .nav-pill.incorrect {
+      background: var(--accent-crimson) !important;
+      color: #FFFFFF !important;
+      border-color: var(--accent-crimson) !important;
+    }
+
+    .nav-pill.flagged::after {
+      content: '★';
+      position: absolute;
+      top: 1px;
+      right: 2px;
+      font-size: 0.6rem;
+      color: var(--accent-ochre);
+    }
+
+    /* Question Cards List */
+    .questions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .question-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      scroll-margin-top: 6.5rem;
+    }
+
+    .question-card:hover {
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .question-card.active-question {
+      border-color: var(--accent-emerald);
+    }
+
+    .question-card.hidden {
+      display: none !important;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .q-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .q-num-badge {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      background: var(--accent-emerald-light);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+
+    .q-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .q-diff {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+    .q-diff.fundamental { color: #0D9488; background: var(--accent-teal-light); }
+    .q-diff.intermediate { color: #D97706; background: var(--accent-ochre-light); }
+    .q-diff.advanced { color: #DC2626; background: var(--accent-crimson-light); }
+
+    .flag-btn {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.35rem 0.7rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .flag-btn:hover {
+      background: var(--surface-elevated);
+      color: var(--accent-ochre);
+    }
+
+    .flag-btn.flagged {
+      background: var(--accent-ochre-light);
+      color: var(--accent-ochre);
+      border-color: rgba(217, 119, 6, 0.3);
+      font-weight: 700;
+    }
+
+    .q-stem {
+      font-size: 1.12rem;
+      font-weight: 600;
+      line-height: 1.55;
+      color: var(--text-main);
+    }
+
+    /* Options List */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      background: var(--surface-subtle);
+      border: 1.5px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .option-card:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-focus);
+      transform: translateX(3px);
+    }
+
+    .option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .opt-key {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .opt-text {
+      font-size: 0.98rem;
+      line-height: 1.45;
+      color: var(--text-main);
+      padding-top: 2px;
+    }
+
+    /* Option States */
+    .option-card.selected {
+      background: var(--accent-blue-light);
+      border-color: var(--accent-blue);
+    }
+    .option-card.selected .opt-key {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      border-color: var(--accent-blue);
+    }
+
+    .option-card.correct-revealed {
+      background: var(--accent-emerald-light) !important;
+      border-color: var(--accent-emerald) !important;
+    }
+    .option-card.correct-revealed .opt-key {
+      background: var(--accent-emerald) !important;
+      color: #FFFFFF !important;
+      border-color: var(--accent-emerald) !important;
+    }
+
+    .option-card.incorrect-revealed {
+      background: var(--accent-crimson-light) !important;
+      border-color: var(--accent-crimson) !important;
+    }
+    .option-card.incorrect-revealed .opt-key {
+      background: var(--accent-crimson) !important;
+      color: #FFFFFF !important;
+      border-color: var(--accent-crimson) !important;
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      margin-top: 0.5rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--accent-emerald);
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .explanation-box.visible {
+      display: flex !important;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .exp-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-emerald);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .exp-body {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .exp-takeaway {
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      background: var(--surface-card);
+      border: 1px dashed var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      font-weight: 600;
+    }
+
+    /* Submission & Score Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      width: 680px;
+      max-width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      animation: modalSlide 0.3s ease;
+    }
+
+    @keyframes modalSlide {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .score-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 6px solid var(--accent-emerald);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      background: var(--surface-subtle);
+    }
+
+    .score-big {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text-main);
+    }
+
+    .score-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-emerald);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .modal-verdict {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      background: var(--surface-subtle);
+      padding: 1.25rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .breakdown-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .breakdown-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Floating Action Button (Mobile Nav Trigger) */
+    .mobile-nav-toggle {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--accent-emerald);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.4);
+      z-index: 99;
+      cursor: pointer;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1024px) {
+      .quiz-layout {
+        grid-template-columns: 1fr;
+      }
+      .navigator-sidebar {
+        display: none;
+      }
+      .navigator-sidebar.mobile-open {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        z-index: 1001;
+        border-radius: 0;
+      }
+      .mobile-nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .exam-dock {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    @media print {
+      .hub-header, .exam-dock, .filter-bar, .navigator-sidebar, .mobile-nav-toggle, .btn, .flag-btn {
+        display: none !important;
+      }
+      .quiz-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .question-card {
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+      .explanation-box {
+        display: flex !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <!-- Top Sticky Header -->
+    <header class="hub-header">
+      <div class="header-left">
+        <div class="hub-eyebrow">
+          <span>🌿</span> ENVIRONMENTAL SCIENCE (ENVISCI 101) • UNDERGRADUATE REVIEWER
+        </div>
+        <h1 class="hub-title">50-Item Comprehensive Examination</h1>
+        <p class="hub-subtitle">Academic assessment covering Earth Spheres, Environmental History, Terrestrial & Aquatic Biomes, and Meteorology</p>
+      </div>
+      <div class="header-actions">
+        <div class="mode-selector">
+          <button class="mode-btn active" id="btn-practice-mode" title="Instant answers & in-depth explanations">
+            ⚡ Practice
+          </button>
+          <button class="mode-btn" id="btn-exam-mode" title="Timed mock exam with confidential score">
+            ⏱️ Exam
+          </button>
+        </div>
+        <button class="btn btn-secondary" id="btn-shuffle-opts" title="Shuffle options on all questions">
+          🔀 Shuffle
+        </button>
+        <button class="btn btn-secondary" id="btn-reset-quiz" title="Reset all answers">
+          🔄 Reset
+        </button>
+        <button class="btn btn-primary" id="btn-submit-exam" title="Submit completed exam and view analytics">
+          📋 Submit
+        </button>
+        <button class="theme-toggle-btn" id="btn-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+          🌓
+        </button>
+      </div>
+    </header>
+
+    <!-- Exam Sub-Dock: Progress, Timer, Stats -->
+    <div class="exam-dock">
+      <div class="timer-box">
+        <span>⏱️</span>
+        <div class="timer-display" id="timer-text">50:00</div>
+        <button class="timer-btn" id="timer-toggle-btn" title="Pause / Play">⏸️</button>
+        <button class="timer-btn" id="timer-reset-btn" title="Reset Timer">↺</button>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-meta">
+          <span id="answered-counter-label">Answered: 0 / 50 (0%)</span>
+          <span id="score-live-label">Practice Score: --</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="stats-pills">
+        <div class="stat-pill success" id="accuracy-pill">
+          <span>🎯</span> <span id="accuracy-text">100% Acc</span>
+        </div>
+        <div class="stat-pill flagged" id="flagged-pill">
+          <span>⭐</span> <span id="flagged-count">0 Flagged</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="chapter-filters" id="chapter-filter-container">
+        <button class="filter-chip active" data-filter="all">All Items (50)</button>
+        <button class="filter-chip" data-filter="ch1">Ch 1: Spheres (7)</button>
+        <button class="filter-chip" data-filter="ch2">Ch 2: History & Maya (12)</button>
+        <button class="filter-chip" data-filter="ch3">Ch 3: Terrestrial & Cycles (19)</button>
+        <button class="filter-chip" data-filter="ch4">Ch 4: Aquatic Systems (8)</button>
+        <button class="filter-chip" data-filter="ch5">Ch 5: Atmosphere & Climate (4)</button>
+      </div>
+      <div class="search-filter-box">
+        <input type="text" class="search-input" id="search-input" placeholder="🔍 Search topic, species, or concept...">
+        <select class="quick-status-filter" id="status-filter">
+          <option value="all">Show All Items</option>
+          <option value="flagged">⭐ Bookmarked Only</option>
+          <option value="unanswered">⏳ Unanswered Only</option>
+          <option value="incorrect">❌ Incorrect Only</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Quiz Workspace -->
+    <main class="quiz-layout">
+      
+      <!-- Sticky Sidebar Navigator -->
+      <aside class="navigator-sidebar" id="navigator-sidebar">
+        <div class="nav-title">
+          <span>Question Grid</span>
+          <button class="btn btn-secondary" id="btn-close-mobile-nav" style="display:none; padding:2px 8px; font-size:0.75rem;">Close</button>
+        </div>
+        <div class="nav-legend">
+          <div class="legend-item"><div class="legend-dot unanswered"></div> Unanswered</div>
+          <div class="legend-item"><div class="legend-dot answered"></div> Answered</div>
+          <div class="legend-item"><div class="legend-dot correct"></div> Correct</div>
+          <div class="legend-item"><div class="legend-dot incorrect"></div> Incorrect</div>
+        </div>
+        <div class="nav-grid" id="nav-pill-grid">
+          <!-- Populated by JS -->
+        </div>
+      </aside>
+
+      <!-- Questions List -->
+      <section class="questions-container" id="questions-container">
+        <!-- 50 Question Cards Rendered by JS -->
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Mobile Floating Nav Toggle -->
+  <button class="mobile-nav-toggle" id="mobile-nav-btn" title="Open Question Grid">
+    ☰
+  </button>
+
+  <!-- Submit & Results Diagnostic Modal -->
+  <div class="modal-overlay" id="results-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="score-circle">
+          <div class="score-big" id="modal-score-pct">0%</div>
+          <div class="score-label" id="modal-score-raw">0 / 50</div>
+        </div>
+        <h2 class="modal-title" id="modal-grade-title">Assessment Completed</h2>
+        <p class="modal-verdict" id="modal-verdict-text">Summary of your environmental science examination performance</p>
+      </div>
+
+      <div class="breakdown-list" id="modal-breakdown-list">
+        <!-- Chapter Progress Bars Generated by JS -->
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-review-missed">
+          ❌ Review Missed Items
+        </button>
+        <button class="btn btn-secondary" id="btn-retake-exam">
+          🔄 Retake Examination
+        </button>
+        <button class="btn btn-primary" id="btn-print-summary">
+          🖨️ Print / Save Report
+        </button>
+        <button class="btn btn-secondary" id="btn-close-modal">
+          Close Review
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded 50 Questions Data from High-Yield Environmental Science Reviewer
+    const questions = [{"id": 1, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "Etymology & Scope", "difficulty": "Fundamental", "question": "What is the etymological origin and literal meaning of the word 'Environment' in environmental science?", "options": ["Derived from the Latin word 'environare', meaning 'to govern nature'", "Derived from the French word 'environ', meaning 'surrounding' or 'to encircle'", "Derived from the Greek word 'oikos', meaning 'household economy'", "Derived from the German word 'umwelt', meaning 'subjective perception'"], "correct": 1, "explanation": "The term originates from the Old French word 'environ', which translates directly to 'surrounding', 'around', or 'to encircle'. Environmental science is the interdisciplinary study of how the physical, chemical, and biological factors in our surroundings interact with living organisms and human societies.", "takeaway": "French 'environ' = 'surrounding'. Environmental science is fundamentally interdisciplinary."}, {"id": 2, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "Hydrosphere Distribution", "difficulty": "Intermediate", "question": "Regarding the global distribution of Earth's water within the Hydrosphere, what percentage represents freshwater, and where is the vast majority of this freshwater stored?", "options": ["Approximately 10.0% is freshwater, with over 80% circulating in surface rivers and lakes", "Approximately 2.5% is freshwater, with ~68.7% sequestered in glaciers and polar ice caps", "Approximately 5.0% is freshwater, with over 75% stored in deep underground aquifers", "Approximately 0.5% is freshwater, with most existing as atmospheric water vapor"], "correct": 1, "explanation": "Oceans account for ~97.5% of total planetary water, leaving only ~2.5% as freshwater. Of this limited freshwater reserve, approximately 68.7% is locked away in glaciers and polar ice sheets, ~30.1% exists as groundwater, and less than 1.2% is readily accessible surface freshwater in lakes, wetlands, and rivers.", "takeaway": "Freshwater is only ~2.5% of all water; 68.7% of that is frozen in ice caps/glaciers."}, {"id": 3, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "The 5 Major Spheres", "difficulty": "Fundamental", "question": "Which of Earth's five major spheres specifically encompasses all human-engineered structures, built environments, industrial infrastructure, and synthetic technological systems?", "options": ["The Pedosphere", "The Lithosphere", "The Anthroposphere (Technosphere)", "The Asthenosphere"], "correct": 2, "explanation": "The Anthroposphere (also termed the Technosphere) is the part of the environment made or modified by human activity, including cities, roads, agricultural monocultures, mines, communications networks, and manufactured materials like plastics and concrete.", "takeaway": "5 Spheres: Lithosphere (rock/soil), Hydrosphere (water), Atmosphere (gas), Biosphere (life), Anthroposphere (human-made)."}, {"id": 4, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "System Thermodynamics", "difficulty": "Intermediate", "question": "In environmental thermodynamics, how is planet Earth classified with respect to exchanges of energy and matter with outer space?", "options": ["An open system for energy, but an essentially closed system for matter", "A closed system for energy, but an open system for matter", "A completely open system for both energy and matter", "An isolated system exchanging neither energy nor matter"], "correct": 0, "explanation": "Earth is an open system for energy because it constantly absorbs incoming high-energy solar radiation from the Sun and radiates degraded thermal infrared radiation back into space. Conversely, Earth is essentially a closed system for matter, as planetary gravity retains virtually all atoms and molecules, requiring elements (C, N, P, H2O) to cycle continuously through biogeochemical pathways.", "takeaway": "Open for energy (solar in, heat out); Closed for matter (nutrients cycle internally)."}, {"id": 5, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "Positive Feedback Loops", "difficulty": "Intermediate", "question": "As global atmospheric temperatures rise, high-albedo polar sea ice melts, exposing darker open ocean water that absorbs more solar radiation and accelerates further warming. This process is an example of:", "options": ["A negative feedback loop promoting climatic homeostasis", "A positive feedback loop that destabilizes the climate system by amplifying initial warming", "An allochthonous sedimentary thermodynamic cascade", "A density-dependent regulatory threshold"], "correct": 1, "explanation": "A positive feedback loop amplifies or magnifies an initial change, driving a system further away from equilibrium (destabilizing). The ice-albedo feedback is a classic example: Warming -> Reduced ice cover -> Lower surface reflectivity (albedo) -> Increased solar absorption -> Enhanced warming.", "takeaway": "Positive feedback = self-reinforcing / amplifying / destabilizing."}, {"id": 6, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "Negative Feedback & Homeostasis", "difficulty": "Intermediate", "question": "Which of the following scenarios best exemplifies a negative (stabilizing) feedback loop that helps maintain ecological or climatic balance?", "options": ["Warming tundra soils thawing permafrost, releasing stored methane that intensifies the greenhouse effect", "Increased ocean surface temperatures elevating evaporation, forming reflective low-level clouds that block incoming sunlight and cool the surface", "Wildfires consuming dry timber, releasing CO2 that increases temperatures and accelerates further forest combustion", "Meltwater lubricating glacial beds, speeding up ice flow into the ocean and exposing darker bedrock"], "correct": 1, "explanation": "Negative feedback loops counteract the original disturbance, promoting stability and homeostasis. When warming increases water evaporation, the resulting low-altitude cloud cover increases planetary albedo (reflecting incoming solar radiation), which counteracts and tempers the initial warming trend.", "takeaway": "Negative feedback = self-correcting / stabilizing / maintains homeostasis."}, {"id": 7, "chapterId": "ch1", "chapter": "Chapter 1: Foundations & Earth Spheres", "topic": "Interdisciplinary Integration", "difficulty": "Fundamental", "question": "When formulating solutions for severe urban air pollution, which discipline focuses primarily on identifying chemical transformation pathways, such as the secondary formation of tropospheric ozone and PM2.5 from nitrogen oxides and volatile organic compounds?", "options": ["Atmospheric & Environmental Chemistry", "Environmental Sociology", "Resource Economics", "Public Policy and Environmental Law"], "correct": 0, "explanation": "Atmospheric Chemistry investigates chemical reactions, photolysis, free radical pathways, and gas-to-particle conversions that generate secondary pollutants like photochemical smog (ozone) and fine particulate matter (PM2.5) from primary precursors.", "takeaway": "Atmospheric Chemistry tracks pollutant reactions; Data Science models patterns; Law enforces regulations."}, {"id": 8, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Paleolithic Human Impact", "difficulty": "Fundamental", "question": "During the Paleolithic era (~2.5 million to ~10,000 BP), what anthropogenic activities are widely recognized as having contributed to the Quaternary Megafaunal Extinction?", "options": ["Widespread industrial coal combustion and chemical effluent release", "Organized hunting with stone weapons combined with firestick landscape burning", "Extensive river canalization and construction of large masonry dams", "Commercial deep-sea trawling and mangrove reclamation"], "correct": 1, "explanation": "Paleolithic hunter-gatherers, though living in low population densities, used firestick farming (controlled burning) to shape grasslands and coordinated group hunting with stone tools. In combination with abrupt climatic changes, this contributed to the extinction of Pleistocene megafauna (e.g., mammoths, mastodons, woolly rhinos, giant sloths).", "takeaway": "Paleolithic era: nomadic foragers, stone tools, firestick farming, megafaunal extinction."}, {"id": 9, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Neolithic Agricultural Revolution", "difficulty": "Intermediate", "question": "The First Agricultural Revolution (Neolithic Era) initiated sedentary farming, food surpluses, and which distinct ecological and epidemiological crisis?", "options": ["Severe topsoil erosion from clearing land, accompanied by the rise of zoonotic diseases jumping from domesticated livestock to dense human villages", "Global depletion of stratospheric ozone due to synthetic aerosol release", "Catastrophic radioactive bioaccumulation in marine trophic pyramids", "Global ocean acidification caused by deep-sea polymetallic dredging"], "correct": 0, "explanation": "The Neolithic revolution (~10,000 BCE) led to widespread forest clearing for crops and livestock domestication. Continuous tilling accelerated soil erosion and depletion, while living in close proximity to dense herds of sheep, goats, pigs, and cattle enabled zoonotic pathogens (measles, flu, smallpox) to jump from animals into human settlements.", "takeaway": "Neolithic revolution: sedentary farming, crop/animal domestication, soil erosion, zoonotic diseases."}, {"id": 10, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Sumerian Soil Salinization", "difficulty": "Intermediate", "question": "In ancient Mesopotamia (Sumer), what environmental degradation mechanism caused agricultural wheat yields to crash and forced farmers to switch to salt-tolerant barley, ultimately hastening civilization decline?", "options": ["Widespread acid rain from bronze smelting that acidified river irrigation channels", "Heavy canal irrigation and inadequate drainage in arid soils, causing waterlogging and bringing toxic mineral salts to the crop root zone", "A series of volcanic eruptions depositing toxic volcanic ash across the Tigris and Euphrates rivers", "Overgrazing by domestic camels that turned fertile riverbanks into moving sand dunes"], "correct": 1, "explanation": "In ancient Sumer, massive irrigation networks diverted river water onto arid floodplains. Lacking proper subsoil drainage, the water table rose, pulling dissolved mineral salts to the surface through capillary action. As water evaporated, salt encrusted the topsoil. Wheat yields plummeted, forcing a shift to barley, and ultimately leading to the collapse of Sumerian agricultural civilization.", "takeaway": "Sumer collapsed due to soil salinization from over-irrigation and poor drainage in arid soils."}, {"id": 11, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Mediterranean Deforestation", "difficulty": "Intermediate", "question": "Why did classical Greco-Roman societies extensively clear forests across the Mediterranean basin, and what was the lasting environmental consequence?", "options": ["To manufacture papyrus scrolls exclusively, causing regional desertification", "To provide timber for naval fleets, charcoal for bronze/iron smelting, and fuel for baths and homes, leaving barren rocky hillsides and silted harbor ports", "To eradicate venomous serpents from temple complexes", "To export lumber to ancient Mesoamerican empires via transatlantic trade"], "correct": 1, "explanation": "Greeks and Romans consumed enormous amounts of wood for ship construction (navies and merchant fleets), charcoal smelting of iron and bronze, pottery kilns, and urban domestic heating. This massive deforestation stripped vulnerable mountain slopes, leading to irreversible erosion, exposed limestone karst, and choked ports with silt.", "takeaway": "Mediterranean forests were cleared for naval ships, metallurgy, and fuel, causing barren hills and silted harbors."}, {"id": 12, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Medieval Agricultural Innovations", "difficulty": "Intermediate", "question": "In Medieval European agriculture, what was the primary ecological purpose of incorporating legumes into the three-field crop rotation system?", "options": ["To repel burrowing rodents through insecticidal root exudates", "To replenish depleted soil nitrogen through symbiotic nitrogen-fixing root bacteria during the fallow/recovery phase", "To acidify alkaline soils to prevent wheat stem rust outbreaks", "To compact loose sandy soils to prevent groundwater infiltration"], "correct": 1, "explanation": "The three-field system rotated autumn plantings (wheat/rye), spring plantings (oats/barley), and a fallow field planted with nitrogen-fixing leguminous crops (peas, beans, clover). Rhizobium bacteria living in legume root nodules convert atmospheric N2 into plant-absorbable ammonium, restoring soil fertility without chemical inputs.", "takeaway": "Three-field rotation with legumes restored soil nitrogen via symbiotic nitrogen-fixing bacteria."}, {"id": 13, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Black Death Ecological Rebound", "difficulty": "Intermediate", "question": "How did the 14th-century Black Death pandemic (1347–1351 CE) inadvertently induce a measurable environmental rebound across the European landscape?", "options": ["The death of 30–60% of the human population caused widespread abandonment of marginal agricultural fields, sparking natural reforestation that sequestered atmospheric CO2", "Survivors abandoned metal tools and returned to nomadic Paleolithic foraging", "The loss of draft animals allowed topsoil to compact into impermeable rock", "Medical authorities banned the burning of firewood for three centuries"], "correct": 0, "explanation": "The Black Death decimated 30–60% of Europe's population. Acute rural depopulation led to the abandonment of millions of hectares of cultivated land. These abandoned fields underwent rapid secondary succession, and the resulting broadleaf and coniferous forest regrowth captured and sequestered substantial amounts of atmospheric carbon dioxide.", "takeaway": "Black Death killed 30–60% of population -> farmland abandoned -> natural reforestation sequestered CO2."}, {"id": 14, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Columbian Exchange & Galleon Trade", "difficulty": "Fundamental", "question": "Which set of agricultural crops originated in the Americas and was permanently introduced into the Philippine landscape via the Manila-Acapulco Galleon Trade (1565–1815)?", "options": ["Wheat, barley, oats, and black pepper", "Rice, sugarcane, mangosteen, and ginger", "Maize (corn), tobacco, sweet potato (camote), and cassava", "Coffee, tea, sorghum, and cinnamon"], "correct": 2, "explanation": "As part of the global Columbian Exchange, the Manila-Acapulco Galleon Trade established a direct trans-Pacific link between Mexico and the Philippines, introducing New World crops including corn (maize), tobacco, sweet potato (camote), cassava, tomatoes, and chili peppers into Philippine agriculture.", "takeaway": "Manila-Acapulco Galleon Trade introduced New World crops: corn, tobacco, camote, and cassava to the Philippines."}, {"id": 15, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Industrial Revolution & London's Great Stink", "difficulty": "Fundamental", "question": "The transition to mineral energy (coal) and unbridled factory growth during the Industrial Revolution culminated in London's infamous 1858 environmental crisis known as:", "options": ["The Great Smog of Donora", "The Great Dust Bowl", "The Great Stink of 1858", "The Silent Spring Inversion"], "correct": 2, "explanation": "During the summer of 1858, extreme heat fermented centuries of untreated industrial chemical wastes and raw human sewage that had been discharged directly into the shallow River Thames. The overwhelming stench, dubbed 'The Great Stink', paralyzed the British Parliament and compelled lawmakers to fund a massive modern subterranean sewage system engineered by Sir Joseph Bazalgette.", "takeaway": "Industrial Revolution: shift to coal/mineral energy; London's 'Great Stink' (1858) catalyzed modern wastewater engineering."}, {"id": 16, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Anthropocene & The Great Acceleration", "difficulty": "Intermediate", "question": "What primary empirical trend defines the 'Great Acceleration' beginning around 1950 in Earth systems history?", "options": ["A sharp global cooling trend initiating a new continental ice age", "An unprecedented, exponential surge across global human population, fossil fuel consumption, dam construction, synthetic fertilizer usage, and plastic synthesis", "The stabilization of atmospheric greenhouse gas concentrations due to universal electrification", "The complete replacement of marine ecosystems with freshwater organisms"], "correct": 1, "explanation": "The 'Great Acceleration' refers to the post-1950 period where global socioeconomic activities (population, energy use, water use, fertilizer consumption, transportation) and Earth-system trends (atmospheric CO2, nitrous oxide, ocean acidification, coastal nitrogen, tropical forest loss) curved sharply upward into steep exponential trajectories.", "takeaway": "Great Acceleration (post-1950): exponential surge in population, energy, plastics, fertilizers, and greenhouse gases."}, {"id": 17, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Classic Maya Collapse - Stucco Plaster", "difficulty": "Intermediate", "question": "In the ecological collapse of the Classic Maya civilization (250–900 CE), monumental architecture heavily accelerated regional deforestation because:", "options": ["Temples were constructed entirely from solid hardwood timber rather than limestone", "Producing quicklime for the stucco plaster that coated pyramids, plazas, and palaces required burning roughly 5 tons of fresh green wood for every 1 ton of plaster", "Forests were cleared solely to improve astronomical line-of-sight between neighboring city-states", "Builders burned forest canopies to create flat landing fields for religious ceremonies"], "correct": 1, "explanation": "To manufacture quicklime (calcium oxide) for the dazzling white stucco plaster covering temples, pyramids, and vast plazas, limestone had to be calcined in high-temperature kilns. Historical and ecological analysis reveals that producing 1 ton of lime plaster required burning roughly 5 tons of fresh timber, driving massive landscape-scale deforestation.", "takeaway": "Classic Maya deforestation: ~5 tons of green wood needed to burn 1 ton of stucco plaster."}, {"id": 18, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Classic Maya Collapse - Reservoir Failure", "difficulty": "Advanced", "question": "Beyond deforestation and severe soil erosion, what hydrological dependency made Classic Maya cities like Tikal highly vulnerable during multi-decadal megadroughts?", "options": ["Cities relied entirely on melting alpine snowpacks that abruptly disappeared", "Cities depended on plaster-lined artificial rainwater reservoirs (aguadas) that ran completely dry during extended drought episodes, collapsing municipal water supplies", "Tidal storm surges flooded inland canals with hypersaline seawater", "Tectonic faulting drained all surface rivers into underground volcanic chambers"], "correct": 1, "explanation": "Because the porous limestone karst landscape lacked perennial surface rivers in the southern lowlands, Maya centers relied on elaborate plaster-lined rainwater collection reservoirs (aguadas) to survive the annual dry season. When multi-decadal megadroughts struck (aggravated by reduced regional evapotranspiration from deforestation), the reservoirs dried up, causing systemic social collapse, warfare, and city abandonment.", "takeaway": "Maya cities relied on artificial reservoirs (aguadas); multi-decadal megadroughts caused complete water failure."}, {"id": 19, "chapterId": "ch2", "chapter": "Chapter 2: Historical Perspectives & Milestones", "topic": "Modern Milestones: Silent Spring & Brundtland", "difficulty": "Fundamental", "question": "Match the modern environmental milestones correctly: Which 1962 publication alerted the public to synthetic pesticide hazards (DDT), and which 1987 UN report formally defined 'Sustainable Development'?", "options": ["The Population Bomb (1962) and The Kyoto Protocol (1987)", "Silent Spring by Rachel Carson (1962) and The Brundtland Report / 'Our Common Future' (1987)", "Man and Nature by George Perkins Marsh (1962) and The Rio Declaration (1987)", "The Limits to Growth (1962) and The Montreal Protocol (1987)"], "correct": 1, "explanation": "Rachel Carson published 'Silent Spring' in 1962, exposing the ecological devastation and biomagnification of synthetic pesticides (like DDT) in avian food webs, launching modern environmental activism. In 1987, the UN World Commission on Environment and Development published the Brundtland Report ('Our Common Future'), defining sustainable development as meeting present needs without compromising the ability of future generations to meet their own.", "takeaway": "1962: Silent Spring (Rachel Carson / DDT); 1987: Brundtland Report (defines Sustainable Development)."}, {"id": 20, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Tropical Rainforest Soils", "difficulty": "Intermediate", "question": "Although Tropical Rainforests support the highest terrestrial biodiversity on Earth, why are their soils (oxisols/ultisols) characteristically nutrient-poor and infertile?", "options": ["Torrential rains heavily leach soluble cations, and high year-round warmth causes detritus to decompose rapidly with immediate root nutrient reabsorption", "Tropical trees absorb all nitrogen and phosphorus from passing clouds before it ever reaches the soil", "Soil bacteria in equatorial zones are biologically incapable of breaking down organic matter", "The soil is composed entirely of sterile unweathered volcanic pumice"], "correct": 0, "explanation": "In tropical rainforests, up to 90% of all ecosystem nutrients are stored in living plant biomass rather than in the topsoil. Constant warmth and humidity promote rapid microbial decomposition, and extensive shallow root networks with mycorrhizal fungi immediately absorb released nutrients. Heavy year-round rainfall washes away (leaches) any unabsorbed soluble minerals deep into subsoil layers.", "takeaway": "Rainforest soils (oxisols): heavily leached, nutrient-poor; nutrients are locked in living biomass."}, {"id": 21, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Chaparral Pyrophytic Adaptations", "difficulty": "Intermediate", "question": "Plant species in the Chaparral (Mediterranean scrub) biome are described as 'pyrophytic' because:", "options": ["They store vast reservoirs of water in succulent stems to extinguish approaching brushfires", "They possess aromatic foliage rich in volatile, flammable oils and depend on periodic wildfires to trigger seed germination and eliminate competing vegetation", "They utilize underground geothermal heat rather than solar energy for photosynthesis", "They only flower during periods of prolonged freezing temperatures"], "correct": 1, "explanation": "Chaparral vegetation is fire-adapted (pyrophytic). Evergreen shrubs (maquis/chamise) produce resinous, flammable oils that promote periodic dry-season fires. Many species require the intense heat of fire or chemical compounds in smoke to crack hard seed coats, initiate seed germination, and clear dense underbrush.", "takeaway": "Chaparral (Mediterranean scrub): pyrophytic (fire-adapted), flammable aromatic oils, fire needed for seed germination."}, {"id": 22, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Taiga / Boreal Forest", "difficulty": "Fundamental", "question": "Which global biome represents the largest contiguous terrestrial biome on Earth, characterized by cold-tolerant evergreen needle-leaf conifers and acidic, nutrient-poor podzolic soils?", "options": ["Arctic Tundra", "Temperate Deciduous Forest", "Boreal Forest (Taiga)", "Chaparral"], "correct": 2, "explanation": "The Boreal Forest (Taiga), spanning across subarctic regions of North America, Russia, and Scandinavia, is the world's largest contiguous terrestrial biome. Dominated by conifers (spruce, fir, pine, larch), the slow decomposition of acidic needle litter creates strongly leached, nutrient-poor podzols (spodosols).", "takeaway": "Boreal Forest (Taiga): largest terrestrial biome; needle conifers; acidic podzolic soils."}, {"id": 23, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Philippine Dipterocarp Rainforest", "difficulty": "Fundamental", "question": "What is the defining ecological characteristic of the Lowland Evergreen Dipterocarp Rainforest (0–800 m elevation) in the Philippines?", "options": ["It consists primarily of stunted shrubs growing on porous limestone cliffs", "It is dominated by massive hardwood trees of the Dipterocarpaceae family (e.g., Shorea, Hopea / Lauan, Yakal), forming a 45–60 m stratified canopy with the highest faunal biodiversity in the archipelago", "It is composed exclusively of fire-adapted coniferous pine trees", "It is an intertidal marine wetland submerged by daily ocean tides"], "correct": 1, "explanation": "Lowland dipterocarp forests (0–800 m) form the primary ecological and economic backbone of Philippine terrestrial ecosystems. Dominated by magnificent Dipterocarpaceae species (Red/White Lauan, Yakal, Apitong, Guijo), their towering canopies (45–60 m) provide multi-tiered habitats supporting the richest diversity of Philippine birds, mammals, and invertebrates.", "takeaway": "Dipterocarp forest (0–800m): Dipterocarpaceae (Lauan, Yakal), 45–60m canopy, primary timber and biodiversity backbone."}, {"id": 24, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Upper Montane / Mossy Forest Hydrology", "difficulty": "Intermediate", "question": "In the Philippine Upper Montane (Mossy) Forest (>1,500 m elevation), what critical ecological watershed service is performed by stunted, gnarled trees covered in thick bryophytes and epiphytes?", "options": ["They prevent deep groundwater from ever infiltrating lowland river valleys", "They capture atmospheric moisture directly from clouds and wind-blown mist via 'fog drip', sustaining dry-season baseflow for downstream river basins", "They absorb all toxic volcanic gases and convert them into calcium carbonate", "They pump sea salts into the upper atmosphere to generate lightning"], "correct": 1, "explanation": "Upper montane / mossy forests (>1,500 m) exist in perpetual cloud immersion. Stunted, twisted trees densely blanketed in mosses, liverworts, and epiphytic ferns mechanically comb moisture out of passing clouds. This phenomenon, known as 'fog drip' or occult precipitation, captures massive amounts of water that continuously recharges mountain aquifers and sustains river flow even during dry spells.", "takeaway": "Upper montane / mossy forest (>1500m): stunted trees, thick mosses, captures moisture via 'fog drip'."}, {"id": 25, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Native Philippine Pines", "difficulty": "Intermediate", "question": "Which two native pine species are indigenous to the high-elevation mountain formations of the Philippines?", "options": ["Pinus sylvestris (Scots Pine) and Pinus strobus (White Pine)", "Pinus kesiya (Benguet Pine) and Pinus merkusii (Mindoro Pine)", "Pinus radiata (Monterey Pine) and Pinus ponderosa (Ponderosa Pine)", "Pinus caribaea (Caribbean Pine) and Pinus pinea (Stone Pine)"], "correct": 1, "explanation": "The Philippines is home to two native pine species: Pinus kesiya (Benguet Pine), which dominates the cool, high-elevation ridges of the Cordillera Central in northern Luzon, and Pinus merkusii (Mindoro Pine), which occurs naturally in the mountain ranges of Mindoro and Zambales.", "takeaway": "Two native Philippine pines: Pinus kesiya (Benguet Pine - Cordillera) and Pinus merkusii (Mindoro Pine - Mindoro/Zambales)."}, {"id": 26, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Karst vs Ultrabasic Forests", "difficulty": "Advanced", "question": "How do Karst (Molave) forests and Ultrabasic (Ultramafic) forests differ in their soil chemistry and botanical adaptations in the Philippines?", "options": ["Molave forests grow on shallow, alkaline soils over porous limestone; Ultrabasic forests grow on heavy-metal-rich mantle rocks (ophiolites) with specialized hyperaccumulator flora", "Molave forests occur strictly on ocean sand dunes; Ultrabasic forests occur only on acidic peat bogs", "Molave forests host hyperaccumulator plants that absorb mercury; Ultrabasic forests are dominated by broadleaf fruit trees", "Molave forests are perpetually flooded with brackish water; Ultrabasic forests occur only on frozen mountain summits"], "correct": 0, "explanation": "Karst / Molave forests (dominated by Vitex parviflora) thrive over shallow, alkaline soils on porous limestone formations, adapting to drought through semi-deciduous leaf drop. Ultrabasic (ultramafic) forests develop over weathered ophiolitic mantle rock enriched in toxic heavy metals (nickel, cobalt, chromium) and deficient in nitrogen, potassium, and phosphorus, fostering stunted vegetation and unique nickel-hyperaccumulating plant species.", "takeaway": "Molave = alkaline limestone karst; Ultrabasic = ophiolites rich in heavy metals (nickel/cobalt), hyperaccumulators."}, {"id": 27, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Lindeman's 10% Efficiency Rule", "difficulty": "Intermediate", "question": "If the primary producers in a grassland ecosystem capture and assimilate 50,000 kJ of net solar energy into biomass, approximately how much energy will be incorporated into the biomass of tertiary consumers based on Lindeman's 10% Law?", "options": ["5,000 kJ", "500 kJ", "50 kJ", "5 kJ"], "correct": 2, "explanation": "According to Lindeman's Efficiency (10% Rule), only ~10% of the energy at one trophic level transfers to the next: Primary Producers = 50,000 kJ -> Primary Consumers (Herbivores) = 5,000 kJ -> Secondary Consumers (Carnivores) = 500 kJ -> Tertiary Consumers (Apex Predators) = 50 kJ. The remaining ~90% at each step is dissipated as metabolic heat via cellular respiration or excreted as waste.", "takeaway": "10% rule: 50,000 kJ -> 5,000 kJ (primary) -> 500 kJ (secondary) -> 50 kJ (tertiary)."}, {"id": 28, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Pyramids of Energy & Thermodynamics", "difficulty": "Intermediate", "question": "Why must an ecological Pyramid of Energy ALWAYS be upright in every natural biological community, with no exceptions?", "options": ["Decomposers transfer excess energy back to primary producers through roots", "The Second Law of Thermodynamics dictates that energy transformations are never 100% efficient, with substantial energy inevitably degraded into metabolic heat at each trophic transfer", "Herbivores always outnumber carnivores across all ecosystems", "Photosynthesis generates energy out of nothing, increasing the base infinitely"], "correct": 1, "explanation": "The Second Law of Thermodynamics establishes that in every energy conversion, entropy increases and usable free energy decreases. Because organisms lose ~90% of their assimilated energy as low-grade metabolic heat (cellular respiration, thermoregulation, kinetic movement), a higher trophic level can never contain more energy than the level supporting it. Therefore, an energy pyramid is always upright.", "takeaway": "Pyramid of Energy is ALWAYS upright: 2nd Law of Thermodynamics dictates ~90% heat loss per trophic transfer."}, {"id": 29, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Inverted Ecological Pyramids", "difficulty": "Advanced", "question": "Under which specific ecological circumstances can an INVERTED Pyramid of Biomass or Numbers be observed naturally?", "options": ["An inverted biomass pyramid occurs in pelagic marine systems where rapidly reproducing phytoplankton sustain a larger standing biomass of long-lived zooplankton", "An inverted energy pyramid occurs in deep-sea hydrothermal vent chimneys", "An inverted biomass pyramid occurs in old-growth tropical dipterocarp forests during prolonged dry seasons", "An inverted pyramid of numbers occurs in open grasslands where millions of gazelles graze on a single blade of grass"], "correct": 0, "explanation": "In open marine ecosystems, microscopic phytoplankton have an extraordinarily rapid turnover rate (hours to days) and are consumed as quickly as they divide. At any single moment, their standing biomass is small, yet their cumulative primary production over time supports a larger standing biomass of longer-lived zooplankton and fish, resulting in an inverted biomass pyramid. (Also, an inverted pyramid of numbers occurs when a single giant oak or dipterocarp tree hosts tens of thousands of herbivorous insects).", "takeaway": "Inverted Biomass Pyramid: marine pelagic systems (fast-turnover phytoplankton supporting larger zooplankton biomass)."}, {"id": 30, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "MEA Ecosystem Services: Regulating", "difficulty": "Intermediate", "question": "Under the Millennium Ecosystem Assessment (MEA) framework, which of the following natural benefits is properly classified as a 'Regulating Service'?", "options": ["Harvesting wild edible mushrooms, freshwater fish, and medical plants", "Coastal storm protection by mangrove forests, flood regulation by peat wetlands, and crop pollination by wild bees", "Soil pedogenesis, nutrient cycling, and primary biomass photosynthesis", "Recreational scuba diving, wildlife photography, and spiritual inspiration"], "correct": 1, "explanation": "Regulating services are benefits obtained from the natural regulation of ecosystem processes (climate regulation, carbon sequestration, flood attenuation, water filtration, pollination, erosion control, and biological disease control). Harvesting food/timber is Provisioning; soil formation is Supporting; recreation/spirituality is Cultural.", "takeaway": "Regulating services: carbon sequestration, flood mitigation, coastal surge buffering, water filtration, pollination."}, {"id": 31, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "MEA Ecosystem Services: Supporting", "difficulty": "Fundamental", "question": "What distinguishes 'Supporting Services' from the other three MEA ecosystem service categories (Provisioning, Regulating, Cultural)?", "options": ["Supporting services are commercial products sold directly on agricultural commodity exchanges", "Supporting services represent the fundamental, underlying ecological processes (such as nutrient cycling, soil formation, and primary production) necessary for the production of all other ecosystem services", "Supporting services are exclusively manufactured in artificial chemical laboratories", "Supporting services only occur in urban built environments"], "correct": 1, "explanation": "Supporting services form the ecological foundation of the biosphere. Unlike provisioning, regulating, or cultural services which deliver direct, tangible benefits to humanity, supporting services (soil formation, primary production, photosynthesis, nutrient cycling) operate over long time horizons to sustain the living conditions that enable all other services to exist.", "takeaway": "Supporting services: foundational processes (soil formation, photosynthesis, nutrient cycling) enabling all other services."}, {"id": 32, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Nitrogen Cycle: Nitrification", "difficulty": "Intermediate", "question": "In the biological nitrogen cycle, which two specialized groups of aerobic chemoautotrophic bacteria sequentially oxidize toxic ammonia into nitrites, and then nitrites into nitrates?", "options": ["Rhizobium followed by Azotobacter", "Nitrosomonas followed by Nitrobacter", "Pseudomonas followed by Clostridium", "Escherichia followed by Lactobacillus"], "correct": 1, "explanation": "Nitrification is a two-step aerobic bacterial process: (1) Nitrosomonas bacteria oxidize ammonia (NH3 / NH4+) into toxic nitrites (NO2-); (2) Nitrobacter bacteria oxidize nitrites into nitrates (NO3-), the primary, non-toxic bioavailable nitrogen form assimilated by plant root systems.", "takeaway": "Nitrification: Ammonia -> Nitrite (NO2-) by Nitrosomonas -> Nitrate (NO3-) by Nitrobacter."}, {"id": 33, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Nitrogen Cycle: Denitrification", "difficulty": "Intermediate", "question": "What is the biological function of denitrifying bacteria, such as Pseudomonas, in waterlogged, anaerobic wetland soils?", "options": ["They fix atmospheric nitrogen gas directly into plant-available ammonia", "They reduce soil nitrates (NO3-) back into inert gaseous dinitrogen (N2) and nitrous oxide, returning nitrogen to the atmosphere", "They convert toxic hydrogen sulfide gas into elemental sulfur crystals", "They synthesize plant nucleic acids directly from atmospheric methane"], "correct": 1, "explanation": "Denitrification is performed by facultative anaerobic bacteria (e.g., Pseudomonas) in oxygen-deprived environments (saturated wetland soils, deep aquatic sediments). These microbes utilize nitrates (NO3-) as terminal electron acceptors in anaerobic respiration, reducing them to nitric oxide, nitrous oxide, and ultimately inert dinitrogen gas (N2), closing the global nitrogen cycle.", "takeaway": "Denitrification: Anaerobic Pseudomonas reduce nitrates (NO3-) back into N2 gas, returning it to the atmosphere."}, {"id": 34, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Phosphorus Cycle Sedimentary Nature", "difficulty": "Fundamental", "question": "How does the biogeochemical cycle of Phosphorus differ fundamentally from the Nitrogen, Carbon, and Sulfur cycles?", "options": ["Phosphorus cycles exclusively through atmospheric dust with zero lithospheric storage", "Phosphorus has no significant atmospheric or gaseous reservoir, cycling almost entirely through rock weathering, soil assimilation, and aquatic sediments", "Phosphorus is only absorbed by apex predators and is toxic to autotrophic green plants", "Phosphorus is generated continuously by lightning strikes in the stratosphere"], "correct": 1, "explanation": "Unlike carbon (CO2), nitrogen (N2), and sulfur (SO2/H2S), phosphorus lacks a significant atmospheric gaseous phase under normal environmental conditions. The primary reservoir of phosphorus is in the Earth's crust as phosphate rock (apatite). It is released very slowly via geological weathering as orthophosphate (PO4 3-), making phosphorus the primary limiting nutrient in many freshwater and terrestrial ecosystems.", "takeaway": "Phosphorus cycle: No significant atmospheric gaseous phase! Weathered from rocks (PO4 3-); limiting nutrient."}, {"id": 35, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Sulfur Cycle & Acid Deposition", "difficulty": "Intermediate", "question": "When sulfur dioxide (SO2) emitted from coal combustion and volcanic activity oxidizes in the atmosphere in the presence of water vapor, what hazardous secondary pollutant forms?", "options": ["Sulfuric acid (H2SO4), precipitating as acid rain that acidifies freshwater bodies and leaches soil nutrients", "Hydrogen sulfide (H2S), creating an impenetrable protective layer that reflects cosmic rays", "Sodium sulfate crystals that fertilize desert sand dunes", "Sulfur hexafluoride, which immediately freezes the lower troposphere"], "correct": 0, "explanation": "Atmospheric sulfur dioxide (SO2) reacts with hydroxyl radicals (OH) and water vapor to produce sulfuric acid (H2SO4). This strong acid dissociates in clouds and fog, precipitating as acid rain (pH < 5.0), which damages forest canopies, mobilizes toxic aluminum ions in soils, and causes severe acidification of aquatic ecosystems.", "takeaway": "Sulfur emissions + atmospheric moisture -> Sulfuric acid (H2SO4) = acid rain."}, {"id": 36, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Parasitism in Philippine Flora", "difficulty": "Intermediate", "question": "The spectacular parasitic plant Rafflesia found in Philippine rainforests demonstrates which extreme ecological adaptation?", "options": ["It is an epiphyte that absorbs nutrients entirely from rainwater while photosynthesizing on dipterocarp branches", "It is an obligate holoparasite lacking leaves, stems, and true roots, existing as fungal-like endophytic threads inside Tetrastigma vines until flowering", "It is a carnivorous plant with sticky tentacles that captures flying lemurs and rodents", "It forms an obligate mutualistic relationship with honeybees to synthesize nectar"], "correct": 1, "explanation": "Rafflesia is an obligate endoparasite (+ / -). It has no chlorophyll, photosynthetic leaves, stems, or true root systems. Its vegetative body lives entirely as microscopic cellular filaments inside the vascular tissues of Tetrastigma vines, absorbing water and nutrients until it erupts through the bark to produce a massive, carrion-scented flower to attract fly pollinators.", "takeaway": "Rafflesia: obligate parasite (+ / -) of Tetrastigma vines; no leaves, stems, or roots; emits rotting meat odor."}, {"id": 37, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Keystone, Umbrella & Flagship Species", "difficulty": "Intermediate", "question": "Differentiate the ecological roles of a Keystone Species (such as Philippine Ficus / Fig trees) versus an Umbrella Species (such as the Philippine Eagle):", "options": ["Keystone species have small ecological roles; Umbrella species are invasive pests that displace native wildlife", "A Keystone species exerts an ecological influence disproportionately massive relative to its abundance; an Umbrella species has expansive home-range requirements whose protection indirectly shelters hundreds of co-occurring species", "Keystone species only live in aquatic lakes; Umbrella species live exclusively in underground limestone caves", "Keystone species are used solely for ecotourism marketing; Umbrella species are microscopic indicator lichens"], "correct": 1, "explanation": "A Keystone Species (like Ficus figs, which produce fruit during lean dry seasons) has an impact on community structure that is disproportionately large compared to its biomass. If removed, the ecosystem collapses. An Umbrella Species (like the Philippine Eagle, Pithecophaga jefferyi) requires vast tracts of pristine forest (~100 km2 per breeding pair); protecting its extensive territory automatically shields all organisms co-inhabiting that forest.", "takeaway": "Keystone = disproportionate ecological impact (Ficus); Umbrella = large home range protecting entire community (Phil. Eagle)."}, {"id": 38, "chapterId": "ch3", "chapter": "Chapter 3: Terrestrial Ecosystems & Cycles", "topic": "Philippine Environmental Legislation", "difficulty": "Fundamental", "question": "Which Philippine environmental statute establishes the formal system for classifying, zoning, and administering National Parks, Natural Monuments, and Wildlife Sanctuaries, as amended by Republic Act 11038 in 2018?", "options": ["RA 8749 (Philippine Clean Air Act of 1999)", "RA 9003 (Ecological Solid Waste Management Act of 2000)", "RA 7586 as amended by RA 11038 (Expanded National Integrated Protected Areas System / ENIPAS Act)", "RA 9275 (Philippine Clean Water Act of 2004)"], "correct": 2, "explanation": "Republic Act 7586, amended and strengthened by Republic Act 11038 (the ENIPAS Act of 2018), establishes the National Integrated Protected Areas System. It provides the statutory framework for designating, administering, and preserving terrestrial, wetland, and marine protected areas across the Philippines.", "takeaway": "RA 7586 / RA 11038 = ENIPAS Act (Protected Areas System); RA 9147 = Wildlife Act."}, {"id": 39, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Lotic Headwaters vs Floodplains", "difficulty": "Intermediate", "question": "Compared to downstream meandering floodplain rivers, the steep headwater source zone of a lotic (flowing) stream is typically characterized by:", "options": ["Warm water, low dissolved oxygen, high turbidity, and dominance of bottom-feeding catfish", "Cold, clear water, high flow turbulence, saturation of Dissolved Oxygen (DO), and high dependence on allochthonous leaf-litter energy inputs", "Extensive submerged seagrass beds and hypersaline conditions exceeding 35 ppt", "Complete absence of aquatic macroinvertebrates due to freezing currents"], "correct": 1, "explanation": "Lotic headwaters in high-gradient mountain terrains feature rapid, turbulent flow that physically aerates the water (high DO) and cold temperatures that enhance gas solubility. Heavy riparian tree canopies shade the water, suppressing in-stream algal photosynthesis; thus, the food web relies heavily on external organic detritus falling from the forest (allochthonous leaf litter).", "takeaway": "Headwater lotic systems: cold, clear, turbulent, high DO, allochthonous energy (leaf litter)."}, {"id": 40, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Lentic Lake Zonation", "difficulty": "Intermediate", "question": "In a deep freshwater lentic lake, which zone consists of open, sunlit surface waters extending away from the shoreline to the depth of effective light penetration, dominated by phytoplankton, zooplankton, and nekton?", "options": ["The Littoral Zone", "The Limnetic Zone", "The Profundal Zone", "The Benthic Zone"], "correct": 1, "explanation": "Lakes are divided into four main ecological zones: (1) Littoral Zone: shallow, nearshore water where light reaches the bottom, supporting rooted vegetation; (2) Limnetic Zone: open sunlit surface waters away from shore dominated by plankton and free-swimming fish (nekton); (3) Profundal Zone: deep, aphotic water below light penetration, cold and low in DO; (4) Benthic Zone: bottom substrate and organic sediment inhabited by benthos.", "takeaway": "Lentic Lake Zones: Littoral (shallow shore), Limnetic (open sunlit surface), Profundal (deep aphotic), Benthic (bottom)."}, {"id": 41, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Cultural Eutrophication Cascade", "difficulty": "Intermediate", "question": "What is the precise chronological sequence of biological events that occurs during cultural eutrophication leading to severe fish kills in freshwater lakes?", "options": ["Pesticide runoff -> Fish suffocation -> Algae proliferate -> Dissolved oxygen spikes to toxic levels", "Excess nitrogen & phosphorus runoff -> Explosive algal bloom -> Algal die-off and sedimentation -> Aerobic bacteria decompose dead biomass, exhausting dissolved oxygen -> Severe hypoxia/anoxia causes massive fish kills", "Overfishing -> Water transparency increases -> Macrophytes die -> Water column freezes", "Siltation blocks sunlight -> Bacteria starve -> Dissolved oxygen rises -> Anaerobic fish perish"], "correct": 1, "explanation": "Cultural eutrophication proceeds through a devastating cascade: (1) Agricultural fertilizer or untreated municipal sewage introduces excess limiting nutrients (N and P); (2) Phytoplankton multiply exponentially into dense surface blooms; (3) Nutrients deplete, causing mass algal die-off; (4) Aerobic decomposers (bacteria) metabolize the dead organic biomass, consuming dissolved oxygen (spiking BOD); (5) The water column becomes hypoxic (<2 mg/L DO) or anoxic, suffocating fish and benthic organisms.", "takeaway": "Eutrophication: Excess N & P -> Algal bloom -> Die-off -> Aerobic decomposition exhausts DO -> Hypoxia & Fish kill."}, {"id": 42, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Wetlands: Marshes vs Swamps", "difficulty": "Fundamental", "question": "What is the primary botanical and structural difference between a freshwater marsh and a freshwater swamp?", "options": ["Marshes are dominated by soft-stemmed herbaceous vegetation (grasses, sedges, reeds); Swamps are dominated by woody trees and shrubs", "Marshes contain hypersaline oceanic water; Swamps contain pure glacial meltwater", "Marshes are permanently frozen solid; Swamps are temporary desert flood channels", "Marshes are devoid of bird life; Swamps contain no plant life"], "correct": 0, "explanation": "Wetlands are delineated botanically: Marshes are dominated by non-woody, herbaceous vegetation such as grasses, sedges, cattails, and reeds. Swamps are wetlands dominated by woody plants, specifically large trees and shrubs (such as mangrove swamps, cypress swamps, or freshwater peat swamp forests).", "takeaway": "Wetlands: Marshes = herbaceous plants (grasses, reeds); Swamps = woody trees and shrubs."}, {"id": 43, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Philippine Aquatic Endemic - Tawilis", "difficulty": "Fundamental", "question": "Taal Lake in Batangas is famous for being the exclusive habitat of the world's only known obligate freshwater sardine, scientifically named:", "options": ["Chanos chanos (Bangus)", "Sardinella tawilis (Tawilis)", "Pristis microdon (Sawfish)", "Rhincodon typus (Whale shark / Butanding)"], "correct": 1, "explanation": "Sardinella tawilis (Tawilis) is the only known true freshwater sardine in the world. It is strictly endemic to the deep caldera waters of Taal Lake in Batangas, having evolved from marine sardines after volcanic eruptions during the 18th century severed the lake's connection to Balayan Bay.", "takeaway": "Taal Lake: home to Tawilis (Sardinella tawilis), the world's only obligate freshwater sardine."}, {"id": 44, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Marine Zonation: Mesopelagic Layer", "difficulty": "Intermediate", "question": "In vertical oceanic bathymetric zonation, the Mesopelagic Zone (200 m to 1,000 m depth) is also known as the:", "options": ["Sunlight (Euphotic) Zone, where coral reefs flourish", "Twilight (Disphotic) Zone, where faint sunlight penetrates but is insufficient for photosynthesis, inhabited by bioluminescent vertical migrators", "Midnight (Aphotic) Zone, with total darkness and temperatures near freezing", "Hadalpelagic Zone, occupying the deepest oceanic trenches"], "correct": 1, "explanation": "The Mesopelagic zone (200–1,000 m) is the Twilight or Disphotic zone. Dim sunlight filters through the upper water column, allowing vision for specialized predators, but photon density is too weak to support net photosynthesis. Organisms here (lanternfish, hatchetfish) frequently exhibit counterillumination bioluminescence and undertake daily nocturnal vertical migrations to feed in the epipelagic zone.", "takeaway": "Mesopelagic (200–1000m): Twilight / Disphotic zone, no photosynthesis, bioluminescence, vertical migrators."}, {"id": 45, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Coastal Marine Holy Trinity", "difficulty": "Intermediate", "question": "How do Mangroves, Seagrass Beds, and Coral Reefs interact functionally as the tropical 'Marine Holy Trinity'?", "options": ["Mangroves filter terrigenous sediment runoff; Seagrass beds bind fine particles and feed marine herbivores; Coral reefs absorb powerful storm waves, protecting the coastal lagoon", "Coral reefs dissolve limestone to feed mangroves; Seagrass beds generate freshwater springs for reefs", "Mangroves shade coral reefs from sunlight; Seagrasses consume dead coral skeletons", "They compete intensely for space until only one dominates a coastal bay"], "correct": 0, "explanation": "These three coastal ecosystems form an interconnected tropical buffer: (1) Mangroves trap upland silt and filter agricultural runoff from entering the sea; (2) Seagrass beds stabilize marine sediments with rhizomes and provide feeding grounds for green sea turtles and dugongs; (3) Coral reefs act as offshore natural breakwaters, dissipating heavy oceanic wave energy and creating the calm sheltered waters necessary for seagrass and mangrove survival.", "takeaway": "Marine Holy Trinity: Mangroves filter runoff -> Seagrass traps fine sediment -> Coral reefs break ocean storm waves."}, {"id": 46, "chapterId": "ch4", "chapter": "Chapter 4: Aquatic Ecosystems & Marine Life", "topic": "Coral Bleaching Thermodynamics & Symbiosis", "difficulty": "Intermediate", "question": "What is the biological and cellular mechanism underlying thermal coral bleaching in reef-building corals?", "options": ["Elevated seawater temperatures cause predatory parrotfish to bite polyps at twice their normal feeding rate", "Prolonged thermal stress (even 1–2°C above summer maxima) damages photosynthetic machinery, causing coral polyps to expel their endosymbiotic Zooxanthellae and exposing the white CaCO3 skeleton", "Corals shed their calcium carbonate shells to float away to colder polar waters", "Low water temperatures trigger an instantaneous calcification freeze across the reef"], "correct": 1, "explanation": "Reef-building corals rely on an obligate mutualistic symbiosis with photosynthetic dinoflagellates (Zooxanthellae) living in their tissues, which supply up to 90% of the polyp's metabolic energy. When water temperatures exceed normal summer maxima by even 1–2°C for several weeks, photosynthetic systems destabilize, producing toxic reactive oxygen species. To survive, the coral polyp expels the algae, exposing its translucent tissue and white calcium carbonate skeleton. If temperatures do not rapidly normalize, the coral starves and dies.", "takeaway": "Coral bleaching: Thermal stress -> coral expels mutualistic Zooxanthellae -> white CaCO3 skeleton exposed -> starvation."}, {"id": 47, "chapterId": "ch5", "chapter": "Chapter 5: Atmosphere & Meteorology", "topic": "Atmospheric Layers: Mesosphere", "difficulty": "Intermediate", "question": "In which atmospheric layer does temperature drop to approximately -90°C (the coldest layer in Earth's atmosphere), and where incoming meteors incinerate due to atmospheric friction and compression?", "options": ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], "correct": 2, "explanation": "The Mesosphere extends from 50 to 85 km above Earth's surface. In this layer, temperatures decrease with altitude to approximately -90°C (183 K) at the mesopause, making it the coldest atmospheric layer. The gas density in the mesosphere is sufficient to produce extreme friction and compressive heating on incoming meteoroids, incinerating them into shooting stars.", "takeaway": "Mesosphere (50–85 km): Coldest layer (-90°C); burns up incoming meteors due to friction and compression."}, {"id": 48, "chapterId": "ch5", "chapter": "Chapter 5: Atmosphere & Meteorology", "topic": "Dry Atmospheric Composition", "difficulty": "Fundamental", "question": "What are the four most abundant chemical constituents of clean, dry atmospheric air by volume, in descending order of concentration?", "options": ["Oxygen (~78%), Nitrogen (~21%), Carbon Dioxide (~0.93%), Argon (~0.04%)", "Nitrogen (78.08%), Oxygen (20.95%), Argon (0.93%), Carbon Dioxide (~0.04%)", "Carbon Dioxide (78%), Water Vapor (20%), Nitrogen (1%), Oxygen (0.04%)", "Hydrogen (78%), Helium (21%), Nitrogen (0.93%), Oxygen (0.04%)"], "correct": 1, "explanation": "The permanent composition of clean, dry atmospheric air is: Nitrogen (N2) at 78.08%, Oxygen (O2) at 20.95%, Argon (Ar) at 0.93%, and Carbon Dioxide (CO2) at approximately 0.04% (~420 ppm). Highly variable water vapor (0–4%) fluctuates with weather and humidity.", "takeaway": "Dry air composition: 78% Nitrogen (N2), 21% Oxygen (O2), 0.93% Argon (Ar), 0.04% Carbon Dioxide (CO2)."}, {"id": 49, "chapterId": "ch5", "chapter": "Chapter 5: Atmosphere & Meteorology", "topic": "Philippine Monsoons: Habagat vs Amihan", "difficulty": "Fundamental", "question": "Contrast the seasonal origin, wind directions, and typical weather impacts of the Southwest Monsoon (Habagat) and Northeast Monsoon (Amihan) in the Philippines:", "options": ["Habagat brings cold Siberian air in December; Amihan brings hot desert dust storms in July", "Habagat (June–October) brings warm, moist maritime air with torrential rains to western areas; Amihan (Oct/Nov–Feb) brings cool, dry air to northern/western Luzon and heavy rainfall to eastern Pacific seaboards", "Habagat blows strictly from the east over the Pacific Ocean; Amihan blows strictly from the South China Sea", "Both Habagat and Amihan produce identical nationwide drought conditions with no rain"], "correct": 1, "explanation": "The Southwest Monsoon (Habagat, June to October) is driven by warm, moist maritime air pulled from the southern hemisphere toward low-pressure systems in mainland Asia, causing overcast skies and torrential rains across western Luzon and the western Visayas. The Northeast Monsoon (Amihan, October/November to February/March) is driven by cold Siberian continental high-pressure systems crossing the Pacific, bringing cool, crisp dry air to western Luzon and substantial rains to eastern seaboards (Bicol, Samar, Leyte, Eastern Mindanao).", "takeaway": "Habagat = SW monsoon (warm/wet/June-Oct); Amihan = NE monsoon (cool/dry Nov-Feb; rains on eastern coasts)."}, {"id": 50, "chapterId": "ch5", "chapter": "Chapter 5: Atmosphere & Meteorology", "topic": "Corona Climate Classification: Type I vs Type II", "difficulty": "Intermediate", "question": "Under the Modified Corona Climate Classification system used in the Philippines, how do Type I and Type II climates differ in their precipitation patterns?", "options": ["Type I has uniform rainfall throughout the entire year; Type II has no rain whatsoever", "Type I features two distinct seasons (dry from November to April, wet from May to October); Type II has no dry season, with a pronounced maximum rainy period from November to January", "Type I experiences snow during January; Type II has extreme desert heat with flash floods in March", "Type I occurs only on the eastern Pacific coastline; Type II is confined to high mountain tops in Benguet"], "correct": 1, "explanation": "The Corona Climate Classification delineates 4 Philippine climate types: Type I has two pronounced seasons: dry from November to April and wet during the rest of the year (western parts of Luzon, Mindoro, Palawan, Panay, Negros). Type II has NO dry season, with a pronounced maximum rainfall period from November to January during the Northeast Monsoon (eastern seaboard facing the Pacific: Quezon, Bicol, Eastern Samar, Leyte, Surigao, Davao Oriental).", "takeaway": "Corona Types: Type I = 2 pronounced seasons (dry Nov–Apr, wet May–Oct); Type II = No dry season (heavy rain Nov–Jan)."}];
+
+    // State Management
+    let currentMode = 'practice'; // 'practice' or 'exam'
+    let currentChapterFilter = 'all';
+    let currentStatusFilter = 'all';
+    let searchQuery = '';
+    let userAnswers = {}; // questionId -> selectedIndex (0..3)
+    let flaggedQuestions = new Set();
+    let isSubmitted = false;
+
+    // Timer State
+    let timerTotalSeconds = 50 * 60; // 50 minutes
+    let timerRemaining = timerTotalSeconds;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    // DOM Elements
+    const container = document.getElementById('questions-container');
+    const navGrid = document.getElementById('nav-pill-grid');
+    const answeredCounterLabel = document.getElementById('answered-counter-label');
+    const scoreLiveLabel = document.getElementById('score-live-label');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const accuracyText = document.getElementById('accuracy-text');
+    const flaggedCount = document.getElementById('flagged-count');
+    const timerDisplay = document.getElementById('timer-text');
+    const timerToggleBtn = document.getElementById('timer-toggle-btn');
+    const timerResetBtn = document.getElementById('timer-reset-btn');
+    const resultsModal = document.getElementById('results-modal');
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedState();
+      renderAllQuestions();
+      renderNavGrid();
+      updateAllStats();
+      startTimer();
+      setupEventListeners();
+    });
+
+    // Setup Event Listeners
+    function setupEventListeners() {
+      // Theme Toggle
+      document.getElementById('btn-theme-toggle').addEventListener('click', toggleTheme);
+
+      // Mode Buttons
+      document.getElementById('btn-practice-mode').addEventListener('click', () => setMode('practice'));
+      document.getElementById('btn-exam-mode').addEventListener('click', () => setMode('exam'));
+
+      // Filter Chips
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          currentChapterFilter = e.currentTarget.getAttribute('data-filter');
+          applyFilters();
+        });
+      });
+
+      // Status Filter Dropdown
+      document.getElementById('status-filter').addEventListener('change', (e) => {
+        currentStatusFilter = e.target.value;
+        applyFilters();
+      });
+
+      // Search Bar
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        applyFilters();
+      });
+
+      // Reset Button
+      document.getElementById('btn-reset-quiz').addEventListener('click', resetQuiz);
+
+      // Shuffle Options
+      document.getElementById('btn-shuffle-opts').addEventListener('click', shuffleOptions);
+
+      // Submit Button
+      document.getElementById('btn-submit-exam').addEventListener('click', handleExamSubmit);
+
+      // Timer Controls
+      timerToggleBtn.addEventListener('click', toggleTimer);
+      timerResetBtn.addEventListener('click', resetTimer);
+
+      // Modal Actions
+      document.getElementById('btn-close-modal').addEventListener('click', () => resultsModal.classList.remove('active'));
+      document.getElementById('btn-review-missed').addEventListener('click', () => {
+        resultsModal.classList.remove('active');
+        document.getElementById('status-filter').value = 'incorrect';
+        currentStatusFilter = 'incorrect';
+        applyFilters();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      document.getElementById('btn-retake-exam').addEventListener('click', () => {
+        resultsModal.classList.remove('active');
+        resetQuiz();
+      });
+      document.getElementById('btn-print-summary').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Mobile Nav Toggle
+      const mobileNavBtn = document.getElementById('mobile-nav-btn');
+      const sidebar = document.getElementById('navigator-sidebar');
+      const closeMobileNav = document.getElementById('btn-close-mobile-nav');
+
+      mobileNavBtn.addEventListener('click', () => {
+        sidebar.classList.add('mobile-open');
+        closeMobileNav.style.display = 'inline-block';
+      });
+      closeMobileNav.addEventListener('click', () => {
+        sidebar.classList.remove('mobile-open');
+        closeMobileNav.style.display = 'none';
+      });
+
+      // Keyboard Navigation
+      document.addEventListener('keydown', handleKeyboardShortcuts);
+    }
+
+    // Render Question Cards
+    function renderAllQuestions() {
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      questions.forEach((q, idx) => {
+        const card = document.createElement('article');
+        card.className = 'question-card';
+        card.id = `question-${q.id}`;
+        card.setAttribute('data-id', q.id);
+        card.setAttribute('data-chapter', q.chapterId);
+
+        const isFlagged = flaggedQuestions.has(q.id);
+        const diffClass = q.difficulty.toLowerCase();
+
+        card.innerHTML = `
+          <div class="q-header">
+            <div class="q-meta-left">
+              <span class="q-num-badge">Q${String(q.id).padStart(2, '0')}</span>
+              <span class="q-tag">${escapeHtml(q.chapter)}</span>
+              <span class="q-tag">${escapeHtml(q.topic)}</span>
+              <span class="q-diff ${diffClass}">${q.difficulty}</span>
+            </div>
+            <button class="flag-btn ${isFlagged ? 'flagged' : ''}" data-qid="${q.id}" title="Bookmark question">
+              <span>★</span> <span class="flag-label">${isFlagged ? 'Flagged' : 'Flag'}</span>
+            </button>
+          </div>
+
+          <div class="q-stem">
+            ${escapeHtml(q.question)}
+          </div>
+
+          <div class="options-grid" role="radiogroup" aria-label="Question ${q.id} Options">
+            ${q.options.map((opt, optIdx) => `
+              <label class="option-card" id="opt-card-${q.id}-${optIdx}" data-qid="${q.id}" data-idx="${optIdx}">
+                <input type="radio" name="question-${q.id}" value="${optIdx}">
+                <div class="opt-key">${letters[optIdx]}</div>
+                <div class="opt-text">${escapeHtml(opt)}</div>
+              </label>
+            `).join('')}
+          </div>
+
+          <div class="explanation-box" id="exp-box-${q.id}">
+            <div class="exp-title">
+              <span>💡</span> Core Ecological Rationale & Analysis
+            </div>
+            <div class="exp-body">
+              ${escapeHtml(q.explanation)}
+            </div>
+            <div class="exp-takeaway">
+              🎯 Rapid Recall: ${escapeHtml(q.takeaway)}
+            </div>
+          </div>
+        `;
+
+        // Event listeners for option cards
+        const optCards = card.querySelectorAll('.option-card');
+        optCards.forEach(optCard => {
+          optCard.addEventListener('click', (e) => {
+            const qId = parseInt(optCard.getAttribute('data-qid'));
+            const optIdx = parseInt(optCard.getAttribute('data-idx'));
+            selectOption(qId, optIdx);
+          });
+        });
+
+        // Flag button listener
+        const flagBtn = card.querySelector('.flag-btn');
+        flagBtn.addEventListener('click', () => {
+          toggleFlag(q.id);
+        });
+
+        container.appendChild(card);
+      });
+
+      // Restore prior selections if any
+      restoreUserAnswersDisplay();
+    }
+
+    // Render Navigator Grid 1..50
+    function renderNavGrid() {
+      navGrid.innerHTML = '';
+      questions.forEach(q => {
+        const pill = document.createElement('button');
+        pill.className = 'nav-pill';
+        pill.id = `nav-pill-${q.id}`;
+        pill.textContent = q.id;
+        pill.title = `Jump to Q${q.id}: ${q.topic}`;
+
+        if (flaggedQuestions.has(q.id)) {
+          pill.classList.add('flagged');
+        }
+
+        pill.addEventListener('click', () => {
+          scrollToQuestion(q.id);
+          // If on mobile, close sidebar
+          const sidebar = document.getElementById('navigator-sidebar');
+          if (sidebar.classList.contains('mobile-open')) {
+            sidebar.classList.remove('mobile-open');
+            document.getElementById('btn-close-mobile-nav').style.display = 'none';
+          }
+        });
+
+        navGrid.appendChild(pill);
+      });
+    }
+
+    // Select Option Logic
+    function selectOption(questionId, selectedIdx) {
+      userAnswers[questionId] = selectedIdx;
+      saveState();
+
+      const q = questions.find(item => item.id === questionId);
+      const isCorrect = selectedIdx === q.correct;
+
+      // Update card option classes
+      for (let i = 0; i < 4; i++) {
+        const optCard = document.getElementById(`opt-card-${questionId}-${i}`);
+        if (!optCard) continue;
+
+        optCard.classList.remove('selected', 'correct-revealed', 'incorrect-revealed');
+
+        if (i === selectedIdx) {
+          optCard.classList.add('selected');
+        }
+
+        // If in practice mode or submitted exam, reveal colors immediately
+        if (currentMode === 'practice' || isSubmitted) {
+          if (i === q.correct) {
+            optCard.classList.add('correct-revealed');
+          } else if (i === selectedIdx && !isCorrect) {
+            optCard.classList.add('incorrect-revealed');
+          }
+        }
+      }
+
+      // Explanation reveal
+      const expBox = document.getElementById(`exp-box-${questionId}`);
+      if (currentMode === 'practice' || isSubmitted) {
+        expBox.classList.add('visible');
+      } else {
+        expBox.classList.remove('visible');
+      }
+
+      // Update nav grid pill
+      updateNavPill(questionId);
+      updateAllStats();
+    }
+
+    // Update Single Navigator Pill Status
+    function updateNavPill(qId) {
+      const pill = document.getElementById(`nav-pill-${qId}`);
+      if (!pill) return;
+
+      const q = questions.find(item => item.id === qId);
+      const chosen = userAnswers[qId];
+
+      pill.className = 'nav-pill';
+      if (flaggedQuestions.has(qId)) pill.classList.add('flagged');
+
+      if (chosen !== undefined) {
+        if (currentMode === 'practice' || isSubmitted) {
+          if (chosen === q.correct) {
+            pill.classList.add('correct');
+          } else {
+            pill.classList.add('incorrect');
+          }
+        } else {
+          pill.classList.add('answered');
+        }
+      }
+    }
+
+    // Toggle Flag / Bookmark
+    function toggleFlag(qId) {
+      if (flaggedQuestions.has(qId)) {
+        flaggedQuestions.delete(qId);
+      } else {
+        flaggedQuestions.add(qId);
+      }
+      saveState();
+
+      const card = document.getElementById(`question-${qId}`);
+      if (card) {
+        const flagBtn = card.querySelector('.flag-btn');
+        const isFlagged = flaggedQuestions.has(qId);
+        flagBtn.classList.toggle('flagged', isFlagged);
+        flagBtn.querySelector('.flag-label').textContent = isFlagged ? 'Flagged' : 'Flag';
+      }
+
+      const navPill = document.getElementById(`nav-pill-${qId}`);
+      if (navPill) {
+        navPill.classList.toggle('flagged', flaggedQuestions.has(qId));
+      }
+
+      updateAllStats();
+    }
+
+    // Scroll smoothly to question
+    function scrollToQuestion(qId) {
+      const card = document.getElementById(`question-${qId}`);
+      if (card) {
+        document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active-question'));
+        document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+
+        card.classList.add('active-question');
+        const pill = document.getElementById(`nav-pill-${qId}`);
+        if (pill) pill.classList.add('active');
+
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Filter Logic
+    function applyFilters() {
+      questions.forEach(q => {
+        const card = document.getElementById(`question-${q.id}`);
+        if (!card) return;
+
+        let matchesChapter = (currentChapterFilter === 'all' || q.chapterId === currentChapterFilter);
+        let matchesSearch = true;
+        if (searchQuery) {
+          const fullText = (q.question + ' ' + q.topic + ' ' + q.chapter + ' ' + q.options.join(' ') + ' ' + q.takeaway).toLowerCase();
+          matchesSearch = fullText.includes(searchQuery);
+        }
+
+        let matchesStatus = true;
+        const isAnswered = userAnswers[q.id] !== undefined;
+        const isCorrect = isAnswered && userAnswers[q.id] === q.correct;
+        const isFlagged = flaggedQuestions.has(q.id);
+
+        if (currentStatusFilter === 'flagged') matchesStatus = isFlagged;
+        else if (currentStatusFilter === 'unanswered') matchesStatus = !isAnswered;
+        else if (currentStatusFilter === 'incorrect') matchesStatus = isAnswered && !isCorrect;
+
+        if (matchesChapter && matchesSearch && matchesStatus) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Update Stats & Progress Bar
+    function updateAllStats() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const total = questions.length;
+      const pct = Math.round((answeredCount / total) * 100);
+
+      progressBarFill.style.width = `${pct}%`;
+      answeredCounterLabel.textContent = `Answered: ${answeredCount} / ${total} (${pct}%)`;
+      flaggedCount.textContent = `${flaggedQuestions.size} Flagged`;
+
+      if (currentMode === 'practice' || isSubmitted) {
+        let correctCount = 0;
+        for (const [qId, ansIdx] of Object.entries(userAnswers)) {
+          const q = questions.find(item => item.id === parseInt(qId));
+          if (q && ansIdx === q.correct) correctCount++;
+        }
+
+        const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 100;
+        scoreLiveLabel.textContent = `Practice Score: ${correctCount} / ${answeredCount} (${accuracy}%)`;
+        accuracyText.textContent = `${accuracy}% Acc`;
+      } else {
+        scoreLiveLabel.textContent = `Exam in Progress`;
+        accuracyText.textContent = `In Exam`;
+      }
+    }
+
+    // Set Mode: 'practice' vs 'exam'
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('btn-practice-mode').classList.toggle('active', mode === 'practice');
+      document.getElementById('btn-exam-mode').classList.toggle('active', mode === 'exam');
+
+      // Re-render visual feedback on all cards and nav pills
+      questions.forEach(q => {
+        const chosen = userAnswers[q.id];
+        const expBox = document.getElementById(`exp-box-${q.id}`);
+
+        for (let i = 0; i < 4; i++) {
+          const optCard = document.getElementById(`opt-card-${q.id}-${i}`);
+          if (!optCard) continue;
+
+          optCard.classList.remove('correct-revealed', 'incorrect-revealed');
+
+          if (chosen !== undefined) {
+            if (currentMode === 'practice' || isSubmitted) {
+              if (i === q.correct) optCard.classList.add('correct-revealed');
+              else if (i === chosen) optCard.classList.add('incorrect-revealed');
+            }
+          }
+        }
+
+        if (expBox) {
+          if ((currentMode === 'practice' && chosen !== undefined) || isSubmitted) {
+            expBox.classList.add('visible');
+          } else {
+            expBox.classList.remove('visible');
+          }
+        }
+
+        updateNavPill(q.id);
+      });
+
+      updateAllStats();
+      saveState();
+    }
+
+    // Handle Exam Submission
+    function handleExamSubmit() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const total = questions.length;
+
+      if (answeredCount < total && !isSubmitted) {
+        const proceed = confirm(`You have answered ${answeredCount} out of ${total} questions. Do you want to submit the exam now?`);
+        if (!proceed) return;
+      }
+
+      isSubmitted = true;
+      pauseTimer();
+      setMode('exam'); // Ensures exam display state while revealing answers
+
+      // Compute Scores
+      let totalCorrect = 0;
+      const chapterStats = {
+        ch1: { name: 'Ch 1: Foundations & Earth Spheres', correct: 0, total: 0 },
+        ch2: { name: 'Ch 2: Historical Perspectives & Maya', correct: 0, total: 0 },
+        ch3: { name: 'Ch 3: Terrestrial Ecosystems & Cycles', correct: 0, total: 0 },
+        ch4: { name: 'Ch 4: Aquatic Systems & Marine Trinity', correct: 0, total: 0 },
+        ch5: { name: 'Ch 5: Atmosphere & Meteorology', correct: 0, total: 0 }
+      };
+
+      questions.forEach(q => {
+        const ch = chapterStats[q.chapterId];
+        if (ch) ch.total++;
+
+        const chosen = userAnswers[q.id];
+        if (chosen !== undefined && chosen === q.correct) {
+          totalCorrect++;
+          if (ch) ch.correct++;
+        }
+      });
+
+      const scorePct = Math.round((totalCorrect / total) * 100);
+
+      // Render Modal
+      document.getElementById('modal-score-pct').textContent = `${scorePct}%`;
+      document.getElementById('modal-score-raw').textContent = `${totalCorrect} / ${total}`;
+
+      let title = 'Assessment Completed';
+      let verdict = '';
+      if (scorePct >= 95) {
+        title = '🏆 Summa Cum Laude Tier';
+        verdict = 'Flawless academic mastery of high-yield environmental science concepts!';
+      } else if (scorePct >= 90) {
+        title = '🌿 Magna Cum Laude Tier';
+        verdict = 'Outstanding performance! Demonstrates deep grasp of ecological systems.';
+      } else if (scorePct >= 80) {
+        title = '📘 Cum Laude Tier';
+        verdict = 'Solid academic competence across core and specialized topics.';
+      } else if (scorePct >= 75) {
+        title = '✅ Passing Standard';
+        verdict = 'Meets undergraduate benchmark; recommended review of missed chapters.';
+      } else {
+        title = '⚠️ Review Recommended';
+        verdict = 'Focus on foundational concepts, biogeochemical cycles, and climate patterns.';
+      }
+
+      document.getElementById('modal-grade-title').textContent = title;
+      document.getElementById('modal-verdict-text').textContent = verdict;
+
+      // Render Chapter Breakdown Bars
+      const breakdownList = document.getElementById('modal-breakdown-list');
+      breakdownList.innerHTML = '';
+      Object.values(chapterStats).forEach(c => {
+        const cPct = c.total > 0 ? Math.round((c.correct / c.total) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'breakdown-row';
+        row.innerHTML = `
+          <div class="breakdown-label-row">
+            <span>${escapeHtml(c.name)}</span>
+            <span style="font-family: var(--font-mono);">${c.correct}/${c.total} (${cPct}%)</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: ${cPct}%;"></div>
+          </div>
+        `;
+        breakdownList.appendChild(row);
+      });
+
+      resultsModal.classList.add('active');
+
+      // Refresh question view so all answers and explanations are visible
+      questions.forEach(q => {
+        const chosen = userAnswers[q.id];
+        const expBox = document.getElementById(`exp-box-${q.id}`);
+        for (let i = 0; i < 4; i++) {
+          const optCard = document.getElementById(`opt-card-${q.id}-${i}`);
+          if (optCard) {
+            if (i === q.correct) optCard.classList.add('correct-revealed');
+            else if (i === chosen) optCard.classList.add('incorrect-revealed');
+          }
+        }
+        if (expBox) expBox.classList.add('visible');
+        updateNavPill(q.id);
+      });
+      updateAllStats();
+    }
+
+    // Reset Quiz
+    function resetQuiz() {
+      const confirmReset = confirm("Are you sure you want to reset all answers and progress?");
+      if (!confirmReset) return;
+
+      userAnswers = {};
+      flaggedQuestions.clear();
+      isSubmitted = false;
+      localStorage.removeItem('envisci_quiz_answers');
+      localStorage.removeItem('envisci_quiz_flags');
+
+      resetTimer();
+      renderAllQuestions();
+      renderNavGrid();
+      updateAllStats();
+    }
+
+    // Shuffle Options
+    function shuffleOptions() {
+      const confirmShuffle = confirm("Shuffling options will reorder choices A, B, C, D on all questions and reset current answer selections. Proceed?");
+      if (!confirmShuffle) return;
+
+      questions.forEach(q => {
+        // Pair options with their original status
+        const pairs = q.options.map((opt, idx) => ({ opt, isCorrect: idx === q.correct }));
+        // Fisher-Yates shuffle
+        for (let i = pairs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+        }
+        q.options = pairs.map(p => p.opt);
+        q.correct = pairs.findIndex(p => p.isCorrect);
+      });
+
+      userAnswers = {};
+      renderAllQuestions();
+      renderNavGrid();
+      updateAllStats();
+    }
+
+    // Timer Implementation
+    function startTimer() {
+      if (isTimerRunning) return;
+      isTimerRunning = true;
+      timerToggleBtn.textContent = '⏸️';
+
+      timerInterval = setInterval(() => {
+        if (timerRemaining > 0) {
+          timerRemaining--;
+          updateTimerDisplay();
+        } else {
+          pauseTimer();
+          alert("Time is up! Submitting examination automatically...");
+          handleExamSubmit();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      isTimerRunning = false;
+      timerToggleBtn.textContent = '▶️';
+      if (timerInterval) clearInterval(timerInterval);
+    }
+
+    function toggleTimer() {
+      if (isTimerRunning) pauseTimer();
+      else startTimer();
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timerRemaining = timerTotalSeconds;
+      updateTimerDisplay();
+      startTimer();
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerRemaining / 60);
+      const secs = timerRemaining % 60;
+      timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      timerDisplay.classList.remove('warning', 'danger');
+      if (timerRemaining <= 60) {
+        timerDisplay.classList.add('danger');
+      } else if (timerRemaining <= 300) {
+        timerDisplay.classList.add('warning');
+      }
+    }
+
+    // Keyboard Shortcuts
+    function handleKeyboardShortcuts(e) {
+      // Ignore if typing in search box
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+      const key = e.key.toUpperCase();
+      const currentActive = document.querySelector('.question-card.active-question') || document.querySelector('.question-card:not(.hidden)');
+      if (!currentActive) return;
+
+      const qId = parseInt(currentActive.getAttribute('data-id'));
+
+      // A, B, C, D or 1, 2, 3, 4
+      if (['A', '1'].includes(key)) { selectOption(qId, 0); }
+      else if (['B', '2'].includes(key)) { selectOption(qId, 1); }
+      else if (['C', '3'].includes(key)) { selectOption(qId, 2); }
+      else if (['D', '4'].includes(key)) { selectOption(qId, 3); }
+      else if (key === 'F') { toggleFlag(qId); }
+      else if (key === 'J' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextId = qId < 50 ? qId + 1 : 1;
+        scrollToQuestion(nextId);
+      }
+      else if (key === 'K' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevId = qId > 1 ? qId - 1 : 50;
+        scrollToQuestion(prevId);
+      }
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('envisci_theme', newTheme);
+    }
+
+    // Persistence: LocalStorage
+    function saveState() {
+      try {
+        localStorage.setItem('envisci_quiz_answers', JSON.stringify(userAnswers));
+        localStorage.setItem('envisci_quiz_flags', JSON.stringify(Array.from(flaggedQuestions)));
+      } catch (e) {}
+    }
+
+    function loadSavedState() {
+      try {
+        const savedTheme = localStorage.getItem('envisci_theme');
+        if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+        const savedAns = localStorage.getItem('envisci_quiz_answers');
+        if (savedAns) userAnswers = JSON.parse(savedAns);
+
+        const savedFlags = localStorage.getItem('envisci_quiz_flags');
+        if (savedFlags) flaggedQuestions = new Set(JSON.parse(savedFlags));
+      } catch (e) {}
+    }
+
+    function restoreUserAnswersDisplay() {
+      Object.entries(userAnswers).forEach(([qIdStr, optIdx]) => {
+        const qId = parseInt(qIdStr);
+        const optCard = document.getElementById(`opt-card-${qId}-${optIdx}`);
+        if (optCard) {
+          optCard.classList.add('selected');
+          const radio = optCard.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
+        }
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
