@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENVISCI 101: Specialized Keynote Reviewer — Cycles, Atmosphere & Oceans</title>
+  
+  <!-- Modern Google Fonts Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Zero-footprint scrollbars */
+    html, body, * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
+    :root {
+      /* LIGHT THEME (Warm Linen Alabaster / Nature Palette) */
+      --bg-canvas: #F8F6F1;
+      --surface-card: #FFFFFF;
+      --surface-elevated: #EDE6DC;
+      --surface-subtle: #F3ECE2;
+      --surface-card-back: #F5EFE6;
+      --text-main: #1D1A16;
+      --text-muted: #5C564E;
+      --text-faint: #8E867B;
+      --border-subtle: #E2DBD0;
+      --border-focus: #C8BAA8;
+      
+      --accent-crimson: #C84B31;
+      --accent-ochre: #A96E32;
+      --accent-teal: #26796B;
+      --accent-blue: #1B365D;
+
+      --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --card-shadow: 0 4px 20px -2px rgba(45, 35, 20, 0.05), 0 2px 6px -1px rgba(45, 35, 20, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(45, 35, 20, 0.12), 0 4px 12px -2px rgba(45, 35, 20, 0.06);
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME (Deep Space Slate / Bioluminescent Accents) */
+      --bg-canvas: #0B0E14;
+      --surface-card: #141821;
+      --surface-elevated: #1F2636;
+      --surface-subtle: #181E2A;
+      --surface-card-back: #182030;
+      --text-main: #F4F6FB;
+      --text-muted: #9DA6B8;
+      --text-faint: #657085;
+      --border-subtle: #242D3D;
+      --border-focus: #37435C;
+      
+      --accent-crimson: #E0533C;
+      --accent-ochre: #E5A967;
+      --accent-teal: #2DD4BF;
+      --accent-blue: #4A90E2;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.45);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Keynote Stage Preservation */
+    .keynote-stage {
+      width: 1380px;
+      height: 790px;
+      max-width: calc(100vw - 2.5rem);
+      max-height: calc(100vh - 2.5rem);
+      aspect-ratio: 1380 / 790;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    /* Edge-Hover Header Drawer */
+    .deck-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--surface-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      transform: translateY(-80%);
+      opacity: 0.2;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+
+    .keynote-stage:hover .deck-header,
+    .deck-header.pinned,
+    .deck-header:hover {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .header-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .ctrl-btn {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+    .ctrl-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-focus);
+    }
+
+    /* Edge-Hover Footer Drawer */
+    .deck-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--surface-card);
+      border-top: 1px solid var(--border-subtle);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      transform: translateY(80%);
+      opacity: 0.2;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+
+    .keynote-stage:hover .deck-footer,
+    .deck-footer.pinned,
+    .deck-footer:hover {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .footer-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-arrow-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-subtle);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    .nav-arrow-btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-focus);
+    }
+
+    /* Slides Viewport */
+    .slides-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 3.5rem 3.5rem 3.5rem 3.5rem;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Slide Header */
+    .slide-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .slide-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+    }
+
+    .slide-heading {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .slide-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 95%;
+      line-height: 1.45;
+    }
+
+    /* 3D Card Flip Layout */
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      flex: 1;
+      perspective: 1200px;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform-style: preserve-3d;
+      border-radius: 16px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      padding: 1.75rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Card Front */
+    .card-front {
+      background-color: var(--surface-card);
+      border-top: 4px solid var(--card-accent, var(--accent-teal));
+    }
+
+    .card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--accent-teal));
+    }
+
+    .card-front-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .card-front-summary {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      flex-grow: 1;
+    }
+
+    .flip-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-faint);
+    }
+
+    /* Card Back (Theoretical Deep Dive) */
+    .card-back {
+      background-color: var(--surface-card-back);
+      transform: rotateY(180deg);
+      border-top: 4px solid var(--card-accent, var(--accent-teal));
+      overflow-y: auto;
+    }
+
+    .card-back-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .card-back-content {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      flex-grow: 1;
+    }
+
+    .bullet-point {
+      display: flex;
+      gap: 0.45rem;
+      align-items: flex-start;
+    }
+
+    .bullet-icon {
+      color: var(--card-accent, var(--accent-teal));
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* COLOR-MATCHED DARK MODE TYPOGRAPHY ON CARD BACKS */
+    [data-theme="dark"] .flip-card[data-accent="crimson"] .card-back-title { color: #FFAEA0 !important; }
+    [data-theme="dark"] .flip-card[data-accent="crimson"] .card-tag { color: #FF8F7D !important; }
+    [data-theme="dark"] .flip-card[data-accent="crimson"] .card-back-content { color: #FCE6E2 !important; }
+    [data-theme="dark"] .flip-card[data-accent="crimson"] .bullet-icon { color: #E0533C !important; }
+
+    [data-theme="dark"] .flip-card[data-accent="ochre"] .card-back-title { color: #FCE1B8 !important; }
+    [data-theme="dark"] .flip-card[data-accent="ochre"] .card-tag { color: #F5C58A !important; }
+    [data-theme="dark"] .flip-card[data-accent="ochre"] .card-back-content { color: #FAF0DF !important; }
+    [data-theme="dark"] .flip-card[data-accent="ochre"] .bullet-icon { color: #E5A967 !important; }
+
+    [data-theme="dark"] .flip-card[data-accent="teal"] .card-back-title { color: #99F6E4 !important; }
+    [data-theme="dark"] .flip-card[data-accent="teal"] .card-tag { color: #5EEAD4 !important; }
+    [data-theme="dark"] .flip-card[data-accent="teal"] .card-back-content { color: #E0FAF5 !important; }
+    [data-theme="dark"] .flip-card[data-accent="teal"] .bullet-icon { color: #2DD4BF !important; }
+
+    /* Summary Slides / Full-Width Layout */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .summary-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .summary-box-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-teal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .summary-table th {
+      text-align: left;
+      padding: 0.5rem;
+      border-bottom: 2px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .summary-table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    /* Modal / Help overlay */
+    .help-modal {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      width: 500px;
+      max-width: 90%;
+    }
+    .help-modal.active { display: block; }
+
+    .help-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .shortcut-list {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1rem;
+      font-size: 0.88rem;
+    }
+
+    .key-badge {
+      font-family: var(--font-mono);
+      padding: 0.2rem 0.5rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Keynote Stage Window -->
+  <main class="keynote-stage" id="stage">
+    
+    <!-- Top Edge-Hover Header Drawer -->
+    <header class="deck-header" id="deckHeader">
+      <div class="header-eyebrow">
+        <span>🌿</span> ENVISCI 101 • SPECIALIZED TRI-DOMAIN REVIEWER DECK
+      </div>
+      <div class="header-controls">
+        <a href="index.html" class="ctrl-btn" title="Return to Examination Portal">
+          📝 Exam Portal
+        </a>
+        <button class="ctrl-btn" id="btnFlipAll" title="Batch Flip Cards (X or Tab)">
+          🔄 Flip All (X)
+        </button>
+        <button class="ctrl-btn" id="btnToggleTheme" title="Toggle Dark/Light (T)">
+          🌓 Theme (T)
+        </button>
+        <button class="ctrl-btn" id="btnHelp" title="Keyboard Shortcuts (?)">
+          ⌨️ Help (?)
+        </button>
+        <button class="ctrl-btn" id="btnFullscreen" title="Fullscreen Keynote (F)">
+          ⛶ Fullscreen (F)
+        </button>
+      </div>
+    </header>
+
+    <!-- Slides Container -->
+    <div class="slides-container" id="slidesContainer">
+
+      <!-- SLIDE 01: Title Slide / Tri-Domain Architecture -->
+      <section class="slide active" data-slide="1">
+        <div class="slide-title-block">
+          <span class="slide-kicker">EXECUTIVE KEYNOTE ARCHITECTURE • SLIDE 01 / 15</span>
+          <h1 class="slide-heading">The Planetary Metabolism: Cycles, Atmosphere &amp; Oceans</h1>
+          <p class="slide-desc">A specialized high-yield deconstruction addressing cognitive friction across biogeochemical mass transport, atmospheric thermodynamics, and marine ecology.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">DOMAIN I • MASS BALANCE</span>
+                  <h3 class="card-front-title">Biogeochemical Cycles</h3>
+                  <p class="card-front-summary">Mass conservation in a closed material system. Fast biological vs. slow geological carbon, the 5-step nitrogen cascade, and the sedimentary phosphorus bottleneck.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">THEORETICAL FOUNDATION</span>
+                  <h4 class="card-back-title">Planetary Mass Recycling</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Earth is an open system for solar energy flux but strictly closed for matter.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Every atom of N, P, C, and S must cycle continuously between rock, air, water, and living protoplasm.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Microbial enzymatic pathways dictate global bio-availability (Nitrogenase, Nitrosomonas, Pseudomonas).</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">DOMAIN II • FLUID MECHANICS</span>
+                  <h3 class="card-front-title">Atmosphere &amp; Meteorology</h3>
+                  <p class="card-front-summary">Thermal lapse rates across 5 concentric strata, the 3-cell convective engine, Coriolis rotational vorticity, and Philippine regional monsoon systems (Habagat vs. Amihan).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">THEORETICAL FOUNDATION</span>
+                  <h4 class="card-back-title">Thermal Strata &amp; Fluid Flows</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Strata are defined by temperature lapse rates, not chemical boundaries.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Tropospheric convective weather is capped by the isothermal tropopause.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Planetary heat imbalance drives Hadley, Ferrel, and Polar atmospheric cells deflected by Earth's spin.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">DOMAIN III • HYDROSPHERIC COUPLING</span>
+                  <h3 class="card-front-title">Oceans &amp; Aquatic Systems</h3>
+                  <p class="card-front-summary">Lotic vs. lentic freshwater dynamics, the 5-stage cultural eutrophication cascade, marine bathymetric light extinction, and the coastal "Marine Holy Trinity".</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">THEORETICAL FOUNDATION</span>
+                  <h4 class="card-back-title">Light Extinction &amp; Trinity Buffers</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Exponential light absorption limits primary production to the upper 200 m (Epipelagic photic zone).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Mangroves, seagrass beds, and coral reefs form a mutually protective tripartite buffer against silt and storm energy.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Coral bleaching is an energetic failure: heat disrupts Zooxanthellae photosystem II.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 02: Carbon & Hydrologic Cycle Dynamics -->
+      <section class="slide" data-slide="2">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE I • BIOGEOCHEMICAL CYCLES • SLIDE 02 / 15</span>
+          <h2 class="slide-heading">The Hydrologic &amp; Carbon Feedback Loops</h2>
+          <p class="slide-desc">Solar-driven global water transport and the dual-temporal kinetics of planetary carbon sequestration.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">HYDROLOGY</span>
+                  <h3 class="card-front-title">Solar Mass Transport</h3>
+                  <p class="card-front-summary">Water is the universal solvent mobilizing planetary ions. 97% oceanic, 2.5% freshwater, with ~68.7% locked in cryospheric glaciers and ice sheets.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">THEORETICAL MECHANISM</span>
+                  <h4 class="card-back-title">Evapotranspiration &amp; Runoff</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Vegetation canopy transpiration recycles up to 75% of local rain in tropical basins.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Urban impervious surfaces impede percolation, collapsing groundwater tables and amplifying flash surges.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cloud formation functions as negative feedback by reflecting solar rays back to space.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">FAST CARBON LOOP</span>
+                  <h3 class="card-front-title">Photosynthesis &amp; Respiration</h3>
+                  <p class="card-front-summary">Biotic cycling operating on timescales of hours to decades. CO2 uptake in glucose vs. metabolic release through cellular respiration and combustion.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">BIOCHEMICAL REACTION</span>
+                  <h4 class="card-back-title">Metabolic Carbon Exchange</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>6CO2 + 6H2O + light -> C6H12O6 + 6O2 (Chloroplast Calvin Cycle).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cellular respiration returns CO2 back to the troposphere with ~90% metabolic heat dissipation.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Net Ecosystem Production dictates whether an old-growth forest acts as a carbon sink or source.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">SLOW CARBON LOOP</span>
+                  <h3 class="card-front-title">Geological Lithification</h3>
+                  <p class="card-front-summary">Millennia-scale carbonate rock formation and subduction outgassing. The chemistry of carbonic acid weathering and ocean acidification.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">GEOLOGICAL EQUILIBRIUM</span>
+                  <h4 class="card-back-title">Carbonate Sedimentary Trap</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Atmospheric CO2 dissolves in rain to form H2CO3, weathering rocks into bicarbonate (HCO3-).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Corals and mollusks precipitate CaCO3, lithifying into limestone over millions of years.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Excess CO2 strips carbonate ions (CO3 2-), acidifying oceans and dissolving coral skeletons.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 03: The 5-Step Nitrogen Cascade -->
+      <section class="slide" data-slide="3">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE I • BIOGEOCHEMICAL CYCLES • SLIDE 03 / 15</span>
+          <h2 class="slide-heading">The Nitrogen Biochemical Ladder: 5 Transformations</h2>
+          <p class="slide-desc">How microbial enzymes break the inert N≡N triple bond to fuel cellular life and safely return dinitrogen to the atmosphere.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEPS 1 &amp; 2 • INTAKE</span>
+                  <h3 class="card-front-title">Fixation &amp; Nitrification</h3>
+                  <p class="card-front-summary">N2 is chemically unreactive. Rhizobium and Azotobacter synthesize ammonia; Nitrosomonas and Nitrobacter oxidize it into bioavailable nitrates.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">MICROBIAL PATHWAY</span>
+                  <h4 class="card-back-title">Oxidation to Nitrate (NO3-)</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Fixation: N2 -> NH3/NH4+ via oxygen-sensitive nitrogenase in legume nodules.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Step A: Nitrosomonas oxidizes toxic ammonia to nitrite (NO2-).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Step B: Nitrobacter oxidizes nitrite to nitrate (NO3-), the prime crop nutrient.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEPS 3 &amp; 4 • CONSUMPTION</span>
+                  <h3 class="card-front-title">Assimilation &amp; Ammonification</h3>
+                  <p class="card-front-summary">Plant roots take up nitrates to build proteins and DNA. Decomposers break down dead organic tissue, recycling nitrogen back into ammonium.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">METABOLIC INTEGRATION</span>
+                  <h4 class="card-back-title">Organic Amino Nitrogen</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Assimilation: Roots absorb NO3- and incorporate it into nucleotides and peptides.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Herbivores assimilate nitrogen via digestion; apex predators ingest lower trophic biomass.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Ammonification: Saprophytes hydrolyze urea and dead biomass back into NH4+.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEP 5 • THE CLOSING LOOP</span>
+                  <h3 class="card-front-title">Anaerobic Denitrification</h3>
+                  <p class="card-front-summary">Facultative anaerobic bacteria (Pseudomonas) in oxygen-depleted wetland soils reduce nitrates back into inert N2 gas, preventing toxic toxicity.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">ANAEROBIC RESPIRATION</span>
+                  <h4 class="card-back-title">Return to the Atmosphere</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>In waterlogged mud, Pseudomonas uses NO3- as a terminal electron acceptor.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cascade: NO3- -> NO2- -> NO -> N2O (greenhouse gas) -> N2 gas.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Crucial safeguard: prevents runaway nitrate accumulation across global soils.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 04: Phosphorus & Sulfur Cycles -->
+      <section class="slide" data-slide="4">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE I • BIOGEOCHEMICAL CYCLES • SLIDE 04 / 15</span>
+          <h2 class="slide-heading">The Phosphorus Bottleneck &amp; Sulfur Acidification</h2>
+          <p class="slide-desc">The critical absence of an atmospheric phase in phosphorus contrasted with industrial sulfur oxide precipitation.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">PHOSPHORUS TRAP</span>
+                  <h3 class="card-front-title">Zero Atmospheric Phase</h3>
+                  <p class="card-front-summary">Phosphorus cycles exclusively through rock weathering, soil assimilation, and deep marine sedimentation. No stable ambient gas exists.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">SEDIMENTARY KINETICS</span>
+                  <h4 class="card-back-title">The Geological Bottleneck</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Phosphate rock (apatite) releases PO4 3- only through slow chemical weathering.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Primary limiting nutrient in freshwater: adding minute amounts triggers massive algal blooms.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Marine phosphate precipitates into deep abyss, trapped until tectonic uplift occurs epochs later.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">SULFUR CYCLE</span>
+                  <h3 class="card-front-title">Pyrite, Volcanoes &amp; Proteins</h3>
+                  <p class="card-front-summary">Sulfur is stored in rocks (pyrite, gypsum) and released via weathering, volcanic outgassing (SO2, H2S), and coal combustion, absorbed as sulfates.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">BIOCHEMICAL ROLE</span>
+                  <h4 class="card-back-title">Methionine &amp; Cysteine</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Plants assimilate sulfate ions (SO4 2-) to synthesize sulfur-containing amino acids.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Anaerobic marsh microbes reduce sulfates to rotten-egg hydrogen sulfide gas (H2S).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Marine phytoplankton emit dimethyl sulfide (DMS), seeding atmospheric cloud droplets.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">ATMOSPHERIC HAZARD</span>
+                  <h3 class="card-front-title">Acid Deposition (H2SO4)</h3>
+                  <p class="card-front-summary">Industrial combustion of sulfur-rich coal releases SO2, oxidizing in cloud vapor to form sulfuric acid (H2SO4), causing severe aquatic acidification.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">ENVIRONMENTAL DISRUPTION</span>
+                  <h4 class="card-back-title">Cation Leaching &amp; Al3+ Shock</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>SO2 + OH -> HOSO2 -> SO3 + H2O -> H2SO4 (Sulfuric Acid).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Rain pH drops below 5.0, stripping vital base cations (Ca2+, Mg2+) from forest soils.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Mobilizes toxic aluminum ions (Al3+), destroying fish gill membranes in freshwater lakes.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 05: Executive Summary - Biogeochemical Cycles -->
+      <section class="slide" data-slide="5">
+        <div class="slide-title-block">
+          <span class="slide-kicker">PART I EXECUTIVE SYNTHESIS • SLIDE 05 / 15</span>
+          <h2 class="slide-heading">Biogeochemical Matrices &amp; Planetary Failure Modes</h2>
+          <p class="slide-desc">Comparative analysis of reservoir dynamics, biological drivers, and anthropogenic disruptions.</p>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>📊</span> Biogeochemical Cycle Comparative Matrix</h3>
+            <table class="summary-table">
+              <thead>
+                <tr>
+                  <th>Cycle</th>
+                  <th>Primary Reservoir</th>
+                  <th>Gaseous Phase?</th>
+                  <th>Limiting Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Water</strong></td>
+                  <td>Oceans (97%)</td>
+                  <td>Yes (H2O vapor)</td>
+                  <td>Universal Solvent</td>
+                </tr>
+                <tr>
+                  <td><strong>Carbon</strong></td>
+                  <td>Sediments / Crust</td>
+                  <td>Yes (CO2, CH4)</td>
+                  <td>Biomass Backbone</td>
+                </tr>
+                <tr>
+                  <td><strong>Nitrogen</strong></td>
+                  <td>Atmosphere (78%)</td>
+                  <td>Yes (N2, N2O)</td>
+                  <td>Proteins / Nucleic Acids</td>
+                </tr>
+                <tr>
+                  <td><strong>Phosphorus</strong></td>
+                  <td>Lithosphere (Rock)</td>
+                  <td><strong>NO (Zero gas)</strong></td>
+                  <td>Freshwater Limiter</td>
+                </tr>
+                <tr>
+                  <td><strong>Sulfur</strong></td>
+                  <td>Crust / Pyrite</td>
+                  <td>Yes (SO2, H2S)</td>
+                  <td>Essential Amino Acids</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>⚠️</span> Critical Anthropogenic Failure Cascades</h3>
+            <div style="font-size: 0.88rem; line-height: 1.5; color: var(--text-main); display: flex; flex-direction: column; gap: 0.6rem;">
+              <p><strong>1. Haber-Bosch Synthetic Nitrogen Overload:</strong> Industrial fertilizer synthesis exceeds natural bacterial fixation by &gt;120%, creating &gt;500 global marine dead zones.</p>
+              <p><strong>2. Cultural Eutrophication in Philippine Lakes:</strong> Unregulated fish feed and municipal phosphates induce massive Microcystis blooms in Laguna de Bay and Taal Lake.</p>
+              <p><strong>3. Ocean Acidification Feedback:</strong> Fossil emissions lower ocean pH by 0.1 units, threatening coral reefs at the global apex of biodiversity (Verde Island Passage).</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 06: Atmospheric Thermal Stratification -->
+      <section class="slide" data-slide="6">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE II • ATMOSPHERE &amp; METEOROLOGY • SLIDE 06 / 15</span>
+          <h2 class="slide-heading">Atmospheric Thermal Strata &amp; Lapse Rates</h2>
+          <p class="slide-desc">The 5 concentric layers delineated strictly by temperature lapse rates, ozone photochemical heating, and kinetic excitation.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">TROPOSPHERE (0 - 12 KM)</span>
+                  <h3 class="card-front-title">The Weather Engine</h3>
+                  <p class="card-front-summary">Temperature decreases with height (-6.5°C/km). Contains 75–80% of total atmospheric mass and virtually all water vapor. Capped by the Tropopause.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">PHYSICAL DRIVER</span>
+                  <h4 class="card-back-title">Heated From Below</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Ground absorbs solar light and radiates infrared heat upwards.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Pressure drops from ~1013 hPa at sea level to ~200 hPa at tropopause.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>All convective clouds, typhoons, and storm dynamics occur here.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STRATOSPHERE (12 - 50 KM)</span>
+                  <h3 class="card-front-title">The Ozone Shield</h3>
+                  <p class="card-front-summary">Temperature increases with altitude (-60°C up to 0°C). Houses the Ozone Layer (O3), absorbing harmful solar UV radiation. Stable laminar airflow.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">PHOTOCHEMICAL DRIVER</span>
+                  <h4 class="card-back-title">Chapman Ozone Cycle</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>O2 + UV-C -> 2O; O + O2 -> O3 + Heat. O3 absorbs UV-B, releasing heat.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Temperature inversion prevents vertical convection, making air extremely stable.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Commercial airliners cruise in lower stratosphere to avoid turbulence.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">MESO &amp; THERMOSPHERE</span>
+                  <h3 class="card-front-title">Cold Traps &amp; Ionosphere</h3>
+                  <p class="card-front-summary">Mesosphere (50–85 km) drops to -90°C (coldest layer), burning meteors. Thermosphere (85–600 km) spikes to 1,500°C+, housing the Ionosphere and ISS.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">UPPER ATMOSPHERE</span>
+                  <h4 class="card-back-title">Meteor Shield &amp; Auroras</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Mesosphere lacks ozone heating; CO2 radiative cooling drives temp to -90°C.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Meteors incinerate in mesosphere due to atmospheric friction and compression.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Thermosphere absorbs solar X-rays; ionized particles generate Auroras.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 07: Global Circulation & Coriolis Effect -->
+      <section class="slide" data-slide="7">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE II • ATMOSPHERE &amp; METEOROLOGY • SLIDE 07 / 15</span>
+          <h2 class="slide-heading">Global Convective Cells &amp; Coriolis Deflection</h2>
+          <p class="slide-desc">The 3-cell planetary engine, eastward rotational deflection, and the cloud morphology atlas.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">3-CELL ENGINE</span>
+                  <h3 class="card-front-title">Hadley, Ferrel &amp; Polar</h3>
+                  <p class="card-front-summary">Solar thermal differential drives convective cells. Hadley (0°-30°) creates Trade Winds; Ferrel (30°-60°) drives Westerlies; Polar (60°-90°) drives Easterlies.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">CIRCULATION DYNAMICS</span>
+                  <h4 class="card-back-title">Pressure Belts &amp; Deserts</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Equatorial air rises at ITCZ (Low Pressure), sinking at 30°N/S (Horse Latitudes).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Sinking dry air at 30° creates the world's great deserts (Sahara, Arabian).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Polar front at 60° generates mid-latitude storm tracks and jet streams.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">CORIOLIS VORTICITY</span>
+                  <h3 class="card-front-title">Inertial Deflection</h3>
+                  <p class="card-front-summary">Earth's eastward rotation deflects moving winds to the RIGHT in the Northern Hemisphere and to the LEFT in the Southern Hemisphere. Zero at equator.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">PHYSICAL LAWS</span>
+                  <h4 class="card-back-title">Cyclone Spin Mechanics</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Conserves angular momentum: surface velocity is 1670 km/h at equator, 0 at poles.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Deflects inward winds to right in NH, forcing cyclones into counterclockwise spin!</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Because Coriolis force is zero at equator, typhoons cannot form within 5° of equator.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">CLOUD ATLAS</span>
+                  <h3 class="card-front-title">Morphology &amp; Storms</h3>
+                  <p class="card-front-summary">High ice clouds (Cirrus, Cirrostratus halos); Mid sheets (Altostratus); Low steady rain blankets (Nimbostratus); Towering vertical thunderheads (Cumulonimbus).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">METEOROLOGICAL SIGNALS</span>
+                  <h4 class="card-back-title">Identification Keys</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cirrostratus: produces a 22° halo around sun/moon, signaling warm fronts.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Nimbostratus: dark, thick ragged low blanket producing continuous steady rain.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cumulonimbus: massive vertical anvil top with torrential rain, lightning, and hail.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 08: Philippine Monsoons & Tropical Cyclones -->
+      <section class="slide" data-slide="8">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE II • ATMOSPHERE &amp; METEOROLOGY • SLIDE 08 / 15</span>
+          <h2 class="slide-heading">Philippine Monsoons (Habagat vs. Amihan) &amp; PAR Cyclones</h2>
+          <p class="slide-desc">Regional wind reversals, the equatorial ITCZ trough, and PAGASA tropical cyclone classification scales.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">SW MONSOON</span>
+                  <h3 class="card-front-title">Habagat (June – October)</h3>
+                  <p class="card-front-summary">Warm, moisture-laden maritime air drawn from the southern oceans toward low pressure in mainland Asia. Torrential rains across western Philippines.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">REGIONAL IMPACT</span>
+                  <h4 class="card-back-title">Western Monsoonal Deluges</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Driven by heat low over Tibetan plateau pulling southern maritime air across equator.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Brings overcast skies, high humidity (&gt;80%), and torrential rains to Western Luzon.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Frequently enhances passing tropical cyclones, amplifying devastating monsoon floods.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">NE MONSOON</span>
+                  <h3 class="card-front-title">Amihan (Nov – Feb/Mar)</h3>
+                  <p class="card-front-summary">Cold Siberian continental high pressure crossing the Pacific. Delivers cool, dry air to northern/western Luzon, but heavy rain to eastern Pacific seaboards.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">REGIONAL IMPACT</span>
+                  <h4 class="card-back-title">Siberian Cold Surge</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Cold, dense air pushes equatorward, gathering moisture across the Pacific Ocean.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Western Luzon experiences cool, crisp, dry mornings (e.g., Baguio, NCR).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Strikes eastern mountain barriers, dumping heavy continuous rains on Bicol and Samar.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">PAR CYCLONE SCALE</span>
+                  <h3 class="card-front-title">PAGASA Cyclone Categories</h3>
+                  <p class="card-front-summary">~20 cyclones enter PAR annually (8–9 landfalls). TD (&le;61), TS (62–88), STS (89–117), Typhoon (118–184), and Super Typhoon (&ge;185 km/h).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">DISASTER METRICS</span>
+                  <h4 class="card-back-title">Typhoon Belt Dynamics</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Western North Pacific is Earth's most active tropical cyclone basin.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>ITCZ serves as prime cyclogenesis breeding ground for Low Pressure Areas (LPAs).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Super Typhoon threshold: sustained winds &ge; 185 km/h (e.g., Yolanda, Odette).</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 09: Modified Corona Climate Classification -->
+      <section class="slide" data-slide="9">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE II • ATMOSPHERE &amp; METEOROLOGY • SLIDE 09 / 15</span>
+          <h2 class="slide-heading">The Modified Corona Climate Classification (Types I – IV)</h2>
+          <p class="slide-desc">Regional rainfall regimes dictated by mountain topography (Sierra Madre / Cordillera) and monsoonal air masses.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">TYPE I CLIMATE</span>
+                  <h3 class="card-front-title">Two Pronounced Seasons</h3>
+                  <p class="card-front-summary">Dry from November to April; Wet from May to October. Western Luzon (Ilocos, Zambales, NCR), Mindoro, Palawan, Antique, and Negros Occidental.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">TOPOGRAPHIC DRIVER</span>
+                  <h4 class="card-back-title">Rain Shadow from Amihan</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Sierra Madre blocks Northeast Monsoon clouds, creating dry winter months.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Directly exposed to Habagat (SW monsoon) with torrential summer downpours.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Primary agricultural zone for seasonal rice and sugarcane cultivation.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">TYPE II CLIMATE</span>
+                  <h3 class="card-front-title">NO Dry Season (Winter Peak)</h3>
+                  <p class="card-front-summary">No dry period; pronounced maximum rainfall from November to January. Eastern seaboard facing Pacific: Quezon, Bicol, Samar, Leyte, and Surigao.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">TOPOGRAPHIC DRIVER</span>
+                  <h4 class="card-back-title">Pacific Windward Exposure</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>No mountain barriers to block moisture-laden Trade Winds and Amihan.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Maximum rainfall occurs during winter months (Nov–Jan) when Amihan peaks.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>High vulnerability to catastrophic landslides and riverine flooding.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">TYPES III &amp; IV CLIMATES</span>
+                  <h3 class="card-front-title">Intermediate &amp; Uniform</h3>
+                  <p class="card-front-summary">Type III: Short dry season (Nov–Apr), wet rest of year (Cagayan, Cebu). Type IV: Rainfall evenly distributed all year, zero dry season (Bohol, Davao, Agusan).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">TOPOGRAPHIC DRIVER</span>
+                  <h4 class="card-back-title">Sheltered &amp; Equable Zones</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Type III: Partially sheltered by intermediate mountains on both sides.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Type IV: Equable exposure to both monsoons with no severe rain-shadow.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Type IV in Mindanao supports year-round perennial fruit and oil palm crops.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Executive Summary - Atmosphere & Meteorology -->
+      <section class="slide" data-slide="10">
+        <div class="slide-title-block">
+          <span class="slide-kicker">PART II EXECUTIVE SYNTHESIS • SLIDE 10 / 15</span>
+          <h2 class="slide-heading">Atmospheric Physics &amp; Monsoon Comparison Matrix</h2>
+          <p class="slide-desc">Consolidated diagnostic matrix contrasting atmospheric layers and Philippine seasonal winds.</p>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>🌤️</span> Atmospheric Strata Physics Matrix</h3>
+            <table class="summary-table">
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>Altitude</th>
+                  <th>Temp Trend</th>
+                  <th>Key Phenomenon</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Troposphere</strong></td>
+                  <td>0 – 12 km</td>
+                  <td>Decreases (-6.5°/km)</td>
+                  <td>All weather; 80% mass</td>
+                </tr>
+                <tr>
+                  <td><strong>Stratosphere</strong></td>
+                  <td>12 – 50 km</td>
+                  <td>Increases (-60° to 0°)</td>
+                  <td>Ozone (O3); Jet cruising</td>
+                </tr>
+                <tr>
+                  <td><strong>Mesosphere</strong></td>
+                  <td>50 – 85 km</td>
+                  <td>Decreases (to -90°C)</td>
+                  <td><strong>Coldest layer</strong>; burns meteors</td>
+                </tr>
+                <tr>
+                  <td><strong>Thermosphere</strong></td>
+                  <td>85 – 600 km</td>
+                  <td>Spikes (&gt;1500°C)</td>
+                  <td>Ionosphere; Auroras; ISS</td>
+                </tr>
+                <tr>
+                  <td><strong>Exosphere</strong></td>
+                  <td>600 – 10,000+</td>
+                  <td>Escape velocity</td>
+                  <td>Satellites; near vacuum</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>💨</span> Habagat vs. Amihan Comparative Matrix</h3>
+            <table class="summary-table">
+              <thead>
+                <tr>
+                  <th>System</th>
+                  <th>Season</th>
+                  <th>Source / Characteristics</th>
+                  <th>Exposed Regions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Habagat (SW)</strong></td>
+                  <td>June to Oct</td>
+                  <td>Warm, humid maritime air; heavy monsoon downpours</td>
+                  <td>Western Luzon, Mindoro, Western Visayas</td>
+                </tr>
+                <tr>
+                  <td><strong>Amihan (NE)</strong></td>
+                  <td>Nov to Feb</td>
+                  <td>Cool Siberian continental air; dry NW, wet Pacific</td>
+                  <td>Eastern Pacific (Bicol, Samar, Leyte, Surigao)</td>
+                </tr>
+                <tr>
+                  <td><strong>ITCZ</strong></td>
+                  <td>Year-round</td>
+                  <td>Meeting of NE &amp; SE trade winds near equator</td>
+                  <td>Nationwide daily convective storms &amp; LPAs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Lotic, Lentic & Cultural Eutrophication -->
+      <section class="slide" data-slide="11">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE III • OCEANS &amp; AQUATIC SYSTEMS • SLIDE 11 / 15</span>
+          <h2 class="slide-heading">Lotic River Continuum, Lake Zonation &amp; Eutrophication</h2>
+          <p class="slide-desc">From mountain torrents to standing lakes: biological oxygen demand, light penetration, and the hypoxia cascade.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">LOTIC CONTINUUM</span>
+                  <h3 class="card-front-title">Headwaters vs. Floodplains</h3>
+                  <p class="card-front-summary">Headwaters are cold, clear, turbulent, and saturated with Dissolved Oxygen (DO), relying on allochthonous leaf-litter fall from surrounding forest canopies.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">RIVER ENERGETICS</span>
+                  <h4 class="card-back-title">The River Continuum</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>High gradient creates turbulence, driving continuous atmospheric reaeration.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Dense riparian forest shade suppresses in-stream photosynthesis.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Lower floodplain: warm, turbid, lower DO, autochthonous plankton dominant.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">LENTIC ZONATION</span>
+                  <h3 class="card-front-title">Depth &amp; Light Penetration</h3>
+                  <p class="card-front-summary">Littoral (shallow shore, rooted plants); Limnetic (sunlit open water, plankton/nekton); Profundal (deep aphotic, cold, scavengers); Benthic (bottom sediments).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">LAKE ECOLOGY</span>
+                  <h4 class="card-back-title">4 Discrete Lake Compartments</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Littoral Zone: highest biodiversity, cattails, reeds, insect nursery.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Limnetic Zone: primary production dominated by phytoplankton &amp; zooplankton.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Profundal/Benthic: decomposition by anaerobic bacteria consumes bottom DO.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">POLLUTION CASCADE</span>
+                  <h3 class="card-front-title">Cultural Eutrophication</h3>
+                  <p class="card-front-summary">Runoff (N &amp; P) -> Algal bloom -> Die-off &amp; sinking -> Aerobic bacterial decomposition consumes all DO -> Severe hypoxia (&lt;2 mg/L) causes massive fish kills.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">LETHAL MECHANISM</span>
+                  <h4 class="card-back-title">BOD Spike &amp; Asphyxiation</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>It is NOT the living algae that kill fish; it is the DECOMPOSERS.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Aerobic heterotrophic bacteria multiply to digest dead algae, spiking BOD.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Dissolved Oxygen plummets, suffocating fish; anaerobes release toxic H2S.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Marine Bathymetric Zonation -->
+      <section class="slide" data-slide="12">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE III • OCEANS &amp; AQUATIC SYSTEMS • SLIDE 12 / 15</span>
+          <h2 class="slide-heading">Marine Bathymetric Zonation (0 to 11,000 Meters)</h2>
+          <p class="slide-desc">Light attenuation, hydrostatic pressure gradients, and the largest animal migration on Earth.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">0 - 200 M DEPTH</span>
+                  <h3 class="card-front-title">Epipelagic (Photic Zone)</h3>
+                  <p class="card-front-summary">Bright sunlight supports photosynthesis. Houses coral reefs and pelagic fisheries (tuna, sharks, mackerel). Accounts for &gt;90% of commercial fish harvest.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">BIOMASS ENGINE</span>
+                  <h4 class="card-back-title">The Sunlit Upper Ocean</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Light intensity exceeds compensation point: net photosynthesis is positive.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>High dissolved oxygen from atmospheric wind mixing and phytoplankton.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Neritic coastal shelf (&lt;200m) is the economic heart of marine fisheries.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">200 - 1,000 M DEPTH</span>
+                  <h3 class="card-front-title">Mesopelagic (Twilight Zone)</h3>
+                  <p class="card-front-summary">Faint, filtered light; insufficient for photosynthesis. Lanternfish and squids exhibit bioluminescence and perform Diel Vertical Migration (DVM).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">DEEP-SEA ADAPTATION</span>
+                  <h4 class="card-back-title">Bioluminescence &amp; DVM</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Counterillumination photophores conceal fish against downwelling light.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Diel Vertical Migration: billions of tons ascend to photic zone nightly to feed.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Acts as the biological carbon pump, exporting carbon to deep sediments.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">&gt;1,000 TO 11,000 M</span>
+                  <h3 class="card-front-title">Bathypelagic to Trenches</h3>
+                  <p class="card-front-summary">Total darkness, cold (4°C), crushing pressure. Bathypelagic (1–4k m, anglerfish); Abyssopelagic (4–6k m plains); Hadalpelagic (&gt;6k m trenches, extremophiles).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">APHOTIC EXTREMES</span>
+                  <h4 class="card-back-title">The Philippine Trench</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Organisms rely on "marine snow" (falling organic feces and dead plankton).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Hydrostatic pressure exceeds 1,000 atmospheres in deep trenches.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Philippine Trench (10,540 m) harbors specialized piezophilic amphipods.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: The Coastal "Marine Holy Trinity" -->
+      <section class="slide" data-slide="13">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE III • OCEANS &amp; AQUATIC SYSTEMS • SLIDE 13 / 15</span>
+          <h2 class="slide-heading">The Coastal "Marine Holy Trinity" Synergistic Triad</h2>
+          <p class="slide-desc">How Mangrove Forests, Seagrass Beds, and Coral Reefs interact to create a self-protecting tropical barrier.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEP 1 • RUNOFF BUFFER</span>
+                  <h3 class="card-front-title">Mangrove Forests</h3>
+                  <p class="card-front-summary">Salt-tolerant halophytes (Bakawan prop roots, Api-api breathing pneumatophores). Traps upland silt, nurseries for 70% of fish, sequesters massive Blue Carbon.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">ECOLOGICAL ROLE</span>
+                  <h4 class="card-back-title">Sediment Filtration</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Dense stilt roots slow down freshwater discharge, allowing mud and silt to settle.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Prevents fine terrigenous sediments from smothering offshore seagrass and corals.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Sequesters up to 10x more carbon per hectare than terrestrial forests (Blue Carbon).</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEP 2 • SUBSTRATE BINDER</span>
+                  <h3 class="card-front-title">Seagrass Beds</h3>
+                  <p class="card-front-summary">Submerged flowering angiosperms (Enhalus, Halophila). Dense rhizome mats bind fine suspended particles, clearing water column. Grazing for turtles &amp; dugongs.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">ECOLOGICAL ROLE</span>
+                  <h4 class="card-back-title">Water Clarification</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Binds remaining fine silt, ensuring water clarity necessary for coral photosynthesis.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Primary pasture for Green Sea Turtles (Chelonia mydas) and Dugongs (Dugong dugon).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Porous rhizome network prevents storm wave scour along coastal lagoons.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">STEP 3 • WAVE DISSIPATOR</span>
+                  <h3 class="card-front-title">Coral Reefs</h3>
+                  <p class="card-front-summary">Colonial polyps secreting CaCO3 exoskeletons with endosymbiotic Zooxanthellae. Absorbs 97% of heavy ocean storm wave energy, protecting coastal lagoons.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">ECOLOGICAL ROLE</span>
+                  <h4 class="card-back-title">Offshore Breakwaters</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Absorbs destructive ocean swell, creating calm lagoons for seagrass &amp; mangroves.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Fringing reefs grow adjacent to shore (most common in Philippines); Atolls (Tubbataha).</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Destroying the reef unleashes heavy wave erosion that uproots coastal mangroves.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Coral Bleaching & Philippine Apex Marine Biodiversity -->
+      <section class="slide" data-slide="14">
+        <div class="slide-title-block">
+          <span class="slide-kicker">MODULE III • OCEANS &amp; AQUATIC SYSTEMS • SLIDE 14 / 15</span>
+          <h2 class="slide-heading">Coral Bleaching Thermodynamics &amp; Philippine Marine Apex</h2>
+          <p class="slide-desc">The cellular mechanism of thermal expulsion and the global epicenter of marine shorefish diversity.</p>
+        </div>
+
+        <div class="cards-row">
+          <div class="flip-card" data-accent="crimson" style="--card-accent: var(--accent-crimson);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">THERMAL PATHOLOGY</span>
+                  <h3 class="card-front-title">Coral Bleaching Mechanism</h3>
+                  <p class="card-front-summary">1–2°C warming above summer maxima disrupts Zooxanthellae photosynthesis, producing toxic ROS. Coral polyps expel algae, revealing white CaCO3 skeletons.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">CELLULAR FAILURE</span>
+                  <h4 class="card-back-title">Starvation &amp; Mortality</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Zooxanthellae supply up to 90% of the polyp's daily photosynthetic energy.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Heat damages Photosystem II -> Reactive Oxygen Species (ROS) poison host cell.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Bleached corals are alive but starving; prolonged heat leads to permanent mortality.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="teal" style="--card-accent: var(--accent-teal);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">GLOBAL APEX SANCTUARY</span>
+                  <h3 class="card-front-title">Verde Island Passage (VIP)</h3>
+                  <p class="card-front-summary">Located between Batangas &amp; Mindoro; internationally recognized as the "Center of the Center of Marine Shorefish Biodiversity" at the apex of the Coral Triangle.</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">BIODIVERSITY CAPITAL</span>
+                  <h4 class="card-back-title">Carpenter &amp; Springer Findings</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Harbors the highest concentration of shorefish species per unit area on Earth.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Tubbataha Reefs (Sulu Sea): UNESCO World Heritage 97k-ha pristine atolls.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Taal Lake: hosts world's only obligate freshwater sardine, Tawilis (Sardinella tawilis).</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" data-accent="ochre" style="--card-accent: var(--accent-ochre);">
+            <div class="flip-card-inner">
+              <div class="card-front">
+                <div>
+                  <span class="card-tag">ICONIC MARINE RESIDENTS</span>
+                  <h3 class="card-front-title">Endemics &amp; Adaptations</h3>
+                  <p class="card-front-summary">Whale Shark (Butanding); Blue-Ringed Octopus (tetrodotoxin); Frogfish (illicium/esca bait lure); Banded Pipefish (male pregnancy brood pouch).</p>
+                </div>
+                <div class="flip-indicator"><span>Click to reveal deep theory</span><span>⟲</span></div>
+              </div>
+              <div class="card-back">
+                <div>
+                  <span class="card-tag">EVOLUTIONARY TRAITS</span>
+                  <h4 class="card-back-title">Specialized Marine Niches</h4>
+                  <div class="card-back-content">
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Whale Shark (Rhincodon typus): world's largest fish, plankton filter feeder.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Frogfish (Antennariidae): ambush predator with dorsal spine modified into a fishing rod.</span></div>
+                    <div class="bullet-point"><span class="bullet-icon">▸</span><span>Pipefish: unique male pregnancy, carrying eggs in ventral abdominal pouch.</span></div>
+                  </div>
+                </div>
+                <div class="flip-indicator"><span>Click to flip back</span><span>⟲</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: Grand Final Synthesis & Rapid Recall -->
+      <section class="slide" data-slide="15">
+        <div class="slide-title-block">
+          <span class="slide-kicker">EXECUTIVE GRAND SYNTHESIS • SLIDE 15 / 15</span>
+          <h2 class="slide-heading">Master Synthesis: Falsifiable Exam Audit Checklist</h2>
+          <p class="slide-desc">The definitive rapid-fire decision rubric for mastering Environmental Science cycles, meteorology, and oceans.</p>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>🎯</span> 8 High-Yield Examination Decision Rules</h3>
+            <div style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main); display: flex; flex-direction: column; gap: 0.45rem;">
+              <p><strong>1. Matter vs. Energy:</strong> Earth is CLOSED for matter (cycles internally), OPEN for energy (solar in, infrared heat out).</p>
+              <p><strong>2. Phosphorus Trap:</strong> ZERO atmospheric phase. Stored in lithospheric rock. Primary limiting nutrient in freshwater.</p>
+              <p><strong>3. Nitrogen 5-Step Order:</strong> Fixation (Rhizobium) -> Nitrification (Nitrosomonas/Nitrobacter) -> Assimilation -> Ammonification -> Denitrification (Pseudomonas).</p>
+              <p><strong>4. Atmospheric Lapse Rates:</strong> Troposphere drops (-6.5°C/km); Stratosphere rises (Ozone absorption); Mesosphere drops to -90°C (COLDEST); Thermosphere rises (&gt;1500°C).</p>
+            </div>
+          </div>
+
+          <div class="summary-box">
+            <h3 class="summary-box-title"><span>🌊</span> Regional Weather &amp; Marine Anchors</h3>
+            <div style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main); display: flex; flex-direction: column; gap: 0.45rem;">
+              <p><strong>5. Monsoons:</strong> Habagat = SW, warm/wet (June–Oct); Amihan = NE, cool/dry west, rains on east Pacific (Nov–Feb).</p>
+              <p><strong>6. Corona Types:</strong> Type I = 2 seasons (wet/dry); Type II = NO dry season (heavy winter rain Nov–Jan).</p>
+              <p><strong>7. Eutrophication Kill:</strong> Aerobic DECOMPOSERS digest dead algae, consuming DO (hypoxia &lt;2 mg/L).</p>
+              <p><strong>8. Marine Apex:</strong> Verde Island Passage = Center of Center of Marine Shorefish Biodiversity; Tawilis = only freshwater sardine.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom Edge-Hover Footer Drawer -->
+    <footer class="deck-footer" id="deckFooter">
+      <div class="slide-counter" id="slideCounter">01 / 15</div>
+      <div class="footer-nav">
+        <button class="nav-arrow-btn" id="btnPrev" title="Previous Slide (Left Arrow)">◀</button>
+        <button class="nav-arrow-btn" id="btnNext" title="Next Slide (Right Arrow or Space)">▶</button>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Help Modal -->
+  <div class="help-modal" id="helpModal">
+    <h3 class="help-title">Keyboard Navigation Shortcuts</h3>
+    <div class="shortcut-list">
+      <span class="key-badge">→ / Space</span><span>Next Slide</span>
+      <span class="key-badge">←</span><span>Previous Slide</span>
+      <span class="key-badge">X / Tab</span><span>Flip All Cards on Slide</span>
+      <span class="key-badge">T</span><span>Toggle Dark / Light Theme</span>
+      <span class="key-badge">F</span><span>Toggle Fullscreen Keynote</span>
+      <span class="key-badge">H</span><span>Toggle Header Drawer</span>
+      <span class="key-badge">C</span><span>Toggle Controls / Footer</span>
+      <span class="key-badge">Home / End</span><span>First / Last Slide</span>
+      <span class="key-badge">Esc / ?</span><span>Close Help Modal</span>
+    </div>
+    <div style="text-align: right; margin-top: 1.5rem;">
+      <button class="ctrl-btn" id="btnCloseHelp">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let currentSlide = 1;
+    const totalSlides = 15;
+
+    // DOM Elements
+    const slides = document.querySelectorAll('.slide');
+    const slideCounter = document.getElementById('slideCounter');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnFlipAll = document.getElementById('btnFlipAll');
+    const btnToggleTheme = document.getElementById('btnToggleTheme');
+    const btnFullscreen = document.getElementById('btnFullscreen');
+    const btnHelp = document.getElementById('btnHelp');
+    const helpModal = document.getElementById('helpModal');
+    const btnCloseHelp = document.getElementById('btnCloseHelp');
+    const deckHeader = document.getElementById('deckHeader');
+    const deckFooter = document.getElementById('deckFooter');
+    const stage = document.getElementById('stage');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTheme();
+      setupCardFlips();
+      setupEventListeners();
+      updateSlideDisplay();
+    });
+
+    // Setup 3D Card Flips
+    function setupCardFlips() {
+      document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+        });
+      });
+    }
+
+    // Slide Navigation
+    function goToSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+
+      // Reset card flips on active slide
+      const activeSlideEl = document.querySelector('.slide.active');
+      if (activeSlideEl) {
+        activeSlideEl.querySelectorAll('.flip-card').forEach(c => c.classList.remove('flipped'));
+      }
+
+      currentSlide = n;
+      slides.forEach(s => s.classList.remove('active'));
+
+      const target = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+      if (target) target.classList.add('active');
+
+      updateSlideDisplay();
+    }
+
+    function updateSlideDisplay() {
+      slideCounter.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+    }
+
+    function nextSlide() { goToSlide(currentSlide + 1); }
+    function prevSlide() { goToSlide(currentSlide - 1); }
+
+    function batchFlipCards() {
+      const activeSlideEl = document.querySelector('.slide.active');
+      if (!activeSlideEl) return;
+      const cards = activeSlideEl.querySelectorAll('.flip-card');
+      const anyFlipped = Array.from(cards).some(c => c.classList.contains('flipped'));
+      cards.forEach(c => {
+        if (anyFlipped) c.classList.remove('flipped');
+        else c.classList.add('flipped');
+      });
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('envisci_keynote_theme', next);
+    }
+
+    function loadTheme() {
+      const saved = localStorage.getItem('envisci_keynote_theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    }
+
+    // Fullscreen Toggle
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // Setup Event Listeners
+    function setupEventListeners() {
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFlipAll.addEventListener('click', batchFlipCards);
+      btnToggleTheme.addEventListener('click', toggleTheme);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+
+      btnHelp.addEventListener('click', () => helpModal.classList.toggle('active'));
+      btnCloseHelp.addEventListener('click', () => helpModal.classList.remove('active'));
+
+      // Keyboard Controls
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'x' || e.key === 'X' || e.key === 'Tab') {
+          e.preventDefault();
+          batchFlipCards();
+        } else if (e.key === 't' || e.key === 'T') {
+          toggleTheme();
+        } else if (e.key === 'f' || e.key === 'F') {
+          toggleFullscreen();
+        } else if (e.key === 'h' || e.key === 'H') {
+          deckHeader.classList.toggle('pinned');
+        } else if (e.key === 'c' || e.key === 'C') {
+          deckFooter.classList.toggle('pinned');
+        } else if (e.key === 'Home') {
+          goToSlide(1);
+        } else if (e.key === 'End') {
+          goToSlide(totalSlides);
+        } else if (e.key === '?' || e.key === '/') {
+          helpModal.classList.toggle('active');
+        } else if (e.key === 'Escape') {
+          helpModal.classList.remove('active');
+          deckHeader.classList.remove('pinned');
+          deckFooter.classList.remove('pinned');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
