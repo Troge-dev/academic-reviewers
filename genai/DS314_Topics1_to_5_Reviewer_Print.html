@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DS314: Generative AI & LLM Systems — Topics 1 to 5 Ultimate Reviewer</title>
+  <style>
+    /* CSS Paged Media Configuration for Headless Chrome Print-to-PDF */
+    @page {
+      size: A4 portrait;
+      margin: 16mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-size: 8pt;
+        color: #64748b;
+      }
+      @bottom-left {
+        content: "DS314: Generative AI & LLM Systems | Topics 1 to 5 Master Reviewer";
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-size: 8pt;
+        font-weight: 600;
+        color: #1e3a8a;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: #1e293b;
+      background: #ffffff;
+    }
+
+    /* Print Break Utilities */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      height: 100%;
+      min-height: 245mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20mm 10mm 15mm 10mm;
+      border: 3px solid #1e3a8a;
+      border-radius: 8px;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .cover-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: #1e3a8a;
+      color: #ffffff;
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      font-size: 26pt;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .cover-subtitle {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #2563eb;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .cover-desc {
+      font-size: 10pt;
+      color: #475569;
+      line-height: 1.6;
+      max-width: 95%;
+      margin-bottom: 25px;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .cover-topic-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #2563eb;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .cover-topic-card h4 {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .cover-topic-card p {
+      font-size: 8pt;
+      color: #64748b;
+      line-height: 1.35;
+    }
+
+    .cover-meta {
+      border-top: 2px solid #e2e8f0;
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      color: #64748b;
+    }
+
+    .cover-meta strong {
+      color: #0f172a;
+    }
+
+    /* Headings */
+    h1.module-title {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #0f172a;
+      background: #f1f5f9;
+      border-left: 6px solid #1e3a8a;
+      padding: 8px 12px;
+      margin: 20px 0 14px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h2.section-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 4px;
+      margin: 14px 0 8px 0;
+    }
+
+    h3.subsection-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #334155;
+      margin: 10px 0 4px 0;
+    }
+
+    p {
+      margin-bottom: 8px;
+      text-align: justify;
+    }
+
+    /* Visual Callout Boxes */
+    .callout {
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 9pt;
+      line-height: 1.5;
+    }
+
+    .callout-intuition {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e3a8a;
+    }
+
+    .callout-intuition .callout-header {
+      font-weight: 700;
+      color: #1d4ed8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    .callout-trap {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      color: #991b1b;
+    }
+
+    .callout-trap .callout-header {
+      font-weight: 700;
+      color: #dc2626;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    .callout-takeaway {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      color: #065f46;
+    }
+
+    .callout-takeaway .callout-header {
+      font-weight: 700;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    .callout-code {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #475569;
+      color: #0f172a;
+    }
+
+    .callout-code .callout-header {
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 8.5pt;
+    }
+
+    table th {
+      background: #1e3a8a;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      padding: 6px 8px;
+      border: 1px solid #1e3a8a;
+      text-transform: uppercase;
+      font-size: 7.5pt;
+      letter-spacing: 0.5px;
+    }
+
+    table td {
+      padding: 6px 8px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+      line-height: 1.4;
+    }
+
+    table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* Pre & Code */
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    code {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 8.5pt;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 5px;
+      font-size: 8pt;
+      line-height: 1.4;
+      overflow-x: auto;
+      margin: 6px 0 10px 0;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ASCII Diagrams */
+    .ascii-diagram {
+      background: #0f172a;
+      color: #38bdf8;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.25;
+      padding: 8px 10px;
+      border-radius: 5px;
+      margin: 8px 0;
+      white-space: pre;
+      overflow-x: hidden;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin: 4px 0 8px 20px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    /* Question Cards */
+    .q-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin: 10px 0;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    .q-num {
+      font-weight: 800;
+      color: #1e3a8a;
+      font-size: 9pt;
+    }
+
+    .q-tag {
+      font-size: 7.5pt;
+      font-weight: 700;
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .q-stem {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 6px;
+      font-size: 9pt;
+    }
+
+    .q-options {
+      margin: 4px 0 8px 15px;
+      font-size: 8.5pt;
+    }
+
+    .q-options li {
+      margin-bottom: 2px;
+    }
+
+    .q-options li.correct {
+      color: #047857;
+      font-weight: 700;
+    }
+
+    .q-analysis {
+      background: #f8fafc;
+      border-left: 3px solid #10b981;
+      padding: 6px 8px;
+      font-size: 8pt;
+      line-height: 1.4;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .q-analysis strong {
+      color: #065f46;
+    }
+
+    .q-analysis p {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== COVER PAGE ==================== -->
+  <div class="cover-page">
+    <div>
+      <span class="cover-badge">Academic Companion & Defense Guide</span>
+      <h1 class="cover-title">DS314: Generative AI & LLM Systems</h1>
+      <h2 class="cover-subtitle">Topics 1 to 5 Comprehensive Master Reviewer</h2>
+      <p class="cover-desc">
+        A publication-grade, pedagogical study guide designed for complete conceptual mastery, technical depth, and oral examination defense. Synthesizes foundational taxonomy, transformer self-attention, non-parametric RAG pipelines, LangChain orchestration, decoding thermodynamics, and multi-step cognitive reasoning prompts.
+      </p>
+
+      <div class="cover-grid">
+        <div class="cover-topic-card">
+          <h4>TOPIC 1: AI Taxonomy & Foundations</h4>
+          <p>Automation vs AI, Discriminative vs Generative math P(Y|X) vs P(X), 4 Industry Operational Layers, Transformer Self-Attention mechanics.</p>
+        </div>
+        <div class="cover-topic-card">
+          <h4>TOPIC 2: Building with LLMs & RAG</h4>
+          <p>Parametric vs Non-parametric memory, 5-stage RAG pipeline, chunking strategies, dense embeddings, vector stores, and ChromaDB.</p>
+        </div>
+        <div class="cover-topic-card">
+          <h4>TOPIC 3: LangChain & Autonomy Levels</h4>
+          <p>Chat models, LCEL declarative pipes, statelessness & memory strategies, and the 5 Cognitive Autonomy Levels (L0 Direct to L5 Multi-Agent Swarms).</p>
+        </div>
+        <div class="cover-topic-card">
+          <h4>TOPIC 4: Prompt Engineering & Thermodynamics</h4>
+          <p>Anatomy Ladder V1→V2→V3, Zero-Shot vs Few-Shot, Error taxonomy, Softmax Temperature thermodynamics, Top-p/Top-k, and Persona Steering.</p>
+        </div>
+        <div class="cover-topic-card" style="grid-column: span 2; border-left-color: #059669;">
+          <h4>TOPIC 5: Reasoning Prompts, CoT & Built-In Thinking</h4>
+          <p>Autoregressive KV cache scratchpads, programmatic delimiter contracts (ANSWER:), Prompted CoT vs Built-in Thinking Tokens, worked examples, and the 4-factor production shipping decision matrix (accuracy, tokens, latency, cost at scale).</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="background: #f1f5f9; border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 8.5pt; color: #475569;">
+        <strong>Pedagogical Standard:</strong> Each topic is deconstructed across four standardized analytical tiers: (1) Academic Context & Theoretical Deep Dive, (2) Key Definition Glossary, (3) Industrial Scenarios & Failure Modes, and (4) Diagnostic Practice Questions.
+      </div>
+      <div class="cover-meta">
+        <div><strong>Course:</strong> DS314 (DS Elective 1)</div>
+        <div><strong>Program:</strong> 3rd Year BS Data Science</div>
+        <div><strong>Scope:</strong> Topics 1 to 5 (Full First Half Curriculum)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODULE 1 ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">MODULE 1: Foundational AI Taxonomy & Historical Evolution (Topic 1)</h1>
+
+  <h2 class="section-title">1. Academic Context & Theoretical Deep Dive</h2>
+
+  <h3 class="subsection-title">1.1 The Fundamental Shift: Deterministic Automation vs. Probabilistic AI</h3>
+  <p>
+    Traditional computing relies strictly on <strong>deterministic automation</strong>: given an explicit set of logical inputs $X$, a hardcoded subroutine $f(X)$ computes an exact output $Y$. If an unanticipated edge case appears, the system crashes or exhibits catastrophic failure.
+  </p>
+
+  <div class="callout callout-intuition avoid-break">
+    <div class="callout-header">💡 Intuitive Analogy: The Vending Machine vs. The Adaptive Mind</div>
+    A vending machine is deterministic automation. When you insert 20 pesos and press B4, a motor mechanically spins a coil. It does not "understand" hunger or chips. If you insert a bent slug or foreign coin, the machine jams. <strong>Artificial Intelligence (AI)</strong>, by contrast, operates under <strong>probabilistic pattern recognition</strong>: it learns an approximation function $f_\theta(X) \approx Y$ parameterized by learned weights $\theta$, allowing it to generalize across novel, unseen, and ambiguous real-world inputs.
+  </div>
+
+  <div class="ascii-diagram avoid-break">
++-----------------------------------------------------------------------------------------+
+|                                    AI SYSTEM TAXONOMY                                    |
++-----------------------------------------------------------------------------------------+
+|  [ ARTIFICIAL INTELLIGENCE ]: Computational systems mimicking human cognitive faculties |
+|    |                                                                                    |
+|    +--> [ MACHINE LEARNING ]: Statistical optimization on empirical tabular/feature data|
+|           |                                                                             |
+|           +--> [ DEEP LEARNING ]: Multi-layered artificial neural networks (ANNs, CNNs)|
+|                  |                                                                      |
+|                  +--> [ GENERATIVE AI ]: Models generating novel, high-dimensional data |
+|                         |                                                               |
+|                         +--> [ LARGE LANGUAGE MODELS (LLMs) ]: Transformer-based NLP   |
++-----------------------------------------------------------------------------------------+
+  </div>
+
+  <h3 class="subsection-title">1.2 Mathematical Foundations: Discriminative AI vs. Generative AI</h3>
+  <p>
+    The mathematical distinction between Discriminative and Generative AI lies in the probability distributions they model:
+  </p>
+  <ul>
+    <li><strong>Discriminative AI:</strong> Models the <strong>conditional probability distribution</strong> $P(Y \mid X)$—the probability of a label or class $Y$ given an observed input $X$. Its objective is classification, boundary separation, or regression:
+      $$\hat{y} = \arg\max_y P(Y = y \mid X)$$
+      <em>Example:</em> Given an incoming email $X$, determine whether $Y = \text{Spam}$ or $Y = \text{Not Spam}$.
+    </li>
+    <li><strong>Generative AI:</strong> Models the <strong>joint probability distribution</strong> $P(X, Y)$ or the <strong>marginal distribution</strong> $P(X)$. Its objective is to capture the underlying data distribution so that it can sample and synthesize brand-new data instances $\tilde{x} \sim P(X)$:
+      $$\tilde{x} \sim P(X \mid C)$$
+      <em>Example:</em> Given a prompt condition $C$, generate a brand-new customer support email response.
+    </li>
+  </ul>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Discriminative AI</th>
+        <th>Generative AI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mathematical Goal</strong></td>
+        <td>Models $P(Y \mid X)$ (Decision boundaries)</td>
+        <td>Models $P(X, Y)$ or $P(X)$ (Data distributions)</td>
+      </tr>
+      <tr>
+        <td><strong>Primary Task</strong></td>
+        <td>Classification, Detection, Regression</td>
+        <td>Synthesis, Completion, Transformation</td>
+      </tr>
+      <tr>
+        <td><strong>Input / Output</strong></td>
+        <td>High-dimensional input $\rightarrow$ Low-dimensional label</td>
+        <td>Prompt / Condition $\rightarrow$ High-dimensional output</td>
+      </tr>
+      <tr>
+        <td><strong>Representative Models</strong></td>
+        <td>SVM, Logistic Regression, ResNet, XGBoost</td>
+        <td>GPT-4o, Gemini 2.0, Claude 3.5, Stable Diffusion</td>
+      </tr>
+      <tr>
+        <td><strong>Primary Failure Mode</strong></td>
+        <td>Misclassification, Out-of-Distribution Error</td>
+        <td>Hallucination, Mode Collapse, Semantic Drift</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="subsection-title">1.3 The 4 Industry Operational Layers</h3>
+  <p>
+    Modern enterprise AI is organized into four distinct horizontal layers. Understanding these boundaries prevents architectural confusion between hardware suppliers, model providers, and application developers:
+  </p>
+
+  <div class="ascii-diagram avoid-break">
++-------------------------------------------------------------------------------------------+
+| LAYER 4: APPLICATION LAYER                                                                |
+| Purpose-built business solutions (GitHub Copilot, Cursor, Notion AI, Duolingo Max, bots)  |
++-------------------------------------------------------------------------------------------+
+                                              ▲ (APIs, SDKs, Middleware)
++-------------------------------------------------------------------------------------------+
+| LAYER 3: ORCHESTRATION & TOOLING LAYER                                                    |
+| Frameworks connecting models to data & tools (LangChain, LangGraph, LlamaIndex, ChromaDB) |
++-------------------------------------------------------------------------------------------+
+                                              ▲ (Model Endpoints, Weights)
++-------------------------------------------------------------------------------------------+
+| LAYER 2: FOUNDATION MODEL LAYER                                                           |
+| Massive pre-trained multimodal models (Google Gemini 1.5/2.0, OpenAI GPT-4o, Claude 3.5)  |
++-------------------------------------------------------------------------------------------+
+                                              ▲ (Compute Hardware & Silicon)
++-------------------------------------------------------------------------------------------+
+| LAYER 1: HARDWARE & SILICON INFRASTRUCTURE                                                |
+| Accelerators, supercomputing clusters (NVIDIA H100/B200, Google TPUs, AWS Trainium)      |
++-------------------------------------------------------------------------------------------+
+  </div>
+
+  <div class="callout callout-intuition avoid-break">
+    <div class="callout-header">💡 The Car Analogy: Model vs. Application</div>
+    Think of the foundation model (Layer 2) as a high-performance car engine. Sitting on a factory floor, the engine is powerful, but an ordinary driver cannot use it to commute. The car itself (Layer 4)—the steering wheel, seats, brakes, and dashboard—is the application built around the engine. <strong>Industry Reality:</strong> Less than 1% of data scientists will ever train a foundation model from scratch (Layer 2). Over 95% of high-value industry roles focus on <strong>Layer 3 and Layer 4</strong>: orchestrating, grounding, and integrating models into real-world applications.
+  </div>
+
+  <h3 class="subsection-title">1.4 General-Purpose vs. Purpose-Built Applications</h3>
+  <ul>
+    <li><strong>General-Purpose (e.g., ChatGPT, Gemini Web UI):</strong> Broad, open-ended conversational interface. Capable of drafting poems, summarizing articles, or explaining history, but possesses zero access to private company databases or custom workflows.</li>
+    <li><strong>Purpose-Built (e.g., GitHub Copilot, Duolingo Max, Smart/Globe Billing Bot):</strong> Narrow, deeply embedded inside a specific application. Equipped with custom system instructions, proprietary company databases, and execution tools.
+      <em>Example:</em> A Globe Telecom billing bot would perform poorly at writing sonnets, but it is vastly superior to ChatGPT at checking your live SIM card data balance because it connects to real billing APIs.
+    </li>
+  </ul>
+
+  <h3 class="subsection-title">1.5 Evolution of NLP & The Transformer Self-Attention Breakthrough</h3>
+  <p>
+    Before 2017, NLP relied on <strong>Recurrent Neural Networks (RNNs) and LSTMs</strong>. RNNs processed text sequentially, token-by-token. This created two insurmountable bottlenecks:
+  </p>
+  <ol>
+    <li><strong>Sequential Bottleneck:</strong> Computing token $t$ strictly required hidden state $h_{t-1}$. Training could not be parallelized across GPUs.</li>
+    <li><strong>Vanishing Gradient Problem:</strong> Gradients decayed exponentially over long sequences, causing the network to forget instructions from earlier paragraphs.</li>
+  </ol>
+  <p>
+    In 2017, Vaswani et al. published <em>"Attention Is All You Need"</em>, introducing the <strong>Transformer</strong>. By eliminating recurrence and using <strong>Self-Attention</strong>, all tokens attend to each other simultaneously in $O(1)$ sequential operations, unlocking massive distributed GPU training.
+  </p>
+
+  <div class="callout callout-intuition avoid-break">
+    <div class="callout-header">💡 Intuitive Analogy: The YouTube Search (Query, Key, Value)</div>
+    Self-Attention works exactly like a modern search engine:
+    <ul>
+      <li><strong>Query ($Q$):</strong> What you type into the search bar (e.g., <code>"how to replace bicycle pedals"</code>).</li>
+      <li><strong>Key ($K$):</strong> The titles, tags, and descriptions of every indexed video on YouTube.</li>
+      <li><strong>Value ($V$):</strong> The actual video content you stream.</li>
+    </ul>
+    Your Query is compared against all Keys via a dot product to calculate relevance scores (attention weights). These weights determine how much of each video's Value is blended into your final answer.
+  </div>
+
+  <div class="callout callout-trap avoid-break">
+    <div class="callout-header">⚠️ High-Yield Exam Trap: Why Divide by $\sqrt{d_k}$?</div>
+    The Scaled Dot-Product Attention formula is:
+    $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+    <strong>Why scale by $\frac{1}{\sqrt{d_k}}$?</strong> In high dimensions ($d_k = 64, 128$), the dot products $QK^T$ grow very large in magnitude. Feeding large values into the $\text{softmax}$ function pushes it into extreme regions where its derivative is virtually zero ($\approx 0$). This causes <strong>vanishing gradients</strong> during backpropagation! Scaling by $\sqrt{d_k}$ preserves unit variance ($\sigma^2 = 1$) and stabilizes training.
+  </div>
+
+  <h2 class="section-title">2. Key Definition Glossary (Topic 1)</h2>
+  <ul>
+    <li><strong>Autoregressive Generation:</strong> Next-token prediction where each emitted token $w_t$ is appended to the context for predicting $w_{t+1}$.</li>
+    <li><strong>Context Window:</strong> The maximum token capacity (prompt + output) an LLM can process in a single forward pass.</li>
+    <li><strong>Software 3.0:</strong> Programming computational behavior through natural language prompts and empirical datasets rather than deterministic logic.</li>
+    <li><strong>Hallucination:</strong> Plausible-sounding, syntactically fluent, but factually fabricated model outputs.</li>
+  </ul>
+
+  <!-- ==================== MODULE 2 ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">MODULE 2: Building with LLMs & RAG Architectures (Topic 2)</h1>
+
+  <h2 class="section-title">1. Academic Context & Theoretical Deep Dive</h2>
+
+  <h3 class="subsection-title">1.1 The Enterprise Problem: Why Base LLMs Cannot Stand Alone</h3>
+  <p>
+    Deploying a raw foundation model in an enterprise fails due to three major barriers: (1) <strong>Knowledge Cutoffs</strong> (unaware of events post-training), (2) <strong>Private Data Isolation</strong> (cannot see internal company records), and (3) <strong>Hallucination Risk</strong> (fabricates answers when uncertain).
+  </p>
+
+  <h3 class="subsection-title">1.2 Fine-Tuning vs. Retrieval-Augmented Generation (RAG)</h3>
+  <p>
+    When should an enterprise fine-tune a model, and when should it build a RAG pipeline?
+  </p>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Evaluation Dimension</th>
+        <th>Fine-Tuning (Parametric Memory)</th>
+        <th>RAG (Non-Parametric Memory)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Underlying Mechanism</strong></td>
+        <td>Modifies internal neural network weights $\theta$</td>
+        <td>Injects retrieved document chunks into prompt</td>
+      </tr>
+      <tr>
+        <td><strong>Cost & Infrastructure</strong></td>
+        <td>Very High (GPUs, training runs, days)</td>
+        <td>Low (Vector embedding & indexing)</td>
+      </tr>
+      <tr>
+        <td><strong>Knowledge Updates</strong></td>
+        <td>Static; requires full retraining/re-tuning</td>
+        <td>Dynamic; add new PDF to database instantly</td>
+      </tr>
+      <tr>
+        <td><strong>Source Attribution</strong></td>
+        <td>Black box; cannot reliably cite documents</td>
+        <td>Verifiable; provides exact page/text citations</td>
+      </tr>
+      <tr>
+        <td><strong>Hallucination Frequency</strong></td>
+        <td>High on unfamiliar factual recall</td>
+        <td>Significantly reduced via grounded context</td>
+      </tr>
+      <tr>
+        <td><strong>Optimal Use Case</strong></td>
+        <td>Teaching specialized tone, style, or syntax</td>
+        <td>Factual QA, live policies, internal knowledge bases</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="subsection-title">1.3 The 5-Stage Production RAG Architecture</h3>
+  <p>
+    RAG decouples <strong>reasoning</strong> (handled by the LLM) from <strong>memory</strong> (handled by an external vector database):
+  </p>
+
+  <div class="ascii-diagram avoid-break">
+[ Unstructured Documents: PDFs, Manuals ]
+                  │
+                  ▼
+         [ Stage 1: Ingestion ] ──────────▶ PyPDFLoader / TextLoader
+                  │
+                  ▼
+         [ Stage 2: Chunking ] ───────────▶ RecursiveCharacterTextSplitter (chunk_size=500, overlap=100)
+                  │
+                  ▼
+         [ Stage 3: Embedding ] ──────────▶ Vector Embedding Model (e.g., gemini-embedding-001)
+                  │
+                  ▼
+         [ Stage 4: Storage ] ────────────▶ Vector Store Indexing (ChromaDB, FAISS)
+                  │
+                  │ ◄─── User Query: "What is Jollibee's breakfast policy?"
+                  ▼
+         [ Similarity Search ] ───────────▶ Cosine Similarity / Approximate Nearest Neighbors (ANN)
+                  │
+                  ▼ Top-K Chunks
+         [ Stage 5: Generation ] ─────────▶ Prompt Template + Grounded Context ──▶ Grounded LLM Response
+  </div>
+
+  <h3 class="subsection-title">1.4 Step-by-Step Technical Execution</h3>
+  <ul>
+    <li><strong>Stage 1: Document Loading:</strong> Parsing PDFs, Markdown, or HTML files into text objects with metadata (file path, page number).</li>
+    <li><strong>Stage 2: Chunking & Chunk Overlap:</strong>
+      <div class="callout callout-trap avoid-break">
+        <div class="callout-header">⚠️ Critical Concept: Why Chunk Overlap is Mandatory</div>
+        If you split text with <code>chunk_overlap = 0</code>, critical sentences that span across split boundaries get severed in half! For example: <em>"Refunds are granted only if... [CHUNK SPLIT] ...the receipt is shown within 7 days."</em> Chunk 1 says refunds are granted; Chunk 2 contains conditions with no context. Setting <code>chunk_overlap = 100</code> ensures continuity across boundaries.
+      </div>
+    </li>
+    <li><strong>Stage 3: Dense Vector Embeddings:</strong> Mapping text chunks into a continuous high-dimensional geometric space (e.g., 768 or 3,072 dimensions). Concepts with similar meanings cluster together regardless of exact phrasing (e.g., <code>"chicken"</code> and <code>"poultry"</code>).</li>
+    <li><strong>Stage 4: Vector Similarity Search:</strong>
+      $$\text{Cosine Similarity}(A, B) = \frac{A \cdot B}{\|A\| \|B\|} = \frac{\sum A_i B_i}{\sqrt{\sum A_i^2}\sqrt{\sum B_i^2}}$$
+      Values range from $-1.0$ (opposite) to $0.0$ (orthogonal) to $1.0$ (identical semantic meaning).
+    </li>
+    <li><strong>Stage 5: Grounded Prompting & Negative Constraints:</strong> Injecting top-$K$ chunks into a rigid prompt template requiring the LLM to answer strictly from the text and admit ignorance if missing.</li>
+  </ul>
+
+  <!-- ==================== MODULE 3 ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">MODULE 3: LangChain Models, Stateful Memory & Autonomy Levels (Topic 3)</h1>
+
+  <h2 class="section-title">1. Academic Context & Theoretical Deep Dive</h2>
+
+  <h3 class="subsection-title">1.1 Why LangChain? The Orchestration Abstraction</h3>
+  <p>
+    Writing raw HTTP REST API calls to LLMs is brittle. LangChain standardizes the interaction between Models, Prompt Templates, Output Parsers, and External Tools into modular, swappable components.
+  </p>
+
+  <h3 class="subsection-title">1.2 Model I/O & The Chat Message Abstraction</h3>
+  <ul>
+    <li><strong>LLMs vs. Chat Models:</strong> Base LLMs take a raw string and output a raw string. Chat Models (e.g., <code>ChatGoogleGenerativeAI</code>) consume structured message objects:
+      <ul>
+        <li><code>SystemMessage</code>: Defines persona, instructions, and negative constraints.</li>
+        <li><code>HumanMessage</code>: Represents the user's prompt.</li>
+        <li><code>AIMessage</code>: Represents previous model outputs.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="callout callout-trap avoid-break">
+    <div class="callout-header">⚠️ Common Student Trap: The AIMessage Return Object</div>
+    Invoking a LangChain Chat Model (<code>model.invoke("Hello")</code>) does <strong>not</strong> return a Python string! It returns an <code>AIMessage</code> object containing <code>.content</code> and token usage metadata. To obtain a clean string directly, you must pipe the model into <code>StrOutputParser()</code>!
+  </div>
+
+  <h3 class="subsection-title">1.3 LangChain Expression Language (LCEL)</h3>
+  <p>
+    LCEL provides a clean, declarative pipe syntax (<code>|</code>) modeled after Unix pipelines:
+  </p>
+  <pre><code>from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+prompt = ChatPromptTemplate.from_template("Summarize {topic} in one sentence.")
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+parser = StrOutputParser()
+
+# Declarative LCEL Pipeline
+chain = prompt | model | parser
+result = chain.invoke({"topic": "RAG Architectures"})</code></pre>
+
+  <h3 class="subsection-title">1.4 Managing Conversation Memory in a Stateless World</h3>
+  <p>
+    LLM APIs are completely <strong>stateless</strong>: each HTTP call knows nothing about previous messages. Client applications must maintain and pass conversation history:
+  </p>
+  <ul>
+    <li><strong>ConversationBufferMemory:</strong> Passes the entire conversation history verbatim. Perfect recall, but token costs explode over time.</li>
+    <li><strong>ConversationBufferWindowMemory(k=N):</strong> Passes only the last $N$ turns. Fixed token budget, but loses long-range facts.</li>
+    <li><strong>ConversationSummaryMemory:</strong> Periodically prompts a background LLM to summarize past turns into a concise paragraph, retaining context while minimizing tokens.</li>
+  </ul>
+
+  <h3 class="subsection-title">1.5 The 5 Cognitive Autonomy Levels (High-Yield Core)</h3>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Designation</th>
+        <th>Operational Architecture & Real-World Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Level 0</strong></td>
+        <td>Direct Prompt (No Autonomy)</td>
+        <td>Single input $\rightarrow$ single output. Completely reactive; no tools, no memory. (e.g. Asking ChatGPT a one-off definition).</td>
+      </tr>
+      <tr>
+        <td><strong>Level 1</strong></td>
+        <td>Chained Pipeline (Static Execution)</td>
+        <td>Linear execution sequence (Prompt $\rightarrow$ LLM $\rightarrow$ Parser). Deterministic; cannot dynamically branch.</td>
+      </tr>
+      <tr>
+        <td><strong>Level 2</strong></td>
+        <td>Grounded Retrieval (RAG)</td>
+        <td>System dynamically queries external vector memory to fetch relevant chunks before answering. (e.g. Jollibee FAQ bot).</td>
+      </tr>
+      <tr>
+        <td><strong>Level 3</strong></td>
+        <td>Tool-Using & Function Calling</td>
+        <td>Model dynamically decides <em>which</em> external tool to invoke based on docstrings. (e.g. invoking <code>calculate_vat(price)</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Level 4</strong></td>
+        <td>Autonomous Agents (ReAct Loop)</td>
+        <td>Iterative ReAct loop: <strong>Thought $\rightarrow$ Action $\rightarrow$ Observation $\rightarrow$ Thought</strong>. Detects errors and self-corrects.</td>
+      </tr>
+      <tr>
+        <td><strong>Level 5</strong></td>
+        <td>Multi-Agent Swarms</td>
+        <td>Multiple specialized agents (Researcher, Coder, Critic) collaborating and supervising each other via LangGraph.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ==================== MODULE 4 ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">MODULE 4: Enterprise Prompt Engineering & Decoding Thermodynamics (Topic 4)</h1>
+
+  <h2 class="section-title">1. Academic Context & Theoretical Deep Dive</h2>
+
+  <h3 class="subsection-title">1.1 The Prompt Anatomy Ladder (V1 $\rightarrow$ V2 $\rightarrow$ V3)</h3>
+  <p>
+    In production software engineering, prompts are not casual text; they are formal specifications that constrain an autoregressive probability distribution:
+  </p>
+
+  <div class="ascii-diagram avoid-break">
+[ V1: Raw Task Only ] ──▶ "Classify review: Food took forever but burger was good."
+        │ High variance, conversational chatter ("Sure! Here is your answer:...")
+        ▼
+[ V2: Task + Role + Context + Target Format ]
+        │ "You are a QA auditor. Classify the review as: POSITIVE, NEGATIVE, or MIXED."
+        │ Better alignment, but still prone to extraneous markdown or explanations.
+        ▼
+[ V3: V2 + Programmatically Verifiable Hard & Negative Constraints ]
+        │ HARD CONSTRAINTS:
+        │ 1. Output EXACTLY ONE word from [POSITIVE, NEGATIVE, MIXED].
+        │ 2. DO NOT include explanations, greetings, punctuation, or markdown.
+        │ 3. Any extra character breaks automated ingestion.
+        ▼
+Directly ingestible by automated backend pipelines with 0% format failure.
+  </div>
+
+  <h3 class="subsection-title">1.2 In-Context Learning: Zero-Shot vs. Few-Shot</h3>
+  <ul>
+    <li><strong>Zero-Shot:</strong> Providing instructions without examples. Excellent for straightforward tasks on modern capable models.</li>
+    <li><strong>Few-Shot:</strong> Providing 2 to 5 worked exemplars inside the prompt. Drastically reduces format errors and guides edge-case classification logic.</li>
+    <li><strong>Error Taxonomy:</strong>
+      <ul>
+        <li><strong>Content Error:</strong> The model hallucinates facts or misclassifies an edge case.</li>
+        <li><strong>Format Error:</strong> The classification is correct, but the model injects conversational padding that breaks JSON parsers.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 class="subsection-title">1.3 Decoding Thermodynamics & Sampling Mathematics</h3>
+  <p>
+    Before emitting a token, an LLM outputs raw, unnormalized scores called <strong>logits</strong> ($z \in \mathbb{R}^{|V|}$). These logits are converted into probabilities using the <strong>Softmax function with Temperature scaling ($T$)</strong>:
+  </p>
+  $$P(w_i) = \frac{\exp(z_i / T)}{\sum_{j=1}^{|V|} \exp(z_j / T)}$$
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Temperature ($T$)</th>
+        <th>Mathematical Behavior</th>
+        <th>Production Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>$T = 0.0$ (Greedy Decoding)</strong></td>
+        <td>Collapses distribution; top logit gets near 100% probability: $\arg\max_i P(w_i)$.</td>
+        <td><strong>Mandatory</strong> for code generation, mathematical extraction, and structured JSON parsing. Completely deterministic.</td>
+      </tr>
+      <tr>
+        <td><strong>$T = 0.2 - 0.5$ (Low Temp)</strong></td>
+        <td>Slightly smoothed; highly focused on top tokens with minimal variation.</td>
+        <td>Fact-grounded summarization, customer support chatbots, enterprise RAG synthesis.</td>
+      </tr>
+      <tr>
+        <td><strong>$T = 0.7 - 1.0$ (Moderate Temp)</strong></td>
+        <td>Balances diversity and coherence; allows lower-probability tokens to be sampled.</td>
+        <td>Creative writing, marketing ideation, conversational open-ended dialogue.</td>
+      </tr>
+      <tr>
+        <td><strong>$T > 1.5$ (High Entropy)</strong></td>
+        <td>Flattens distribution toward uniform randomness. High entropy.</td>
+        <td>Extreme brainstorming; high risk of hallucination and ungrammatical gibberish.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="subsection-title">1.4 Persona Steering & The Invariant Facts Principle</h3>
+  <p>
+    When steering models with differing system instructions (e.g., an aggressive/hostile persona vs. an overly polite/empathetic persona), **the underlying factual truth must remain invariant**. Persona modulates *how* information is delivered (cadence, tone), never *what* factual truth is delivered (e.g., store hours must remain identical).
+  </p>
+
+  <!-- ==================== MODULE 5 ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">MODULE 5: Reasoning Prompts, Chain-of-Thought & Built-In Thinking (Topic 5)</h1>
+
+  <h2 class="section-title">1. Academic Context & Theoretical Deep Dive</h2>
+
+  <h3 class="subsection-title">1.1 The Cognitive Mechanism: Why LLMs Need Scratchpad Tokens</h3>
+  <p>
+    Why does an LLM fail when asked: <em>"Calculate total cost for a 450-peso meal with a 15% discount, 12% VAT, and 20-peso voucher. Reply with ONLY the number"</em>?
+  </p>
+
+  <div class="callout callout-intuition avoid-break">
+    <div class="callout-header">💡 The Mental Math Analogy: Scratchpads vs. Instant Guesses</div>
+    If someone asks you to multiply $487 \times 693$ in your head in 1 second, you will guess wrong. But if you have scratch paper to write out intermediate steps, you calculate it easily. An LLM predicts one token at a time with a fixed computational depth per forward pass. Forcing it to output the final number immediately requires it to compute all multi-step math in a single pass. <strong>Writing out intermediate reasoning steps stores partial results in its context (KV Cache), giving it dynamic working memory!</strong>
+  </div>
+
+  <div class="ascii-diagram avoid-break">
+DIRECT PROMPT:
+Prompt: "Solve: (450 * 0.85) * 1.12 - 20. Number only."
+  Forward Pass 1 ──▶ Model forced to guess final number immediately ──▶ HIGH FAILURE RATE
+
+REASONING / CHAIN-OF-THOUGHT (CoT) PROMPT:
+Prompt: "Solve step by step. Show your calculations."
+  Tokens 1-10:   "Step 1: 15% discount on 450 is 450 * 0.85 = 382.50." (Enters Context)
+  Tokens 11-20:  "Step 2: Add 12% VAT: 382.50 * 1.12 = 428.40."       (Attends to Step 1)
+  Tokens 21-28:  "Step 3: Subtract 20 voucher: 428.40 - 20 = 408.40."  (Attends to Step 2)
+  Tokens 29-32:  "ANSWER: 408.40"                                      (Near 100% Accuracy!)
+  </div>
+
+  <h3 class="subsection-title">1.2 Prompted Reasoning vs. Built-In Thinking</h3>
+
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Prompted Reasoning (Chain-of-Thought)</th>
+        <th>Built-In Thinking (Thinking Models)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mechanism</strong></td>
+        <td>Explicit instruction written into user prompt (<em>"Solve step by step"</em>)</td>
+        <td>Architectural internal processing trained via Reinforcement Learning (RL)</td>
+      </tr>
+      <tr>
+        <td><strong>Token Visibility</strong></td>
+        <td>Reasoning tokens are visible in the model's text response</td>
+        <td>Internal "thinking tokens" are hidden or reported in usage metadata</td>
+      </tr>
+      <tr>
+        <td><strong>Model Archetypes</strong></td>
+        <td>Standard LLMs (Gemini 1.5 Flash, GPT-4o)</td>
+        <td>Reasoning Models (Gemini 2.0 Flash Thinking, OpenAI o1/o3-mini)</td>
+      </tr>
+      <tr>
+        <td><strong>Token Billing</strong></td>
+        <td>Billed as standard Output Tokens</td>
+        <td>Billed as Thinking / Input Tokens</td>
+      </tr>
+      <tr>
+        <td><strong>Format Control</strong></td>
+        <td>High; controllable via Few-Shot Worked Examples</td>
+        <td>Low; model reasons in its own internal monologue</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="subsection-title">1.3 Programmatic Delimiter Contracts (ANSWER: &lt;number&gt;)</h3>
+  <p>
+    Humans want step-by-step explanations, but backend code (e.g. checkout carts) will crash if given a paragraph instead of a clean float. We resolve this using a <strong>Delimiter Contract</strong>:
+  </p>
+  <pre><code>Solve the problem step by step and show your calculations.
+On the final line, write your answer in this exact format:
+ANSWER: &lt;number&gt;</code></pre>
+
+  <p>Backend extraction pattern using Python regex:</p>
+  <pre><code>import re
+
+def extract_numeric_answer(reply: str) -> float | None:
+    match = re.search(r"ANSWER:\s*([0-9.]+)", reply)
+    return float(match.group(1)) if match else None</code></pre>
+
+  <h3 class="subsection-title">1.4 Controlling Reasoning Format via Worked Examples</h3>
+  <p>
+    Embedding a single worked example inside a <code>ChatPromptTemplate</code> establishes a consistent, professional derivation layout across varied problem inputs:
+  </p>
+  <pre><code>worked_example = """Problem: A 100-peso item has 10% discount and 12% VAT.
+Calculations:
+- Discounted price: 100 * 0.90 = 90.00
+- Price with VAT: 90 * 1.12 = 100.80
+ANSWER: 100.80"""
+
+reasoning_template = ChatPromptTemplate.from_messages([
+    ("system", "Solve the math problem. Use the exact layout below:\n\n" + worked_example),
+    ("human", "Problem: {problem}")
+])</code></pre>
+
+  <h3 class="subsection-title">1.5 The Production Shipping Decision: "Which Prompt Would You Ship?"</h3>
+  <p>
+    In industry, prompt engineers do not choose prompts based on accuracy alone. You must balance <strong>four competing production dimensions</strong>:
+  </p>
+  <ol>
+    <li><strong>Accuracy:</strong> Percentage of problem instances solved correctly.</li>
+    <li><strong>Output Token Overhead:</strong> Direct prompt generates ~10 tokens; CoT generates ~150 tokens.</li>
+    <li><strong>Inference Latency:</strong> Generating 150 tokens takes 1.5–3.0 seconds longer.</li>
+    <li><strong>Token Economics at Scale:</strong> At 100,000 requests/month, 150 extra tokens per request equals <strong>15,000,000 additional output tokens</strong>.</li>
+  </ol>
+
+  <div class="callout callout-takeaway avoid-break">
+    <div class="callout-header">🎯 Production Decision Formula</div>
+    <em>"For the checkout calculation feature, we ship the <strong>Reasoning (CoT)</strong> prompt because it achieved <strong>100% accuracy</strong> versus <strong>33% for the Direct prompt</strong>. The additional 140 output tokens (~$1.50/month at 100,000 scale) are fully justified to eliminate customer-facing financial billing errors."</em>
+  </div>
+
+  <!-- ==================== SYNTHESIS & 25 Q&A ==================== -->
+  <div class="page-break"></div>
+  <h1 class="module-title">CONSOLIDATED SYNTHESIS & 25-QUESTION DIAGNOSTIC EXAM REVIEWER</h1>
+
+  <h2 class="section-title">DS314 Grand Architectural Synthesis Matrix (Topics 1 to 5)</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Topic</th>
+        <th>Core Mechanism</th>
+        <th>Primary Code / Architecture</th>
+        <th>High-Yield Exam Checkpoint</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Topic 1</strong></td>
+        <td>Probabilistic vs Deterministic; Self-Attention; 4 Layers</td>
+        <td>$\text{Attention} = \text{softmax}(QK^T/\sqrt{d_k})V$</td>
+        <td>Dividing by $\sqrt{d_k}$ avoids vanishing gradients; 95% of jobs in Layers 3 & 4.</td>
+      </tr>
+      <tr>
+        <td><strong>Topic 2</strong></td>
+        <td>Non-parametric RAG; Embeddings; Vector DB</td>
+        <td>ChromaDB, RecursiveCharacterTextSplitter</td>
+        <td>Chunk overlap prevents semantic slicing; RAG vs Fine-tuning trade-offs.</td>
+      </tr>
+      <tr>
+        <td><strong>Topic 3</strong></td>
+        <td>LangChain Orchestration; Memory; Autonomy Levels</td>
+        <td>LCEL: <code>prompt | model | parser</code></td>
+        <td><code>AIMessage</code> return trap; Autonomy Levels 0 to 5.</td>
+      </tr>
+      <tr>
+        <td><strong>Topic 4</strong></td>
+        <td>Anatomy Ladder (V1-V3); Temperature Thermodynamics</td>
+        <td>Softmax Temperature: $P(w_i) = \frac{\exp(z_i/T)}{\sum \exp(z_j/T)}$</td>
+        <td>$T = 0.0$ for deterministic code/math; Content vs Format errors.</td>
+      </tr>
+      <tr>
+        <td><strong>Topic 5</strong></td>
+        <td>Reasoning Prompts (CoT); Built-in Thinking; Delimiters</td>
+        <td>Worked Example, <code>ANSWER: &lt;number&gt;</code> regex</td>
+        <td>KV cache scratchpad; Shipping decision trade-offs at 100k scale.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">25 High-Yield Diagnostic Reviewer Questions (with Full Explanations)</h2>
+
+  <!-- Q1 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 01</span>
+      <span class="q-tag">Topic 1: Attention Mechanics</span>
+    </div>
+    <div class="q-stem">Why does the Scaled Dot-Product Attention formula divide $QK^T$ by $\sqrt{d_k}$?</div>
+    <ul class="q-options">
+      <li>A. To convert the matrix into a lower-dimensional embedding.</li>
+      <li class="correct">B. To prevent dot products from growing excessively large, which pushes softmax into regions with vanishingly small gradients. [CORRECT]</li>
+      <li>C. To enforce deterministic output generation.</li>
+      <li>D. To eliminate the need for Positional Encodings.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> In high dimensions ($d_k$), the magnitude of the dot products grows large, pushing the softmax function into regions where its derivative is nearly zero, causing training gradients to vanish. Scaling by $\sqrt{d_k}$ stabilizes training.<br>
+      <strong>Distractor Analysis:</strong> A is false (dimension is unchanged); C is false (sampling temperature controls randomness); D is false (positional encodings are still required to inject word order).
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 02</span>
+      <span class="q-tag">Topic 1: Ecosystem Taxonomy</span>
+    </div>
+    <div class="q-stem">To which layer of the enterprise AI ecosystem do LangChain, LangGraph, and ChromaDB belong?</div>
+    <ul class="q-options">
+      <li>A. Layer 1: Hardware & Silicon Infrastructure</li>
+      <li>B. Layer 2: Foundation Model Layer</li>
+      <li class="correct">C. Layer 3: Orchestration & Tooling Layer [CORRECT]</li>
+      <li>D. Layer 4: Application Layer</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why C is Correct:</strong> Layer 3 is the orchestration middleware connecting foundation models (Layer 2) to external data, vector stores, and custom tools.<br>
+      <strong>Distractor Analysis:</strong> Layer 1 is compute hardware (GPUs); Layer 2 is foundation models (Gemini, GPT); Layer 4 is end-user software (Copilot, Notion AI).
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 03</span>
+      <span class="q-tag">Topic 1: Probabilistic Math</span>
+    </div>
+    <div class="q-stem">Discriminative AI models $P(Y \mid X)$ while Generative AI models $P(X, Y)$ or $P(X)$. What is the fundamental practical implication?</div>
+    <ul class="q-options">
+      <li>A. Discriminative AI can synthesize realistic images from scratch.</li>
+      <li class="correct">B. Discriminative AI predicts boundaries or labels, while Generative AI captures the data distribution to synthesize brand-new samples. [CORRECT]</li>
+      <li>C. Generative AI models cannot perform classification.</li>
+      <li>D. Discriminative AI is strictly rule-based.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Generative models learn the underlying probability distribution of the data so they can sample new synthetic instances $\tilde{x} \sim P(X)$. Discriminative models only learn boundary separations $P(Y \mid X)$.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 04</span>
+      <span class="q-tag">Topic 1: Application Archetypes</span>
+    </div>
+    <div class="q-stem">What differentiates Duolingo Max from the general-purpose ChatGPT web interface?</div>
+    <ul class="q-options">
+      <li>A. Duolingo Max does not use a foundation model.</li>
+      <li class="correct">B. Duolingo Max is a purpose-built application tuned specifically for language pedagogy, progress tracking, and curriculum exercises. [CORRECT]</li>
+      <li>C. ChatGPT runs on an analog computer.</li>
+      <li>D. Duolingo Max relies on n-gram models from the 1990s.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Both utilize underlying foundation models, but Duolingo Max wraps the model in a purpose-built application layer with curriculum grounding and specialized UX.
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 05</span>
+      <span class="q-tag">Topic 2: RAG vs. Fine-Tuning</span>
+    </div>
+    <div class="q-stem">A hospital requires an AI assistant to answer clinical questions using hospital guidelines updated weekly, with exact citations. Which architecture is optimal?</div>
+    <ul class="q-options">
+      <li>A. Retraining a foundation model from scratch weekly.</li>
+      <li>B. Fine-tuning an open-source model weekly.</li>
+      <li class="correct">C. A Retrieval-Augmented Generation (RAG) system with an indexed vector database. [CORRECT]</li>
+      <li>D. Setting Temperature to 1.8 on vanilla GPT-4o.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why C is Correct:</strong> RAG enables instant document indexing without retraining and provides auditable source citations, fulfilling both requirements.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 06</span>
+      <span class="q-tag">Topic 2: Document Chunking</span>
+    </div>
+    <div class="q-stem">What is the consequence of configuring `chunk_size = 500` and `chunk_overlap = 0` when chunking contracts?</div>
+    <ul class="q-options">
+      <li>A. Embedding vectors become half as large.</li>
+      <li class="correct">B. Sentences or conditional clauses spanning split boundaries get severed in half, causing context fragmentation and loss of meaning. [CORRECT]</li>
+      <li>C. Cosine similarity scores become negative.</li>
+      <li>D. The vector database runs out of RAM.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Zero overlap means text at the split boundary is cut with no connective context, slicing sentences across two separate chunks.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 07</span>
+      <span class="q-tag">Topic 2: Vector Geometry</span>
+    </div>
+    <div class="q-stem">What does a Cosine Similarity score of 1.0 between a query vector and a chunk vector indicate?</div>
+    <ul class="q-options">
+      <li>A. The texts have identical character lengths.</li>
+      <li class="correct">B. The two vectors point in the exact same geometric direction, indicating maximum semantic alignment. [CORRECT]</li>
+      <li>C. The chunk contains negative sentiment.</li>
+      <li>D. The system has encountered an out-of-memory error.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Cosine similarity measures the angle between vectors: $\cos(0^\circ) = 1.0$, indicating identical directional orientation regardless of vector magnitude.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 08</span>
+      <span class="q-tag">Topic 2: Negative Constraints</span>
+    </div>
+    <div class="q-stem">Why must an enterprise RAG prompt explicitly instruct the model to state "I do not know" if the context lacks the answer?</div>
+    <ul class="q-options">
+      <li>A. To reduce the temperature hyperparameter.</li>
+      <li class="correct">B. To prevent the model from falling back to its internal parametric memory and hallucinating unsupported assertions. [CORRECT]</li>
+      <li>C. Because vector databases cannot store missing values.</li>
+      <li>D. To force the LLM to switch into discriminative mode.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Without an explicit negative guardrail, an LLM will attempt to answer missing proprietary facts using its general pre-training data, generating hallucinations.
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 09</span>
+      <span class="q-tag">Topic 3: LangChain Return Types</span>
+    </div>
+    <div class="q-stem">In LangChain, what is returned when invoking `ChatGoogleGenerativeAI` directly without an output parser?</div>
+    <ul class="q-options">
+      <li>A. A standard Python `str`.</li>
+      <li class="correct">B. An `AIMessage` object containing `.content` and response metadata. [CORRECT]</li>
+      <li>C. A dictionary containing `{"text": ...}`.</li>
+      <li>D. A floating-point logit tensor.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> LangChain chat models return message objects (`AIMessage`). Pipelining into `StrOutputParser()` is required to extract the pure text string.
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 10</span>
+      <span class="q-tag">Topic 3: LCEL Pipelines</span>
+    </div>
+    <div class="q-stem">In the expression `chain = prompt | model | StrOutputParser()`, what is the function of the pipe `|` operator?</div>
+    <ul class="q-options">
+      <li>A. It performs a bitwise OR operation on token IDs.</li>
+      <li class="correct">B. It declaratively chains components together using LangChain Expression Language (LCEL), passing the output of each component into the next. [CORRECT]</li>
+      <li>C. It divides the prompt length by the model parameters.</li>
+      <li>D. It resets conversation memory.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> LCEL overrides the `__or__` operator to build declarative, streaming-capable execution pipelines across modular components.
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 11</span>
+      <span class="q-tag">Topic 3: Memory Engineering</span>
+    </div>
+    <div class="q-stem">Why is `ConversationBufferMemory` problematic for a high-turn enterprise customer service chatbot?</div>
+    <ul class="q-options">
+      <li>A. It deletes user messages after 3 turns.</li>
+      <li class="correct">B. It retains every past message verbatim, causing context window exhaustion and exponential token cost growth. [CORRECT]</li>
+      <li>C. It cannot store alphanumeric characters.</li>
+      <li>D. It requires weekly fine-tuning.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Buffer memory continuously grows with each turn, eventually filling the entire context window and inflating API costs exponentially.
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 12</span>
+      <span class="q-tag">Topic 3: Cognitive Autonomy</span>
+    </div>
+    <div class="q-stem">An AI system reads an order query, selects an external `get_tracking_info()` API based on docstrings, calls it, and returns the tracking status. What Autonomy Level is this?</div>
+    <ul class="q-options">
+      <li>A. Level 0: Direct Prompt</li>
+      <li>B. Level 1: Chained Pipeline</li>
+      <li class="correct">C. Level 3: Tool-Using / Action Execution [CORRECT]</li>
+      <li>D. Level 5: Collaborative Multi-Agent Swarm</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why C is Correct:</strong> Level 3 systems dynamically inspect tool definitions and invoke external functions/APIs to take action.
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 13</span>
+      <span class="q-tag">Topic 3: ReAct Agents</span>
+    </div>
+    <div class="q-stem">What are the four iterative stages that comprise a Level 4 ReAct agent loop?</div>
+    <ul class="q-options">
+      <li>A. Read $\rightarrow$ Encode $\rightarrow$ Decode $\rightarrow$ Print</li>
+      <li class="correct">B. Thought $\rightarrow$ Action $\rightarrow$ Observation $\rightarrow$ Reflection/Thought [CORRECT]</li>
+      <li>C. Load $\rightarrow$ Chunk $\rightarrow$ Embed $\rightarrow$ Store</li>
+      <li>D. Tokenize $\rightarrow$ Softmax $\rightarrow$ Logit $\rightarrow$ Sample</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> The ReAct paradigm combines verbal reasoning (Thought), tool execution (Action), environment feedback (Observation), and reflection until the goal is achieved.
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 14</span>
+      <span class="q-tag">Topic 4: Prompt Engineering</span>
+    </div>
+    <div class="q-stem">What transforms an informal V1 prompt into a production-grade V3 prompt on the Anatomy Ladder?</div>
+    <ul class="q-options">
+      <li>A. Increasing the word count by repeating the task.</li>
+      <li class="correct">B. Adding role, context, allowed value sets, checkable hard constraints, and negative constraints. [CORRECT]</li>
+      <li>C. Raising the sampling temperature above 1.5.</li>
+      <li>D. Removing all punctuation.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> V3 prompts establish rigorous, programmatically verifiable boundaries that eliminate conversational fluff and guarantee parser compliance.
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 15</span>
+      <span class="q-tag">Topic 4: In-Context Learning</span>
+    </div>
+    <div class="q-stem">What is the primary technical advantage of Few-Shot Prompting over Zero-Shot Prompting?</div>
+    <ul class="q-options">
+      <li>A. It updates the synaptic weights of the foundation model.</li>
+      <li class="correct">B. It conditions the output distribution using concrete exemplars, enforcing exact formatting and edge-case handling. [CORRECT]</li>
+      <li>C. It reduces the number of input tokens consumed.</li>
+      <li>D. It guarantees zero API latency.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Few-shot exemplars provide in-context demonstrations that dramatically reduce format errors and clarify ambiguous decision boundaries.
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 16</span>
+      <span class="q-tag">Topic 4: Sampling Thermodynamics</span>
+    </div>
+    <div class="q-stem">Which decoding setting is mandatory for a production pipeline generating valid JSON data?</div>
+    <ul class="q-options">
+      <li>A. Temperature $T = 1.8$, Top-$p = 0.95$</li>
+      <li class="correct">B. Temperature $T = 0.0$ (Greedy Decoding) [CORRECT]</li>
+      <li>C. Temperature $T = 0.9$, Top-$k = 50$</li>
+      <li>D. Dynamic temperature oscillating between $0.2$ and $1.0$</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> $T = 0.0$ forces deterministic greedy selection ($\arg\max$), ensuring maximum syntax compliance and reproducible schema generation.
+    </div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 17</span>
+      <span class="q-tag">Topic 4: Decoding Thermodynamics</span>
+    </div>
+    <div class="q-stem">What happens mathematically to the token probability distribution when Temperature approaches infinity ($T \to \infty$)?</div>
+    <ul class="q-options">
+      <li>A. The probability of the top logit approaches 1.0.</li>
+      <li class="correct">B. The distribution flattens into a uniform distribution where every token has an equal probability of being selected. [CORRECT]</li>
+      <li>C. All logits become negative numbers.</li>
+      <li>D. The model immediately crashes.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> As $T \to \infty$, $z_i / T \to 0$, causing $\exp(0) = 1$ for all tokens, resulting in a completely uniform distribution (maximum entropy / pure noise).
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 18</span>
+      <span class="q-tag">Topic 4: Error Taxonomy</span>
+    </div>
+    <div class="q-stem">An LLM is asked to output a sentiment label as JSON: `{"sentiment": "POSITIVE"}`. Instead, it outputs: `Sure! The sentiment is {"sentiment": "POSITIVE"}`. What error is this?</div>
+    <ul class="q-options">
+      <li>A. Content Error</li>
+      <li class="correct">B. Format Error [CORRECT]</li>
+      <li>C. Context Window Overflow</li>
+      <li>D. Hardware Fault</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> The classification is correct, but conversational preamble broke JSON schema compliance—a classic Format Error.
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 19</span>
+      <span class="q-tag">Topic 4: Persona Steering</span>
+    </div>
+    <div class="q-stem">When evaluating an "Angry Support Bot" against an "Empathetic Support Bot", what must remain invariant across both prompts?</div>
+    <ul class="q-options">
+      <li>A. The greeting phrasing.</li>
+      <li class="correct">B. The underlying factual truth (e.g. store hours, refund policies). [CORRECT]</li>
+      <li>C. The total output word count.</li>
+      <li>D. The temperature setting.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> The Principle of Invariant Facts dictates that persona steering modifies tone and cadence, but factual truth must remain constant.
+    </div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 20</span>
+      <span class="q-tag">Topic 5: Cognitive Scratchpads</span>
+    </div>
+    <div class="q-stem">Why do autoregressive LLMs struggle with multi-step math when prompted to "Reply with only the number"?</div>
+    <ul class="q-options">
+      <li>A. Models cannot output numerical digits.</li>
+      <li class="correct">B. The model must compute all intermediate calculations within a single forward pass without intermediate scratchpad tokens to attend to. [CORRECT]</li>
+      <li>C. Numbers require an n-gram model.</li>
+      <li>D. The context window automatically shrinks to zero.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Without intermediate scratchpad tokens in its KV cache, an autoregressive model has no working memory to store partial calculation steps.
+    </div>
+  </div>
+
+  <!-- Q21 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 21</span>
+      <span class="q-tag">Topic 5: Programmatic Extraction</span>
+    </div>
+    <div class="q-stem">Why is the delimiter pattern `ANSWER: &lt;number&gt;` critical in Chain-of-Thought prompts?</div>
+    <ul class="q-options">
+      <li>A. It makes the model execute 50% faster.</li>
+      <li class="correct">B. It enables human inspection of intermediate reasoning while allowing automated backend code to extract the final value reliably via regex. [CORRECT]</li>
+      <li>C. It reduces the temperature hyperparameter.</li>
+      <li>D. It converts the model from generative to discriminative.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Delimiter contracts bridge human explainability (reasoning steps) and programmatic automation (regex extraction of final value).
+    </div>
+  </div>
+
+  <!-- Q22 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 22</span>
+      <span class="q-tag">Topic 5: Built-In Thinking</span>
+    </div>
+    <div class="q-stem">How does Built-In Thinking (e.g. Gemini 2.0 Flash Thinking, o1) differ fundamentally from Prompted Chain-of-Thought?</div>
+    <ul class="q-options">
+      <li class="correct">A. Built-in thinking generates hidden internal reasoning tokens trained via RL before emitting user-facing text, without needing explicit CoT prompt instructions. [CORRECT]</li>
+      <li>B. Built-in thinking only works for image generation.</li>
+      <li>C. Prompted CoT is hidden, while built-in thinking is visible.</li>
+      <li>D. Built-in thinking uses zero computational resources.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Built-in thinking models are architecturally trained with process-supervised reinforcement learning to generate hidden thinking tokens automatically before emitting final outputs.
+    </div>
+  </div>
+
+  <!-- Q23 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 23</span>
+      <span class="q-tag">Topic 5: Production Economics</span>
+    </div>
+    <div class="q-stem">A team evaluates a high-volume FAQ bot (500,000 calls/month). Direct Prompt: 96% accuracy, 20 output tokens, 350ms latency. CoT Prompt: 97% accuracy, 220 output tokens, 2400ms latency. Which prompt should ship?</div>
+    <ul class="q-options">
+      <li>A. CoT Prompt, because 97% is higher than 96%.</li>
+      <li class="correct">B. Direct Prompt, because a 1% accuracy gain does not justify a 10x token cost increase and a 7x latency penalty at 500k monthly scale. [CORRECT]</li>
+      <li>C. Neither; they must train their own foundation model.</li>
+      <li>D. Whichever prompt has a higher temperature.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Production engineering balances accuracy against latency and cost. At 500k queries/month, 200 extra tokens per call incurs massive financial and latency overhead for a negligible 1% gain on a simple FAQ task.
+    </div>
+  </div>
+
+  <!-- Q24 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 24</span>
+      <span class="q-tag">Topic 5: Worked Examples</span>
+    </div>
+    <div class="q-stem">Why is a single worked example embedded inside the prompt template for mathematical reasoning tasks?</div>
+    <ul class="q-options">
+      <li>A. To bypass API rate limits.</li>
+      <li class="correct">B. To enforce a uniform, structured format for calculation steps across diverse problem inputs. [CORRECT]</li>
+      <li>C. To instruct the model to write Python code.</li>
+      <li>D. To eliminate the need for an output delimiter.</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> Worked examples provide structural conditioning, ensuring the model lays out its calculations consistently and reliably ends with the required delimiter.
+    </div>
+  </div>
+
+  <!-- Q25 -->
+  <div class="q-card avoid-break">
+    <div class="q-header">
+      <span class="q-num">QUESTION 25</span>
+      <span class="q-tag">Synthesis: Full Pipeline</span>
+    </div>
+    <div class="q-stem">In an enterprise RAG customer support system, what is the correct operational sequence when a user query arrives?</div>
+    <ul class="q-options">
+      <li>A. Model Generates Answer $\rightarrow$ Vector Store Embeds Answer $\rightarrow$ Prompt is Assembled</li>
+      <li class="correct">B. User Query $\rightarrow$ Embed Query $\rightarrow$ Vector Store Top-K Search $\rightarrow$ Context Assembly in Prompt Template $\rightarrow$ Grounded LLM Generation ($T=0$) $\rightarrow$ Output Parser [CORRECT]</li>
+      <li>C. Fine-Tune Model $\rightarrow$ Run at $T=2.0$ $\rightarrow$ Save to SQLite</li>
+      <li>D. Direct Prompt $\rightarrow$ N-gram Lookup $\rightarrow$ Calculate Cosine Similarity</li>
+    </ul>
+    <div class="q-analysis">
+      <strong>Why B is Correct:</strong> This reflects the complete end-to-end production RAG and LCEL pipeline: query embedding, vector similarity retrieval, prompt context assembly, deterministic grounded generation, and structured parsing.
+    </div>
+  </div>
+
+  <!-- Footer / Wrap-up -->
+  <div style="margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 15px; text-align: center; font-size: 8.5pt; color: #64748b;">
+    <strong>DS314 Generative AI & LLM Systems (Elective 1)</strong> — Prepared for 3rd Year BS Data Science Examination Review.
+  </div>
+
+</body>
+</html>
