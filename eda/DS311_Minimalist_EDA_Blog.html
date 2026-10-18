@@ -99,19 +99,21 @@
       position: sticky;
       top: 0;
       z-index: 999;
-      background: rgba(250, 247, 242, 0.95);
+      background: rgba(250, 247, 242, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.25s ease;
     }
 
     .header-container {
-      max-width: var(--reading-width);
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0.85rem 1.5rem;
+      padding: 0.95rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1.5rem;
     }
 
     .logo-block {
@@ -120,6 +122,11 @@
       align-items: flex-start;
       text-decoration: none;
       color: var(--text-main);
+      transition: opacity 0.2s ease;
+    }
+
+    .logo-block:hover {
+      opacity: 0.85;
     }
 
     .brand-logo-text {
@@ -131,6 +138,7 @@
       display: flex;
       align-items: baseline;
       gap: 0.35rem;
+      line-height: 1.15;
     }
 
     .brand-logo-text span {
@@ -145,7 +153,7 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--text-faint);
-      margin-top: -3px;
+      margin-top: 0.15rem;
     }
 
     .header-nav {
@@ -163,10 +171,50 @@
       text-decoration: none;
       color: var(--text-muted);
       transition: color 0.2s ease;
+      position: relative;
+      padding: 0.25rem 0;
+      white-space: nowrap;
     }
 
     .nav-link:hover {
       color: var(--accent-terracotta);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-terracotta);
+      transition: width 0.2s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .btn-jump-header {
+      background: var(--accent-terracotta);
+      color: #FFFFFF !important;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(213, 102, 56, 0.25);
+      white-space: nowrap;
+    }
+
+    .btn-jump-header:hover {
+      background: var(--accent-terracotta-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(213, 102, 56, 0.35);
     }
 
     /* EDITORIAL CONTAINER: SINGLE CENTERED COLUMN */
@@ -251,6 +299,28 @@
       letter-spacing: 0.04em;
     }
 
+    .btn-jump-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      text-decoration: none;
+      background: var(--accent-terracotta-soft);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(213, 102, 56, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-jump-hero:hover {
+      background: var(--accent-terracotta);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
     /* THE SIGNATURE MINIMALIST RECIPE BOX */
     .recipe-card-box {
       background: var(--bg-surface);
@@ -260,6 +330,7 @@
       margin: 2.5rem 0 3.5rem;
       box-shadow: var(--card-shadow);
       position: relative;
+      scroll-margin-top: calc(var(--nav-height) + 1.5rem);
     }
 
     .recipe-card-box::before {
@@ -791,12 +862,39 @@
     }
 
     /* RESPONSIVE */
-    @media (max-width: 640px) {
+    @media (max-width: 900px) {
       .header-container {
-        padding: 0.75rem 1rem;
+        padding: 0.85rem 1.25rem;
+      }
+      .brand-logo-text {
+        font-size: 1.35rem;
+      }
+      .brand-subtext {
+        display: none;
       }
       .header-nav {
+        gap: 1.15rem;
+      }
+      .nav-link {
+        font-size: 0.76rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
         gap: 0.75rem;
+        padding: 0.85rem 1rem;
+      }
+      .header-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.6rem 1rem;
+      }
+      .btn-jump-header {
+        display: none;
       }
       .recipe-meta-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -829,6 +927,7 @@
         <a href="#univariate" class="nav-link">Univariate</a>
         <a href="#bivariate" class="nav-link">Bivariate</a>
         <a href="#sandbox" class="nav-link">Interactive Lab</a>
+        <a href="#recipe-card" class="btn-jump-header">Jump to Recipe &darr;</a>
       </nav>
     </div>
   </header>
@@ -846,13 +945,13 @@
       </div>
 
       <!-- HEADLINE & DECK -->
-      <h1 class="hero-heading">The Minimalist EDA Guide: How Inspecting One Feature at a Time Cured My "Dataset-Hopping" Panic</h1>
+      <h1 class="hero-heading">The Minimalist EDA Guide: How Inspecting One Feature at a Time Cured My &ldquo;Dataset-Hopping&rdquo; Panic</h1>
       
       <p class="hero-deck">
-        "Before DS311, I would jump straight into multivariate models, panic the moment missing values appeared, and constantly abandon datasets. Here is how learning simple univariate and bivariate inspection transformed the way I work with data."
+        &ldquo;Before DS311, I would jump straight into multivariate models, panic the moment missing values appeared, and constantly abandon datasets. Here is how learning simple univariate and bivariate inspection transformed the way I work with data.&rdquo;
       </p>
 
-      <!-- BYLINE STRIP -->
+      <!-- BYLINE & ACTION STRIP -->
       <div class="byline-row">
         <div class="byline-meta">
           <span>Published October 2026</span>
@@ -861,6 +960,7 @@
           <span>&bull;</span>
           <span class="byline-badge">DS311 EDA Series</span>
         </div>
+        <a href="#recipe-card" class="btn-jump-hero">Jump to Recipe Box &darr;</a>
       </div>
 
       <!-- THE SIGNATURE "RECIPE" CARD (MINIMALIST BAKER INSPIRATION) -->
