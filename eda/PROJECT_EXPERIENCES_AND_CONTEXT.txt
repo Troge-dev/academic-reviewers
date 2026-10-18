@@ -1,0 +1,166 @@
+================================================================================
+DS311 EDA & ACADEMIC PORTFOLIO: PROJECT CONTEXT & EXPERIENCES INQUIRY
+Project: DS311 Exploratory Data Analysis & Student Project Reference Archive
+Author: Rogelio Mandamian | Section: BS Data Science - DS3A | USTP CDO
+Purpose: Collecting your authentic project stories so Antigravity never assumes
+================================================================================
+
+Hey Rogelio!
+
+To make sure I never make assumptions about your past projects, datasets,
+or academic experiences, I put together this dedicated questionnaire.
+
+You mentioned having other projects that you can reference as well. Whenever
+you have a moment, feel free to jot down quick notes, bullet points, or raw
+thoughts below each question. You do not need to write formal paragraphs--raw
+bullet points, filenames, or casual explanations work perfectly!
+
+--------------------------------------------------------------------------------
+SECTION 1: YOUR PROJECT ARCHIVE & PAST EXPERIENCES
+--------------------------------------------------------------------------------
+Tell me about other notable academic or personal data projects you have worked
+on (from 1st year, 2nd year DATAVIS, or current 3rd year courses like DMA,
+GENAI, Databases, etc.):
+
+PROJECT A:
+- Course / Subject:
+- Project Title / Topic:
+- What dataset did you use? (Where did it come from? What did it track?):
+- What was the core goal or research question?:
+- What was the hardest part or biggest roadblock?:
+- What final output did you create? (Map, poster, dashboard, notebook, report?):
+[YOUR NOTES / ANSWERS HERE]:
+
+
+PROJECT B:
+- Course / Subject:
+- Project Title / Topic:
+- What dataset did you use?:
+- What was the core goal or research question?:
+- What was the hardest part or biggest roadblock?:
+- What final output did you create?:
+[YOUR NOTES / ANSWERS HERE]:
+
+
+PROJECT C:
+- Course / Subject:
+- Project Title / Topic:
+- What dataset did you use?:
+- What was the core goal or research question?:
+- What was the hardest part or biggest roadblock?:
+- What final output did you create?:
+[YOUR NOTES / ANSWERS HERE]:
+
+
+--------------------------------------------------------------------------------
+SECTION 2: THE "DATASET-HOPPING GRAVEYARD" (ABANDONED DATASETS)
+--------------------------------------------------------------------------------
+In the blog, we talked about how you used to hop between datasets when hit with
+confusing numbers, missing values, or weird columns before finding Egypt.
+
+Q2.1: Do you remember any specific datasets that you actually started working on
+      and then completely abandoned? (e.g., a specific Kaggle dataset, government
+      data, health records, climate data?)
+[YOUR ANSWER HERE]:
+
+
+Q2.2: What was the exact moment or straw that broke the camel's back for those
+      abandoned datasets? (e.g., corrupted encodings, 80% null values, cryptic
+      column abbreviations, missing documentation?)
+[YOUR ANSWER HERE]:
+
+
+Q2.3: Looking back now with John Tukey's Topic 01 mindset (Re-expression,
+      Resistance, Residuals), do you think any of those "broken" datasets
+      were actually usable if you had used the right transformation or lens?
+[YOUR ANSWER HERE]:
+
+
+--------------------------------------------------------------------------------
+SECTION 3: CLASSROOM & LAB MEMORIES IN DS311 (MA'AM MUGOT'S CLASS)
+--------------------------------------------------------------------------------
+We want your field journal and blog posts to reflect authentic classroom
+experiences at USTP CDO with Ma'am Chris Jallaine S. Mugot.
+
+Q3.1: Besides Lab 04 (NYC Yellow Taxi Trips), what other lab exercises or
+      problem sets stood out to you in DS311 so far?
+      - Lab 01:
+      - Lab 02 (Airbnb listings / prices):
+      - Lab 03:
+      - Other classroom activities:
+[YOUR ANSWER HERE]:
+
+
+Q3.2: Was there a specific moment during a lecture, lab, or code demo where
+      something you thought you understood suddenly completely flipped?
+[YOUR ANSWER HERE]:
+
+
+Q3.3: Did Ma'am Chris share any memorable advice, debugging tips, or warnings
+      during class discussions that you still keep in mind?
+[YOUR ANSWER HERE]:
+
+
+--------------------------------------------------------------------------------
+SECTION 4: COLLABORATION, TEAMWORK & LATE-NIGHT DISASTERS
+--------------------------------------------------------------------------------
+Group projects always have their own wild stories and survival tactics.
+
+Q4.1: What is your typical role in group projects?
+      [ ] Data hunting and initial ingestion
+      [ ] Data cleaning and imputation triage
+      [ ] Statistical analysis and modeling
+      [ ] Visualizations, plotting, and graphic design
+      [ ] Documentation, storytelling, and report writing
+      [ ] Orchestration and notebook pipeline architecture
+[ADDITIONAL NOTES ON YOUR ROLE]:
+
+
+Q4.2: Besides the Google Colab file-path problem (which we solved using raw
+      GitHub URLs), what was another common headache or funny disaster your
+      team encountered during group work?
+[YOUR ANSWER HERE]:
+
+
+--------------------------------------------------------------------------------
+SECTION 5: CROSS-COURSE CONNECTIONS (DMA, GENAI, DATAVIS, EDA)
+--------------------------------------------------------------------------------
+You are currently taking multiple 3rd-year data science subjects (like DS312
+Data Mining & Applications and DS314 Generative AI & LLM Systems).
+
+Q5.1: How has learning Topic 01 (Exploratory Data Analysis) changed how you
+      approach tasks in DMA (Data Mining) or GENAI?
+[YOUR ANSWER HERE]:
+
+
+Q5.2: Have you worked on a Data Mining or Machine Learning pipeline where you
+      jumped straight to clustering or classification without proper EDA, and
+      it backfired? If so, what happened?
+[YOUR ANSWER HERE]:
+
+
+--------------------------------------------------------------------------------
+SECTION 6: PREFERRED WRITING VOICE & PRESENTATION PREFERENCES
+--------------------------------------------------------------------------------
+Q6.1: What kind of tone do you feel represents you best when writing?
+      [ ] Friendly, honest, and approachable with practical field humor
+      [ ] Sharp, analytical, and highly technical
+      [ ] Balanced: grounded storytelling backed by rigorous math and code
+      [ ] Other:
+[YOUR ANSWER HERE]:
+
+
+Q6.2: Are there any specific personal hobbies, analogies, or interests you like
+      incorporating into your explanations (e.g., cooking/baking analogies,
+      gaming, urban geography, tech gadgets, music)?
+[YOUR ANSWER HERE]:
+
+
+Q6.3: Is there anything you specifically DO NOT want me to mention or assume in
+      future write-ups or reviews?
+[YOUR ANSWER HERE]:
+
+
+================================================================================
+END OF INQUIRY - SAVE THIS FILE WHEN UPDATED!
+================================================================================
