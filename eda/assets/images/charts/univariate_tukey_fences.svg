@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="auto" style="background:#FAF7F2; border-radius:12px; font-family:'Plus Jakarta Sans', system-ui, sans-serif;">
+  <defs>
+    <filter id="soft-shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2A2825" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Kicker -->
+  <text x="40" y="44" fill="#D56638" font-size="12" font-weight="700" letter-spacing="1.5">MINIMALIST EDA DIAGNOSTICS</text>
+  <text x="40" y="74" fill="#2A2825" font-family="'Fraunces', Georgia, serif" font-size="22" font-weight="800">Tukey's 1.5 x IQR Non-Parametric Fences</text>
+  <text x="40" y="98" fill="#5E5852" font-size="13">A grounded univariate defense against skewed distributions and arbitrary outlier thresholds.</text>
+
+  <!-- Background Grid Track -->
+  <line x1="80" y1="210" x2="720" y2="210" stroke="#EBE5DC" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- Lower Whisker -->
+  <line x1="160" y1="210" x2="260" y2="210" stroke="#2A2825" stroke-width="2.5"/>
+  <line x1="160" y1="180" x2="160" y2="240" stroke="#2A2825" stroke-width="2.5"/>
+
+  <!-- Upper Whisker -->
+  <line x1="500" y1="210" x2="620" y2="210" stroke="#2A2825" stroke-width="2.5"/>
+  <line x1="620" y1="180" x2="620" y2="240" stroke="#2A2825" stroke-width="2.5"/>
+
+  <!-- The IQR Box -->
+  <rect x="260" y="160" width="240" height="100" rx="6" fill="#FFFFFF" stroke="#2A2825" stroke-width="2.5" filter="url(#soft-shadow)"/>
+
+  <!-- Shaded Left Half (Q1 to Median) -->
+  <rect x="260" y="160" width="90" height="100" fill="rgba(213, 102, 56, 0.08)"/>
+  <!-- Shaded Right Half (Median to Q3) -->
+  <rect x="350" y="160" width="150" height="100" fill="rgba(90, 130, 43, 0.08)"/>
+
+  <!-- Median Line (Bold Terracotta) -->
+  <line x1="350" y1="160" x2="350" y2="260" stroke="#D56638" stroke-width="4"/>
+
+  <!-- Upper Fence Boundary (Dashed Olive) -->
+  <line x1="620" y1="130" x2="620" y2="290" stroke="#5A822B" stroke-width="2" stroke-dasharray="5 3"/>
+
+  <!-- Outlier Points -->
+  <circle cx="670" cy="210" r="6" fill="#D56638" stroke="#2A2825" stroke-width="2"/>
+  <circle cx="710" cy="210" r="6" fill="#D56638" stroke="#2A2825" stroke-width="2"/>
+
+  <!-- Labels & Callouts -->
+  <!-- Min -->
+  <text x="160" y="270" text-anchor="middle" fill="#5E5852" font-size="12" font-weight="700">Min</text>
+  <text x="160" y="286" text-anchor="middle" fill="#8E867D" font-size="10">Q1 - 1.5*IQR</text>
+
+  <!-- Q1 -->
+  <text x="260" y="145" text-anchor="middle" fill="#2A2825" font-size="13" font-weight="800">Q1 (25th)</text>
+  
+  <!-- Median -->
+  <text x="350" y="145" text-anchor="middle" fill="#D56638" font-size="14" font-weight="800">Median (50th)</text>
+  <text x="350" y="280" text-anchor="middle" fill="#D56638" font-size="11" font-weight="700">Skew Resistant</text>
+
+  <!-- Q3 -->
+  <text x="500" y="145" text-anchor="middle" fill="#2A2825" font-size="13" font-weight="800">Q3 (75th)</text>
+
+  <!-- Max Whisker / Fence -->
+  <text x="620" y="310" text-anchor="middle" fill="#5A822B" font-size="12" font-weight="700">Upper Fence</text>
+  <text x="620" y="326" text-anchor="middle" fill="#5A822B" font-size="10">Q3 + 1.5*IQR</text>
+
+  <!-- Outliers Tag -->
+  <text x="690" y="188" text-anchor="middle" fill="#D56638" font-size="12" font-weight="800">Outliers</text>
+  <line x1="690" y1="194" x2="690" y2="202" stroke="#D56638" stroke-width="1.5"/>
+
+  <!-- Bracket for IQR -->
+  <path d="M 260 120 L 260 112 L 380 112 L 380 106 L 380 112 L 500 112 L 500 120" fill="none" stroke="#2A2825" stroke-width="1.5"/>
+  <text x="380" y="100" text-anchor="middle" fill="#2A2825" font-size="11" font-weight="700">Interquartile Range (IQR = Q3 - Q1)</text>
+</svg>
