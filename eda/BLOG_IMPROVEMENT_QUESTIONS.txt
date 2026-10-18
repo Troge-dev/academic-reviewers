@@ -52,17 +52,17 @@ to visualize the feature before touching it. Missingness itself is often a signa
 rather than just empty space.
 
 --------------------------------------------------------------------------------
-3. CLASSROOM VIBES & SIR MUGOT'S LECTURES
+3. CLASSROOM VIBES & MA'AM MUGOT'S LECTURES
 --------------------------------------------------------------------------------
-We credited Sir Chris Jallaine S. Mugot in your byline and references.
+We credited Ma'am Chris Jallaine S. Mugot in your byline and references.
 
-Q3.1: Did Sir Mugot say a specific catchphrase, rule of thumb, or lecture quote
+Q3.1: Did Ma'am Mugot say a specific catchphrase, rule of thumb, or lecture quote
       during Topic 01 (Intro to EDA), Topic 05 (Univariate), or Topic 06
       (Bivariate) that really stuck with you?
-[YOUR ANSWER HERE]: Sir Chris would always remind us that:
+[YOUR ANSWER HERE]: Ma'am Chris would always remind us that:
 "Univariate comes first before bivariate and multivariate!"
-He would constantly emphasize that looking at a summary number alone never gives
-us the whole picture--we always have to visualize it, and he would always
+She would constantly emphasize that looking at a summary number alone never gives
+us the whole picture--we always have to visualize it, and she would always
 reference Anscombe's Quartet to prove how identical correlation coefficients
 can mask completely different real-world relationships.
 
