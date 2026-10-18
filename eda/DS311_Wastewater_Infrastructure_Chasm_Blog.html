@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 70.4% Infrastructure Chasm: How Municipal Wastewater Outpaces Global Treatment Capacity | DS311 Blog</title>
+  
+  <!-- Meta & OpenGraph Tags -->
+  <meta name="description" content="An empirical exploratory data analysis and econometric investigation of global municipal wastewater generation versus urban treatment capacity deficits based on United Nations environmental statistics.">
+  <meta name="author" content="Rogelio Mandamian">
+  <meta property="og:title" content="The 70.4% Infrastructure Chasm: Municipal Wastewater vs. Urban Treatment Capacity">
+  <meta property="og:description" content="Across sovereign nations, every 1,000 m³/day surge in municipal effluent yields only 296 m³/day in urban treatment expansion (β₁ = 0.2964, R² = 82.0%) — leaving a 70.4% unabsorbed structural deficit.">
+  <meta property="og:type" content="article">
+
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS RESET & MODERN FOUNDATIONS */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* THEME DESIGN TOKENS */
+    :root {
+      /* Light Mode: Warm Linen Alabaster (Stripe/Substack Editorial) */
+      --bg-canvas: #FAF8F5;
+      --bg-surface: #FFFFFF;
+      --bg-surface-elevated: #F3EFEA;
+      --bg-surface-subtle: #F6F3ED;
+      --border-subtle: #E6E1D8;
+      --border-prominent: #D5CEBE;
+      
+      --text-main: #1A1F26;
+      --text-muted: #535E6D;
+      --text-faint: #8491A2;
+      
+      --accent-terracotta: #BD4444;
+      --accent-terracotta-dark: #983333;
+      --accent-terracotta-soft: rgba(189, 68, 68, 0.08);
+      --accent-sage: #2C6E49;
+      --accent-sage-soft: rgba(44, 110, 73, 0.1);
+      --accent-ochre: #C07D2B;
+      --accent-blue: #1D5C96;
+      --accent-blue-soft: rgba(29, 92, 150, 0.08);
+
+      --code-bg: #EFECE6;
+      --code-border: #DDD8CD;
+
+      --card-shadow: 0 4px 20px -2px rgba(26, 31, 38, 0.05), 0 2px 6px -1px rgba(26, 31, 38, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(26, 31, 38, 0.1), 0 4px 12px -2px rgba(26, 31, 38, 0.05);
+
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --reading-width: 740px;
+      --header-height: 64px;
+    }
+
+    [data-theme="dark"] {
+      /* Dark Mode: Deep Obsidian Slate (Linear / Vercel Editorial) */
+      --bg-canvas: #0A0E17;
+      --bg-surface: #111726;
+      --bg-surface-elevated: #182238;
+      --bg-surface-subtle: #141C2E;
+      --border-subtle: #222E47;
+      --border-prominent: #334468;
+      
+      --text-main: #F3F5FA;
+      --text-muted: #9EABBE;
+      --text-faint: #67758D;
+      
+      --accent-terracotta: #E0533C;
+      --accent-terracotta-dark: #F87171;
+      --accent-terracotta-soft: rgba(224, 83, 60, 0.15);
+      --accent-sage: #34D399;
+      --accent-sage-soft: rgba(52, 211, 153, 0.12);
+      --accent-ochre: #FBBF24;
+      --accent-blue: #38BDF8;
+      --accent-blue-soft: rgba(56, 189, 248, 0.12);
+
+      --code-bg: #0C121F;
+      --code-border: #1F2A42;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.5);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.7);
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+    }
+
+    /* HARDWARE-ACCELERATED READING PROGRESS BAR */
+    #progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-terracotta), var(--accent-ochre));
+      transition: width 0.08s linear;
+    }
+
+    /* STICKY GLASSMORPHIC HEADER */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .site-header {
+      background: rgba(10, 14, 23, 0.88);
+    }
+
+    .header-inner {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--accent-terracotta-soft);
+      color: var(--accent-terracotta);
+      border: 1px solid var(--accent-terracotta);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-ochre);
+      background: var(--bg-surface);
+      transform: translateY(-1px);
+    }
+
+    /* EDITORIAL CONTAINER & 3-COLUMN GRID */
+    .article-layout {
+      max-width: 1360px;
+      margin: 2.5rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 240px minmax(0, 760px) 280px;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    /* LEFT SIDEBAR: METRICS & ACTIONS */
+    .sidebar-left {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .meta-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .meta-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .share-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .btn-action {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.55rem 0.85rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--bg-surface);
+      border-color: var(--accent-terracotta);
+      color: var(--accent-terracotta);
+    }
+
+    /* RIGHT SIDEBAR: STICKY SCROLL-SPY TOC */
+    .sidebar-right {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--card-shadow);
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .toc-title {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .toc-item a {
+      text-decoration: none;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: block;
+      transition: all 0.2s ease;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+    }
+
+    .toc-item a:hover {
+      color: var(--accent-terracotta);
+      border-left-color: var(--accent-terracotta);
+    }
+
+    .toc-item.active a {
+      color: var(--accent-terracotta);
+      font-weight: 700;
+      border-left-color: var(--accent-terracotta);
+    }
+
+    /* CENTER COLUMN: EDITORIAL CONTENT */
+    .editorial-content {
+      width: 100%;
+      max-width: var(--reading-width);
+      margin: 0 auto;
+    }
+
+    /* ARTICLE HEADER HERO */
+    .article-hero {
+      margin-bottom: 2.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .hero-kicker-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .kicker-pill {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-terracotta);
+      background: var(--accent-terracotta-soft);
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      border: 1px solid var(--accent-terracotta);
+    }
+
+    .hero-read-time {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-faint);
+    }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 1.8rem + 1.6vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    /* AUTHOR CLUSTER */
+    .author-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-top: 0.5rem;
+    }
+
+    .author-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 2px solid var(--accent-terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--accent-terracotta);
+      font-size: 1.1rem;
+    }
+
+    .author-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .author-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .author-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      background: var(--accent-sage-soft);
+      color: var(--accent-sage);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .author-role {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* EXECUTIVE TAKEAWAY BANNER (MIKE MORRISON PRINCIPLE) */
+    .takeaway-banner {
+      background: linear-gradient(135deg, var(--accent-terracotta), var(--accent-terracotta-dark));
+      color: #FFFFFF;
+      border-radius: 14px;
+      padding: 2rem 2.25rem;
+      margin: 2.5rem 0 3.5rem;
+      box-shadow: 0 10px 30px -5px rgba(189, 68, 68, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .takeaway-banner::after {
+      content: "EMPIRICAL FINDING";
+      position: absolute;
+      top: -12px;
+      right: 18px;
+      font-family: var(--font-mono);
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.07);
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+
+    .takeaway-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .takeaway-headline {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.75rem;
+    }
+
+    .takeaway-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    /* KPI SCORECARD MATRIX */
+    .kpi-matrix {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-terracotta);
+    }
+
+    .kpi-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .kpi-number {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .kpi-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* PROSE TYPOGRAPHY & HEADING HIERARCHY */
+    .editorial-section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: calc(var(--header-height) + 1.5rem);
+    }
+
+    .editorial-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin: 2.5rem 0 1.25rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .editorial-section h2 .section-num {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+    }
+
+    .editorial-section h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--text-main);
+      margin: 1.75rem 0 0.85rem;
+    }
+
+    p {
+      margin-bottom: 1.45rem;
+      color: var(--text-main);
+      line-height: 1.78;
+    }
+
+    strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* RICH CALLOUT CARDS */
+    .callout-box {
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin: 2rem 0;
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      border: 1px solid transparent;
+      box-shadow: var(--card-shadow);
+    }
+
+    .callout-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .callout-content {
+      font-size: 0.96rem;
+      line-height: 1.65;
+    }
+
+    .callout-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .callout-note {
+      background: var(--bg-surface-elevated);
+      border-color: var(--border-prominent);
+      border-left: 4px solid var(--text-muted);
+    }
+
+    .callout-curriculum {
+      background: var(--accent-sage-soft);
+      border-color: rgba(44, 110, 73, 0.25);
+      border-left: 4px solid var(--accent-sage);
+    }
+
+    .callout-curriculum .callout-title {
+      color: var(--accent-sage);
+    }
+
+    .callout-alert {
+      background: var(--accent-terracotta-soft);
+      border-color: rgba(189, 68, 68, 0.25);
+      border-left: 4px solid var(--accent-terracotta);
+    }
+
+    .callout-alert .callout-title {
+      color: var(--accent-terracotta);
+    }
+
+    .callout-math {
+      background: var(--accent-blue-soft);
+      border-color: rgba(29, 92, 150, 0.25);
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .callout-math .callout-title {
+      color: var(--accent-blue);
+    }
+
+    /* VISUAL FIGURE EMBED CONTAINER (THEME REACTIVE) */
+    .figure-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2.5rem 0 3rem;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s ease;
+    }
+
+    .figure-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-prominent);
+    }
+
+    .figure-header {
+      padding: 1rem 1.4rem;
+      background: var(--bg-surface-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .figure-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .figure-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .figure-image-wrapper {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      background: var(--bg-canvas);
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: zoom-in;
+    }
+
+    .figure-image-wrapper img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .figure-image-wrapper:hover img {
+      transform: scale(1.015);
+    }
+
+    .figure-caption {
+      padding: 1.1rem 1.4rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      background: var(--bg-surface);
+    }
+
+    .figure-caption strong {
+      color: var(--text-main);
+    }
+
+    /* DATA COMPARISON TABLES */
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      background: var(--bg-surface);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: var(--bg-surface-elevated);
+      padding: 0.85rem 1.15rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+      background: var(--bg-surface-subtle);
+    }
+
+    .data-table .mono {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+    }
+
+    .badge-tier-1 {
+      color: #10B981;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-tier-2 {
+      color: #F59E0B;
+      font-weight: 700;
+      background: rgba(245, 158, 11, 0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-tier-3 {
+      color: #EF4444;
+      font-weight: 700;
+      background: rgba(239, 68, 68, 0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* CODE BLOCKS WITH COPY TOAST */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 10px;
+      margin: 1.75rem 0;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .code-header {
+      background: var(--bg-surface-elevated);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--code-border);
+    }
+
+    .code-lang {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy:hover {
+      color: var(--accent-terracotta);
+      background: var(--bg-surface);
+    }
+
+    pre {
+      padding: 1.15rem;
+      overflow-x: auto;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* AUTHOR FOOTER CARD */
+    .author-footer-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2.25rem;
+      margin: 4.5rem 0 2rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    .author-footer-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 3px solid var(--accent-terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--accent-terracotta);
+      flex-shrink: 0;
+    }
+
+    .author-footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .author-footer-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .author-footer-bio {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .author-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .author-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-terracotta);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .author-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* BACK TO TOP FLOATING BUTTON */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+      z-index: 900;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #back-to-top:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-terracotta);
+      color: var(--accent-terracotta);
+    }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 1240px) {
+      .article-layout {
+        grid-template-columns: minmax(0, 760px) 260px;
+        gap: 2.5rem;
+      }
+      .sidebar-left {
+        display: none;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .sidebar-right {
+        display: none;
+      }
+      .kpi-matrix {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-matrix {
+        grid-template-columns: 1fr;
+      }
+      .header-inner {
+        padding: 0 1rem;
+      }
+      .article-layout {
+        padding: 0 1.25rem;
+      }
+      .author-footer-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- READING PROGRESS BAR -->
+  <div id="progress-track" aria-hidden="true">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- STICKY SITE HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="header-brand">
+        <span class="brand-badge">DS311 EDA</span>
+        <span class="brand-title">Midterm Performance Innovative Task (PIT)</span>
+      </a>
+      <div class="header-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle visual theme">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-text">Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-COLUMN EDITORIAL ARTICLE LAYOUT -->
+  <main class="article-layout">
+    
+    <!-- LEFT SIDEBAR: METRICS & ACTIONS -->
+    <aside class="sidebar-left" aria-label="Article Information">
+      <div class="meta-box">
+        <div class="meta-item">
+          <span class="meta-label">Course</span>
+          <span class="meta-value">DS311: Exploratory Data Analysis</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Institution</span>
+          <span class="meta-value">USTP CDO &bull; College of ITC</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Instructor</span>
+          <span class="meta-value">Chris Jallaine S. Mugot</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Author</span>
+          <span class="meta-value">Rogelio Mandamian</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Dataset</span>
+          <span class="meta-value">UNSD Municipal Wastewater (2026)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Sample Size</span>
+          <span class="meta-value">N = 24 Sovereign States</span>
+        </div>
+      </div>
+
+      <div class="share-btn-group">
+        <button class="btn-action" onclick="copyArticleLink()">
+          <span>🔗</span> Copy Article Link
+        </button>
+        <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank" class="btn-action">
+          <span>🏛️</span> Live Research Hub
+        </a>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN: PRIMARY EDITORIAL BODY -->
+    <article class="editorial-content">
+      
+      <!-- HERO HEADER -->
+      <header class="article-hero">
+        <div class="hero-kicker-bar">
+          <span class="kicker-pill">ENVIRONMENTAL DATA SCIENCE &bull; BIVARIATE MODELLING</span>
+          <span class="hero-read-time">⏱️ 14 Min Read &bull; Published October 2026</span>
+        </div>
+
+        <h1 class="article-title">The 70.4% Infrastructure Chasm: How Municipal Wastewater Generation Outpaces Global Treatment Capacity</h1>
+        
+        <p class="article-subtitle">
+          An empirical exploratory data analysis and econometric investigation of sovereign wastewater throughput, revealing why every 1,000 m³/day surge in urban generation yields only 296 m³/day in treatment capacity expansion.
+        </p>
+
+        <!-- AUTHOR CLUSTER -->
+        <div class="author-cluster">
+          <div class="author-avatar">RM</div>
+          <div class="author-details">
+            <div class="author-name">
+              Rogelio Mandamian
+              <span class="author-badge">Group 4 Specialist</span>
+            </div>
+            <div class="author-role">
+              Department of Data Science &bull; University of Science and Technology of Southern Philippines (USTP CDO)
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- EXECUTIVE TAKEAWAY BANNER (MORRISON PRINCIPLE) -->
+      <section class="takeaway-banner" aria-label="Key Empirical Finding">
+        <div class="takeaway-kicker">⚡ Executive Discovery &amp; Core Finding</div>
+        <h2 class="takeaway-headline">
+          Across sovereign nations, urban treatment systems expand at less than one-third of the rate of wastewater generation (OLS Slope &beta;₁ = 0.2964, R² = 82.04%).
+        </h2>
+        <p class="takeaway-desc">
+          For every 1,000 m³/day increase in municipal wastewater generated globally, urban sewage treatment infrastructure expands by merely 296.4 m³/day. This leaves an alarming <strong>70.36% unabsorbed structural capacity deficit</strong>, resulting in <strong>61.31 million m³/day</strong> of untreated municipal effluent entering ecosystems daily.
+        </p>
+      </section>
+
+      <!-- 4-METRIC KPI MATRIX -->
+      <section class="kpi-matrix" aria-label="Core Analytical KPI Metrics">
+        <div class="kpi-card">
+          <span class="kpi-kicker">Pearson Correlation</span>
+          <span class="kpi-number">+0.906</span>
+          <span class="kpi-caption">Extremely strong linear coupling (p &lt; 10⁻⁸)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-kicker">Marginal Slope (&beta;₁)</span>
+          <span class="kpi-number">0.2964</span>
+          <span class="kpi-caption">m³ treated per incremental m³ generated</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-kicker">Capacity Deficit Gap</span>
+          <span class="kpi-number">70.36%</span>
+          <span class="kpi-caption">Unaddressed incremental expansion deficit</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-kicker">Daily Untreated Leak</span>
+          <span class="kpi-number">61.31M</span>
+          <span class="kpi-caption">m³/day bypassing municipal treatment systems</span>
+        </div>
+      </section>
+
+      <!-- SECTION 1 -->
+      <section id="section-1" class="editorial-section">
+        <h2><span class="section-num">01.</span> Introduction: The Environmental Data Dilemma</h2>
+        
+        <p>
+          Exploratory Data Analysis (EDA) is fundamentally a philosophy of discovery. Formulated by the legendary statistician John Tukey in 1977, EDA urges analysts to avoid prematurely imposing rigid confirmatory assumptions onto data before understanding its true distributional anatomy, quirks, and anomalies. In our coursework for <strong>DS311: Exploratory Data Analysis</strong> at USTP, this principle has been our guiding compass: from data wrangling in <strong>Topic 02</strong>, to multi-domain data cleaning in <strong>Lab Activity 1</strong>, and distribution auditing in <strong>Topic 03 &amp; 05</strong>.
+        </p>
+
+        <p>
+          Nowhere is Tukey's warning more urgent than in global environmental monitoring. Rapid global urbanization and population growth place immense burdens on urban sewage infrastructure. The United Nations Statistics Division (UNSD) collects environmental telemetry tracking sovereign wastewater generation and urban treatment capacities. However, public policy often assumes a naive proportional balance: that as municipal water consumption and sewage generation rise, municipal treatment infrastructure expands to accommodate it.
+        </p>
+
+        <div class="callout-box callout-curriculum">
+          <span class="callout-icon">📚</span>
+          <div class="callout-content">
+            <div class="callout-title">Curriculum Connection &bull; Topics 01 &amp; 02 &bull; Lab 01 Data Wrangling</div>
+            <p>
+              In our foundational lectures on <em>Data Preparation</em> and our <em>Lab 01 Data Cleaning Projects</em>, we examined how real-world data pipelines must grapple with matrix sparsity and non-random missingness. When analyzing environmental indicators, missing observations are rarely missing completely at random (MCAR)—they often reflect institutional under-reporting or lack of monitoring infrastructure.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          In this empirical blog, we put this assumption to the test. Grounded in the UNSD municipal wastewater dataset across 24 sovereign nations ($N = 24$), we investigate: <em>Does treatment capacity scale at a 1:1 parity with generation, or are nations operating within a compounding structural deficit?</em>
+        </p>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section id="section-2" class="editorial-section">
+        <h2><span class="section-num">02.</span> Dataset Audit &amp; The Missingness Paradox</h2>
+        
+        <p>
+          The UNSD environmental database initially features 80 candidate nation-states. However, an exhaustive audit reveals substantial structural sparsity. Only <strong>24 sovereign nations (30.0%)</strong> provide complete, verified, and synchronized records for both:
+        </p>
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>Variable X:</strong> Total Municipal Wastewater Generated ($1,000\text{ m}^3/\text{day}$).</li>
+          <li><strong>Variable Y:</strong> Total Municipal Wastewater Treated in Urban Wastewater Treatment Plants ($1,000\text{ m}^3/\text{day}$).</li>
+        </ul>
+
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 01 &bull; Data Governance</span>
+            <span class="figure-title">UN Dataset Reporting Completeness &amp; Missingness Triage</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/donut_data_audit_light.png" 
+                 data-dark="visualizations/donut_data_audit_canva_dark.png" 
+                 src="visualizations/donut_data_audit_light.png" 
+                 alt="UN Dataset Reporting Completeness Donut Chart">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 1: Missingness triage breakdown across the UNSD reporting cohort.</strong> Only 24 nations (30.0%) maintain complete, dual-metric telemetry, while 56 nations (70.0%) suffer from incomplete reporting. Rather than applying synthetic imputation which would corrupt cross-national slope estimates, a strict complete-case protocol was enforced.
+          </figcaption>
+        </div>
+
+        <div class="callout-box callout-alert">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-content">
+            <div class="callout-title">Methodological Defense &bull; Why Deletion Beats Imputation in Cross-National Audits</div>
+            <p>
+              In standard machine learning pipelines, analysts frequently apply mean, median, or KNN imputation to retain rows. However, in cross-national econometric modeling, synthetic values for non-reporting states (often low-income nations lacking treatment telemetry) would manufacture artificial variance and severely distort the true OLS slope ($\beta_1$). Enforcing complete-case analysis ($N = 24$) guarantees that every data point reflects verified empirical reality.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section id="section-3" class="editorial-section">
+        <h2><span class="section-num">03.</span> Univariate Distribution Triage: Skewness &amp; Non-Normality</h2>
+        
+        <p>
+          In <strong>Topic 03 (Getting to Know Data)</strong> and <strong>Topic 05 (Univariate Analysis)</strong>, we learned that real-world continuous variables rarely follow a pristine Gaussian bell curve. Calculating parametric summary statistics (like the mean and standard deviation) on heavily skewed distributions produces wildly misleading benchmarks.
+        </p>
+
+        <p>
+          Let us examine the empirical distributions of our two core variables:
+        </p>
+
+        <!-- TABLE: 5-NUMBER SUMMARY -->
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Statistical Metric</th>
+                <th>Variable X (Generation, 1,000 m³/d)</th>
+                <th>Variable Y (Treated, 1,000 m³/d)</th>
+                <th>Diagnostic Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Sample Size ($N$)</strong></td>
+                <td class="mono">24 Complete Nations</td>
+                <td class="mono">24 Complete Nations</td>
+                <td>Zero missing values in validated cohort</td>
+              </tr>
+              <tr>
+                <td><strong>Mean ($\mu$)</strong></td>
+                <td class="mono">4,112.5 m³/d</td>
+                <td class="mono">1,556.7 m³/d</td>
+                <td>Distorted upward by mega-nation outliers</td>
+              </tr>
+              <tr>
+                <td><strong>Median ($Q_2$)</strong></td>
+                <td class="mono">1,387.5 m³/d</td>
+                <td class="mono">882.5 m³/d</td>
+                <td>Robust 50th percentile central tendency</td>
+              </tr>
+              <tr>
+                <td><strong>Standard Deviation ($\sigma$)</strong></td>
+                <td class="mono">6,842.1 m³/d</td>
+                <td class="mono">2,118.4 m³/d</td>
+                <td>High cross-national infrastructure dispersion</td>
+              </tr>
+              <tr>
+                <td><strong>Skewness ($\gamma_1$)</strong></td>
+                <td class="mono badge-tier-3">+3.23 (Severe Right-Skew)</td>
+                <td class="mono badge-tier-3">+3.41 (Extreme Right-Skew)</td>
+                <td>Long right-hand tail of high-volume producers</td>
+              </tr>
+              <tr>
+                <td><strong>Excess Kurtosis</strong></td>
+                <td class="mono">11.45 (Leptokurtic)</td>
+                <td class="mono">12.18 (Heavy-Tailed)</td>
+                <td>Pronounced peak with fat-tailed probability</td>
+              </tr>
+              <tr>
+                <td><strong>Interquartile Range (IQR)</strong></td>
+                <td class="mono">3,892.2 m³/d</td>
+                <td class="mono">1,410.8 m³/d</td>
+                <td>Non-parametric spread measure</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Notice the dramatic divergence between the mean and median: for Variable $X$, the mean ($4,112.5\text{ m}^3/\text{day}$) is almost <strong>three times larger ($2.96\times$)</strong> than the median ($1,387.5\text{ m}^3/\text{day}$). This proves that a few high-volume sovereign producers pull the arithmetic mean into statistical unreliability.
+        </p>
+
+        <!-- FIGURE 2: VARIABLE X -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 02 &bull; Univariate Triage (X)</span>
+            <span class="figure-title">Municipal Wastewater Generated: KDE Density &amp; Boxplot</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/distribution_triage_X_light.png" 
+                 data-dark="visualizations/distribution_triage_X_canva_dark.png" 
+                 src="visualizations/distribution_triage_X_light.png" 
+                 alt="Variable X Univariate Distribution Triage">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 2: Distributional anatomy of Variable X (Wastewater Generation).</strong> Upper panel: KDE density plot illustrating heavy right-skewness ($\gamma_1 = +3.23$). Lower panel: Tukey boxplot showing the median ($1,387.5\text{ m}^3/\text{day}$) and sovereign outliers exceeding the $1.5 \times \text{IQR}$ upper fence (Turkey: $26,849\text{ m}^3/\text{day}$).
+          </figcaption>
+        </div>
+
+        <!-- FIGURE 3: VARIABLE Y -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 03 &bull; Univariate Triage (Y)</span>
+            <span class="figure-title">Municipal Wastewater Treated: KDE Density &amp; Boxplot</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/distribution_triage_Y_light.png" 
+                 data-dark="visualizations/distribution_triage_Y_canva_dark.png" 
+                 src="visualizations/distribution_triage_Y_light.png" 
+                 alt="Variable Y Univariate Distribution Triage">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 3: Distributional anatomy of Variable Y (Wastewater Treated).</strong> Upper panel: KDE density plot displaying an even more compressed distribution ($\gamma_1 = +3.41$). Lower panel: Tukey boxplot revealing that treatment capacity is capped by municipal capital budgets, lagging far behind generation volumes.
+          </figcaption>
+        </div>
+
+        <div class="callout-box callout-math">
+          <span class="callout-icon">📐</span>
+          <div class="callout-content">
+            <div class="callout-title">Analytical Takeaway &bull; Tukey's Outlier Fences in Action</div>
+            <p>
+              In our Lab 02 investigation of NYC Airbnb rental prices, we applied Tukey's Interquartile Range fences:
+              $$\text{Upper Fence} = Q_3 + 1.5 \times \text{IQR}$$
+              Applying this exact formulation to Variable $X$ gives an upper threshold of $9,730.5\text{ m}^3/\text{day}$. Nations exceeding this fence (such as Turkey and Poland) represent genuine sovereign infrastructure megaprojects rather than erroneous data entry. Retaining them is essential for discovering macroeconomic scale behavior.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section id="section-4" class="editorial-section">
+        <h2><span class="section-num">04.</span> Bivariate Interaction &amp; The 70.36% Deficit Zone</h2>
+        
+        <p>
+          Connecting directly to <strong>Topic 04 (Data Visualization)</strong> and <strong>Topic 06 (Bivariate Analysis)</strong>, we now examine the coupling between Generation ($X$) and Treatment ($Y$).
+        </p>
+
+        <p>
+          If nations operated under sustainable environmental balance, every single cubic meter of generated municipal wastewater would be matched by an equivalent cubic meter of treatment capacity. Graphically, this would position every country directly along the <strong>1:1 Parity Line ($Y = X$)</strong>.
+        </p>
+
+        <p>
+          To test whether the empirical world adheres to this ideal, we fit an Ordinary Least Squares (OLS) bivariate regression line:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">Python (Statsmodels OLS Regression)</span>
+            <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code>import statsmodels.api as sm
+
+# Prepare variables for OLS estimation
+X = sm.add_constant(df['generation_m3_day'])
+Y = df['treated_m3_day']
+
+# Fit Ordinary Least Squares model
+model = sm.OLS(Y, X).fit()
+
+# Extract model parameters
+beta_0 = model.params['const']            # 338.487
+beta_1 = model.params['generation_m3_day']# 0.2964
+r_squared = model.rsquared                # 0.8204
+p_val = model.pvalues['generation_m3_day']# 2.45e-09
+
+print(f"OLS Equation: Y = {beta_0:.3f} + {beta_1:.4f} * X")
+print(f"Variance Explained (R²): {r_squared * 100:.2f}% | p-value: {p_val:.2e}")</code></pre>
+        </div>
+
+        <p>
+          The resulting empirical model yields:
+          $$\hat{Y} = 338.487 + 0.2964 X, \quad R^2 = 82.04\%, \quad p = 2.45 \times 10^{-9}$$
+        </p>
+
+        <p>
+          The statistical implications are profound:
+        </p>
+        <ol style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>High Explanatory Power:</strong> $R^2 = 82.04\%$ confirms that municipal wastewater generation is overwhelmingly the primary driver of treatment capacity.</li>
+          <li><strong>The Marginal Expansion Failure (&beta;₁ = 0.2964):</strong> The slope reveals that for every incremental $1,000\text{ m}^3/\text{day}$ of wastewater generated by expanding cities, treatment facilities expand by <strong>only $296.4\text{ m}^3/\text{day}$</strong>.</li>
+          <li><strong>The 70.36% Structural Capacity Deficit:</strong> The difference between ideal parity ($1.0000$) and empirical slope ($0.2964$) leaves a compounding unabsorbed chasm:
+          $$\text{Deficit Gap} = 1.0000 - 0.2964 = 0.7036 \implies \mathbf{70.36\%}$$</li>
+        </ol>
+
+        <!-- FIGURE 4: BIVARIATE OLS SCATTER -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 04 &bull; Bivariate Coupling</span>
+            <span class="figure-title">Bivariate Interaction: OLS Trendline vs. 1:1 Parity Line</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/scatter_ols_parity_light.png" 
+                 data-dark="visualizations/scatter_ols_parity_canva_dark.png" 
+                 src="visualizations/scatter_ols_parity_light.png" 
+                 alt="Bivariate Scatter OLS Trendline vs Parity Line">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 4: The 70.36% Capacity Deficit Zone.</strong> The dashed green line depicts ideal 1:1 environmental parity ($Y = X$). The solid coral line represents the empirical OLS trajectory ($\hat{Y} = 338.49 + 0.2964 X$). The shaded triangular wedge highlights the massive structural capacity shortfall that expands as national generation scales.
+          </figcaption>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section id="section-5" class="editorial-section">
+        <h2><span class="section-num">05.</span> Log-Log Elasticity: Sub-Linear Diseconomies of Scale</h2>
+        
+        <p>
+          In urban scaling theory (Bettencourt et al., 2007), urban phenomena scale with population according to power-law relationships: $Y = Y_0 X^\alpha$. Taking logarithms on both sides produces the linear equation:
+          $$\log_{10}(Y) = \log_{10}(Y_0) + \alpha \log_{10}(X)$$
+        </p>
+
+        <p>
+          In our exploratory modeling of the UNSD cohort, we fit a log-log regression to test the elasticity parameter $\alpha$:
+        </p>
+
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 05 &bull; Power-Law Scaling</span>
+            <span class="figure-title">Log-Log Bivariate Scaling Trajectory &bull; Elasticity &alpha; = 0.887</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/scatter_log_log_light.png" 
+                 data-dark="visualizations/scatter_log_log_canva_dark.png" 
+                 src="visualizations/scatter_log_log_light.png" 
+                 alt="Log-Log Bivariate Scaling Trajectory">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 5: Log-log bivariate regression across sovereign cohorts.</strong> The estimated elasticity exponent $\alpha = 0.887$ demonstrates sub-linear elasticity ($&alpha; &lt; 1.0$), proving that urban wastewater treatment systems experience diminishing marginal scale returns as cities grow larger.
+          </figcaption>
+        </div>
+
+        <p>
+          Because $\alpha = 0.887 < 1.0$, treatment capacity is <strong>inelastic</strong> with respect to generation. For every $10\%$ growth in municipal effluent, treatment capacity expands by only $8.87\%$. As urban densities intensify, infrastructure investment fails to keep pace with sewage output.
+        </p>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section id="section-6" class="editorial-section">
+        <h2><span class="section-num">06.</span> Macro Deficit Allocation &amp; Sovereign League</h2>
+        
+        <p>
+          Aggregating throughput across all 24 sovereign nations reveals the staggering physical magnitude of this global policy failure:
+        </p>
+
+        <!-- FIGURE 6: DONUT DEFICIT GAP -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 06 &bull; Global Effluent Balance</span>
+            <span class="figure-title">The 62.13% Daily Unabsorbed Wastewater Deficit Gap</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/donut_deficit_gap_light.png" 
+                 data-dark="visualizations/donut_deficit_gap_canva_dark.png" 
+                 src="visualizations/donut_deficit_gap_light.png" 
+                 alt="Donut Chart of Global Wastewater Deficit Gap">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 6: Global sovereign effluent balance sheet.</strong> Out of 98.70 million m³/day generated across the cohort, only 37.39 million m³/day (37.87%) receives formal urban treatment, while 61.31 million m³/day (62.13%) is discharged without adequate processing.
+          </figcaption>
+        </div>
+
+        <p>
+          To understand which nations bear the brunt of this deficit, we disaggregate sovereign performance across three compliance tiers:
+        </p>
+
+        <!-- FIGURE 7: TOP DEFICITS -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 07 &bull; Sovereign Hotspots</span>
+            <span class="figure-title">Top 10 Sovereign Wastewater Deficits (1,000 m³/day)</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/bar_top_deficits_light.png" 
+                 data-dark="visualizations/bar_top_deficits_canva_dark.png" 
+                 src="visualizations/bar_top_deficits_light.png" 
+                 alt="Bar Chart of Top Sovereign Wastewater Deficits">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 7: Sovereign infrastructure deficit rankings.</strong> Turkey accounts for the largest absolute deficit ($12.3\text{M m}^3/\text{day}$ unabsorbed), followed by Poland, Egypt, Mexico, and Colombia. These five nations comprise over 68% of the global unabsorbed deficit.
+          </figcaption>
+        </div>
+
+        <!-- FIGURE 8 & 9: COMPLIANCE & LEAGUE -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+          
+          <div class="figure-card" style="margin: 0;">
+            <div class="figure-header">
+              <span class="figure-kicker">Figure 08 &bull; Compliance Tiers</span>
+              <span class="figure-title">Sovereign Compliance Tiers</span>
+            </div>
+            <div class="figure-image-wrapper">
+              <img class="theme-reactive-img" 
+                   data-light="visualizations/donut_compliance_tiers_light.png" 
+                   data-dark="visualizations/donut_compliance_tiers_canva_dark.png" 
+                   src="visualizations/donut_compliance_tiers_light.png" 
+                   alt="Donut Chart of Compliance Tiers">
+            </div>
+            <figcaption class="figure-caption">
+              <strong>Figure 8: Compliance tier classification.</strong> Tier 1 Parity Champions (41.7%), Tier 2 Moderate Deficit (29.2%), and Tier 3 Severe Deficit (29.1%).
+            </figcaption>
+          </div>
+
+          <div class="figure-card" style="margin: 0;">
+            <div class="figure-header">
+              <span class="figure-kicker">Figure 09 &bull; League Table</span>
+              <span class="figure-title">Treatment Efficiency League</span>
+            </div>
+            <div class="figure-image-wrapper">
+              <img class="theme-reactive-img" 
+                   data-light="visualizations/bar_efficiency_league_light.png" 
+                   data-dark="visualizations/bar_efficiency_league_canva_dark.png" 
+                   src="visualizations/bar_efficiency_league_light.png" 
+                   alt="Sovereign Treatment Efficiency League Table">
+            </div>
+            <figcaption class="figure-caption">
+              <strong>Figure 9: Sovereign efficiency league table.</strong> Singapore, the Netherlands, and Israel lead with &gt;98% treatment ratios, contrasted against emerging economies where coverage drops below 35%.
+            </figcaption>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section id="section-7" class="editorial-section">
+        <h2><span class="section-num">07.</span> Residual Diagnostics: Heteroscedasticity &amp; Infrastructure Divergence</h2>
+        
+        <p>
+          In our coursework on <strong>Model Evaluation and Diagnostics</strong>, we learned that a linear model is only as valid as its residuals:
+          $$e_i = Y_i - \hat{Y}_i$$
+        </p>
+
+        <p>
+          Examining the residual plot against fitted values reveals marked <strong>funnel heteroscedasticity</strong>:
+        </p>
+
+        <!-- FIGURE 10: RESIDUALS -->
+        <div class="figure-card">
+          <div class="figure-header">
+            <span class="figure-kicker">Figure 10 &bull; Model Diagnostics</span>
+            <span class="figure-title">OLS Residual Diagnostics: Funnel Heteroscedasticity</span>
+          </div>
+          <div class="figure-image-wrapper">
+            <img class="theme-reactive-img" 
+                 data-light="visualizations/diagnostic_residuals_light.png" 
+                 data-dark="visualizations/diagnostic_residuals_canva_dark.png" 
+                 src="visualizations/diagnostic_residuals_light.png" 
+                 alt="OLS Residual Diagnostics Heteroscedasticity Plot">
+          </div>
+          <figcaption class="figure-caption">
+            <strong>Figure 10: Residual diagnostic scatter.</strong> Residual variance fans out dramatically as generation exceeds $5,000\text{ m}^3/\text{day}$. Small nations cluster closely along the regression line, whereas mega-producers diverge wildly based on national GDP, municipal subsidies, and environmental regulation enforcement.
+          </figcaption>
+        </div>
+
+        <p>
+          This heteroscedastic divergence provides crucial real-world context: high-income nations successfully decouple urban growth from pollution through aggressive capital investments, while emerging middle-income nations face severe municipal financing bottlenecks that leave their expanding urban corridors under-equipped.
+        </p>
+      </section>
+
+      <!-- SECTION 8 -->
+      <section id="section-8" class="editorial-section">
+        <h2><span class="section-num">08.</span> Policy Directives &amp; The $122.6B Global CAPEX Solution</h2>
+        
+        <p>
+          Data science without prescriptive action is merely observation. To translate our empirical findings into actionable public policy, we size the global capital expenditure (CAPEX) required to close this chasm.
+        </p>
+
+        <p>
+          According to international benchmarks from the World Bank and Global Water Intelligence (GWI), modern activated-sludge wastewater treatment plants require an average capital expenditure of approximately <strong>$2,000 per m³/day</strong> of installed treatment capacity.
+        </p>
+
+        <div class="callout-box callout-alert">
+          <span class="callout-icon">💰</span>
+          <div class="callout-content">
+            <div class="callout-title">The $122.6 Billion Investment Imperative</div>
+            <p>
+              Multiplying the unabsorbed daily global deficit ($61.31\text{ million m}^3/\text{day}$) by the benchmark unit CAPEX ($$2,000/\text{m}^3/\text{day}$) reveals an immediate capital requirement of:
+              $$\text{Global CAPEX Requirement} = 61,310,000 \times \$2,000 = \mathbf{\$122.62\text{ Billion}}$$
+            </p>
+          </div>
+        </div>
+
+        <p>
+          To bridge this investment gap, municipal authorities and national governments must implement a three-pillar strategic framework:
+        </p>
+
+        <ol style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>Public-Private Partnerships (PPPs):</strong> Traditional municipal tax revenues cannot finance $122B in infrastructure. Concession models and blended finance mechanisms must crowd in private institutional capital through long-term availability payments.</li>
+          <li><strong>Decentralized &amp; Nature-Based Treatment Systems:</strong> For peri-urban communities in middle-income states (Turkey, Poland, Egypt), centralized trunk sewers are often economically unviable. Constructed wetlands, waste stabilization ponds, and modular decentralized bioreactors offer capital cost reductions of up to 45%.</li>
+          <li><strong>Targeted Industrial Effluent Pre-Treatment Tariffs:</strong> Enforcing strict polluter-pays tariffs on industrial discharges prevents hazardous chemicals from overwhelming municipal biological treatment stages.</li>
+        </ol>
+      </section>
+
+      <!-- SECTION 9: CONCLUSION & CURRICULUM REFLECTION -->
+      <section id="section-9" class="editorial-section">
+        <h2><span class="section-num">09.</span> Conclusion &amp; Academic Reflection</h2>
+        
+        <p>
+          Conducting this study as part of <strong>DS311: Exploratory Data Analysis</strong> has demonstrated that EDA is far more than generating summary statistics or pretty charts. It is an iterative, rigorous dialogue with raw data:
+        </p>
+
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li>From <strong>Data Wrangling</strong> (auditing 80 nations and understanding why non-random missingness dictates complete-case pruning).</li>
+          <li>To <strong>Univariate Triage</strong> (diagnosing positive skewness and replacing Gaussian assumptions with non-parametric five-number summaries).</li>
+          <li>To <strong>Bivariate Coupling &amp; Diagnostics</strong> (fitting OLS models, proving marginal expansion failure, and interpreting residual heteroscedasticity).</li>
+        </ul>
+
+        <p>
+          By bridging empirical data science techniques with critical environmental economics, we uncover structural realities that single aggregate indicators conceal. The 70.4% infrastructure chasm is not an insurmountable destiny—it is an engineering and capital allocation challenge that can be solved with evidence-based data science.
+        </p>
+      </section>
+
+      <!-- AUTHOR BIO FOOTER -->
+      <footer class="author-footer-card">
+        <div class="author-footer-avatar">RM</div>
+        <div class="author-footer-content">
+          <h3 class="author-footer-title">Rogelio Mandamian</h3>
+          <p class="author-footer-bio">
+            Undergraduate Data Science student at the University of Science and Technology of Southern Philippines (USTP CDO). Specialist in univariate distribution profiling, bivariate econometric modeling, and publication-grade academic visualization for DS311 Exploratory Data Analysis.
+          </p>
+          <div class="author-links">
+            <a href="https://github.com/Troge-dev" target="_blank">&bull; GitHub Profile</a>
+            <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">&bull; Live A2 Research Poster Portal</a>
+            <a href="https://github.com/Troge-dev/academic-reviewers" target="_blank">&bull; Academic Reviewers Hub</a>
+          </div>
+        </div>
+      </footer>
+
+    </article>
+
+    <!-- RIGHT SIDEBAR: STICKY SCROLL-SPY TOC -->
+    <aside class="sidebar-right" aria-label="Table of Contents">
+      <div class="toc-title">
+        <span>📑</span> Contents
+      </div>
+      <nav>
+        <ul class="toc-list">
+          <li class="toc-item"><a href="#section-1">01. Environmental Dilemma</a></li>
+          <li class="toc-item"><a href="#section-2">02. Missingness Paradox</a></li>
+          <li class="toc-item"><a href="#section-3">03. Univariate Triage</a></li>
+          <li class="toc-item"><a href="#section-4">04. Bivariate Deficit Zone</a></li>
+          <li class="toc-item"><a href="#section-5">05. Log-Log Elasticity</a></li>
+          <li class="toc-item"><a href="#section-6">06. Macro Deficit Allocation</a></li>
+          <li class="toc-item"><a href="#section-7">07. Residual Diagnostics</a></li>
+          <li class="toc-item"><a href="#section-8">08. $122.6B Policy Roadmap</a></li>
+          <li class="toc-item"><a href="#section-9">09. Academic Reflection</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+  </main>
+
+  <!-- BACK TO TOP FLOATING BUTTON -->
+  <button id="back-to-top" aria-label="Scroll back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <!-- JAVASCRIPT: THEME PERSISTENCE, SCROLL-SPY, PROGRESS BAR & IMAGE SWAPPING -->
+  <script>
+    // 1. HARDWARE-ACCELERATED READING PROGRESS BAR
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('progress-bar').style.width = Math.min(scrolled, 100) + '%';
+
+      // Back to top visibility
+      const btt = document.getElementById('back-to-top');
+      if (window.scrollY > 400) {
+        btt.classList.add('visible');
+      } else {
+        btt.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    // Back to top click handler
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 2. THEME CONTROLLER & IMAGE ADAPTATION
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const htmlElem = document.documentElement;
+
+    function applyTheme(theme) {
+      htmlElem.setAttribute('data-theme', theme);
+      localStorage.setItem('ds311-blog-theme', theme);
+
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light Mode';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark Mode';
+      }
+
+      // Dynamically swap reactive figure images between Light & Canva Dark PNGs
+      document.querySelectorAll('.theme-reactive-img').forEach(img => {
+        const targetSrc = theme === 'dark' ? img.getAttribute('data-dark') : img.getAttribute('data-light');
+        if (targetSrc) {
+          img.src = targetSrc;
+        }
+      });
+    }
+
+    // Initialize theme based on local storage or system preference
+    const savedTheme = localStorage.getItem('ds311-blog-theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlElem.getAttribute('data-theme') || 'light';
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // 3. INTERSECTION OBSERVER SCROLL-SPY FOR TABLE OF CONTENTS
+    const sections = document.querySelectorAll('.editorial-section');
+    const tocItems = document.querySelectorAll('.toc-item');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const tocObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tocItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (link.getAttribute('href') === '#' + id) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(sec => tocObserver.observe(sec));
+
+    // 4. UTILITY COPY FUNCTIONS
+    function copyCode(btn) {
+      const codeBlock = btn.closest('.code-block').querySelector('pre code');
+      navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.color = 'var(--accent-sage)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+
+    function copyArticleLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Article link copied to clipboard!');
+      });
+    }
+  </script>
+</body>
+</html>
