@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond Pearson's r: Why Two Variables Lie and How to Uncover the Real Story in Bivariate Data | DS311 Blog</title>
+  
+  <!-- Meta & OpenGraph Tags -->
+  <meta name="description" content="An intuitive, interactive deep dive into bivariate exploratory data analysis, correlation traps, Anscombe's Quartet, OLS mechanics, Simpson's Paradox, and the geometry of regression.">
+  <meta name="author" content="Rogelio Mandamian">
+  <meta property="og:title" content="Beyond Pearson's r: Why Two Variables Lie and How to Uncover the Real Story in Bivariate Data">
+  <meta property="og:description" content="Why looking at correlation coefficients without visualizing geometry is an analytical death trap. Featuring an interactive OLS & outlier canvas sandbox.">
+  <meta property="og:type" content="article">
+
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS RESET & MODERN DESIGN TOKENS */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      /* LIGHT MODE: Warm Linen Alabaster (Substack & Stripe Editorial) */
+      --bg-canvas: #FAF8F5;
+      --bg-surface: #FFFFFF;
+      --bg-surface-elevated: #F4EFEB;
+      --bg-surface-subtle: #F7F4EE;
+      --border-subtle: #E8E2D8;
+      --border-prominent: #D4CBBC;
+      
+      --text-main: #181C20;
+      --text-muted: #545E6A;
+      --text-faint: #8591A0;
+      
+      --accent-vermilion: #C84B31;
+      --accent-vermilion-soft: rgba(200, 75, 49, 0.08);
+      --accent-sage: #2C6E49;
+      --accent-sage-soft: rgba(44, 110, 73, 0.09);
+      --accent-ochre: #B87333;
+      --accent-indigo: #4F46E5;
+      --accent-indigo-soft: rgba(79, 70, 229, 0.08);
+
+      --code-bg: #EFEBE4;
+      --code-border: #DCD4C6;
+
+      --card-shadow: 0 4px 20px -2px rgba(24, 28, 32, 0.05), 0 2px 6px -1px rgba(24, 28, 32, 0.03);
+      --card-shadow-hover: 0 12px 32px -4px rgba(24, 28, 32, 0.1), 0 4px 12px -2px rgba(24, 28, 32, 0.05);
+
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --reading-width: 740px;
+      --header-height: 64px;
+    }
+
+    [data-theme="dark"] {
+      /* DARK MODE: Deep Obsidian Slate (Linear / Vercel Dark Editorial) */
+      --bg-canvas: #090D15;
+      --bg-surface: #101624;
+      --bg-surface-elevated: #162035;
+      --bg-surface-subtle: #131B2D;
+      --border-subtle: #212D45;
+      --border-prominent: #324368;
+      
+      --text-main: #F4F6FB;
+      --text-muted: #9BA7BA;
+      --text-faint: #65738B;
+      
+      --accent-vermilion: #E0533C;
+      --accent-vermilion-soft: rgba(224, 83, 60, 0.15);
+      --accent-sage: #34D399;
+      --accent-sage-soft: rgba(52, 211, 153, 0.12);
+      --accent-ochre: #FBBF24;
+      --accent-indigo: #818CF8;
+      --accent-indigo-soft: rgba(129, 140, 248, 0.12);
+
+      --code-bg: #0C121F;
+      --code-border: #1E2A44;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.5);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.7);
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.76;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+    }
+
+    /* HARDWARE-ACCELERATED READING PROGRESS TRACK */
+    #reading-progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+
+    #reading-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-vermilion), var(--accent-ochre));
+      transition: width 0.08s linear;
+    }
+
+    /* STICKY GLASSMORPHIC HEADER */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .site-header {
+      background: rgba(9, 13, 21, 0.88);
+    }
+
+    .header-inner {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: var(--accent-vermilion-soft);
+      color: var(--accent-vermilion);
+      border: 1px solid var(--accent-vermilion);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-vermilion);
+      background: var(--bg-surface);
+      transform: translateY(-1px);
+    }
+
+    /* 3-COLUMN EDITORIAL ARTICLE LAYOUT */
+    .article-layout {
+      max-width: 1360px;
+      margin: 2.5rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 240px minmax(0, 760px) 280px;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    /* LEFT SIDEBAR: ARTICLE INTEL */
+    .sidebar-left {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .intel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .intel-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .intel-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .intel-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .action-btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .btn-action {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.55rem 0.85rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--bg-surface);
+      border-color: var(--accent-vermilion);
+      color: var(--accent-vermilion);
+    }
+
+    /* RIGHT SIDEBAR: STICKY SCROLL-SPY TOC */
+    .sidebar-right {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      box-shadow: var(--card-shadow);
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .toc-heading {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .toc-nav-link {
+      text-decoration: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: block;
+      transition: all 0.2s ease;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+    }
+
+    .toc-nav-link:hover {
+      color: var(--accent-vermilion);
+      border-left-color: var(--accent-vermilion);
+    }
+
+    .toc-item.active .toc-nav-link {
+      color: var(--accent-vermilion);
+      font-weight: 700;
+      border-left-color: var(--accent-vermilion);
+    }
+
+    /* CENTER READING COLUMN */
+    .reading-column {
+      width: 100%;
+      max-width: var(--reading-width);
+      margin: 0 auto;
+    }
+
+    /* HERO ARTICLE HEADER */
+    .editorial-hero {
+      margin-bottom: 2.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .kicker-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .kicker-tag {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-vermilion);
+      background: var(--accent-vermilion-soft);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid var(--accent-vermilion);
+    }
+
+    .read-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-faint);
+    }
+
+    .headline-main {
+      font-family: var(--font-display);
+      font-size: clamp(2.15rem, 1.8rem + 1.8vw, 3.1rem);
+      font-weight: 800;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+    }
+
+    .headline-deck {
+      font-size: 1.22rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    /* AUTHOR STRIP */
+    .author-strip {
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+      padding: 1.15rem 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-top: 0.4rem;
+    }
+
+    .author-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 2px solid var(--accent-vermilion);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--accent-vermilion);
+      font-size: 1.1rem;
+    }
+
+    .author-bio-line {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .author-full-name {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .student-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      background: var(--accent-sage-soft);
+      color: var(--accent-sage);
+      padding: 0.12rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .author-sub {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    /* CORE THESIS QUOTE CARD */
+    .thesis-callout {
+      background: linear-gradient(135deg, var(--bg-surface), var(--bg-surface-elevated));
+      border: 1px solid var(--border-subtle);
+      border-left: 5px solid var(--accent-vermilion);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin: 2.25rem 0 3.25rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+
+    .thesis-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-vermilion);
+      margin-bottom: 0.5rem;
+    }
+
+    .thesis-quote {
+      font-family: var(--font-display);
+      font-size: 1.28rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+    }
+
+    .thesis-desc {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* PROSE SECTIONS */
+    .editorial-block {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: calc(var(--header-height) + 1.5rem);
+    }
+
+    .editorial-block h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin: 2.25rem 0 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .editorial-block h2 .num-lead {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-vermilion);
+    }
+
+    .editorial-block h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--text-main);
+      margin: 1.75rem 0 0.85rem;
+    }
+
+    p {
+      margin-bottom: 1.45rem;
+      color: var(--text-main);
+      line-height: 1.78;
+    }
+
+    strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* RICH CALLOUT CARDS */
+    .callout {
+      border-radius: 10px;
+      padding: 1.35rem 1.6rem;
+      margin: 2rem 0;
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      border: 1px solid transparent;
+      box-shadow: var(--card-shadow);
+    }
+
+    .callout-emoji {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    .callout-body {
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .callout-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout-header {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.02rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .callout-intuition {
+      background: var(--accent-vermilion-soft);
+      border-color: rgba(200, 75, 49, 0.22);
+      border-left: 4px solid var(--accent-vermilion);
+    }
+    .callout-intuition .callout-header {
+      color: var(--accent-vermilion);
+    }
+
+    .callout-math {
+      background: var(--accent-indigo-soft);
+      border-color: rgba(79, 70, 229, 0.22);
+      border-left: 4px solid var(--accent-indigo);
+    }
+    .callout-math .callout-header {
+      color: var(--accent-indigo);
+    }
+
+    .callout-lab {
+      background: var(--accent-sage-soft);
+      border-color: rgba(44, 110, 73, 0.22);
+      border-left: 4px solid var(--accent-sage);
+    }
+    .callout-lab .callout-header {
+      color: var(--accent-sage);
+    }
+
+    /* INTERACTIVE CANVAS SANDBOX WIDGET */
+    .sandbox-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin: 2.75rem 0;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .sandbox-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+
+    .sandbox-badge {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: var(--accent-indigo-soft);
+      color: var(--accent-indigo);
+      border: 1px solid var(--accent-indigo);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+    }
+
+    .sandbox-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .sandbox-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-preset {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-preset:hover, .btn-preset.active {
+      background: var(--accent-vermilion);
+      color: #FFFFFF;
+      border-color: var(--accent-vermilion);
+    }
+
+    .sandbox-canvas-wrapper {
+      position: relative;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    #sandbox-canvas {
+      display: block;
+      width: 100%;
+      height: 380px;
+    }
+
+    .canvas-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.65);
+      color: #FFFFFF;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* SANDBOX LIVE SCORECARD METRICS */
+    .sandbox-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .stat-pill {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .stat-name {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* COMPARISON MATRIX GRID */
+    .anscombe-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .anscombe-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .anscombe-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-vermilion);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .anscombe-title {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .anscombe-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* CODE BOX */
+    .code-container {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 10px;
+      margin: 1.75rem 0;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .code-top {
+      background: var(--bg-surface-elevated);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--code-border);
+    }
+
+    .code-type {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      color: var(--accent-vermilion);
+      background: var(--bg-surface);
+    }
+
+    pre {
+      padding: 1.15rem;
+      overflow-x: auto;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* CURATED INSPIRATION LINKS ACCORDION */
+    .curated-links-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin: 3rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .curated-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .curated-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .curated-list a {
+      color: var(--accent-vermilion);
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: underline;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .curated-list a:hover {
+      color: var(--accent-ochre);
+    }
+
+    /* AUTHOR FOOTER CARD */
+    .author-footer {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2.25rem;
+      margin: 4.5rem 0 2rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    .author-footer-img {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 3px solid var(--accent-vermilion);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent-vermilion);
+      flex-shrink: 0;
+    }
+
+    .author-footer-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .author-footer-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .author-footer-bio {
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .author-links-row {
+      display: flex;
+      gap: 1.15rem;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .author-links-row a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-vermilion);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .author-links-row a:hover {
+      text-decoration: underline;
+    }
+
+    /* BACK TO TOP FLOATING BUTTON */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+      z-index: 900;
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #back-to-top:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-vermilion);
+      color: var(--accent-vermilion);
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 1240px) {
+      .article-layout {
+        grid-template-columns: minmax(0, 760px) 260px;
+        gap: 2.5rem;
+      }
+      .sidebar-left {
+        display: none;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .sidebar-right {
+        display: none;
+      }
+      .anscombe-matrix {
+        grid-template-columns: 1fr;
+      }
+      .sandbox-metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sandbox-metrics {
+        grid-template-columns: 1fr;
+      }
+      .header-inner {
+        padding: 0 1rem;
+      }
+      .article-layout {
+        padding: 0 1.25rem;
+      }
+      .author-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- READING PROGRESS BAR -->
+  <div id="reading-progress-track" aria-hidden="true">
+    <div id="reading-progress-bar"></div>
+  </div>
+
+  <!-- STICKY SITE HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="header-brand">
+        <span class="brand-kicker">DS311 EDA</span>
+        <span class="brand-title">Topic 06: Bivariate Analysis</span>
+      </a>
+      <div class="header-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-text">Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 3-COLUMN EDITORIAL ARTICLE LAYOUT -->
+  <main class="article-layout">
+    
+    <!-- LEFT SIDEBAR: ARTICLE INTEL -->
+    <aside class="sidebar-left" aria-label="Article Details">
+      <div class="intel-card">
+        <div class="intel-item">
+          <span class="intel-label">Course</span>
+          <span class="intel-value">DS311: Exploratory Data Analysis</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Institution</span>
+          <span class="intel-value">USTP CDO &bull; College of ITC</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Instructor</span>
+          <span class="intel-value">Chris Jallaine S. Mugot</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Author</span>
+          <span class="intel-value">Rogelio Mandamian</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Core Module</span>
+          <span class="intel-value">Topic 06: Bivariate Analysis</span>
+        </div>
+        <div class="intel-item">
+          <span class="intel-label">Deliverable</span>
+          <span class="intel-value">PIT Individual Blog Post</span>
+        </div>
+      </div>
+
+      <div class="action-btn-stack">
+        <button class="btn-action" onclick="copyLink()">
+          <span>🔗</span> Copy Article Link
+        </button>
+        <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank" class="btn-action">
+          <span>🏛️</span> Academic Portal Hub
+        </a>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN: READING PROSE -->
+    <article class="reading-column">
+      
+      <!-- HERO HEADER -->
+      <header class="editorial-hero">
+        <div class="kicker-row">
+          <span class="kicker-tag">TOPIC 06 &bull; STATISTICAL GEOMETRY &bull; OLS MECHANICS</span>
+          <span class="read-badge">⏱️ 12 Min Read &bull; October 2026</span>
+        </div>
+
+        <h1 class="headline-main">Beyond Pearson's r: Why Two Variables Lie and How to Uncover the Real Story in Bivariate Data</h1>
+        
+        <p class="headline-deck">
+          A single summary statistic can hide parabolas, mask catastrophic outliers, and invert entire realities. Here is what happens when you step past the formula and look at the actual geometry of paired data.
+        </p>
+
+        <!-- AUTHOR STRIP -->
+        <div class="author-strip">
+          <div class="author-circle">RM</div>
+          <div class="author-bio-line">
+            <div class="author-full-name">
+              Rogelio Mandamian
+              <span class="student-badge">DS311 Student &bull; Group 4</span>
+            </div>
+            <div class="author-sub">
+              Department of Data Science &bull; University of Science and Technology of Southern Philippines (USTP CDO)
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- THESIS QUOTE CARD -->
+      <section class="thesis-callout" aria-label="Thesis Statement">
+        <div class="thesis-kicker">Core Epistemological Principle</div>
+        <div class="thesis-quote">
+          "A correlation coefficient is an answer to a question. If you do not visualize the scatter plot first, you do not know what question was asked."
+        </div>
+        <p class="thesis-desc">
+          In exploratory data analysis, numerical summary metrics like Pearson's $r$ compress infinite geometric patterns into a single scalar between $-1.0$ and $+1.0$. Without plotting the coordinates, you are flying blind through non-linearities, confounding subgroups, and high-leverage rogue points.
+        </p>
+      </section>
+
+      <!-- SECTION 1 -->
+      <section id="section-1" class="editorial-block">
+        <h2><span class="num-lead">01.</span> The Dangerous Allure of a Single Scalar</h2>
+        
+        <p>
+          Every budding data scientist remembers the thrill of running their very first correlation matrix. You pass two numeric columns into <code>df.corr()</code>, hit execute, and out pops a neat, tidy number: <strong>$r = 0.82$</strong>.
+        </p>
+
+        <p>
+          The temptation is immediate and seductive. A strong positive correlation! You write down that Variable $X$ drives Variable $Y$, prepare your slide deck, and pat yourself on the back.
+        </p>
+
+        <p>
+          In our lectures on <strong>Topic 06: Bivariate Analysis</strong> in DS311, our instructor Chris Jallaine S. Mugot reminded us of a fundamental truth: <em>the moment you reduce two dimensions of data down to a single scalar, you throw away the shape of reality</em>. Bivariate analysis is not the arithmetic of correlation coefficients; it is the geometry of relationships.
+        </p>
+
+        <div class="callout callout-intuition">
+          <span class="callout-emoji">💡</span>
+          <div class="callout-body">
+            <div class="callout-header">The Bivariate Definition</div>
+            <p>
+              While <strong>univariate analysis</strong> (Topic 05) asks <em>"How does this single variable vary across its range?"</em>, <strong>bivariate analysis</strong> asks <em>"When this variable shifts, what happens to the other?"</em> It is our first quantitative bridge toward understanding covariance, dependency, and predictive modeling.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section id="section-2" class="editorial-block">
+        <h2><span class="num-lead">02.</span> Anscombe’s Revenge: Why Summary Stats Lie</h2>
+        
+        <p>
+          In 1973, English statistician Francis Anscombe constructed four synthetic eleven-point datasets that every data science practitioner should have tattooed onto their memory: <strong>Anscombe’s Quartet</strong>.
+        </p>
+
+        <p>
+          Across all four distinct datasets, the summary statistics are identical to two decimal places:
+        </p>
+
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li>Mean of $X$: $9.00$, Variance of $X$: $11.00$</li>
+          <li>Mean of $Y$: $7.50$, Variance of $Y$: $4.12$</li>
+          <li>Pearson correlation ($r$): <strong>$+0.816$</strong></li>
+          <li>Linear regression line: <strong>$\hat{Y} = 3.00 + 0.50X$</strong></li>
+          <li>Coefficient of determination ($R^2$): <strong>$67.0\%$</strong></li>
+        </ul>
+
+        <p>
+          If you read only the summary table, you would conclude that all four datasets behave identically. Yet, when you plot them, four radically different universes appear:
+        </p>
+
+        <!-- 4-CARD ANSCOMBE MATRIX -->
+        <div class="anscombe-matrix">
+          <div class="anscombe-card">
+            <span class="anscombe-tag">Dataset I &bull; Clean Linear</span>
+            <div class="anscombe-title">The Textbook Ideal</div>
+            <p class="anscombe-desc">A classic, homoscedastic linear scatter with normally distributed errors around the regression line. The only dataset where the linear model is truly valid.</p>
+          </div>
+
+          <div class="anscombe-card">
+            <span class="anscombe-tag">Dataset II &bull; Pure Non-Linear</span>
+            <div class="anscombe-title">The Curved Parabola</div>
+            <p class="anscombe-desc">A smooth, deterministic quadratic curve ($Y = aX^2 + bX + c$). The correlation is still $+0.816$, yet fitting a straight line here is fundamentally flawed.</p>
+          </div>
+
+          <div class="anscombe-card">
+            <span class="anscombe-tag">Dataset III &bull; Rogue Outlier</span>
+            <div class="anscombe-title">The Broken Line</div>
+            <p class="anscombe-desc">Ten points form a perfect deterministic straight line ($r = 1.0$), but an isolated outlier at $Y = 12.74$ pulls the slope down and drags $r$ to $0.816$.</p>
+          </div>
+
+          <div class="anscombe-card">
+            <span class="anscombe-tag">Dataset IV &bull; Extreme Leverage</span>
+            <div class="anscombe-title">The Pivot Point</div>
+            <p class="anscombe-desc">Ten points are locked at a vertical pillar ($X = 8$), having zero variance on their own. A single extreme outlier at $X = 19$ artificially manufactures the entire regression line!</p>
+          </div>
+        </div>
+
+        <p>
+          This lesson was pushed to its modern extreme in 2017 by Justin Matejka and George Fitzmaurice with the <strong>Datasaurus Dozen</strong>: they created twelve datasets—including one shaped like a Tyrannosaurus Rex and another shaped like a star—all sharing the exact same means, standard deviations, and correlation ($r = -0.06$).
+        </p>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section id="section-3" class="editorial-block">
+        <h2><span class="num-lead">03.</span> The Geometry of Ordinary Least Squares (OLS)</h2>
+        
+        <p>
+          When two numeric variables show a linear relationship, our primary weapon is <strong>Ordinary Least Squares (OLS) regression</strong>. But how does OLS actually decide where to place the line?
+        </p>
+
+        <p>
+          The line takes the familiar algebraic form:
+          $$\hat{Y} = \beta_0 + \beta_1 X$$
+        </p>
+
+        <p>
+          Unlike subjective eyeball fitting, OLS minimizes a strict mathematical penalty: the <strong>Sum of Squared Residuals (SSR)</strong>:
+          $$\text{SSR} = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+        </p>
+
+        <div class="callout callout-math">
+          <span class="callout-icon">📐</span>
+          <div class="callout-body">
+            <div class="callout-header">The Mathematical Coupling of Slope &amp; Correlation</div>
+            <p>
+              In class, we derived that the slope $\beta_1$ is directly tethered to Pearson's $r$:
+              $$\beta_1 = r \cdot \frac{s_y}{s_x} = \frac{\text{Cov}(X, Y)}{\text{Var}(X)}$$
+              This reveals a crucial intuition: <strong>$r$ represents the standardized strength and direction</strong> of the relationship, while <strong>$\beta_1$ scales that strength into real-world units</strong>. If $X$ is trip distance in miles and $Y$ is taxi fare in dollars, $\beta_1$ tells you the dollar cost per incremental mile.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Notice the squaring of the residual: $(y_i - \hat{y}_i)^2$. Because errors are squared, an observation that sits 10 units away from the line exerts <strong>100 times more penalty</strong> than an observation sitting 1 unit away! This mathematical property explains why outliers exert such immense magnetic pull on the regression line.
+        </p>
+      </section>
+
+      <!-- SECTION 4: INTERACTIVE CANVAS SANDBOX -->
+      <section id="section-4" class="editorial-block">
+        <h2><span class="num-lead">04.</span> Interactive Sandbox: Play with Bivariate Geometry</h2>
+        
+        <p>
+          Don't just take our word for it—experiment with the geometry yourself. Use the live interactive canvas below. Click anywhere inside the canvas to add observations and watch the OLS regression line, slope ($\beta_1$), and Pearson's $r$ recompute dynamically in real time:
+        </p>
+
+        <!-- INTERACTIVE WIDGET -->
+        <div class="sandbox-container">
+          <div class="sandbox-topbar">
+            <div>
+              <span class="sandbox-badge">INTERACTIVE DATA LAB</span>
+              <div class="sandbox-title">Live 2D Bivariate OLS &amp; Leverage Simulator</div>
+            </div>
+            <div class="sandbox-controls">
+              <button class="btn-preset active" onclick="loadPreset('linear')">Clean Linear</button>
+              <button class="btn-preset" onclick="loadPreset('parabola')">Parabola</button>
+              <button class="btn-preset" onclick="loadPreset('outlier')">Leverage Outlier</button>
+              <button class="btn-preset" onclick="resetCanvas()">Clear Canvas</button>
+            </div>
+          </div>
+
+          <div class="sandbox-canvas-wrapper">
+            <canvas id="sandbox-canvas"></canvas>
+            <div class="canvas-hint">Click anywhere on canvas to add points</div>
+          </div>
+
+          <!-- LIVE METRICS SCORECARD -->
+          <div class="sandbox-metrics">
+            <div class="stat-pill">
+              <span class="stat-name">Data Points (N)</span>
+              <span class="stat-val" id="metric-n">20</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-name">Pearson Correlation (r)</span>
+              <span class="stat-val" id="metric-r">+0.912</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-name">OLS Slope (&beta;₁)</span>
+              <span class="stat-val" id="metric-slope">0.784</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-name">Variance Explained (R²)</span>
+              <span class="stat-val" id="metric-r2">83.2%</span>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <em>Try this experiment in the sandbox:</em> Click the <strong>"Clean Linear"</strong> preset. Note the strong positive correlation ($r \approx 0.9$). Now, click once in the bottom right corner (far out on $X$, near zero on $Y$). Watch in real time how that single point tilts the entire regression line and causes the correlation coefficient to collapse!
+        </p>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section id="section-5" class="editorial-block">
+        <h2><span class="num-lead">05.</span> Leverage vs. Influence: Anatomy of a Rogue Point</h2>
+        
+        <p>
+          Not all outliers are created equal. In bivariate analysis, statisticians draw a critical boundary between two concepts:
+        </p>
+
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>Outlier in Y (High Residual, Low Leverage):</strong> An observation near the center of $X$ that sits unusually high or low on $Y$. It produces a large error ($e_i$), but because it is positioned near the center of gravity ($\bar{X}$), it does not significantly tilt the slope.</li>
+          <li><strong>Outlier in X (High Leverage):</strong> An observation positioned far away from the mean of $X$. Like a person sitting at the very end of a seesaw, an extreme $X$ value has tremendous torque. If its $Y$ value deviates even slightly from the trend, it acts as an <strong>influential point</strong>, rotating the entire line toward itself.</li>
+        </ul>
+
+        <div class="callout callout-lab">
+          <span class="callout-icon">🧪</span>
+          <div class="callout-content">
+            <div class="callout-header">Classroom Connection &bull; Lab 04 NYC Taxi Fare Analysis</div>
+            <p>
+              In our <strong>Lab Activity 04</strong>, we investigated the relationship between <code>trip_distance</code> and <code>fare_amount</code> across thousands of NYC yellow cab trips. Before cleaning, we spotted GPS sensor anomalies: trips recording $0\text{ miles}$ with $\$50$ flat airport fares, and faulty trips logging $150\text{ miles}$ for a $\$10$ fare. Had we naively fitted an OLS regression line without trimming those sensor anomalies, those high-leverage points would have completely warped the estimated per-mile rate!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section id="section-6" class="editorial-block">
+        <h2><span class="num-lead">06.</span> Simpson's Paradox: When the Correlation Reverses</h2>
+        
+        <p>
+          Perhaps the most mind-bending trap in all of bivariate analysis is <strong>Simpson’s Paradox</strong>: an empirical phenomenon where a trend appears in several different groups of data, but disappears or completely reverses when the groups are aggregated!
+        </p>
+
+        <p>
+          Imagine you are analyzing the relationship between hours of weekly exercise ($X$) and resting blood pressure ($Y$). You plot the entire population and find a positive correlation: people who exercise more appear to have higher blood pressure ($r = +0.45$).
+        </p>
+
+        <p>
+          Does exercise cause hypertension? Of course not. When you disaggregate the data by a confounding variable—<strong>Age Group</strong>—the real story emerges:
+        </p>
+
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li>Within the 20–30 age group: exercise lowers blood pressure ($r = -0.55$).</li>
+          <li>Within the 40–50 age group: exercise lowers blood pressure ($r = -0.52$).</li>
+          <li>Within the 60–70 age group: exercise lowers blood pressure ($r = -0.60$).</li>
+        </ul>
+
+        <p>
+          Within every single subgroup, the correlation is negative! Why did the aggregate correlation turn positive? Because older individuals have naturally higher baseline blood pressure and also tend to exercise more intentionally for cardiovascular health. The aggregate analysis confounded age with exercise.
+        </p>
+
+        <div class="callout callout-intuition">
+          <span class="callout-emoji">⚠️</span>
+          <div class="callout-body">
+            <div class="callout-header">The Bivariate Trap</div>
+            <p>
+              Two variables never exist in a vacuum. Whenever you see a counterintuitive bivariate relationship, always ask: <em>"What lurking categorical variable is sorting these points into clusters?"</em>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section id="section-7" class="editorial-block">
+        <h2><span class="num-lead">07.</span> When Lines Break: Non-Linear Transformations</h2>
+        
+        <p>
+          Linear models assume linear relationships. But the natural and economic worlds are overwhelmingly non-linear. Bacterial growth is exponential; sensory perception follows logarithmic curves; municipal infrastructure follows power laws.
+        </p>
+
+        <p>
+          When scatter plots reveal curvature (like Dataset II in Anscombe's Quartet), forcing a straight line violates the core assumption of OLS. Instead of abandoning linear tools, exploratory analysts apply <strong>variable transformations</strong>:
+        </p>
+
+        <div class="code-container">
+          <div class="code-top">
+            <span class="code-type">Python &bull; Log-Transform Workflow</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre><code>import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+# 1. Transform skewed non-linear variables into log space
+df['log_x'] = np.log10(df['variable_x'])
+df['log_y'] = np.log10(df['variable_y'])
+
+# 2. Fit power-law scaling model: log(Y) = alpha * log(X) + const
+X_log = sm.add_constant(df['log_x'])
+model = sm.OLS(df['log_y'], X_log).fit()
+
+# 3. Interpret elasticity parameter (alpha)
+alpha = model.params['log_x']
+print(f"Scaling Elasticity (alpha): {alpha:.3f}")
+# alpha < 1.0: Sub-linear scaling (diminishing returns)
+# alpha = 1.0: Linear isometric scaling
+# alpha > 1.0: Super-linear scaling (accelerating growth)</code></pre>
+        </div>
+
+        <p>
+          Transforming variables with natural logarithms ($\ln$) or $\log_{10}$ stabilizes variance, pulls compressed right-skewed distributions back toward normality, and linearizes multiplicative relationships so that linear regression can be legitimately applied.
+        </p>
+      </section>
+
+      <!-- SECTION 8 -->
+      <section id="section-8" class="editorial-block">
+        <h2><span class="num-lead">08.</span> The EDA Practitioner’s 5-Step Bivariate Protocol</h2>
+        
+        <p>
+          To protect yourself from correlation traps and misleading trends, follow this systematic five-step protocol whenever you pair two continuous variables:
+        </p>
+
+        <ol style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>Profile Univariate Distributions First:</strong> Never jump to bivariate scatter plots until you have audited each variable in isolation (Topic 05). Check for skewness, zero-inflation, and bounds.</li>
+          <li><strong>Always Render the Scatter Plot Before Calculating r:</strong> Inspect the geometry with your own eyes. Look for curvature, distinct clusters, and gaps.</li>
+          <li><strong>Audit the Residuals ($e_i = y_i - \hat{y}_i$):</strong> Plot residuals against fitted values. If you see a funnel shape (heteroscedasticity) or a U-shape, your linear model is misspecified.</li>
+          <li><strong>Identify High-Leverage Influential Points:</strong> Check points sitting far along the horizontal axis. Recalculate the slope with and without those points to verify model stability.</li>
+          <li><strong>Test for Confounders:</strong> Color-code your scatter points by key categorical attributes (e.g., location, customer tier, device type) to ensure Simpson's Paradox isn't deceiving you.</li>
+        </ol>
+      </section>
+
+      <!-- SECTION 9: CONCLUSION & CURATED INSPIRATION -->
+      <section id="section-9" class="editorial-block">
+        <h2><span class="num-lead">09.</span> Conclusion &amp; Curated Inspiration</h2>
+        
+        <p>
+          Exploratory Data Analysis is not a checklist of Python commands; it is an attitude of healthy skepticism. A correlation coefficient of $0.90$ can be an authentic scientific breakthrough—or it can be an artifact of an uncleaned sensor, a single high-leverage outlier, or an unexamined confounder.
+        </p>
+
+        <p>
+          By looking beyond Pearson's $r$ and exploring the geometry of paired data, you unlock the ability to spot the patterns that automated algorithms miss.
+        </p>
+
+        <!-- CURATED INSPIRATION LINKS (FROM PDF PROMPT) -->
+        <div class="curated-links-card">
+          <div class="curated-title">
+            <span>📚</span> Curated Reading &amp; Inspiration Links
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            As recommended in the DS311 Performance Innovative Task (PIT) instruction rubric, explore these industry resources for technical narrative craft and blogging architectures:
+          </p>
+          <ul class="curated-list">
+            <li>
+              <a href="https://nealschaffer.com/blog-post-examples/" target="_blank" rel="noopener">
+                &rarr; 33 Blog Examples to Inspire Your Next Blog Post (Neal Schaffer)
+              </a>
+            </li>
+            <li>
+              <a href="https://www.ryrob.com/free-blogging-sites/" target="_blank" rel="noopener">
+                &rarr; 11 Best Free Blog Sites in 2026: Build and Grow Your Blog (Ryan Robinson)
+              </a>
+            </li>
+            <li>
+              <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">
+                &rarr; Centralized USTP Academic Reviewers Portal (DS311 EDA Hub)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- AUTHOR BIO FOOTER -->
+      <footer class="author-footer">
+        <div class="author-footer-img">RM</div>
+        <div class="author-footer-text">
+          <div class="author-footer-name">Rogelio Mandamian</div>
+          <p class="author-footer-bio">
+            Undergraduate Data Science student at the University of Science and Technology of Southern Philippines (USTP CDO). Focused on statistical geometry, bivariate econometric modeling, and publication-grade academic visualization for DS311 Exploratory Data Analysis.
+          </p>
+          <div class="author-links-row">
+            <a href="https://github.com/Troge-dev" target="_blank">&bull; GitHub (@Troge-dev)</a>
+            <a href="https://troge-dev.github.io/academic-reviewers/" target="_blank">&bull; Academic Reviewers Suite</a>
+            <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">&bull; DS311 Live Hub</a>
+          </div>
+        </div>
+      </footer>
+
+    </article>
+
+    <!-- RIGHT SIDEBAR: STICKY TOC -->
+    <aside class="sidebar-right" aria-label="Table of Contents">
+      <div class="toc-heading">
+        <span>📑</span> Contents
+      </div>
+      <nav>
+        <ul class="toc-nav-list">
+          <li class="toc-item"><a class="toc-nav-link" href="#section-1">01. The Allure of a Single Scalar</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-2">02. Anscombe’s Revenge</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-3">03. Geometry of OLS</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-4">04. Interactive Bivariate Sandbox</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-5">05. Leverage vs. Influence</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-6">06. Simpson’s Paradox</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-7">07. Non-Linear Transforms</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-8">08. 5-Step Bivariate Protocol</a></li>
+          <li class="toc-item"><a class="toc-nav-link" href="#section-9">09. Curated Inspiration</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+  </main>
+
+  <!-- FLOATING BACK TO TOP BUTTON -->
+  <button id="back-to-top" aria-label="Scroll back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <!-- JAVASCRIPT: THEME PERSISTENCE, PROGRESS BAR, SCROLL-SPY, & INTERACTIVE CANVAS SANDBOX -->
+  <script>
+    // 1. READING PROGRESS BAR & BACK TO TOP BUTTON
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('reading-progress-bar').style.width = Math.min(scrolled, 100) + '%';
+
+      const btt = document.getElementById('back-to-top');
+      if (window.scrollY > 400) {
+        btt.classList.add('visible');
+      } else {
+        btt.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 2. DUAL-THEME SWITCHER WITH LOCAL STORAGE
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const rootElem = document.documentElement;
+
+    function applyTheme(t) {
+      rootElem.setAttribute('data-theme', t);
+      localStorage.setItem('ds311-bivariate-theme', t);
+      if (t === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light Mode';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark Mode';
+      }
+      // Redraw canvas with theme-aware colors
+      if (typeof drawSandbox === 'function') {
+        drawSandbox();
+      }
+    }
+
+    const savedTheme = localStorage.getItem('ds311-bivariate-theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const cur = rootElem.getAttribute('data-theme') || 'light';
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+
+    // 3. INTERSECTION OBSERVER SCROLL-SPY FOR TOC
+    const headings = document.querySelectorAll('.editorial-block');
+    const tocListItems = document.querySelectorAll('.toc-item');
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const secId = entry.target.getAttribute('id');
+          tocListItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (link.getAttribute('href') === '#' + secId) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    headings.forEach(h => spyObserver.observe(h));
+
+    // 4. CODE COPY FUNCTION
+    function copySnippet(btn) {
+      const code = btn.closest('.code-container').querySelector('pre code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.color = 'var(--accent-sage)';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Article URL copied to clipboard!');
+      });
+    }
+
+    // 5. INTERACTIVE 2D BIVARIATE OLS & LEVERAGE SANDBOX ENGINE
+    const canvas = document.getElementById('sandbox-canvas');
+    const ctx = canvas.getContext('2d');
+    let points = [];
+
+    function setupCanvasDpi() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.resetTransform();
+      ctx.scale(dpr, dpr);
+    }
+
+    function calculateStats() {
+      const n = points.length;
+      if (n < 2) {
+        document.getElementById('metric-n').textContent = n;
+        document.getElementById('metric-r').textContent = 'N/A';
+        document.getElementById('metric-slope').textContent = 'N/A';
+        document.getElementById('metric-r2').textContent = 'N/A';
+        return null;
+      }
+
+      let sumX = 0, sumY = 0;
+      points.forEach(p => { sumX += p.x; sumY += p.y; });
+      const meanX = sumX / n;
+      const meanY = sumY / n;
+
+      let ssXX = 0, ssYY = 0, ssXY = 0;
+      points.forEach(p => {
+        const dx = p.x - meanX;
+        const dy = p.y - meanY;
+        ssXX += dx * dx;
+        ssYY += dy * dy;
+        ssXY += dx * dy;
+      });
+
+      if (ssXX === 0 || ssYY === 0) {
+        return null;
+      }
+
+      const r = ssXY / Math.sqrt(ssXX * ssYY);
+      const slope = ssXY / ssXX;
+      const intercept = meanY - slope * meanX;
+      const r2 = r * r;
+
+      document.getElementById('metric-n').textContent = n;
+      document.getElementById('metric-r').textContent = (r >= 0 ? '+' : '') + r.toFixed(3);
+      document.getElementById('metric-slope').textContent = slope.toFixed(3);
+      document.getElementById('metric-r2').textContent = (r2 * 100).toFixed(1) + '%';
+
+      return { slope, intercept, meanX, meanY, r };
+    }
+
+    function drawSandbox() {
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      const isDark = rootElem.getAttribute('data-theme') === 'dark';
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw subtle coordinate grid
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+      ctx.lineWidth = 1;
+      const step = 40;
+      for (let x = step; x < w; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = step; y < h; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      const stats = calculateStats();
+
+      // If we have stats, draw vertical residual drop-lines and OLS trendline
+      if (stats) {
+        // 1. Draw vertical residual drop lines
+        ctx.strokeStyle = isDark ? 'rgba(224, 83, 60, 0.25)' : 'rgba(200, 75, 49, 0.25)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        points.forEach(p => {
+          const fittedY = stats.slope * p.x + stats.intercept;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x, fittedY);
+          ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // 2. Draw OLS Regression Line across the full canvas
+        const y0 = stats.intercept;
+        const yW = stats.slope * w + stats.intercept;
+
+        ctx.strokeStyle = isDark ? '#E0533C' : '#C84B31';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, y0);
+        ctx.lineTo(w, yW);
+        ctx.stroke();
+      }
+
+      // Draw data points
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 5.5, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? '#818CF8' : '#4F46E5';
+        ctx.fill();
+        ctx.strokeStyle = isDark ? '#FFFFFF' : '#181C20';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+    }
+
+    // Add point on click
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      points.push({ x, y });
+      drawSandbox();
+    });
+
+    // Preset configurations
+    function loadPreset(type) {
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      points = [];
+
+      if (type === 'linear') {
+        const count = 22;
+        for (let i = 0; i < count; i++) {
+          const px = (w * 0.1) + (i / count) * (w * 0.8);
+          const py = (h * 0.85) - (i / count) * (h * 0.7) + (Math.random() - 0.5) * 35;
+          points.push({ x: px, y: py });
+        }
+      } else if (type === 'parabola') {
+        const count = 24;
+        for (let i = 0; i < count; i++) {
+          const t = (i / (count - 1)) * 2 - 1; // -1 to 1
+          const px = w * 0.5 + t * (w * 0.38);
+          const py = h * 0.25 + (t * t) * (h * 0.55) + (Math.random() - 0.5) * 15;
+          points.push({ x: px, y: py });
+        }
+      } else if (type === 'outlier') {
+        const count = 18;
+        // Clean linear cluster
+        for (let i = 0; i < count; i++) {
+          const px = (w * 0.15) + (i / count) * (w * 0.5);
+          const py = (h * 0.85) - (i / count) * (h * 0.55) + (Math.random() - 0.5) * 20;
+          points.push({ x: px, y: py });
+        }
+        // One extreme leverage point on bottom right
+        points.push({ x: w * 0.9, y: h * 0.88 });
+      }
+
+      drawSandbox();
+    }
+
+    function resetCanvas() {
+      points = [];
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      drawSandbox();
+    }
+
+    // Initialize on window load and handle resize
+    window.addEventListener('load', () => {
+      setupCanvasDpi();
+      loadPreset('linear');
+    });
+
+    window.addEventListener('resize', () => {
+      setupCanvasDpi();
+      drawSandbox();
+    });
+  </script>
+</body>
+</html>
