@@ -963,7 +963,7 @@
         </p>
 
         <p>
-          Each of the four datasets contains 11 $(x, y)$ coordinate pairs. When you calculate their standard summary statistics, you get values that are nearly identical across all four:
+          Each of the four datasets contains 11 (<em>x</em>, <em>y</em>) coordinate pairs. When you calculate their standard summary statistics, you get values that are nearly identical across all four:
         </p>
 
         <!-- ANSCOMBE'S SUMMARY STATS TABLE -->
@@ -1083,7 +1083,7 @@
           <div class="step-content">
             <div class="step-title">Dataset IV: The Extreme Leverage Hostage</div>
             <div class="step-desc">
-              All ten primary observations share the exact same X value ($x = 8.0$). The regression line, slope, and correlation are entirely manufactured by a single leverage point way out at $x = 19.0$!
+              All ten primary observations share the exact same X value (<em>x</em> = 8.0). The regression line, slope, and correlation are entirely manufactured by a single leverage point way out at <em>x</em> = 19.0!
             </div>
           </div>
         </div>
@@ -1131,7 +1131,7 @@
             <div class="r-title">Residuals</div>
             <div class="r-subtitle" style="color: var(--accent-olive);">Data = Fit + Residual</div>
             <div class="r-desc">
-              I used to only glance at $R^2$ and feel satisfied when a model fit. But Tukey taught me that the residual &mdash; what the model failed to explain &mdash; is often the most interesting part. On curved data like Anscombe II, inspecting the residuals immediately exposes the parabola that the straight regression line missed.
+              I used to only glance at <em>R</em><sup>2</sup> and feel satisfied when a model fit. But Tukey taught me that the residual &mdash; what the model failed to explain &mdash; is often the most interesting part. On curved data like Anscombe II, inspecting the residuals immediately exposes the parabola that the straight regression line missed.
             </div>
             <div class="r-core-idea">
               My Takeaway: Never be satisfied with a pattern that fits. Always inspect what was left behind.
@@ -1144,7 +1144,7 @@
             <div class="r-title">Re-expression</div>
             <div class="r-subtitle" style="color: var(--accent-terracotta);">Transform to Clarify</div>
             <div class="r-desc">
-              The raw form a dataset arrives in is rarely the best form for understanding it. When I worked with the Egypt dataset, Cairo and Giza squashed the rest of the country flat against zero. Taking $\log_{10}(	ext{density})$ compressed the heavy tail and revealed the real bimodal distribution between oasis frontiers and Nile metros.
+              The raw form a dataset arrives in is rarely the best form for understanding it. When I worked with the Egypt dataset, Cairo and Giza squashed the rest of the country flat against zero. Taking log<sub>10</sub>(density) compressed the heavy tail and revealed the real bimodal distribution between oasis frontiers and Nile metros.
             </div>
             <div class="r-core-idea">
               My Takeaway: Transformations aren't cheating; they are the magnifying glass that reveals reality.
@@ -1166,19 +1166,13 @@
 
         </div>
 
-        <!-- VISUAL ARTIFACT 4: FOUR RS SVG -->
-        <figure class="baker-image-card">
-          <img src="assets/images/charts/tukey_four_rs.svg" alt="John Tukey's Four R's of EDA" loading="lazy">
-          <figcaption>Figure 4: John Tukey's Four R's &mdash; The philosophical pillars that elevate data exploration from guessing into rigorous discovery.</figcaption>
-        </figure>
-
         <div class="baker-callout" style="border-left-color: var(--accent-olive);">
           <div class="baker-callout-title" style="color: var(--accent-olive);">How Re-expression Explained the Egypt Dataset</div>
           <p>
             This was the huge &ldquo;aha!&rdquo; moment connecting my DATAVIS experience to DS311. In the Egypt Population Density dataset, Cairo and Giza had astronomical population densities (&gt;15,000 people/km&sup2;), while desert governorates like New Valley and Matruh had less than 5 people/km&sup2;.
           </p>
           <p>
-            Plotted on a raw scale, 90% of the governorates were squashed flat against the zero axis. Back in 2nd year, I thought the data was &ldquo;broken.&rdquo; But Tukey's third R taught me: <strong>Re-expression!</strong> By applying a simple $\log_{10}(	ext{density})$ transform, the long right tail was compressed, revealing the beautiful bimodal demographic reality of metropolitan clusters vs oasis frontiers. The data wasn't broken &mdash; it was simply waiting for the right lens!
+            Plotted on a raw scale, 90% of the governorates were squashed flat against the zero axis. Back in 2nd year, I thought the data was &ldquo;broken.&rdquo; But Tukey's third R taught me: <strong>Re-expression!</strong> By applying a simple log<sub>10</sub>(density) transform, the long right tail was compressed, revealing the beautiful bimodal demographic reality of metropolitan clusters vs oasis frontiers. The data wasn't broken &mdash; it was simply waiting for the right lens!
           </p>
         </div>
       </section>
@@ -1188,7 +1182,7 @@
         <h2>Interactive Lab: See Anscombe &amp; Leverage in Real Time</h2>
         
         <p>
-          To experience Francis Anscombe's 1973 discovery for yourself, I built this interactive 2D regression laboratory. You can select the presets to simulate Anscombe's four classic scenarios, or click anywhere inside the canvas to drop points in real time and watch how Pearson's $r$, OLS slope ($eta_1$), and $R^2$ react dynamically:
+          To experience Francis Anscombe's 1973 discovery for yourself, I built this interactive 2D regression laboratory. You can select the presets to simulate Anscombe's four classic scenarios, or click anywhere inside the canvas to drop points in real time and watch how Pearson's <em>r</em>, OLS slope (&beta;<sub>1</sub>), and <em>R</em><sup>2</sup> react dynamically:
         </p>
 
         <!-- CANVAS WIDGET -->
@@ -1233,7 +1227,7 @@
         </div>
 
         <p>
-          <em>Notice what happens when you switch between the presets:</em> Even when the summary statistics match ($r pprox 0.816$, $eta_1 pprox 0.50$, $R^2 pprox 66.6\%$), the physical story on the canvas changes completely. In <strong>Anscombe IV (Leverage)</strong>, try clicking and dropping points near the left vertical cluster &mdash; notice how stubbornly the line remains pinned to that single lonely dot on the far right. That is <strong>influence in action</strong>.
+          <em>Notice what happens when you switch between the presets:</em> Even when the summary statistics match (<em>r</em> &approx; 0.816, &beta;<sub>1</sub> &approx; 0.500, <em>R</em><sup>2</sup> &approx; 66.6%), the physical story on the canvas changes completely. In <strong>Anscombe IV (Leverage)</strong>, try clicking and dropping points near the left vertical cluster &mdash; notice how stubbornly the line remains pinned to that single lonely dot on the far right. That is <strong>influence in action</strong>.
         </p>
       </section>
 
@@ -1302,7 +1296,7 @@
           <div class="step-content">
             <div class="step-title">Examine Relationships Between Variables (Bivariate &amp; Lenses)</div>
             <div class="step-desc">
-              When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's $r$ would have tricked me into believing a simple linear trend existed, but plotting the scatter revealed flat-rate airport trips where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against socioeconomic vulnerability revealed spatial divides that no single variable could show. I learned that Univariate, Bivariate, and Multivariate are lenses, not locks &mdash; I move between them as my understanding matures.
+              When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's <em>r</em> would have tricked me into believing a simple linear trend existed, but plotting the scatter revealed flat-rate airport trips where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against socioeconomic vulnerability revealed spatial divides that no single variable could show. I learned that Univariate, Bivariate, and Multivariate are lenses, not locks &mdash; I move between them as my understanding matures.
             </div>
           </div>
         </div>
@@ -1393,7 +1387,7 @@
         <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
           <li><strong>Look before you calculate:</strong> As Francis Anscombe proved in 1973, numbers without graphs can actively deceive you.</li>
           <li><strong>Protect with Resistance:</strong> Trust the median to reflect the bulk of reality; don't let single outliers hijack your story.</li>
-          <li><strong>Respect the Residuals:</strong> $	ext{Data} = 	ext{Fit} + 	ext{Residual}$. What your model failed to capture is often where the genuine breakthrough hides.</li>
+          <li><strong>Respect the Residuals:</strong> Data = Fit + Residual. What your model failed to capture is often where the genuine breakthrough hides.</li>
           <li><strong>Re-express fearlessly:</strong> Raw scales are not sacred. Transformations like logarithms aren't cheating &mdash; they are the magnifying glass that lets patterns emerge.</li>
           <li><strong>Never abandon a dataset out of panic:</strong> Missing values and skewness are not bugs. They are the data speaking to you. Stop hopping, start exploring.</li>
         </ul>
