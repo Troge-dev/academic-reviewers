@@ -360,7 +360,7 @@
       margin-bottom: 0;
     }
 
-    /* STEP CARDS */
+    /* STEP CARDS (1ST-PERSON NARRATIVE) */
     .step-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -409,9 +409,9 @@
     }
 
     .step-desc {
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       color: var(--text-muted);
-      line-height: 1.68;
+      line-height: 1.72;
     }
 
     /* FOUR R'S GRID */
@@ -527,35 +527,6 @@
       line-height: 1.55;
       font-style: italic;
       text-align: center;
-    }
-
-    /* CODE SNIPPETS */
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 10px;
-      padding: 1.25rem 1.4rem;
-      overflow-x: auto;
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      line-height: 1.65;
-      color: var(--text-main);
-      margin: 1.75rem 0;
-    }
-
-    code {
-      font-family: var(--font-mono);
-      font-size: 0.88em;
-      background: var(--code-bg);
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      border: 1px solid var(--code-border);
-    }
-
-    pre code {
-      background: transparent;
-      padding: 0;
-      border: none;
     }
 
     /* INTERACTIVE CANVAS SANDBOX */
@@ -908,23 +879,23 @@
         <h2>The Confession: My Backward &ldquo;Confirmatory&rdquo; Rush</h2>
         
         <p class="lead">
-          Let's start with an honest confession that I suspect many data science students secretly relate to: For the longest time, I was doing data science completely backward.
+          Let me share an honest confession about how I used to approach data science before entering DS311: I was doing almost everything completely backward.
         </p>
 
         <p>
-          Whenever our instructors gave us an analytical assignment, my instinct was to formulate a conclusion first, load the dataset, and immediately ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I would rush straight into multivariate scatter plots, high-dimensional projections, and correlation heatmaps without spending a single minute inspecting the individual features.
+          Whenever our professors gave us an analytical assignment, my immediate instinct was to formulate a conclusion in my head first, load the dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I would skip the foundational legwork and jump straight into multivariate scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes inspecting what the individual columns actually contained.
         </p>
 
         <p>
-          I didn't pay attention to whether a column was skewed, whether the variance was dominated by a single observation, or what the scale actually represented. To me, a dataset was just a monolithic block of numbers to feed into an algorithm.
+          I didn't pay attention to whether a feature had a severe right skew, whether the variance was dominated by a couple of massive outliers, or what the units of measurement even meant. To me, a dataset was just a monolithic block of numbers that I wanted to shove into an algorithm as fast as possible.
         </p>
 
         <p>
-          Inevitably, reality would push back. A column would contain 30% missing values. A variable would have negative values where only positives made sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I was convinced a massive trend existed.
+          Inevitably, reality would push back hard. I would find a column with 30% null values. A variable would have negative values where only positive numbers made sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I was convinced a massive relationship existed.
         </p>
 
         <p>
-          And whenever I hit those roadblocks, I panicked. I had textbook knowledge of terms like &ldquo;mean imputation,&rdquo; &ldquo;median imputation,&rdquo; and &ldquo;forward fill,&rdquo; but I had little to no idea which imputation I should actually use or what damage it would do to the data. I treated missing values like a bug to be erased &mdash; blindly executing <code>df.fillna(df.mean())</code> just to stop my code from throwing an error. When the resulting models fell apart or produced nonsense, I fell into the most toxic habit of all: <strong>chronic dataset-hopping</strong>.
+          And whenever I hit those roadblocks, I panicked. I had memorized textbook terms like &ldquo;mean imputation,&rdquo; &ldquo;median imputation,&rdquo; and &ldquo;forward fill,&rdquo; but in practice, I had little to no idea which imputation I should actually choose or what damage it would cause. I treated missing values like an annoying bug to be erased &mdash; blindly writing <code>df.fillna(df.mean())</code> just to stop my code from crashing. When the resulting models fell apart or produced nonsensical conclusions, I fell into the most toxic habit of all: <strong>chronic dataset-hopping</strong>.
         </p>
 
         <blockquote style="border-left: 3px solid var(--accent-olive); padding-left: 1.25rem; font-style: italic; color: var(--text-main); font-weight: 600; margin: 1.75rem 0; font-family: var(--font-serif); font-size: 1.15rem;">
@@ -940,7 +911,7 @@
         <h2>The &ldquo;Dataset-Hopping&rdquo; Panic &amp; Stumbling Upon Egypt</h2>
         
         <p>
-          During our 2nd-year <strong>DATAVIS</strong> course, my group and I hit this wall hard. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier.
+          During our 2nd-year <strong>DATAVIS</strong> course, my group and I hit this wall repeatedly. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier.
         </p>
 
         <p>
@@ -1060,7 +1031,7 @@
         </div>
 
         <p>
-          A purely numerical analyst would look at this table and conclude: <em>&ldquo;These four datasets describe the exact same phenomenon.&rdquo;</em>
+          Before DS311, I would have looked at this table and concluded without hesitation: <em>&ldquo;These four datasets describe the exact same phenomenon.&rdquo;</em>
         </p>
 
         <p>
@@ -1135,7 +1106,7 @@
         </p>
 
         <p>
-          As Ma'am Chris taught us in Topic 01, Tukey encapsulated this philosophy into <strong>The Four R's</strong>:
+          As Ma'am Chris taught us in Topic 01, Tukey encapsulated this philosophy into <strong>The Four R's</strong>, which I now treat as my personal data science compass:
         </p>
 
         <!-- FOUR R'S CARDS GRID -->
@@ -1147,10 +1118,10 @@
             <div class="r-title">Resistance</div>
             <div class="r-subtitle" style="color: var(--accent-terracotta);">Median Over Mean</div>
             <div class="r-desc">
-              A good analysis must be resistant to the influence of extreme or unusual values. Your summaries should not collapse or mislead just because one or two points are strange. This is why Tukey favored tools like the <strong>median</strong> over the <strong>mean</strong> &mdash; a single extreme outlier can drag the mean into outer space, while the median remains anchored.
+              In my coursework, I learned why Ma'am Chris emphasized median over mean. When working with variables like income, hospital lengths of stay, or municipal densities where extreme observations skew the scale, the mean gets pulled by outliers, but the median stays anchored to where the bulk of real life lives.
             </div>
             <div class="r-core-idea">
-              Core Idea: Findings should reflect the bulk of the data, not be hijacked by its exceptions.
+              My Takeaway: My findings must reflect the bulk of the data, not be hijacked by its exceptions.
             </div>
           </div>
 
@@ -1160,10 +1131,10 @@
             <div class="r-title">Residuals</div>
             <div class="r-subtitle" style="color: var(--accent-olive);">Data = Fit + Residual</div>
             <div class="r-desc">
-              After you fit any kind of pattern or model to your data, you should always examine what is left over &mdash; the part the pattern did not explain. Tukey called these leftovers residuals, and believed they were often more informative than the pattern itself. The fit captures the general trend; the residual captures what you missed.
+              I used to only glance at $R^2$ and feel satisfied when a model fit. But Tukey taught me that the residual &mdash; what the model failed to explain &mdash; is often the most interesting part. On curved data like Anscombe II, inspecting the residuals immediately exposes the parabola that the straight regression line missed.
             </div>
             <div class="r-core-idea">
-              Core Idea: Never be satisfied with a pattern that fits. Always ask what the pattern failed to account for.
+              My Takeaway: Never be satisfied with a pattern that fits. Always inspect what was left behind.
             </div>
           </div>
 
@@ -1173,10 +1144,10 @@
             <div class="r-title">Re-expression</div>
             <div class="r-subtitle" style="color: var(--accent-terracotta);">Transform to Clarify</div>
             <div class="r-desc">
-              The form your data arrives in is not necessarily the best form for understanding it. Tukey advocated for re-expressing data &mdash; transforming it (such as a logarithmic transformation) to compress heavy tails, stabilize variance, and make underlying structures visible.
+              The raw form a dataset arrives in is rarely the best form for understanding it. When I worked with the Egypt dataset, Cairo and Giza squashed the rest of the country flat against zero. Taking $\log_{10}(	ext{density})$ compressed the heavy tail and revealed the real bimodal distribution between oasis frontiers and Nile metros.
             </div>
             <div class="r-core-idea">
-              Core Idea: You are allowed &mdash; and often encouraged &mdash; to change the scale to see reality.
+              My Takeaway: Transformations aren't cheating; they are the magnifying glass that reveals reality.
             </div>
           </div>
 
@@ -1186,10 +1157,10 @@
             <div class="r-title">Revelation</div>
             <div class="r-subtitle" style="color: var(--accent-olive);">Make Invisible Visible</div>
             <div class="r-desc">
-              The ultimate goal of EDA is to reveal what is in the data. Tukey championed graphical displays because a well-constructed plot can show in seconds what pages of numerical summaries might never reveal. Resistance protects your revelations from distortion; Residuals point to what remains hidden; Re-expression clears the way.
+              The ultimate purpose of EDA is to reveal what is hidden. Tukey championed visual plots because a well-crafted graphic shows in seconds what pages of summary tables conceal. Resistance protects my findings from distortion, Residuals show what I missed, and Re-expression clears the path.
             </div>
             <div class="r-core-idea">
-              Core Idea: If your analysis has not shown you something you did not already know, you have not fully explored your data.
+              My Takeaway: If my analysis hasn't shown me something I didn't already know, I haven't finished exploring.
             </div>
           </div>
 
@@ -1266,12 +1237,12 @@
         </p>
       </section>
 
-      <!-- SECTION 6 -->
+      <!-- SECTION 6: 1ST-PERSON PRACTITIONER STEPS -->
       <section id="seven-steps" class="story-section">
-        <h2>A Cycle of Questions: The 7 Steps &amp; Why EDA Has No Rulebook</h2>
+        <h2>A Cycle of Questions: How I Actually Walk Through the 7 Steps</h2>
         
         <p>
-          In traditional mathematics and introductory statistics, students are trained to follow rigid procedures: take the formula, plug in the parameters, and arrive at the single correct answer.
+          In traditional mathematics and introductory statistics classes, I was conditioned to follow rigid, step-by-step formulas: plug in the numbers, calculate the result, and get the single right answer.
         </p>
 
         <p>
@@ -1283,25 +1254,15 @@
         </blockquote>
 
         <p>
-          Two analysts working on the exact same dataset may approach it differently &mdash; one might begin with distributions, while another examines spatial correlations. Both are valid as long as they are guided by thoughtful observation.
+          Today, instead of following a mindless checklist, I navigate my projects using these <strong>7 Common Practitioner Steps</strong> as an iterative compass based on what I have learned through trial, error, and real laboratory headaches:
         </p>
-
-        <p>
-          However, experience across decades of data science has established <strong>7 Common Practitioner Steps</strong>:
-        </p>
-
-        <!-- VISUAL ARTIFACT 5: EDA CYCLE SVG -->
-        <figure class="baker-image-card">
-          <img src="assets/images/charts/eda_iterative_cycle.svg" alt="The 7 Steps of Exploratory Data Analysis" loading="lazy">
-          <figcaption>Figure 5: The Non-Linear Cycle &mdash; How exploration moves from structural orientation to informed hypotheses.</figcaption>
-        </figure>
 
         <div class="step-card">
           <div class="step-number">1</div>
           <div class="step-content">
             <div class="step-title">Understand Context and the Data Source</div>
             <div class="step-desc">
-              Data does not exist in a vacuum. A column labeled "income" means something very different if it comes from an audited government tax census versus an opt-in social media survey. Understanding source and context prevents catastrophic misinterpretation before you write a single line of code.
+              In my earlier DATAVIS projects, I used to ignore where data came from entirely &mdash; I would just download a CSV from Kaggle and immediately start typing code. That ignorance burned me repeatedly because I had no idea what the numbers actually tracked. When working on our <strong>CDO Health Access project</strong>, I learned that knowing whether healthcare clinic coordinates came from OpenStreetMap volunteers versus official DOH or CBMS censuses determined what the records truly meant before I wrote a single line of code. Data never exists in a vacuum; understanding the source protects me from drawing confident, embarrassing conclusions on misunderstood columns.
             </div>
           </div>
         </div>
@@ -1311,7 +1272,7 @@
           <div class="step-content">
             <div class="step-title">Inspect the Structure of the Data</div>
             <div class="step-desc">
-              Orienting yourself with the skeleton: <code>df.shape</code>, datatypes, column names, and memory consumption. Think of it as walking into a room and looking around before you begin examining objects closely.
+              My old bad habit was jumping straight into plotting charts without checking the data's skeleton first. I would run into bizarre syntax crashes halfway through an analysis simply because a numeric column was formatted as an <code>object</code> string, or because the dataset had thousands of hidden duplicate rows. Now, the moment I load any dataframe into Jupyter, my mandatory first reflex is running <code>df.shape</code> and <code>df.info()</code>. It is like walking into a room and turning on the lights before touching anything on the shelves.
             </div>
           </div>
         </div>
@@ -1321,7 +1282,7 @@
           <div class="step-content">
             <div class="step-title">Assess Data Quality</div>
             <div class="step-desc">
-              You cannot trust findings made on dirty data. This step is about documenting missingness, corrupted records, and structural limitations before drawing conclusions. It does not mean rushing to "fix" them with a naive fillna &mdash; it means understanding what the gaps mean.
+              This was my biggest wake-up call during our <strong>Lab 01 Water Potability activity</strong> and our <strong>Diabetes 130-US Hospitals dataset</strong>. In 2nd year, I treated missing values like a nuisance to be wiped with <code>fillna(mean)</code>. But when auditing 3,276 water samples, I discovered that missing Sulfate and Trihalomethanes readings weren't random errors &mdash; they were selective laboratory test omissions because rural stations lacked expensive chromatography equipment. And in the diabetes data, weight was missing in 97% of patient records! I learned that you cannot trust any conclusion built on unexamined data. Now, I document and understand what the gaps actually mean instead of rushing to cover them up.
             </div>
           </div>
         </div>
@@ -1331,7 +1292,7 @@
           <div class="step-content">
             <div class="step-title">Examine Individual Variables (Univariate)</div>
             <div class="step-desc">
-              Before understanding how features interact, you must understand each one alone. This is where you catch skewed distributions, zero-variance columns, and extreme boundary outliers.
+              Before Ma'am Chris taught us Topic 01 and Topic 05, I completely ignored single variables &mdash; I wanted to see multi-variable interactions right away. But when I audited the <strong>Egypt Population Density dataset</strong>, looking at population density without inspecting the distribution squashed everything flat against zero because Cairo and Giza were massive outliers. Now, I audit every column individually first: I check the 5-number summary and compare the median against the mean to spot skewness and leverage before they ruin downstream modeling.
             </div>
           </div>
         </div>
@@ -1339,9 +1300,9 @@
         <div class="step-card">
           <div class="step-number">5</div>
           <div class="step-content">
-            <div class="step-title">Examine Relationships Between Variables (Bivariate &amp; Multivariate)</div>
+            <div class="step-title">Examine Relationships Between Variables (Bivariate &amp; Lenses)</div>
             <div class="step-desc">
-              Discovering connections, clusters, and dependencies. But remember: Univariate, Bivariate, and Multivariate are <strong>lenses, not locks</strong>. You move between them as your understanding develops.
+              When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's $r$ would have tricked me into believing a simple linear trend existed, but plotting the scatter revealed flat-rate airport trips where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against socioeconomic vulnerability revealed spatial divides that no single variable could show. I learned that Univariate, Bivariate, and Multivariate are lenses, not locks &mdash; I move between them as my understanding matures.
             </div>
           </div>
         </div>
@@ -1351,7 +1312,7 @@
           <div class="step-content">
             <div class="step-title">Identify Patterns, Anomalies, and Surprises</div>
             <div class="step-desc">
-              The heart of EDA. Not a mechanical step, but a continuous orientation where you ask: <em>&ldquo;Does this make sense? Is this what I expected? If not, why not?&rdquo;</em>
+              This is the core orientation Ma'am Chris instilled in me. Instead of passively writing code, I constantly ask: <em>&ldquo;Does this number make physical sense in the real world? If not, why?&rdquo;</em> When I saw 0-mile taxi trips with $50 fares in Lab 04, or rural barangays with zero primary health facilities in our CDO spatial study, those weren't errors to throw away &mdash; they were the real story! Finding the anomaly is where genuine discovery begins.
             </div>
           </div>
         </div>
@@ -1361,7 +1322,7 @@
           <div class="step-content">
             <div class="step-title">Formulate Questions and Hypotheses</div>
             <div class="step-desc">
-              The true deliverable of EDA. <strong>You are not expected to have answers at the end of EDA &mdash; you are expected to have better questions.</strong> EDA transforms vague curiosity into rigorous, testable hypotheses.
+              I used to think that the goal of data analysis was to finish with an undisputed, final answer on day one. But as Ma'am Chris reminded us, EDA doesn't give you final answers &mdash; it gives you better, sharper questions. When I finish exploring a dataset now, I walk away with informed, testable hypotheses: <em>&ldquo;Why do upland barangays show acute travel-time impedance?&rdquo;</em> or <em>&ldquo;Does patient readmission spike when HbA1c isn't tested during inpatient admission?&rdquo;</em> EDA transforms my blind curiosity into rigorous science.
             </div>
           </div>
         </div>
