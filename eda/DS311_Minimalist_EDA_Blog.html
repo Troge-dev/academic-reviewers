@@ -697,6 +697,69 @@
       color: var(--accent-terracotta);
     }
 
+    /* PROJECT PORTFOLIO STRIP */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .project-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.4rem;
+      box-shadow: var(--card-shadow);
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-terracotta);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .project-course-tag {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-terracotta);
+      margin-bottom: 0.4rem;
+    }
+
+    .project-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
+    }
+
+    .project-card-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
     /* INSPIRATION BOX (RUBRIC REQUIREMENT) */
     .inspiration-box {
       background: var(--bg-surface-elevated);
@@ -799,6 +862,7 @@
         <a href="#four-rs" class="nav-link">The Four R's</a>
         <a href="#sandbox" class="nav-link">Interactive Lab</a>
         <a href="#seven-steps" class="nav-link">The 7 Steps</a>
+        <a href="#projects" class="nav-link">Projects</a>
         <a href="#manifesto" class="nav-link">Manifesto</a>
       </nav>
     </div>
@@ -862,6 +926,13 @@
         <p>
           And whenever I hit those roadblocks, I panicked. I had textbook knowledge of terms like &ldquo;mean imputation,&rdquo; &ldquo;median imputation,&rdquo; and &ldquo;forward fill,&rdquo; but I had little to no idea which imputation I should actually use or what damage it would do to the data. I treated missing values like a bug to be erased &mdash; blindly executing <code>df.fillna(df.mean())</code> just to stop my code from throwing an error. When the resulting models fell apart or produced nonsense, I fell into the most toxic habit of all: <strong>chronic dataset-hopping</strong>.
         </p>
+
+        <blockquote style="border-left: 3px solid var(--accent-olive); padding-left: 1.25rem; font-style: italic; color: var(--text-main); font-weight: 600; margin: 1.75rem 0; font-family: var(--font-serif); font-size: 1.15rem;">
+          &ldquo;It is very common to spend the most time in the exploratory data analysis stage in order to have a well-made output and to prevent future inconvenience.&rdquo;
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-terracotta); margin-top: 0.4rem; font-style: normal; font-family: var(--font-sans);">
+            &mdash; Ma'am Chris Jallaine S. Mugot, DS311 Instructor
+          </div>
+        </blockquote>
       </section>
 
       <!-- SECTION 2 -->
@@ -902,6 +973,10 @@
         <p>
           Finding a neat dataset let me dodge the hard questions. But in the real world &mdash; and in professional data science &mdash; you cannot simply abandon a company's data or a research project because the columns are messy or skewed. Running away from messy data is running away from data science itself.
         </p>
+
+        <p>
+          This became undeniable in our <strong>DS311 Laboratory 1 (Water Potability Data Cleaning)</strong>. When auditing 3,276 water samples across aquatic chemical parameters (pH, Sulfate, Trihalomethanes), we were confronted with selective laboratory test omissions. Expensive gas chromatography tests weren't performed at every rural station &mdash; resulting in missing records. If I had naively executed <code>fillna(mean)</code> like I used to in DATAVIS, I would have manufactured fake chemical clusters and falsified drinking water safety!
+        </p>
       </section>
 
       <!-- SECTION 3 -->
@@ -920,7 +995,7 @@
           Each of the four datasets contains 11 $(x, y)$ coordinate pairs. When you calculate their standard summary statistics, you get values that are nearly identical across all four:
         </p>
 
-        <!-- ANSCOMBE'S SUMMARY STATS PILL / TABLE -->
+        <!-- ANSCOMBE'S SUMMARY STATS TABLE -->
         <div style="background: var(--bg-surface); border: 1px solid var(--border-prominent); border-radius: 12px; padding: 1.5rem; margin: 1.75rem 0; box-shadow: var(--card-shadow);">
           <div style="font-family: var(--font-serif); font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.85rem;">
             The Numerical Illusion: Summary Statistics Across All 4 Datasets
@@ -1292,7 +1367,57 @@
         </div>
       </section>
 
-      <!-- SECTION 7 -->
+      <!-- SECTION 7: FEATURED COURSE PROJECTS -->
+      <section id="projects" class="story-section">
+        <h2>From Foundations to Practice: My Academic Project Archive</h2>
+        
+        <p>
+          The lessons from Topic 01 don't stay confined to a single notebook. They form the bedrock of how I now approach every data science problem in my 3rd-year coursework &mdash; from environmental water quality to spatial urban analytics and clinical machine learning:
+        </p>
+
+        <!-- PROJECT GRID -->
+        <div class="project-grid">
+          
+          <!-- PROJECT 1: WATER POTABILITY -->
+          <a href="https://github.com/Troge-dev/Water-Potability-Data-Cleaning" target="_blank" rel="noopener" class="project-card">
+            <div>
+              <div class="project-course-tag">DS311 &bull; Laboratory 01</div>
+              <div class="project-card-title">Water Potability Data Cleaning Pipeline</div>
+              <div class="project-card-desc">
+                Auditing 3,276 aquatic samples across 10 physicochemical parameters. Demonstrating why selective laboratory omissions require domain-grounded imputation rather than blind statistical fills.
+              </div>
+            </div>
+            <div class="project-card-link">View GitHub Repository &rarr;</div>
+          </a>
+
+          <!-- PROJECT 2: CDO HEALTH ACCESS -->
+          <a href="https://github.com/Troge-dev/Socioeconomic-Vulnerability-Health-Access-CDO" target="_blank" rel="noopener" class="project-card">
+            <div>
+              <div class="project-course-tag">DS312 &bull; Data Mining &amp; Apps</div>
+              <div class="project-card-title">Socioeconomic Vulnerability &amp; Health Access in CDO</div>
+              <div class="project-card-desc">
+                Spatial accessibility modeling across Cagayan de Oro City's 80 barangays using Enhanced 2SFCA travel times, correlating healthcare deficits with socioeconomic deprivation indices.
+              </div>
+            </div>
+            <div class="project-card-link">View GitHub Repository &rarr;</div>
+          </a>
+
+          <!-- PROJECT 3: DIABETES READMISSION -->
+          <a href="https://github.com/Troge-dev/Diabetes-130-US-Hospitals-30-Day-Readmission-Prediction" target="_blank" rel="noopener" class="project-card">
+            <div>
+              <div class="project-course-tag">DS312 &bull; Clinical Data Mining</div>
+              <div class="project-card-title">Diabetes 130-US Hospitals 30-Day Readmission</div>
+              <div class="project-card-desc">
+                Predicting 30-day inpatient readmission across 101,766 encounters. Tackling 97% structural missingness in weight, multi-class imbalance, and high-cardinality ICD-9 codes.
+              </div>
+            </div>
+            <div class="project-card-link">View GitHub Repository &rarr;</div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- SECTION 8 -->
       <section id="manifesto" class="story-section">
         <h2>The Minimalist Data Manifesto (Topic 01 Edition)</h2>
         
@@ -1358,6 +1483,7 @@
         <a href="#four-rs">The Four R's</a>
         <a href="#sandbox">Interactive Lab</a>
         <a href="#seven-steps">The 7 Steps</a>
+        <a href="#projects">Projects</a>
         <a href="#manifesto">Manifesto</a>
         <a href="https://minimalistbaker.com/" target="_blank" rel="noopener">Minimalist Baker Aesthetic</a>
       </div>
@@ -1419,13 +1545,11 @@
 
       const raw = anscombeRaw[type];
       if (raw) {
-        // Map raw data domain (X: 2..20, Y: 2..14) onto canvas coordinates
         const xMin = 2, xMax = 20;
         const yMin = 2, yMax = 14;
 
         for (let i = 0; i < raw.x.length; i++) {
           const px = (w * 0.1) + ((raw.x[i] - xMin) / (xMax - xMin)) * (w * 0.8);
-          // Invert Y for canvas coordinate system (0 is top)
           const py = (h * 0.88) - ((raw.y[i] - yMin) / (yMax - yMin)) * (h * 0.76);
           points.push({ x: px, y: py });
         }
@@ -1469,10 +1593,9 @@
       const slope = (sumXY - n * meanX * meanY) / denom;
       const intercept = meanY - slope * meanX;
 
-      // Inverted correlation because canvas Y is top-down
       const rNum = sumXY - n * meanX * meanY;
       const rDenom = Math.sqrt((sumXX - n * meanX * meanX) * (sumYY - n * meanY * meanY));
-      const r = rDenom === 0 ? 0 : -(rNum / rDenom); // invert for Cartesian intuition
+      const r = rDenom === 0 ? 0 : -(rNum / rDenom);
 
       return { slope, intercept, r, r2: r * r, n };
     }
@@ -1517,7 +1640,7 @@
       // 3. OLS Regression Line
       const ols = calculateOLS();
       if (ols) {
-        ctx.strokeStyle = '#5A822B'; // Garden Olive
+        ctx.strokeStyle = '#5A822B';
         ctx.lineWidth = 2.5;
         ctx.setLineDash([5, 4]);
 
@@ -1535,7 +1658,6 @@
         // Update scorecards
         document.getElementById('stat-n').innerText = ols.n;
         document.getElementById('stat-r').innerText = (ols.r >= 0 ? '+' : '') + ols.r.toFixed(3);
-        // Display cartesian equivalent slope
         const cartesianSlope = -ols.slope;
         document.getElementById('stat-slope').innerText = cartesianSlope.toFixed(3);
         document.getElementById('stat-r2').innerText = (ols.r2 * 100).toFixed(1) + '%';
@@ -1548,7 +1670,7 @@
 
       // 4. Draw Data Points
       points.forEach(p => {
-        ctx.fillStyle = '#D56638'; // Terracotta
+        ctx.fillStyle = '#D56638';
         ctx.strokeStyle = '#2A2825';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
