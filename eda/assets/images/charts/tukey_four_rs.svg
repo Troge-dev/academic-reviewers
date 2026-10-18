@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="100%" height="auto" style="background:#FAF7F2; font-family:'Plus Jakarta Sans', -apple-system, sans-serif;">
+  <defs>
+    <filter id="cardShadow2" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2A2825" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <text x="440" y="32" text-anchor="middle" font-size="12" font-weight="800" fill="#D56638" letter-spacing="2">TOPIC 01 • THE PHILOSOPHICAL PILLARS (JOHN TUKEY, 1977)</text>
+  <text x="440" y="58" text-anchor="middle" font-size="20" font-weight="800" fill="#2A2825">The Four R's of Exploratory Data Analysis</text>
+
+  <!-- 4 Cards Grid -->
+  <!-- 1. RESISTANCE -->
+  <g transform="translate(50, 85)">
+    <rect width="180" height="315" rx="12" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow2)"/>
+    <circle cx="90" cy="45" r="24" fill="rgba(213, 102, 56, 0.1)"/>
+    <text x="90" y="52" text-anchor="middle" font-size="14" font-weight="800" fill="#D56638">R1</text>
+    <text x="90" y="95" text-anchor="middle" font-size="15" font-weight="800" fill="#2A2825">RESISTANCE</text>
+    <text x="90" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#D56638">Median Over Mean</text>
+    
+    <rect x="18" y="130" width="144" height="1" fill="#E8DFD1"/>
+    <text x="90" y="152" text-anchor="middle" font-size="10.5" fill="#5E5852" font-weight="500">
+      <tspan x="90" dy="0">Findings must reflect</tspan>
+      <tspan x="90" dy="16">the bulk of data, not</tspan>
+      <tspan x="90" dy="16">be hijacked by rogue</tspan>
+      <tspan x="90" dy="16">exceptions.</tspan>
+    </text>
+
+    <!-- Mini Visual -->
+    <rect x="25" y="240" width="130" height="42" rx="6" fill="#F8F5F0" stroke="#E8DFD1"/>
+    <text x="90" y="258" text-anchor="middle" font-size="9" font-weight="700" fill="#2A2825">Mean pulled by outlier</text>
+    <text x="90" y="272" text-anchor="middle" font-size="9" font-weight="700" fill="#5A822B">Median remains steady</text>
+  </g>
+
+  <!-- 2. RESIDUALS -->
+  <g transform="translate(250, 85)">
+    <rect width="180" height="315" rx="12" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow2)"/>
+    <circle cx="90" cy="45" r="24" fill="rgba(90, 130, 43, 0.1)"/>
+    <text x="90" y="52" text-anchor="middle" font-size="14" font-weight="800" fill="#5A822B">R2</text>
+    <text x="90" y="95" text-anchor="middle" font-size="15" font-weight="800" fill="#2A2825">RESIDUALS</text>
+    <text x="90" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#5A822B">Data = Fit + Residual</text>
+
+    <rect x="18" y="130" width="144" height="1" fill="#E8DFD1"/>
+    <text x="90" y="152" text-anchor="middle" font-size="10.5" fill="#5E5852" font-weight="500">
+      <tspan x="90" dy="0">Never be satisfied</tspan>
+      <tspan x="90" dy="16">with a pattern. What</tspan>
+      <tspan x="90" dy="16">the fit missed is often</tspan>
+      <tspan x="90" dy="16">the most informative.</tspan>
+    </text>
+
+    <!-- Mini Visual -->
+    <rect x="25" y="240" width="130" height="42" rx="6" fill="#F8F5F0" stroke="#E8DFD1"/>
+    <text x="90" y="258" text-anchor="middle" font-size="9" font-weight="700" fill="#2A2825">Fit = General trend</text>
+    <text x="90" y="272" text-anchor="middle" font-size="9" font-weight="700" fill="#D56638">Residual = The surprise</text>
+  </g>
+
+  <!-- 3. RE-EXPRESSION -->
+  <g transform="translate(450, 85)">
+    <rect width="180" height="315" rx="12" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow2)"/>
+    <circle cx="90" cy="45" r="24" fill="rgba(213, 102, 56, 0.1)"/>
+    <text x="90" y="52" text-anchor="middle" font-size="14" font-weight="800" fill="#D56638">R3</text>
+    <text x="90" y="95" text-anchor="middle" font-size="15" font-weight="800" fill="#2A2825">RE-EXPRESSION</text>
+    <text x="90" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#D56638">Transform to Clarify</text>
+
+    <rect x="18" y="130" width="144" height="1" fill="#E8DFD1"/>
+    <text x="90" y="152" text-anchor="middle" font-size="10.5" fill="#5E5852" font-weight="500">
+      <tspan x="90" dy="0">Raw form is rarely</tspan>
+      <tspan x="90" dy="16">the best form. Log</tspan>
+      <tspan x="90" dy="16">transforms decompress</tspan>
+      <tspan x="90" dy="16">skewed distributions.</tspan>
+    </text>
+
+    <!-- Mini Visual -->
+    <rect x="25" y="240" width="130" height="42" rx="6" fill="#F8F5F0" stroke="#E8DFD1"/>
+    <text x="90" y="258" text-anchor="middle" font-size="9" font-weight="700" fill="#2A2825">Raw: Squashed against 0</text>
+    <text x="90" y="272" text-anchor="middle" font-size="9" font-weight="700" fill="#5A822B">Log10: Symmetrical shape</text>
+  </g>
+
+  <!-- 4. REVELATION -->
+  <g transform="translate(650, 85)">
+    <rect width="180" height="315" rx="12" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow2)"/>
+    <circle cx="90" cy="45" r="24" fill="rgba(90, 130, 43, 0.1)"/>
+    <text x="90" y="52" text-anchor="middle" font-size="14" font-weight="800" fill="#5A822B">R4</text>
+    <text x="90" y="95" text-anchor="middle" font-size="15" font-weight="800" fill="#2A2825">REVELATION</text>
+    <text x="90" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#5A822B">Make Invisible Visible</text>
+
+    <rect x="18" y="130" width="144" height="1" fill="#E8DFD1"/>
+    <text x="90" y="152" text-anchor="middle" font-size="10.5" fill="#5E5852" font-weight="500">
+      <tspan x="90" dy="0">Plots show in seconds</tspan>
+      <tspan x="90" dy="16">what pages of numbers</tspan>
+      <tspan x="90" dy="16">hide. Reveal what you</tspan>
+      <tspan x="90" dy="16">did not already know.</tspan>
+    </text>
+
+    <!-- Mini Visual -->
+    <rect x="25" y="240" width="130" height="42" rx="6" fill="#F8F5F0" stroke="#E8DFD1"/>
+    <text x="90" y="258" text-anchor="middle" font-size="9" font-weight="700" fill="#2A2825">Graphics as discovery</text>
+    <text x="90" y="272" text-anchor="middle" font-size="9" font-weight="700" fill="#D56638">Lenses, not locks</text>
+  </g>
+</svg>

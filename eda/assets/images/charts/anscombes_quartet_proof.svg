@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500" width="100%" height="auto" style="background:#FAF7F2; font-family:'Plus Jakarta Sans', -apple-system, sans-serif;">
+  <defs>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2A2825" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Kicker Banner -->
+  <text x="440" y="32" text-anchor="middle" font-size="12" font-weight="800" fill="#D56638" letter-spacing="2">TOPIC 01 • WHEN NUMBERS MISLEAD (FRANCIS ANSCOMBE, 1973)</text>
+  <text x="440" y="58" text-anchor="middle" font-size="20" font-weight="800" fill="#2A2825">Anscombe's Quartet: Identical Statistics, Fundamentally Different Realities</text>
+
+  <!-- Summary Stats Pill Bar -->
+  <rect x="60" y="76" width="760" height="34" rx="17" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow)"/>
+  <text x="440" y="98" text-anchor="middle" font-size="12" font-weight="700" fill="#5E5852">
+    All 4 Sets Share Identical Summaries: <tspan fill="#D56638" font-weight="800">N=11</tspan> | <tspan fill="#D56638" font-weight="800">Mean X=9.00</tspan> | <tspan fill="#D56638" font-weight="800">Mean Y=7.50</tspan> | <tspan fill="#5A822B" font-weight="800">r=0.816</tspan> | <tspan fill="#5A822B" font-weight="800">Fit: y=3.0+0.5x (R²=66.6%)</tspan>
+  </text>
+
+  <!-- QUADRANT 1: DATASET I -->
+  <g transform="translate(60, 130)">
+    <rect width="360" height="160" rx="10" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <text x="16" y="24" font-size="13" font-weight="800" fill="#2A2825">Dataset I: The "Normal" Case</text>
+    <text x="16" y="40" font-size="10.5" fill="#7D756D">Clean linear trend with natural scatter. OLS is valid.</text>
+    <!-- Axes -->
+    <line x1="40" y1="135" x2="330" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <line x1="40" y1="55" x2="40" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <!-- OLS Line -->
+    <line x1="50" y1="125" x2="320" y2="65" stroke="#5A822B" stroke-width="2" stroke-dasharray="4,3"/>
+    <!-- Points -->
+    <circle cx="160" cy="98" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="120" cy="112" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="220" cy="104" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="140" cy="85" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="180" cy="92" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="240" cy="72" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="80" cy="110" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="60" cy="128" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="200" cy="62" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="100" cy="125" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="70" cy="122" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+  </g>
+
+  <!-- QUADRANT 2: DATASET II -->
+  <g transform="translate(460, 130)">
+    <rect width="360" height="160" rx="10" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <text x="16" y="24" font-size="13" font-weight="800" fill="#2A2825">Dataset II: The Quadratic Parabola</text>
+    <text x="16" y="40" font-size="10.5" fill="#7D756D">Data is a smooth arc. Linear model is systematically wrong.</text>
+    <!-- Axes -->
+    <line x1="40" y1="135" x2="330" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <line x1="40" y1="55" x2="40" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <!-- OLS Line -->
+    <line x1="50" y1="125" x2="320" y2="65" stroke="#5A822B" stroke-width="2" stroke-dasharray="4,3"/>
+    <!-- Points on an arc -->
+    <circle cx="60" cy="128" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="80" cy="115" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="98" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="140" cy="85" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="170" cy="78" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="200" cy="76" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="230" cy="82" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="260" cy="95" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="280" cy="112" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="190" cy="76" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="150" cy="82" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+  </g>
+
+  <!-- QUADRANT 3: DATASET III -->
+  <g transform="translate(60, 310)">
+    <rect width="360" height="160" rx="10" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <text x="16" y="24" font-size="13" font-weight="800" fill="#2A2825">Dataset III: Straight Line + Outlier</text>
+    <text x="16" y="40" font-size="10.5" fill="#7D756D">Almost perfect collinearity hijacked by one vertical anomaly.</text>
+    <!-- Axes -->
+    <line x1="40" y1="135" x2="330" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <line x1="40" y1="55" x2="40" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <!-- OLS Line -->
+    <line x1="50" y1="125" x2="320" y2="65" stroke="#5A822B" stroke-width="2" stroke-dasharray="4,3"/>
+    <!-- Points on a strict line except 1 outlier -->
+    <circle cx="60" cy="130" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="80" cy="123" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="100" cy="116" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="120" cy="109" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="140" cy="102" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="160" cy="95" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="180" cy="88" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="220" cy="74" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="240" cy="67" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="260" cy="60" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <!-- The Outlier -->
+    <circle cx="200" cy="55" r="6" fill="#D56638" stroke="#2A2825" stroke-width="1.8"/>
+    <text x="210" y="55" font-size="9.5" font-weight="700" fill="#D56638">Rogue Point!</text>
+  </g>
+
+  <!-- QUADRANT 4: DATASET IV -->
+  <g transform="translate(460, 310)">
+    <rect width="360" height="160" rx="10" fill="#FFFFFF" stroke="#E8DFD1" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <text x="16" y="24" font-size="13" font-weight="800" fill="#2A2825">Dataset IV: Single Leverage Hostage</text>
+    <text x="16" y="40" font-size="10.5" fill="#7D756D">All X values are at 8.0. One point at X=19 drives the entire line.</text>
+    <!-- Axes -->
+    <line x1="40" y1="135" x2="330" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <line x1="40" y1="55" x2="40" y2="135" stroke="#E8DFD1" stroke-width="1.2"/>
+    <!-- OLS Line -->
+    <line x1="50" y1="125" x2="320" y2="65" stroke="#5A822B" stroke-width="2" stroke-dasharray="4,3"/>
+    <!-- 10 points stacked vertically at x = 110 -->
+    <circle cx="110" cy="125" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="118" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="110" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="103" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="95" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="88" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="80" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="72" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="65" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <circle cx="110" cy="58" r="4.5" fill="#D56638" stroke="#2A2825" stroke-width="1"/>
+    <!-- The Single Leverage Point -->
+    <circle cx="300" cy="65" r="6" fill="#D56638" stroke="#2A2825" stroke-width="1.8"/>
+    <text x="235" y="55" font-size="9.5" font-weight="700" fill="#D56638">Extreme Leverage (X=19)</text>
+  </g>
+</svg>
