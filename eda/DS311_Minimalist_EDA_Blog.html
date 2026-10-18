@@ -1025,18 +1025,14 @@
 
       <!-- SECTION 2 -->
       <section id="datavis-nightmare" class="story-section">
-        <h2>The DATAVIS Nightmare: Egypt &amp; "Dataset-Hopping"</h2>
+        <h2>The "Dataset-Hopping" Panic &amp; Stumbling Upon Egypt</h2>
         
         <p>
-          A glaring example of this chaos happened during our earlier <strong>DATAVIS</strong> course when we tackled an <strong>Egypt Population Density</strong> dataset.
+          A glaring example of this workflow chaos happened during our earlier <strong>DATAVIS</strong> course. Our task was to curate compelling datasets and communicate geospatial and demographic visual stories. But before finding a solid dataset, my team and I went through a frantic marathon of <strong>dataset-hopping</strong>.
         </p>
 
         <p>
-          In DATAVIS, our job was to curate compelling datasets and communicate visual stories. But that Egypt dataset was an absolute minefield: overwhelming missing values, bizarre proportional ratios, and columns where we couldn't even tell what the numbers truly represented or whether they were right or wrong!
-        </p>
-
-        <p>
-          Every single time we tried to plot a chart, it looked distorted &mdash; like a comb with missing teeth. It was 1:30 AM, completely impractical for our visualization task, and in sheer panic, I would tell my teammates:
+          Whenever we downloaded a dataset that was packed with confusing columns, unexpected missing values, or weird proportional scales, I immediately panicked. Because I didn't yet know how to inspect features individually or perform proper univariate triage, my knee-jerk reaction at 1:30 AM was always:
         </p>
 
         <blockquote style="border-left: 3px solid var(--accent-terracotta); padding-left: 1.25rem; font-style: italic; color: var(--text-muted); margin: 1.5rem 0;">
@@ -1044,24 +1040,34 @@
         </blockquote>
 
         <p>
-          I fell into the toxic habit of <strong>"dataset-hopping"</strong>: switching from dataset to dataset, discarding days of effort the second I hit an unexpected roadblock.
-        </p>
-
-        <!-- IMAGE PLACEHOLDER FOR USER'S DATAVIS SCREENSHOT -->
-        <div class="baker-image-placeholder">
-          <div class="placeholder-kicker">Visual Artifact Slot</div>
-          <div class="placeholder-title">The Egypt Population Density Nightmare</div>
-          <div class="placeholder-text">
-            Drop a screenshot of your previous DATAVIS notebook or messy CSV table into <code>assets/images/screenshots/datavis_chaos.png</code> and embed it here!
-          </div>
-        </div>
-
-        <p>
-          Sure, I had textbook knowledge of "imputations." I knew the terms: mean imputation, median imputation, forward fill. But here was the honest truth: <strong>I had little to no idea which imputation I should actually do, why I should do it, or what damage it would cause to the data.</strong>
+          I fell into the toxic habit of switching from dataset to dataset, discarding hours of effort the second I hit an unexpected roadblock. We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>!
         </p>
 
         <p>
-          I used to treat imputation like a magic eraser &mdash; naively believing that missing values just meant "zero" or could simply be filled in with a quick <code>df.fillna(df.mean())</code> so I could move on. I didn't realize that blindly filling missing values with the mean was crushing natural variance, manufacturing fake spikes, and lying to my audience.
+          Unlike the frustrating datasets that made us panic, the Egypt dataset wasn't really a problem. It provided coherent, structured records of Egypt's governorates, total populations, and inhabited land areas. Stumbling upon it felt like striking gold: it finally gave us a reliable foundation to map the dramatic contrast between the hyper-dense Nile Valley corridor (with Cairo and Giza packing millions into tight urban spaces) and the vast, sparsely populated desert governorates.
+        </p>
+
+        <!-- VISUAL ARTIFACT 1: EGYPT RAW FLAT VIEW -->
+        <figure class="baker-image-card" style="margin: 2rem 0;">
+          <img src="assets/images/contents/egypt_raw_flat_view.png" alt="Egypt Population Density Raw Flat View" loading="lazy" style="border-radius: 8px; border: 1px solid var(--border-subtle); width: 100%; box-shadow: var(--card-shadow);">
+          <figcaption>Figure 1: The Raw Flat View &mdash; Exploring Egypt's governorate distributions, populations, and inhabited land areas stumbled upon during our DATAVIS project.</figcaption>
+        </figure>
+
+        <!-- VISUAL ARTIFACT 2: FINAL POPULATION DENSITY MAP PREVIEW -->
+        <figure class="baker-image-card" style="margin: 2rem 0; text-align: center;">
+          <a href="assets/images/contents/Egypt_Population_Density_Map_Preview.png" target="_blank" title="Click to view full 300 DPI original map export" style="display: inline-block; text-decoration: none;">
+            <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy" style="border-radius: 8px; border: 1px solid var(--border-subtle); max-height: 640px; width: auto; max-width: 100%; box-shadow: var(--card-shadow); background: #FAF7F2;">
+          </a>
+          <figcaption>Figure 2: The Final DATAVIS Map &mdash; Visualizing Egypt's acute population concentration along the Nile corridor (Click image to view full-resolution 300 DPI export).</figcaption>
+        </figure>
+
+        <p>
+          The Egypt dataset allowed us to deliver an infographic map we were genuinely proud of. But here was the honest realization that hit me later when taking DS311:
+          <strong>In DATAVIS, I had to get lucky by hopping around until I stumbled upon a dataset that didn't scare me.</strong>
+        </p>
+
+        <p>
+          Whenever previous datasets had missing values, I used to treat imputation like a magic eraser &mdash; naively believing that missing values just meant "zero" or could simply be filled in with a quick <code>df.fillna(df.mean())</code> so I could move on. I had textbook knowledge of terms like mean imputation, median imputation, and forward fill, but I had little to no idea which imputation I should actually do, why I should do it, or what damage it would cause to the underlying distribution. Blindly filling missing values with the mean was crushing natural variance, manufacturing fake spikes, and lying to my audience.
         </p>
       </section>
 
@@ -1120,7 +1126,7 @@
         <!-- EMBEDDED UNIFIED TUKEY FENCES SVG VISUAL -->
         <figure class="baker-image-card">
           <img src="assets/images/charts/univariate_tukey_fences.svg" alt="Tukey 1.5 x IQR Non-Parametric Fences Diagram" loading="lazy">
-          <figcaption>Figure 1: Tukey's 1.5 &times; IQR Fences &mdash; A non-parametric diagnostic to detect authentic outliers without assuming a normal distribution.</figcaption>
+          <figcaption>Figure 3: Tukey's 1.5 &times; IQR Fences &mdash; A non-parametric diagnostic to detect authentic outliers without assuming a normal distribution.</figcaption>
         </figure>
 
         <div class="baker-callout" style="border-left-color: var(--accent-olive);">
