@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Minimalist EDA Guide: How Inspecting One Feature at a Time Cured My "Dataset-Hopping" Panic | DS311 Blog</title>
+  
+  <!-- Meta & OpenGraph Tags -->
+  <meta name="description" content="A personal, narrative-driven reflection on DS311 Exploratory Data Analysis. Why jumping straight into multivariate modeling and naive imputations wasted hours of my time, and how univariate and bivariate inspection changed everything.">
+  <meta name="author" content="Rogelio Mandamian">
+  <meta property="og:title" content="The Minimalist EDA Guide: How Inspecting One Feature at a Time Cured My Dataset-Hopping Panic">
+  <meta property="og:description" content="Inspired by Minimalist Baker's simple, foolproof approach: A candid journey through DATAVIS roadblocks, missing value paralysis, and the breakthrough of single-variable diagnostics.">
+  <meta property="og:type" content="article">
+
+  <!-- Google Fonts: Fraunces (Editorial Display Serif), Plus Jakarta Sans (Clean Modern Sans), JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS RESET & MINIMALIST BAKER THEME DNA */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      /* LIGHT THEME (Minimalist Baker Signature: Warm Cream, Burnt Terracotta, Olive Sage, Charcoal) */
+      --bg-canvas: #FAF7F2;          /* Signature warm linen/flour ivory */
+      --bg-surface: #FFFFFF;         /* Crisp white cards */
+      --bg-surface-elevated: #F4EFEB;/* Soft wheat tint */
+      --bg-surface-subtle: #F8F5F0;  /* Subtle recipe block tint */
+      --border-subtle: #EBE5DC;      /* Organic light border */
+      --border-prominent: #D8CEBE;   /* Defined card line */
+      
+      --text-main: #2A2825;          /* Deep warm espresso charcoal */
+      --text-muted: #5E5852;         /* Muted editorial brown-grey */
+      --text-faint: #8E867D;         /* Faint caption tone */
+      
+      --accent-terracotta: #D56638;  /* Minimalist Baker signature rust/terracotta */
+      --accent-terracotta-dark: #B44F25;
+      --accent-terracotta-soft: rgba(213, 102, 56, 0.09);
+      
+      --accent-olive: #5A822B;       /* Fresh garden olive green */
+      --accent-olive-soft: rgba(90, 130, 43, 0.1);
+      
+      --accent-honey: #D9822B;       /* Warm honey amber */
+      --accent-berry: #9E3D52;       /* Deep plum berry */
+
+      --code-bg: #F0EAE1;
+      --code-border: #DED6CA;
+
+      --card-shadow: 0 4px 18px -2px rgba(42, 40, 37, 0.05), 0 2px 6px -1px rgba(42, 40, 37, 0.03);
+      --card-shadow-hover: 0 10px 28px -3px rgba(42, 40, 37, 0.09), 0 4px 12px -2px rgba(42, 40, 37, 0.04);
+
+      --font-serif: 'Fraunces', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --reading-width: 720px;
+      --nav-height: 76px;
+    }
+
+    [data-theme="dark"] {
+      /* DARK THEME (Midnight Pantry: Deep Charcoal Slate & Warm Baked Amber) */
+      --bg-canvas: #12100E;
+      --bg-surface: #1A1714;
+      --bg-surface-elevated: #24201C;
+      --bg-surface-subtle: #1E1B17;
+      --border-subtle: #302A24;
+      --border-prominent: #483E34;
+      
+      --text-main: #F5F2EB;
+      --text-muted: #ADA498;
+      --text-faint: #7A7267;
+      
+      --accent-terracotta: #E67A4E;
+      --accent-terracotta-dark: #F08E66;
+      --accent-terracotta-soft: rgba(230, 122, 78, 0.15);
+      
+      --accent-olive: #78A843;
+      --accent-olive-soft: rgba(120, 168, 67, 0.14);
+      
+      --accent-honey: #F29E4C;
+      --accent-berry: #C9546E;
+
+      --code-bg: #1B1814;
+      --code-border: #38312A;
+
+      --card-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.6);
+      --card-shadow-hover: 0 16px 40px -4px rgba(0, 0, 0, 0.75);
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 1.0625rem;
+      line-height: 1.8;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+    }
+
+    /* READING PROGRESS BAR */
+    #progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
+      z-index: 1000;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-terracotta), var(--accent-olive));
+      transition: width 0.08s linear;
+    }
+
+    /* TOP ANNOUNCEMENT BANNER */
+    .top-announcement-bar {
+      background: var(--bg-surface-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.45rem 1rem;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .top-announcement-bar a {
+      color: var(--accent-terracotta);
+      text-decoration: underline;
+      font-weight: 700;
+      margin-left: 0.3rem;
+    }
+
+    /* MINIMALIST BAKER SIGNATURE HEADER */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .site-header {
+      background: rgba(18, 16, 14, 0.94);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .brand-logo-text span {
+      color: var(--accent-terracotta);
+      font-style: italic;
+    }
+
+    .brand-subtext {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+      margin-top: -3px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-link {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-terracotta);
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-terracotta);
+      transform: translateY(-1px);
+    }
+
+    /* EDITORIAL CONTAINER & 2-COLUMN LAYOUT */
+    .article-wrap {
+      max-width: 1160px;
+      margin: 2.5rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 750px) 310px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* CENTER EDITORIAL COLUMN */
+    .editorial-content {
+      width: 100%;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      margin-bottom: 1.25rem;
+    }
+
+    .breadcrumbs a {
+      color: var(--accent-terracotta);
+      text-decoration: none;
+    }
+
+    /* EDITORIAL HERO TITLE & DECK */
+    .hero-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.35rem, 2rem + 1.8vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-deck {
+      font-size: 1.22rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1.75rem;
+      font-family: var(--font-serif);
+    }
+
+    /* AUTHOR STRIP */
+    .byline-row {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.15rem 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 2.5rem;
+    }
+
+    .author-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 2px solid var(--accent-terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--accent-terracotta);
+    }
+
+    .byline-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .byline-author {
+      font-family: var(--font-sans);
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .byline-meta {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* THE MINIMALIST EDA RECIPE CARD (SIGNATURE RECIPE BOX) */
+    .recipe-card-box {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-prominent);
+      border-radius: 14px;
+      padding: 2.25rem;
+      margin: 2.5rem 0 3.5rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+
+    .recipe-card-box::before {
+      content: "MINIMALIST DATA RECIPE";
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: var(--accent-terracotta);
+      color: #FFFFFF;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      padding: 0.2rem 0.75rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .recipe-header-title {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0.5rem 0 0.4rem;
+      line-height: 1.25;
+    }
+
+    .recipe-subline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .recipe-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      background: var(--bg-surface-elevated);
+      border-radius: 10px;
+      padding: 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-meta-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-align: center;
+    }
+
+    .recipe-meta-label {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .recipe-meta-val {
+      font-family: var(--font-sans);
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .dietary-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .diet-badge {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border-prominent);
+      background: var(--bg-surface-subtle);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .diet-badge.highlight {
+      border-color: var(--accent-olive);
+      color: var(--accent-olive);
+      background: var(--accent-olive-soft);
+    }
+
+    /* INGREDIENTS & STEPS LISTS */
+    .recipe-section-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 1.5rem 0 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ingredients-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ingredients-list li {
+      font-size: 0.94rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .ingredients-list li::before {
+      content: "▪";
+      color: var(--accent-terracotta);
+      font-size: 1.2rem;
+    }
+
+    /* STORYTELLING SECTIONS */
+    .story-section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+    }
+
+    .story-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin: 2.75rem 0 1.25rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .story-section h2 .section-tag {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--accent-terracotta);
+    }
+
+    .story-section h3 {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 1.8rem 0 0.85rem;
+    }
+
+    p {
+      margin-bottom: 1.45rem;
+      color: var(--text-main);
+      line-height: 1.82;
+    }
+
+    p.lead {
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    /* CALLOUT BOXES (TIPS & NOTES) */
+    .baker-callout {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-terracotta);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin: 2.25rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .baker-callout-title {
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .baker-callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* STEP BY STEP WORKFLOW CARDS */
+    .step-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin: 1.75rem 0;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .step-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-prominent);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent-terracotta-soft);
+      border: 2px solid var(--accent-terracotta);
+      color: var(--accent-terracotta);
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* INTERACTIVE CANVAS SANDBOX */
+    .sandbox-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-prominent);
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin: 2.75rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .sandbox-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .sandbox-title-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .sandbox-heading {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .sandbox-sub {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .sandbox-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-baker {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-baker:hover, .btn-baker.active {
+      background: var(--accent-terracotta);
+      color: #FFFFFF;
+      border-color: var(--accent-terracotta);
+    }
+
+    .canvas-frame {
+      position: relative;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      margin: 1.25rem 0;
+      cursor: crosshair;
+      overflow: hidden;
+    }
+
+    #baker-canvas {
+      display: block;
+      width: 100%;
+      height: 380px;
+    }
+
+    .canvas-badge-tip {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(42, 40, 37, 0.75);
+      color: #FFFFFF;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .scorecard-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+      background: var(--bg-surface-elevated);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .score-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      text-align: center;
+    }
+
+    .score-label {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+    }
+
+    .score-num {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* CODE BOXES */
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 10px;
+      margin: 1.75rem 0;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+    }
+
+    .code-header-bar {
+      background: var(--bg-surface-elevated);
+      padding: 0.45rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--code-border);
+    }
+
+    .code-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .btn-copy-code {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-code:hover {
+      color: var(--accent-terracotta);
+    }
+
+    pre {
+      padding: 1.15rem;
+      overflow-x: auto;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* RIGHT SIDEBAR (MINIMALIST BAKER WIDGETS) */
+    .sidebar-col {
+      position: sticky;
+      top: calc(var(--nav-height) + 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-widget {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .widget-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--accent-terracotta);
+      margin-bottom: 1rem;
+    }
+
+    .toc-link-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .toc-link-list a {
+      text-decoration: none;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: block;
+      transition: all 0.2s ease;
+      padding-left: 0.5rem;
+      border-left: 2px solid transparent;
+    }
+
+    .toc-link-list a:hover, .toc-link-list li.active a {
+      color: var(--accent-terracotta);
+      font-weight: 700;
+      border-left-color: var(--accent-terracotta);
+    }
+
+    .author-card-mini {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .mini-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--bg-surface-elevated);
+      border: 3px solid var(--accent-terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--accent-terracotta);
+    }
+
+    .mini-name {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .mini-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* INSPIRATION CURATED SECTION (REQUIRED BY RUBRIC) */
+    .inspiration-box {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin: 3rem 0;
+    }
+
+    .inspiration-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .inspiration-links-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+
+    .inspiration-links-list a {
+      color: var(--accent-terracotta);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: underline;
+    }
+
+    /* AUTHOR BIO FOOTER */
+    .baker-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      padding: 3rem 2rem 4rem;
+      margin-top: 5rem;
+    }
+
+    .footer-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      font-style: italic;
+      font-family: var(--font-serif);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-terracotta);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .article-wrap {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .sidebar-col {
+        display: none;
+      }
+      .recipe-meta-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-container {
+        padding: 0.75rem 1rem;
+      }
+      .header-nav {
+        gap: 0.75rem;
+      }
+      .recipe-meta-grid {
+        grid-template-columns: 1fr;
+      }
+      .scorecard-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- TOP READING BAR -->
+  <div id="progress-track" aria-hidden="true">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- ANNOUNCEMENT BANNER -->
+  <div class="top-announcement-bar">
+    <span>DS311: Exploratory Data Analysis &bull; Performance Innovative Task (PIT) &bull; Sections DS3A / DS3B</span>
+    <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">View Live Academic Hub &rarr;</a>
+  </div>
+
+  <!-- MINIMALIST BAKER SIGNATURE HEADER -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="logo-block">
+        <div class="brand-logo-text">The Minimalist <span>Data Scientist</span></div>
+        <div class="brand-subtext">Simple, Foolproof Exploratory Data Analysis</div>
+      </a>
+      <nav class="header-nav">
+        <a href="#recipe-card" class="nav-link">The Method</a>
+        <a href="#univariate" class="nav-link">Univariate</a>
+        <a href="#bivariate" class="nav-link">Bivariate</a>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-text">Dark</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 2-COLUMN ARTICLE LAYOUT -->
+  <main class="article-wrap">
+    
+    <!-- PRIMARY READING COLUMN -->
+    <article class="editorial-content">
+      
+      <!-- BREADCRUMBS -->
+      <div class="breadcrumbs">
+        <a href="#">Home</a> &bull;
+        <a href="#">DS311 Lessons</a> &bull;
+        <span>Univariate &amp; Bivariate Foundations</span>
+      </div>
+
+      <!-- HEADLINE & DECK -->
+      <h1 class="hero-heading">The Minimalist EDA Guide: How Inspecting One Feature at a Time Cured My "Dataset-Hopping" Panic</h1>
+      
+      <p class="hero-deck">
+        "Before DS311, I would jump straight into multivariate models, panic when missing values popped up, and constantly abandon datasets. Here is how learning univariate and bivariate inspection transformed the way I work with data."
+      </p>
+
+      <!-- BYLINE STRIP -->
+      <div class="byline-row">
+        <div class="author-avatar">RM</div>
+        <div class="byline-text">
+          <div class="byline-author">
+            By Rogelio Mandamian
+            <span style="font-size: 0.7rem; background: var(--accent-terracotta-soft); color: var(--accent-terracotta); padding: 0.1rem 0.5rem; border-radius: 4px; font-weight: 700;">3rd Year Data Science</span>
+          </div>
+          <div class="byline-meta">
+            Published October 2026 &bull; 11 min read &bull; Mentored by Chris Jallaine S. Mugot
+          </div>
+        </div>
+      </div>
+
+      <!-- THE SIGNATURE "RECIPE" CARD (MINIMALIST BAKER INSPIRATION) -->
+      <section id="recipe-card" class="recipe-card-box">
+        <h2 class="recipe-header-title">The Foolproof 1-Bowl EDA Method</h2>
+        <p class="recipe-subline">
+          A calm, step-by-step framework to stop dataset-hopping, diagnose missingness, and build rock-solid statistical intuition before writing complex models.
+        </p>
+
+        <!-- META GRID -->
+        <div class="recipe-meta-grid">
+          <div class="recipe-meta-col">
+            <span class="recipe-meta-label">Prep Time</span>
+            <span class="recipe-meta-val">10 Mins</span>
+          </div>
+          <div class="recipe-meta-col">
+            <span class="recipe-meta-label">Inspection Time</span>
+            <span class="recipe-meta-val">20 Mins</span>
+          </div>
+          <div class="recipe-meta-col">
+            <span class="recipe-meta-label">Yield</span>
+            <span class="recipe-meta-val">1 Clean Dataset</span>
+          </div>
+          <div class="recipe-meta-col">
+            <span class="recipe-meta-label">Difficulty</span>
+            <span class="recipe-meta-val">Beginner-Friendly</span>
+          </div>
+        </div>
+
+        <!-- DIETARY / METHODOLOGY BADGES -->
+        <div class="dietary-badges-row">
+          <span class="diet-badge highlight">✓ Zero Naive Imputations</span>
+          <span class="diet-badge highlight">✓ 1-Feature At A Time</span>
+          <span class="diet-badge">✓ Non-Parametric Fences</span>
+          <span class="diet-badge">✓ Visuals Over Scalars</span>
+          <span class="diet-badge">✓ 100% Curation-Proof</span>
+        </div>
+
+        <h3 class="recipe-section-title">🥣 Essential Ingredients</h3>
+        <ul class="ingredients-list">
+          <li><strong>1 Messy Tabular Dataset</strong> (any real-world CSV with quirks, nulls, or extreme numbers)</li>
+          <li><strong>1 Univariate 5-Number Summary</strong> (Median, Q1, Q3, Min, Max &bull; leave the mean aside for now!)</li>
+          <li><strong>1 Tukey Boxplot &amp; KDE Curve</strong> (to diagnose skewness and extreme observations)</li>
+          <li><strong>1 Bivariate Scatter Plot</strong> (to see the shape before calculating Pearson's $r$)</li>
+          <li><strong>A Healthy Dash of Skepticism</strong> (asking: <em>Why is this missing?</em> before blindly imputing)</li>
+        </ul>
+
+        <h3 class="recipe-section-title">📝 Core Instructions</h3>
+        <p style="font-size: 0.94rem; color: var(--text-muted); margin-bottom: 0;">
+          Follow the step-by-step narrative below. Resist the urge to jump straight into multivariate models or automatic imputation scripts!
+        </p>
+      </section>
+
+      <!-- CHAPTER 1 -->
+      <section id="confession" class="story-section">
+        <h2><span class="section-tag">CHAPTER 01</span> The Confession: My Backward Workflow</h2>
+        
+        <p class="lead">
+          I have a confession to make. Before diving deeper into Data Science and taking this Exploratory Data Analysis (EDA) course alongside Data Mining &amp; Applications (DMA), my workflow was completely backwards.
+        </p>
+
+        <p>
+          Whenever I was handed a dataset, what did I do? I went straight into high-level cleaning scripts and multivariate analysis. I would treat the dataset as one gigantic, monolithic black box: immediately trying to train a model, run clustering, or build fancy multi-axis charts.
+        </p>
+
+        <p>
+          I paid <strong>little to no attention</strong> to inspecting the individual features on their own. I didn't stop to examine what a single column looked like, how it was distributed, or why it had peculiar bounds. I only cared about the end task.
+        </p>
+
+        <div class="baker-callout">
+          <div class="baker-callout-title">🍳 The Kitchen Analogy</div>
+          <p>
+            Imagine trying to bake a delicate sourdough bread by dumping flour, salt, yeast, and water into a mixer all at once, cranking it to maximum speed, and hoping for the best—without ever checking if your yeast is alive, whether your flour is bleached, or how much moisture is in the room. That was exactly how I was doing data science.
+          </p>
+        </div>
+
+        <p>
+          The result? Complete confusion. And quite frankly, I wasted hours upon hours of precious time.
+        </p>
+      </section>
+
+      <!-- CHAPTER 2 -->
+      <section id="datavis-nightmare" class="story-section">
+        <h2><span class="section-tag">CHAPTER 02</span> The DATAVIS Nightmare &amp; "Dataset-Hopping"</h2>
+        
+        <p>
+          A glaring example of this chaos happened during our <strong>DATAVIS</strong> course.
+        </p>
+
+        <p>
+          In DATAVIS, our job was to curate compelling datasets and communicate visual stories. But because I didn't know how to audit data at the individual feature level, curating datasets felt like an impossible battle.
+        </p>
+
+        <p>
+          Every single time I loaded a dataset and hit a roadblock—such as unexpected missing values, strange zeros, or extreme spikes—I would panic. I would think:
+        </p>
+
+        <blockquote style="border-left: 3px solid var(--accent-terracotta); padding-left: 1.25rem; font-style: italic; color: var(--text-muted); margin: 1.5rem 0;">
+          "This dataset is broken. It's too dirty. Let me just find another one on Kaggle that is already clean."
+        </blockquote>
+
+        <p>
+          I fell into the trap of <strong>"dataset-hopping"</strong>: switching from dataset to dataset, discarding days of effort the second I hit a roadblock. 
+        </p>
+
+        <p>
+          Sure, I had textbook knowledge of "imputations." I knew the words: mean imputation, median imputation, forward fill. But here was the painful truth: <strong>I had little to no idea which imputation I should actually do, why I should do it, or what damage it would cause.</strong>
+        </p>
+
+        <p>
+          I was treating imputation like a magic eraser—a quick command to make <code>df.isna().sum()</code> return zero so I could move on. I didn't realize that blindly filling missing values with the column mean was distorting variance, fabricating artificial relationships, and lying to my audience.
+        </p>
+      </section>
+
+      <!-- CHAPTER 3 -->
+      <section id="univariate" class="story-section">
+        <h2><span class="section-tag">CHAPTER 03</span> The Univariate Breakthrough: Loving One Column at a Time</h2>
+        
+        <p>
+          The turning point in DS311 came when our instructor walked us through <strong>Topic 01 (Introduction to EDA)</strong> and <strong>Topic 05 (Univariate Analysis)</strong>. 
+        </p>
+
+        <p>
+          For the first time, I learned that before you ever pair two variables together, and before you ever touch a multivariate model, you must conduct a rigorous <strong>Univariate Triage</strong>. You must get to know each feature in isolation:
+        </p>
+
+        <!-- STEP CARDS -->
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Stop Relying on the Mean</div>
+            <div class="step-desc">
+              Real-world features are almost always skewed. If you have extreme positive skewness (like income, rainfall, or municipal wastewater), the arithmetic mean gets pulled upward into outer space. The 5-number summary (Min, Q1, Median, Q3, Max) gives you a grounded, honest picture of the distribution.
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Diagnose Missingness Before Imputing</div>
+            <div class="step-desc">
+              Instead of rushing to fill missing values, ask: <em>Why is this missing?</em> Is it Missing Completely at Random (MCAR), or is the absence of data itself a signal (MNAR)? In our coursework, we realized that non-reporting often signals lack of monitoring infrastructure—blindly imputing a median would manufacture fake progress!
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Use Tukey's Fences, Not Gut Feelings</div>
+            <div class="step-desc">
+              An observation isn't an outlier just because it "looks big." Applying Tukey's IQR fences ($\text{Upper Fence} = Q_3 + 1.5 \times \text{IQR}$) provides an objective mathematical boundary to separate routine variability from true extreme events.
+            </div>
+          </div>
+        </div>
+
+        <div class="baker-callout" style="border-left-color: var(--accent-olive);">
+          <div class="baker-callout-title" style="color: var(--accent-olive);">🌿 The Calming Effect</div>
+          <p>
+            Once I started inspecting features one by one, the panic evaporated. Missing values were no longer a reason to abandon a dataset; they were simply a puzzle piece to document, justify, and handle thoughtfully.
+          </p>
+        </div>
+      </section>
+
+      <!-- CHAPTER 4 -->
+      <section id="bivariate" class="story-section">
+        <h2><span class="section-tag">CHAPTER 04</span> Bivariate Analysis: Why Relationships Lie</h2>
+        
+        <p>
+          Once individual features are understood, we move to the heart of exploratory modeling: <strong>Topic 06: Bivariate Analysis</strong>.
+        </p>
+
+        <p>
+          In class, we learned that pairing two continuous variables ($X$ and $Y$) is where the biggest statistical traps lie. A single number—like Pearson’s correlation coefficient ($r$)—can trick you into believing a clean linear relationship exists when reality is completely different.
+        </p>
+
+        <p>
+          Think of <strong>Anscombe’s Quartet</strong>: four datasets with the exact same correlation ($r = 0.816$) and the exact same linear regression line ($\hat{Y} = 3.0 + 0.5X$), yet one is a clean line, one is a curved parabola, one has an outlier, and one is held hostage by a single extreme leverage point!
+        </p>
+
+        <p>
+          In our <strong>Lab 04 NYC Taxi Trip investigation</strong>, we saw this first-hand: when plotting trip distance against fare amount, faulty GPS recordings of $0\text{ miles}$ for $\$50$ flat fares or $150\text{ miles}$ for a $\$10$ fare would have dragged the entire regression slope down if we hadn't examined the scatter plot first.
+        </p>
+      </section>
+
+      <!-- CHAPTER 5: INTERACTIVE SANDBOX -->
+      <section id="sandbox" class="story-section">
+        <h2><span class="section-tag">CHAPTER 05</span> Interactive Lab: See the Leverage Yourself</h2>
+        
+        <p>
+          To demonstrate how sensitive bivariate regression is to rogue observations, I built this interactive 2D regression canvas. Click anywhere inside the canvas to add data points, or toggle the presets to see how a single leverage point can hijack the entire OLS line:
+        </p>
+
+        <!-- CANVAS WIDGET -->
+        <div class="sandbox-card">
+          <div class="sandbox-top">
+            <div class="sandbox-title-box">
+              <div class="sandbox-heading">Interactive 2D Bivariate OLS &amp; Leverage Simulator</div>
+              <div class="sandbox-sub">Click on the canvas to add data points in real time</div>
+            </div>
+            <div class="sandbox-buttons">
+              <button class="btn-baker active" onclick="loadCanvasPreset('linear')">Clean Linear</button>
+              <button class="btn-baker" onclick="loadCanvasPreset('parabola')">Parabola</button>
+              <button class="btn-baker" onclick="loadCanvasPreset('outlier')">Leverage Outlier</button>
+              <button class="btn-baker" onclick="clearCanvas()">Clear</button>
+            </div>
+          </div>
+
+          <div class="canvas-frame">
+            <canvas id="baker-canvas"></canvas>
+            <div class="canvas-badge-tip">Click canvas to drop points</div>
+          </div>
+
+          <div class="scorecard-bar">
+            <div class="score-item">
+              <span class="score-label">Points (N)</span>
+              <span class="score-num" id="stat-n">22</span>
+            </div>
+            <div class="score-item">
+              <span class="score-label">Pearson's r</span>
+              <span class="score-num" id="stat-r">+0.912</span>
+            </div>
+            <div class="score-item">
+              <span class="score-label">OLS Slope (&beta;₁)</span>
+              <span class="score-num" id="stat-slope">0.784</span>
+            </div>
+            <div class="score-item">
+              <span class="score-label">R² Fit</span>
+              <span class="score-num" id="stat-r2">83.2%</span>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <em>Notice what happens with the "Leverage Outlier" preset:</em> A cluster of points on the left forms a modest upward trend, but a single rogue point positioned far to the right pulls the slope down. That is <strong>influence in action</strong>. Without visualizing the scatter plot, you would never know that your regression equation was dictated by one lonely dot!
+        </p>
+      </section>
+
+      <!-- CHAPTER 6 -->
+      <section id="takeaways" class="story-section">
+        <h2><span class="section-tag">CHAPTER 06</span> The Minimalist Data Manifesto</h2>
+        
+        <p>
+          My biggest takeaway from DS311 isn't a complex mathematical theorem. It is a change in mindset.
+        </p>
+
+        <p>
+          Just like <em>Minimalist Baker</em> stripped cooking down to its simplest, most delicious essentials—cutting out fussy 30-step recipes and focusing on quality ingredients—data science is vastly more rewarding when you adopt a minimalist approach:
+        </p>
+
+        <ul style="margin: 0 0 1.5rem 1.5rem; line-height: 1.8;">
+          <li><strong>Respect the single column:</strong> Spend 80% of your initial time on univariate inspection.</li>
+          <li><strong>Plot before you summarize:</strong> Never report a correlation coefficient without looking at the scatter plot.</li>
+          <li><strong>Treat missing data as information:</strong> Understand the root cause instead of blindly hitting <code>.fillna()</code>.</li>
+          <li><strong>Never abandon a dataset out of panic:</strong> Roadblocks are where the real data science insights are born.</li>
+        </ul>
+
+        <!-- CURATED INSPIRATION LINKS (REQUIRED BY RUBRIC) -->
+        <div class="inspiration-box">
+          <div class="inspiration-title">
+            <span>📚</span> Curated Inspiration &amp; Recommended Reading
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+            As outlined in our official DS311 PIT assignment sheet, explore these industry resources for blogging inspiration, storytelling layout, and technical publishing:
+          </p>
+          <ul class="inspiration-links-list">
+            <li>
+              <a href="https://nealschaffer.com/blog-post-examples/" target="_blank" rel="noopener">
+                &rarr; 33 Blog Examples to Inspire Your Next Blog Post (Neal Schaffer)
+              </a>
+            </li>
+            <li>
+              <a href="https://www.ryrob.com/free-blogging-sites/" target="_blank" rel="noopener">
+                &rarr; 11 Best Free Blog Sites in 2026: Build and Grow Your Blog (Ryan Robinson)
+              </a>
+            </li>
+            <li>
+              <a href="https://minimalistbaker.com/" target="_blank" rel="noopener">
+                &rarr; Minimalist Baker: Simple Recipes &amp; Uncluttered Design (Inspiration for this Layout)
+              </a>
+            </li>
+            <li>
+              <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">
+                &rarr; Centralized USTP Academic Reviewers Suite (DS311 EDA Live Portal)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </article>
+
+    <!-- RIGHT SIDEBAR (MINIMALIST BAKER WIDGETS) -->
+    <aside class="sidebar-col" aria-label="Sidebar Navigation & Profile">
+      
+      <!-- MINI AUTHOR BIO -->
+      <div class="sidebar-widget author-card-mini">
+        <div class="mini-avatar">RM</div>
+        <div class="mini-name">Rogelio Mandamian</div>
+        <p class="mini-desc">
+          3rd-year Data Science student at USTP CDO. Passionate about statistical geometry, clean data wrangling, and honest visual storytelling.
+        </p>
+        <a href="https://github.com/Troge-dev" target="_blank" style="font-size: 0.8rem; font-weight: 700; color: var(--accent-terracotta);">
+          Follow on GitHub (@Troge-dev) &rarr;
+        </a>
+      </div>
+
+      <!-- TABLE OF CONTENTS -->
+      <div class="sidebar-widget">
+        <div class="widget-title">Table of Contents</div>
+        <ul class="toc-link-list">
+          <li class="active"><a href="#confession">01. The Confession</a></li>
+          <li><a href="#datavis-nightmare">02. DATAVIS Nightmare</a></li>
+          <li><a href="#univariate">03. Univariate Breakthrough</a></li>
+          <li><a href="#bivariate">04. Bivariate Traps</a></li>
+          <li><a href="#sandbox">05. Interactive Sandbox</a></li>
+          <li><a href="#takeaways">06. Minimalist Manifesto</a></li>
+        </ul>
+      </div>
+
+      <!-- COURSE INFO WIDGET -->
+      <div class="sidebar-widget" style="background: var(--bg-surface-elevated);">
+        <div class="widget-title" style="border-bottom-color: var(--accent-olive);">Course Intel</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.6rem;">
+          <div><strong>Course:</strong> DS311 Exploratory Data Analysis</div>
+          <div><strong>Institution:</strong> USTP CDO &bull; CITC</div>
+          <div><strong>Instructor:</strong> Chris Jallaine S. Mugot</div>
+          <div><strong>Deliverable:</strong> Midterm PIT Blog Post</div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- MINIMALIST FOOTER -->
+  <footer class="baker-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="brand-logo-text" style="font-size: 1.35rem;">The Minimalist <span>Data Scientist</span></div>
+        <p class="footer-tagline">"Simple datasets that make you feel good." &bull; Dedicated to DS311 EDA</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Troge-dev/academic-reviewers" target="_blank">Academic Reviewers Hub</a>
+        <a href="https://troge-dev.github.io/academic-reviewers/eda/" target="_blank">DS311 Portal</a>
+        <a href="https://minimalistbaker.com/" target="_blank">Aesthetic Inspiration</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT ENGINE: PROGRESS BAR, THEME TOGGLE, SCROLL-SPY & CANVAS SANDBOX -->
+  <script>
+    // 1. PROGRESS BAR
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('progress-bar').style.width = Math.min(scrolled, 100) + '%';
+    }, { passive: true });
+
+    // 2. THEME CONTROLLER
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const rootElem = document.documentElement;
+
+    function applyTheme(theme) {
+      rootElem.setAttribute('data-theme', theme);
+      localStorage.setItem('ds311-minimalist-theme', theme);
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+      }
+      if (typeof drawBakerCanvas === 'function') {
+        drawBakerCanvas();
+      }
+    }
+
+    const savedTheme = localStorage.getItem('ds311-minimalist-theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const cur = rootElem.getAttribute('data-theme') || 'light';
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+
+    // 3. SCROLL SPY FOR TABLE OF CONTENTS
+    const sections = document.querySelectorAll('.story-section');
+    const tocItems = document.querySelectorAll('.toc-link-list li');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tocItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (link.getAttribute('href') === '#' + id) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // 4. INTERACTIVE 2D BIVARIATE OLS & LEVERAGE SANDBOX
+    const canvas = document.getElementById('baker-canvas');
+    const ctx = canvas.getContext('2d');
+    let points = [];
+
+    function setupDpi() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.resetTransform();
+      ctx.scale(dpr, dpr);
+    }
+
+    function calculateStats() {
+      const n = points.length;
+      if (n < 2) {
+        document.getElementById('stat-n').textContent = n;
+        document.getElementById('stat-r').textContent = 'N/A';
+        document.getElementById('stat-slope').textContent = 'N/A';
+        document.getElementById('stat-r2').textContent = 'N/A';
+        return null;
+      }
+
+      let sumX = 0, sumY = 0;
+      points.forEach(p => { sumX += p.x; sumY += p.y; });
+      const meanX = sumX / n;
+      const meanY = sumY / n;
+
+      let ssXX = 0, ssYY = 0, ssXY = 0;
+      points.forEach(p => {
+        const dx = p.x - meanX;
+        const dy = p.y - meanY;
+        ssXX += dx * dx;
+        ssYY += dy * dy;
+        ssXY += dx * dy;
+      });
+
+      if (ssXX === 0 || ssYY === 0) return null;
+
+      const r = ssXY / Math.sqrt(ssXX * ssYY);
+      const slope = ssXY / ssXX;
+      const intercept = meanY - slope * meanX;
+      const r2 = r * r;
+
+      document.getElementById('stat-n').textContent = n;
+      document.getElementById('stat-r').textContent = (r >= 0 ? '+' : '') + r.toFixed(3);
+      document.getElementById('stat-slope').textContent = slope.toFixed(3);
+      document.getElementById('stat-r2').textContent = (r2 * 100).toFixed(1) + '%';
+
+      return { slope, intercept, r };
+    }
+
+    function drawBakerCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      const isDark = rootElem.getAttribute('data-theme') === 'dark';
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Subtle Minimalist Baker grid lines
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(42, 40, 37, 0.05)';
+      ctx.lineWidth = 1;
+      const step = 40;
+      for (let x = step; x < w; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = step; y < h; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      const stats = calculateStats();
+
+      if (stats) {
+        // Vertical dashed residual lines
+        ctx.strokeStyle = isDark ? 'rgba(230, 122, 78, 0.3)' : 'rgba(213, 102, 56, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        points.forEach(p => {
+          const fittedY = stats.slope * p.x + stats.intercept;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x, fittedY);
+          ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // OLS Regression line in signature terracotta
+        const y0 = stats.intercept;
+        const yW = stats.slope * w + stats.intercept;
+        ctx.strokeStyle = isDark ? '#E67A4E' : '#D56638';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, y0);
+        ctx.lineTo(w, yW);
+        ctx.stroke();
+      }
+
+      // Draw points with warm terracotta and sage accents
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 5.5, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? '#78A843' : '#5A822B'; // Olive green points
+        ctx.fill();
+        ctx.strokeStyle = isDark ? '#FFFFFF' : '#2A2825';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+    }
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      points.push({ x, y });
+      drawBakerCanvas();
+    });
+
+    function loadCanvasPreset(type) {
+      document.querySelectorAll('.btn-baker').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      points = [];
+
+      if (type === 'linear') {
+        const count = 22;
+        for (let i = 0; i < count; i++) {
+          const px = (w * 0.1) + (i / count) * (w * 0.8);
+          const py = (h * 0.85) - (i / count) * (h * 0.7) + (Math.random() - 0.5) * 35;
+          points.push({ x: px, y: py });
+        }
+      } else if (type === 'parabola') {
+        const count = 24;
+        for (let i = 0; i < count; i++) {
+          const t = (i / (count - 1)) * 2 - 1;
+          const px = w * 0.5 + t * (w * 0.38);
+          const py = h * 0.25 + (t * t) * (h * 0.55) + (Math.random() - 0.5) * 15;
+          points.push({ x: px, y: py });
+        }
+      } else if (type === 'outlier') {
+        const count = 18;
+        for (let i = 0; i < count; i++) {
+          const px = (w * 0.15) + (i / count) * (w * 0.5);
+          const py = (h * 0.85) - (i / count) * (h * 0.55) + (Math.random() - 0.5) * 20;
+          points.push({ x: px, y: py });
+        }
+        points.push({ x: w * 0.9, y: h * 0.88 }); // High leverage outlier
+      }
+
+      drawBakerCanvas();
+    }
+
+    function clearCanvas() {
+      points = [];
+      document.querySelectorAll('.btn-baker').forEach(b => b.classList.remove('active'));
+      drawBakerCanvas();
+    }
+
+    window.addEventListener('load', () => {
+      setupDpi();
+      loadCanvasPreset('linear');
+    });
+
+    window.addEventListener('resize', () => {
+      setupDpi();
+      drawBakerCanvas();
+    });
+  </script>
+</body>
+</html>
