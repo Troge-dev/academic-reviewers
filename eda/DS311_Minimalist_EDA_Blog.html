@@ -267,23 +267,45 @@
       font-family: var(--font-serif);
     }
 
-    /* BYLINE STRIP (ANONYMOUS & CLEAN) */
+    /* BYLINE STRIP (AUTHENTIC & ACCESSIBLE) */
     .byline-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      padding: 1rem 0;
+      gap: 1.25rem;
+      padding: 1.15rem 0;
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
       margin-bottom: 2.5rem;
     }
 
-    .byline-meta {
-      font-size: 0.84rem;
-      font-weight: 600;
-      color: var(--text-muted);
+    .byline-author-box {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar-img {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent-terracotta);
+      box-shadow: 0 3px 10px rgba(42, 40, 37, 0.08);
+    }
+
+    .byline-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .byline-name {
+      font-family: var(--font-sans);
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -297,6 +319,12 @@
       border-radius: 4px;
       font-weight: 700;
       letter-spacing: 0.04em;
+    }
+
+    .byline-subtext {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .btn-jump-hero {
@@ -927,6 +955,7 @@
         <a href="#univariate" class="nav-link">Univariate</a>
         <a href="#bivariate" class="nav-link">Bivariate</a>
         <a href="#sandbox" class="nav-link">Interactive Lab</a>
+        <a href="DS311_Minimalist_EDA_Journal.ipynb" class="nav-link" title="Download companion Jupyter Notebook" style="color: var(--accent-olive); font-weight: 800;">Notebook (.ipynb) &darr;</a>
         <a href="#recipe-card" class="btn-jump-header">Jump to Recipe &darr;</a>
       </nav>
     </div>
@@ -953,14 +982,22 @@
 
       <!-- BYLINE & ACTION STRIP -->
       <div class="byline-row">
-        <div class="byline-meta">
-          <span>Published October 2026</span>
-          <span>&bull;</span>
-          <span>10 min read</span>
-          <span>&bull;</span>
-          <span class="byline-badge">DS311 EDA Series</span>
+        <div class="byline-author-box">
+          <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Mandamian" class="author-avatar-img">
+          <div class="byline-text-col">
+            <div class="byline-name">
+              By Rogelio Mandamian
+              <span class="byline-badge">BS Data Science - DS3A</span>
+            </div>
+            <div class="byline-subtext">
+              Published October 2026 &bull; 11 min read &bull; Mentored by Chris Jallaine S. Mugot
+            </div>
+          </div>
         </div>
-        <a href="#recipe-card" class="btn-jump-hero">Jump to Recipe Box &darr;</a>
+        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+          <a href="DS311_Minimalist_EDA_Journal.ipynb" class="btn-jump-hero" style="background: var(--accent-olive-soft); color: var(--accent-olive); border: 1px solid var(--accent-olive);" title="Download companion Jupyter Notebook">Notebook (.ipynb) &darr;</a>
+          <a href="#recipe-card" class="btn-jump-hero">Jump to Recipe Box &darr;</a>
+        </div>
       </div>
 
       <!-- THE SIGNATURE "RECIPE" CARD (MINIMALIST BAKER INSPIRATION) -->
@@ -1044,43 +1081,43 @@
 
       <!-- CHAPTER 2 -->
       <section id="datavis-nightmare" class="story-section">
-        <h2><span class="section-tag">CHAPTER 02</span> The DATAVIS Nightmare &amp; "Dataset-Hopping"</h2>
+        <h2><span class="section-tag">CHAPTER 02</span> The DATAVIS Nightmare: Egypt &amp; "Dataset-Hopping"</h2>
         
         <p>
-          A glaring example of this chaos happened during our earlier <strong>DATAVIS</strong> course.
+          A glaring example of this chaos happened during our earlier <strong>DATAVIS</strong> course when we tackled an <strong>Egypt Population Density</strong> dataset.
         </p>
 
         <p>
-          In DATAVIS, our job was to curate compelling datasets and communicate visual stories. But because I didn't know how to audit data at the individual feature level, curating datasets felt like an impossible, frustrating battle.
+          In DATAVIS, our job was to curate compelling datasets and communicate visual stories. But that Egypt dataset was an absolute minefield: overwhelming missing values, bizarre proportional ratios, and columns where we couldn't even tell what the numbers truly represented or whether they were right or wrong!
         </p>
 
         <p>
-          Every single time I loaded a dataset and hit a roadblock &mdash; such as unexpected missing values, strange zeros, or extreme spikes &mdash; I would panic. I would tell myself:
+          Every single time we tried to plot a chart, it looked distorted &mdash; like a comb with missing teeth. It was 1:30 AM, completely impractical for our visualization task, and in sheer panic, I would tell my teammates:
         </p>
 
         <blockquote style="border-left: 3px solid var(--accent-terracotta); padding-left: 1.25rem; font-style: italic; color: var(--text-muted); margin: 1.5rem 0;">
-          "This dataset is broken. It is too messy. Let me just find another one on Kaggle that is already clean."
+          "This dataset is broken. It is too messy. Let's just abandon it and find something cleaner on Kaggle."
         </blockquote>
 
         <p>
-          I fell into the habit of <strong>"dataset-hopping"</strong>: switching from dataset to dataset, discarding days of effort the second I hit a roadblock. 
+          I fell into the toxic habit of <strong>"dataset-hopping"</strong>: switching from dataset to dataset, discarding days of effort the second I hit an unexpected roadblock.
         </p>
 
         <!-- IMAGE PLACEHOLDER FOR USER'S DATAVIS SCREENSHOT -->
         <div class="baker-image-placeholder">
           <div class="placeholder-kicker">Visual Artifact Slot</div>
-          <div class="placeholder-title">Your DATAVIS Experience Screenshot</div>
+          <div class="placeholder-title">The Egypt Population Density Nightmare</div>
           <div class="placeholder-text">
             Drop a screenshot of your previous DATAVIS notebook or messy CSV table into <code>assets/images/screenshots/datavis_chaos.png</code> and embed it here!
           </div>
         </div>
 
         <p>
-          Sure, I had textbook knowledge of "imputations." I knew the words: mean imputation, median imputation, forward fill. But here was the honest truth: <strong>I had little to no idea which imputation I should actually do, why I should do it, or what damage it would cause to the data.</strong>
+          Sure, I had textbook knowledge of "imputations." I knew the terms: mean imputation, median imputation, forward fill. But here was the honest truth: <strong>I had little to no idea which imputation I should actually do, why I should do it, or what damage it would cause to the data.</strong>
         </p>
 
         <p>
-          I was treating imputation like a magic eraser &mdash; a quick command to make missing values disappear so I could move on. I didn't realize that blindly filling missing values with the column mean was distorting variance, fabricating artificial relationships, and lying to my audience.
+          I used to treat imputation like a magic eraser &mdash; naively believing that missing values just meant "zero" or could simply be filled in with a quick <code>df.fillna(df.mean())</code> so I could move on. I didn't realize that blindly filling missing values with the mean was crushing natural variance, manufacturing fake spikes, and lying to my audience.
         </p>
       </section>
 
@@ -1089,11 +1126,20 @@
         <h2><span class="section-tag">CHAPTER 03</span> The Univariate Breakthrough: Loving One Column at a Time</h2>
         
         <p>
-          The turning point in DS311 came when our instructor walked us through <strong>Topic 01 (Introduction to EDA)</strong> and <strong>Topic 05 (Univariate Analysis)</strong>. 
+          The turning point in DS311 came when our instructor, <strong>Sir Chris Jallaine S. Mugot</strong>, walked us through <strong>Topic 01 (Introduction to EDA)</strong> and <strong>Topic 05 (Univariate Analysis)</strong>. 
         </p>
 
         <p>
-          For the first time, I learned that before you ever pair two variables together, and before you ever touch a multivariate model, you must conduct a simple, honest <strong>Univariate Triage</strong>. You must get to know each feature in isolation:
+          Sir Chris would always remind us of one core rule of thumb that completely reshaped my workflow:
+        </p>
+
+        <blockquote style="border-left: 3px solid var(--accent-olive); padding-left: 1.25rem; font-style: italic; color: var(--text-main); font-weight: 600; margin: 1.5rem 0; font-family: var(--font-serif); font-size: 1.15rem;">
+          &ldquo;Univariate comes first before bivariate and multivariate! Looking at summary statistics alone never gives you the whole picture &mdash; you must always visualize the distribution.&rdquo;
+        </blockquote>
+
+        <p>
+          Today, whenever I load a new dataset into Jupyter, my immediate first three commands are non-negotiable:
+          <code>df.info()</code>, <code>df.describe()</code>, and <code>df.isna().sum()</code>. I never touch a model until each individual column passes this triage:
         </p>
 
         <!-- STEP CARDS -->
@@ -1134,31 +1180,31 @@
         </figure>
 
         <div class="baker-callout" style="border-left-color: var(--accent-olive);">
-          <div class="baker-callout-title" style="color: var(--accent-olive);">The Calming Effect</div>
+          <div class="baker-callout-title" style="color: var(--accent-olive);">The Google Colab &amp; GitHub Breakthrough</div>
           <p>
-            Once I started inspecting features one by one, the panic evaporated. Missing values were no longer a reason to abandon a dataset; they were simply a puzzle piece to document, justify, and handle thoughtfully.
+            Another huge practical lesson from our group work was solving the dreaded Google Colab path problem. Team members were mounting their personal Google Drives (<code>/content/drive/MyDrive/...</code>), which immediately broke when someone else opened the notebook. Our breakthrough was hosting our raw dataset CSVs directly on <strong>GitHub</strong> and fetching them via raw URLs! Now our entire group runs the exact same reproducible pipeline with zero missing-file headaches.
           </p>
         </div>
       </section>
 
       <!-- CHAPTER 4 -->
       <section id="bivariate" class="story-section">
-        <h2><span class="section-tag">CHAPTER 04</span> Bivariate Analysis: Why Relationships Lie</h2>
+        <h2><span class="section-tag">CHAPTER 04</span> Bivariate Analysis: Anscombe &amp; The NYC Taxi Trip (Lab 04)</h2>
         
         <p>
           Once individual features are understood, we move to the heart of exploratory modeling: <strong>Topic 06: Bivariate Analysis</strong>.
         </p>
 
         <p>
-          In class, we learned that pairing two continuous variables (X and Y) is where the biggest statistical traps lie. A single number &mdash; like Pearson’s correlation coefficient (r) &mdash; can trick you into believing a clean linear relationship exists when reality is completely different.
+          In class, Sir Chris showed us how pairing two continuous variables (X and Y) can lead to the biggest statistical traps. A single scalar &mdash; like Pearson’s correlation coefficient (r) &mdash; can trick you into believing a clean linear relationship exists when reality is completely distorted.
         </p>
 
         <p>
-          Think of <strong>Anscombe’s Quartet</strong>: four datasets with the exact same correlation (r = 0.816) and the exact same linear regression line (Y = 3.0 + 0.5X), yet one is a clean line, one is a curved parabola, one has an outlier, and one is held hostage by a single extreme leverage point!
+          He would always point us to <strong>Anscombe’s Quartet</strong>: four datasets with the exact same correlation (r = 0.816) and the exact same linear regression line (Y = 3.0 + 0.5X), yet one is a clean line, one is a curved parabola, one has an outlier, and one is held hostage by a single extreme leverage point!
         </p>
 
         <p>
-          In our <strong>Lab 04 NYC Taxi Trip investigation</strong>, we saw this first-hand: when plotting trip distance against fare amount, faulty GPS recordings of 0 miles for $50 flat fares or 150 miles for a $10 fare would have dragged the entire regression slope down if we hadn't examined the scatter plot first.
+          In our <strong>Lab 04 NYC Yellow Taxi Trip investigation</strong>, this became undeniably real. When plotting trip distance against fare amount, we discovered flat-rate airport trips where distance was recorded as 0 miles for a $50 fare, alongside corrupted GPS anomalies reporting 150 miles for a $10 ride! A single one of those extreme leverage points would drag our Ordinary Least Squares (OLS) regression line down into complete absurdity if we hadn't examined the scatter plot first.
         </p>
       </section>
 

@@ -1,7 +1,7 @@
 ================================================================================
 DS311 EDA BLOG PERSONALIZATION & ENHANCEMENT QUESTIONNAIRE
 Project: DS311 Exploratory Data Analysis - Midterm PIT Blog
-Author: Rogelio Mandamian | Section: DS3A / DS3B | USTP CDO
+Author: Rogelio Mandamian | Section: BS Data Science - DS3A | USTP CDO
 Theme: Minimalist Baker Aesthetic (Clean, Warm Light Mode, Approachable Tone)
 ================================================================================
 
@@ -13,13 +13,6 @@ shape! It's permanently set to a clean, warm linen Light Mode, completely free
 of emojis, and structured around your authentic experience of moving from
 chaotic multivariate rushing to grounded univariate and bivariate inspection.
 
-To take this from a great student blog to an unforgettable, publication-grade
-personal essay that Sir Chris Jallaine S. Mugot and your peers will love
-reading, here are a few fun, friendly questions. 
-
-You do NOT have to answer every single one--just fill in the ones that spark a
-vivid memory, and I will weave your answers seamlessly into the narrative!
-
 --------------------------------------------------------------------------------
 1. THE DATAVIS COURSE MEMORIES & "DATASET-HOPPING"
 --------------------------------------------------------------------------------
@@ -28,15 +21,16 @@ roadblock with missing values or weird numbers.
 
 Q1.1: Do you remember the specific name or topic of a dataset from your DATAVIS
       course that gave you a huge headache?
-      (Examples: Spotify Global Streams, COVID-19 PH Health Data, E-Commerce
-      Transactions, Airbnb Listings, Weather/Rainfall?)
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: Egypt Population Density dataset.
 
 Q1.2: What was the exact moment or roadblock that made you say "I give up, let me
       find a cleaner dataset on Kaggle"?
-      (Example: "It was 1:30 AM, half the numerical columns were empty, and my
-      bar chart looked like a comb with missing teeth.")
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: The data was very hard to work with because of overwhelming
+missing values and bizarre proportional numbers. We didn't even know what the
+features truly represented or whether the numbers were right or wrong. It was
+completely impractical for our visualization task, and with so many missing
+values distorting our charts, we finally gave up, abandoned it, and spent hours
+hunting for another dataset on Kaggle.
 
 --------------------------------------------------------------------------------
 2. THE IMPUTATION CONFESSION
@@ -46,13 +40,16 @@ imputation to choose or what damage blind imputation would cause.
 
 Q2.1: Did you ever run something like df.fillna(df.mean()) or a forward-fill
       that resulted in a crazy, nonsensical result or distorted graph?
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: Yes. I used to think missing values just meant "zero" or
+could simply be filled in with a quick mean. But looking at numbers alone doesn't
+give us the whole picture. When you naively impute without checking the
+underlying distribution, it creates artificial clusters and warps your graphs.
 
 Q2.2: What was the biggest "aha!" moment when learning about why naive
       imputation is dangerous?
-      (Example: Realizing that non-reporting in municipal wastewater data doesn't
-      mean zero pollution--it means there's no treatment plant there at all!)
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: Realizing that numbers alone can lie, and you always have
+to visualize the feature before touching it. Missingness itself is often a signal
+rather than just empty space.
 
 --------------------------------------------------------------------------------
 3. CLASSROOM VIBES & SIR MUGOT'S LECTURES
@@ -62,61 +59,55 @@ We credited Sir Chris Jallaine S. Mugot in your byline and references.
 Q3.1: Did Sir Mugot say a specific catchphrase, rule of thumb, or lecture quote
       during Topic 01 (Intro to EDA), Topic 05 (Univariate), or Topic 06
       (Bivariate) that really stuck with you?
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: Sir Chris would always remind us that:
+"Univariate comes first before bivariate and multivariate!"
+He would constantly emphasize that looking at a summary number alone never gives
+us the whole picture--we always have to visualize it, and he would always
+reference Anscombe's Quartet to prove how identical correlation coefficients
+can mask completely different real-world relationships.
 
 Q3.2: Between Lab 02 (Airbnb), Lab 04 (NYC Yellow Taxi Trips), or the Wastewater
       analysis, which lab exercise made bivariate leverage and outliers feel
       most real to you?
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: Lab 04 (NYC Yellow Taxi Trips). Plotting trip distance
+against fare amount made outliers feel very tangible--seeing flat-rate trips
+where distance was 0 miles for a $50 fare, or 150 miles for a $10 glitch, made
+it vividly clear how a single leverage point can drag down an entire regression
+line if you don't inspect the scatter plot first.
 
 --------------------------------------------------------------------------------
 4. TOOLS & CODING HABITS
 --------------------------------------------------------------------------------
 Q4.1: When you open a brand new dataset in Jupyter today, what are the first 3
       Python commands or functions you immediately type in your notebook?
-      (Examples: df.info(), df.describe(), sns.boxplot(), missingno.matrix(),
-      df.isna().sum()?)
-[YOUR ANSWER HERE]: 
+[YOUR ANSWER HERE]: `df.info()`, `df.describe()`, and `df.isna().sum()`.
+I always run these single-column audits first before deciding which features need
+univariate, bivariate, or multivariate inspection.
 
-Q4.2: Are there any particular visual libraries you love using most
-      (Seaborn, Matplotlib, Plotly, Altair)?
-[YOUR ANSWER HERE]: 
+Q4.2: Are there any particular visual libraries or workflows you love using most?
+[YOUR ANSWER HERE]: Seaborn and Matplotlib for clean, expressive plotting.
+Also, our team's breakthrough workflow: using GitHub as our raw dataset
+directory! When working on Google Colab in groups, teammates always ran into
+Google Drive file path errors (`/content/drive/MyDrive/...`) because Google Colab
+doesn't persist files unless everyone has the exact same folder structure.
+By uploading the raw CSV to GitHub and reading directly from the raw GitHub URL,
+our whole group can run the notebook seamlessly without directory errors.
 
 --------------------------------------------------------------------------------
 5. YOUR PROFILE & BYLINE DETAILS
 --------------------------------------------------------------------------------
 Q5.1: Which academic section should we list on your byline?
-      [ ] BS Data Science - DS3A
+      [X] BS Data Science - DS3A
       [ ] BS Data Science - DS3B
 
-Q5.2: Would you like to include links to your personal profiles in the sidebar
-      and footer?
-      - GitHub URL: (Current default: https://github.com/Troge-dev)
-      - LinkedIn URL: [YOUR LINK OR LEAVE BLANK]
-      - Portfolio / Personal Website: [YOUR LINK OR LEAVE BLANK]
+Q5.2: Would you like to include links to your personal profiles?
+      - GitHub URL: https://github.com/Troge-dev
+      - Portfolio / Hub: Centralized Academic Reviewers
 
 Q5.3: For your author avatar, would you prefer keeping the clean terracotta "RM"
-      monogram circle, or would you like to drop an actual portrait photo file
-      into your assets directory?
-[YOUR ANSWER HERE]: 
-
---------------------------------------------------------------------------------
-6. RUBRIC & SUBMISSION TARGETS
---------------------------------------------------------------------------------
-Q6.1: Is there a specific minimum or maximum word count required by Sir Mugot's
-      PIT guidelines? (The current draft is ~1,850 words / ~11 min read).
-[YOUR ANSWER HERE]: 
-
-Q6.2: Any specific submission format required?
-      (e.g., submitting the live GitHub Pages link, exporting to PDF, or
-      submitting the raw HTML file in Google Classroom / Moodle?)
-[YOUR ANSWER HERE]: 
+      monogram circle, or would you like to drop an actual portrait photo file?
+[YOUR ANSWER HERE]: Added portrait photo file: `assets/images/author/pfp_kuno.jpg`!
 
 ================================================================================
-HOW TO USE THIS FILE:
-1. Type your answers right above under [YOUR ANSWER HERE].
-2. Save this file.
-3. Message me back saying "I updated the questions file!" or paste your answers
-   directly in the chat.
-4. I will immediately polish your blog with your authentic stories!
+STATUS: QUESTIONNAIRE COMPLETED & VERIFIED
 ================================================================================
