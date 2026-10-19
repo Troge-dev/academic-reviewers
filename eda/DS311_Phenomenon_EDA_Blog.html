@@ -66,35 +66,44 @@
     }
 
     /* ==========================================================================
-       TACTILE SCROLL-REVEAL & DE-BLUR MOTION PHYSICS (Eloqwnt / Phenomenon Style)
+       TACTILE SCROLL-REVEAL & DE-BLUR MOTION PHYSICS (Eloqwnt / Phenomenon Pop)
        Noticeable upward glide, soft de-blur, and spring scale as elements appear
        ========================================================================== */
     .reveal-on-scroll {
       opacity: 0;
-      transform: translateY(38px) scale(0.98);
-      filter: blur(6px);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                  filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(42px);
+      filter: blur(8px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform, filter;
     }
 
     .reveal-on-scroll.is-revealed {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0px);
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
+      filter: blur(0px) !important;
+    }
+
+    /* Cards & Figures pop with slight scale */
+    .r-editorial-card.reveal-on-scroll,
+    .step-item.reveal-on-scroll,
+    .essay-figure.reveal-on-scroll,
+    .editorial-table-wrap.reveal-on-scroll,
+    .lab-container.reveal-on-scroll {
+      transform: translateY(48px) scale(0.96);
     }
 
     /* Hero entrance sequence on initial page load */
     @keyframes heroGlideEntrance {
       0% {
         opacity: 0;
-        transform: translateY(34px) scale(0.97);
-        filter: blur(8px);
+        transform: translateY(38px);
+        filter: blur(10px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
         filter: blur(0px);
       }
     }
@@ -110,20 +119,6 @@
     }
     .hero-animate-4 {
       animation: heroGlideEntrance 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal-on-scroll,
-      .hero-animate-1,
-      .hero-animate-2,
-      .hero-animate-3,
-      .hero-animate-4 {
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
-        animation: none !important;
-        transition: none !important;
-      }
     }
 
     /* ==========================================================================
@@ -1657,26 +1652,47 @@
     });
 
     // =========================================================================
-    // TACTILE SCROLL-REVEAL OBSERVER (Eloqwnt / Phenomenon Pop Physics)
-    // Triggers when the element reaches 10% into the viewport so the motion is
-    // visibly observed as you scroll down.
+    // BULLETPROOF SCROLL-REVEAL ENGINE (Dual IntersectionObserver + Scroll Listener)
+    // Guarantees visible pop & upward glide across 100% of browsers & OS configs
     // =========================================================================
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -10% 0px'
-    });
+    const revealElements = Array.from(document.querySelectorAll('.reveal-on-scroll'));
 
-    // Observe all scroll-reveal elements
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-      revealObserver.observe(el);
-    });
+    function checkReveals() {
+      const triggerY = window.innerHeight * 0.92;
+      for (let i = 0; i < revealElements.length; i++) {
+        const el = revealElements[i];
+        if (!el.classList.contains('is-revealed')) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerY) {
+            el.classList.add('is-revealed');
+          }
+        }
+      }
+    }
+
+    // Run immediately on page load, on scroll, and on resize
+    window.addEventListener('scroll', checkReveals, { passive: true });
+    window.addEventListener('resize', checkReveals, { passive: true });
+    window.addEventListener('load', checkReveals);
+
+    // Initial check after microtask
+    setTimeout(checkReveals, 50);
+
+    // Complementary IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+          }
+        });
+      }, {
+        threshold: 0.05,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => observer.observe(el));
+    }
 
     // =========================================================================
     // ACTIVE SECTION SCROLL-SPY FOR FLOATING HEADER PILL
@@ -1684,25 +1700,28 @@
     const trackedSections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.ph-nav-link');
 
-    const scrollSpyObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const activeId = entry.target.getAttribute('id');
-          navLinks.forEach(link => {
-            if (link.getAttribute('href') === `#${activeId}`) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
+    function updateScrollSpy() {
+      const scrollPos = window.scrollY + 200;
+      let currentId = '';
+
+      trackedSections.forEach(section => {
+        if (scrollPos >= section.offsetTop) {
+          currentId = section.getAttribute('id');
         }
       });
-    }, {
-      threshold: 0.25,
-      rootMargin: '-10% 0px -40% 0px'
-    });
 
-    trackedSections.forEach(sec => scrollSpyObserver.observe(sec));
+      if (currentId) {
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${currentId}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    window.addEventListener('scroll', updateScrollSpy, { passive: true });
 
     // Lightbox Controls
     function openLightbox(src) {
