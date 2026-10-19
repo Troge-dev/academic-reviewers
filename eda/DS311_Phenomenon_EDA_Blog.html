@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Philosophy of Looking | DS311 Exploratory Data Analysis &bull; Phenomenon Studio Edition</title>
+  <title>The Philosophy of Looking | DS311 Exploratory Data Analysis</title>
   
   <!-- Phenomenon Studio Typography: Bricolage Grotesque (Headings) + Albert Sans (Body) + JetBrains Mono (Technical) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,18 +80,83 @@
       position: relative;
     }
 
-    /* Subtle Ambient Gradient Background */
-    body::before {
-      content: "";
+    /* ==========================================================================
+       MOVING ATMOSPHERIC BACKGROUND (Dynamic Depth Engine)
+       Luminous drifting orbs + interactive particle mesh
+       ========================================================================== */
+    #ambient-mesh-canvas {
       position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1400px;
-      height: 700px;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255, 122, 0, 0.06), transparent 70%);
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
+      opacity: 0.45;
+    }
+
+    .ambient-orb-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(130px);
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 550px;
+      height: 550px;
+      top: -100px;
+      right: 5%;
+      background: radial-gradient(circle, rgba(255, 122, 0, 0.16) 0%, transparent 70%);
+      animation: floatOrb1 22s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 650px;
+      height: 650px;
+      top: 35%;
+      left: -150px;
+      background: radial-gradient(circle, rgba(0, 255, 133, 0.10) 0%, transparent 70%);
+      animation: floatOrb2 28s ease-in-out infinite alternate;
+    }
+
+    .orb-3 {
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      right: 15%;
+      background: radial-gradient(circle, rgba(255, 122, 0, 0.12) 0%, transparent 70%);
+      animation: floatOrb3 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatOrb1 {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(-80px, 120px) scale(1.15); }
+      100% { transform: translate(60px, 80px) scale(0.95); }
+    }
+
+    @keyframes floatOrb2 {
+      0%   { transform: translate(0, 0) scale(0.95); }
+      50%  { transform: translate(120px, -90px) scale(1.12); }
+      100% { transform: translate(40px, 100px) scale(1.05); }
+    }
+
+    @keyframes floatOrb3 {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(-100px, -60px) scale(1.1); }
+      100% { transform: translate(50px, -110px) scale(0.9); }
     }
 
     /* Reading Progress Header Bar */
@@ -192,7 +257,7 @@
     }
 
     /* ==========================================================================
-       NAVIGATION HEADER (Phenomenon Studio Glass Pill with Scroll-Spy)
+       NAVIGATION HEADER (Phenomenon Studio Minimal Pill with Scroll-Spy)
        ========================================================================== */
     .ph-header {
       position: fixed;
@@ -201,78 +266,48 @@
       right: 0;
       z-index: 1000;
       pointer-events: none;
+      display: flex;
+      justify-content: center;
     }
 
     .ph-header-pill {
       pointer-events: auto;
-      max-width: 1120px;
       margin: 0 auto;
-      padding: 0.75rem 1.25rem;
-      background: rgba(8, 13, 16, 0.78);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 0.85rem;
+      background: rgba(8, 13, 16, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .ph-header-pill:hover {
-      border-color: rgba(255, 122, 0, 0.3);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    .ph-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: #FFFFFF;
-    }
-
-    .ph-logo-badge {
-      width: 30px;
-      height: 30px;
-      background: var(--ph-orange);
-      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: #080D10;
-      font-family: var(--font-display);
-      box-shadow: 0 0 12px var(--ph-orange-glow);
+      gap: 0.35rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      max-width: 95vw;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    .ph-brand-name {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
+    .ph-header-pill::-webkit-scrollbar {
+      display: none;
     }
 
-    .ph-brand-name span {
-      color: var(--ph-orange);
-    }
-
-    .ph-nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .ph-header-pill:hover {
+      border-color: rgba(255, 122, 0, 0.35);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
     }
 
     .ph-nav-link {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       text-decoration: none;
       color: var(--text-white-muted);
-      padding: 0.4rem 0.85rem;
+      padding: 0.45rem 1rem;
       border-radius: 999px;
       transition: all 0.25s ease;
+      white-space: nowrap;
     }
 
     .ph-nav-link:hover {
@@ -284,36 +319,16 @@
       color: #080D10;
       background: var(--ph-orange);
       font-weight: 700;
-      box-shadow: 0 0 12px var(--ph-orange-glow);
+      box-shadow: 0 0 14px var(--ph-orange-glow);
     }
 
-    .ph-nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #FFFFFF;
-      font-family: var(--font-body);
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-decoration: none;
-      padding: 0.45rem 1.1rem;
-      border-radius: 999px;
-      transition: all 0.25s ease;
-    }
-
-    .ph-nav-cta:hover {
-      background: var(--ph-orange);
-      color: #080D10;
-      border-color: var(--ph-orange);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px var(--ph-orange-glow);
-    }
-
-    @media (max-width: 960px) {
-      .ph-nav-links {
-        display: none;
+    @media (max-width: 640px) {
+      .ph-header-pill {
+        padding: 0.4rem 0.5rem;
+      }
+      .ph-nav-link {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.75rem;
       }
     }
 
@@ -441,11 +456,11 @@
        HERO SECTION
        ========================================================================== */
     .hero-wrap {
-      min-height: 88vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-top: 8rem;
+      padding-top: 7rem;
       padding-bottom: 4rem;
       position: relative;
     }
@@ -1191,25 +1206,26 @@
   <!-- READING PROGRESS BAR -->
   <div id="progress-bar"></div>
 
-  <!-- FLOATING GLASS NAVIGATION PILL WITH SCROLL-SPY -->
+  <!-- MOVING BACKGROUND: ATMOSPHERIC DRIFTING ORBS -->
+  <div class="ambient-orb-wrapper">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- MOVING BACKGROUND: HARDWARE ACCELERATED CONSTELLATION MESH CANVAS -->
+  <canvas id="ambient-mesh-canvas"></canvas>
+
+  <!-- FLOATING MINIMAL NAVIGATION PILL WITH SCROLL-SPY -->
   <header class="ph-header">
-    <div class="ph-header-pill">
-      <a href="#hero" class="ph-brand">
-        <div class="ph-logo-badge">M</div>
-        <div class="ph-brand-name">Minimalist <span>EDA</span></div>
-      </a>
-      <nav class="ph-nav-links" id="ph-nav-menu">
-        <a href="#confession" class="ph-nav-link">Confession</a>
-        <a href="#egypt" class="ph-nav-link">Egypt Story</a>
-        <a href="#anscombe" class="ph-nav-link">Anscombe</a>
-        <a href="#four-rs" class="ph-nav-link">Four R's</a>
-        <a href="#sandbox" class="ph-nav-link">Simulator</a>
-        <a href="#steps" class="ph-nav-link">7 Steps</a>
-        <a href="#projects" class="ph-nav-link">Projects</a>
-      </nav>
-      <a href="index.html" class="ph-nav-cta">
-        Original Baker Edition &rarr;
-      </a>
+    <div class="ph-header-pill" id="ph-nav-menu">
+      <a href="#confession" class="ph-nav-link">Confession</a>
+      <a href="#egypt" class="ph-nav-link">Egypt Example</a>
+      <a href="#anscombe" class="ph-nav-link">Anscombe</a>
+      <a href="#four-rs" class="ph-nav-link">Four R's</a>
+      <a href="#sandbox" class="ph-nav-link">Simulator</a>
+      <a href="#steps" class="ph-nav-link">7 Steps</a>
+      <a href="#projects" class="ph-nav-link">Projects</a>
     </div>
   </header>
 
@@ -1219,22 +1235,15 @@
   <section id="hero" class="ph-section ph-section-dark hero-wrap">
     <div class="container">
       
-      <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark scramble" data-original="DS311 Topic 01 • Phenomenon Studio Edition">
-          <span class="ph-pill-dot"></span>
-          DS311 Topic 01 &bull; Phenomenon Studio Edition
-        </div>
-      </div>
-
-      <h1 class="ph-display-title new-animate isview trd01">
+      <h1 class="ph-display-title new-animate isview trd0">
         The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
       </h1>
 
-      <p class="ph-lead dark isview slidetop trd03" style="max-width: 920px;">
+      <p class="ph-lead dark isview slidetop trd02" style="max-width: 920px;">
         Before DS311, I rushed straight into models and abandoned messy datasets out of panic. Then Ma'am Chris walked us through John Tukey and Francis Anscombe in Topic 01 &mdash; teaching me that data must be seen, not just calculated, and why the messy surprises are where the real story lives.
       </p>
 
-      <div class="hero-meta-row isview slidetop trd04">
+      <div class="hero-meta-row isview slidetop trd03">
         <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Mandamian" class="hero-author-avatar">
         <div class="hero-author-info">
           <div class="hero-author-name">
@@ -1306,27 +1315,28 @@
 
   <!-- ========================================================================
        SECTION 2: EGYPT DISCOVERY & 300 DPI ARTIFACTS (Phenomenon Abyssal Dark)
+       Phrased as one of the concrete examples / easiest recalled from coursework
        ======================================================================== -->
   <section id="egypt" class="ph-section ph-section-dark">
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark scramble" data-original="Origin Story • DATAVIS">
+        <div class="ph-pill-badge dark scramble" data-original="Coursework Example • DATAVIS Recall">
           <span class="ph-pill-dot"></span>
-          Origin Story &bull; DATAVIS
+          Coursework Example &bull; DATAVIS Recall
         </div>
       </div>
 
       <h2 class="ph-section-title new-animate isview trd01">
-        The "Dataset-Hopping" Panic and Stumbling Upon Egypt
+        One Example I Recall: Stumbling Upon the Egypt Dataset
       </h2>
 
       <p class="ph-lead dark isview slidetop trd02" style="max-width: 980px;">
-        During our 2nd-year DATAVIS course, my group and I hit this wall repeatedly. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier. We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
+        To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier. We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
       </p>
 
       <p class="isview slidetop trd03" style="color: var(--text-white-muted); font-size: 1.08rem; line-height: 1.7; max-width: 980px; margin-bottom: 2.5rem;">
-        Unlike the chaotic datasets that had triggered our panic, the Egypt dataset wasn't really a problem. It provided coherent, structured records of Egypt's governorates, total populations, and inhabited land areas. Stumbling upon it felt like striking gold: it finally gave us a reliable foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely populated desert frontier governorates.
+        The Egypt dataset wasn't really a problem &mdash; it was simply the one clean, structured dataset that felt safe enough to work with at the time. It provided coherent records of Egypt's governorates, total populations, and inhabited land areas. Stumbling upon it felt like striking gold: it gave us a reliable foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely populated desert frontier governorates.
       </p>
 
       <!-- FIGURE 1: EGYPT RAW FLAT VIEW (WITH ZOOM LIGHTBOX) -->
@@ -1356,7 +1366,7 @@
           The Laboratory Awakening: Water Potability (DS311 Lab 01)
         </h4>
         <p style="color: var(--text-white-muted); font-size: 1rem; line-height: 1.65;">
-          In DATAVIS, I got lucky by hopping around until I found a dataset that didn't scare me. But in DS311 Lab 01 (Water Potability), auditing 3,276 aquatic samples across pH, Sulfate, and Trihalomethanes showed that missing values were selective laboratory test omissions because rural stations lacked chromatography equipment. If I had blindly imputed the mean, I would have fabricated false safety profiles and poisoned the analysis!
+          The Egypt dataset allowed us to produce an infographic map we were proud of, but looking back through the lens of DS311, that project was a prime example of dodging the hard questions. In DATAVIS, I got lucky by hopping around until I found something that didn't scare me. But in DS311 Lab 01 (Water Potability), auditing 3,276 aquatic samples across pH, Sulfate, and Trihalomethanes showed that missing values were selective laboratory test omissions because rural stations lacked chromatography equipment. If I had blindly imputed the mean, I would have fabricated false safety profiles and poisoned the analysis!
         </p>
       </div>
 
@@ -1807,7 +1817,7 @@
           &ldquo;Data science is vastly more rewarding when you strip away unexamined assumptions: look before you calculate, protect with resistance, respect the residuals, re-express fearlessly, and never abandon a dataset out of panic.&rdquo;
         </div>
         <div class="ph-quote-author">
-          &mdash; The Minimalist Data Manifesto (Topic 01 Edition)
+          &mdash; The EDA Practitioner Manifesto (Topic 01 Edition)
         </div>
       </div>
 
@@ -1822,14 +1832,14 @@
       <div class="ph-footer-inner">
         <div>
           <div class="ph-brand-name" style="font-size: 1.25rem;">
-            Minimalist <span>EDA</span> &bull; Phenomenon Studio Edition
+            The Philosophy of Looking
           </div>
           <div class="ph-footer-copy" style="margin-top: 0.35rem;">
             &ldquo;Data must be seen, not just calculated.&rdquo; &bull; Dedicated to Ma'am Chris Jallaine S. Mugot &bull; USTP DS3A
           </div>
         </div>
         <div class="ph-footer-links">
-          <a href="index.html">Original Baker Edition</a>
+          <a href="#hero">Back to Top</a>
           <a href="https://phenomenonstudio.com/?utm_source=dribbble&utm_medium=boosted_shots%20&utm_campaign=vita" target="_blank" rel="noopener">Phenomenon Studio</a>
           <a href="https://github.com/Troge-dev/academic-reviewers" target="_blank" rel="noopener">Academic Reviewers Portal</a>
         </div>
@@ -1846,7 +1856,7 @@
   </div>
 
   <!-- ========================================================================
-       JAVASCRIPT: KINETIC WORD SPLITTER, SCRAMBLE ENGINE, SCROLL-SPY, CANVAS HUD
+       JAVASCRIPT ENGINE: MOVING BACKGROUND, SCRAMBLE, CANVAS HUD, SCROLL-SPY
        ======================================================================== -->
   <script>
     // 1. Reading Progress Bar
@@ -1856,9 +1866,102 @@
       document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, scrolled)) + '%';
     });
 
-    // 2. Automated Word-by-Word Kinetic Splitter (.new-animate)
+    // 2. Hardware Accelerated Atmospheric Moving Background (Constellation Canvas)
+    (function initAtmosphericMesh() {
+      const bgCanvas = document.getElementById('ambient-mesh-canvas');
+      if (!bgCanvas) return;
+      const bgCtx = bgCanvas.getContext('2d');
+      let width, height;
+      let particles = [];
+      let mouseX = -1000, mouseY = -1000;
+      const PARTICLE_COUNT = 55;
+
+      function resize() {
+        width = bgCanvas.width = window.innerWidth;
+        height = bgCanvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      window.addEventListener('mouseleave', () => {
+        mouseX = -1000;
+        mouseY = -1000;
+      });
+
+      // Initialize particles
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          radius: Math.random() * 1.8 + 0.8,
+          alpha: Math.random() * 0.4 + 0.2,
+          isOrange: Math.random() > 0.4
+        });
+      }
+
+      function animate() {
+        bgCtx.clearRect(0, 0, width, height);
+
+        // Update and draw particles
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+
+          // Mouse gentle repulsion
+          const dx = p.x - mouseX;
+          const dy = p.y - mouseY;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 140) {
+            const force = (140 - dist) / 140;
+            p.x += (dx / dist) * force * 1.5;
+            p.y += (dy / dist) * force * 1.5;
+          }
+
+          // Draw particle
+          bgCtx.beginPath();
+          bgCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          bgCtx.fillStyle = p.isOrange 
+            ? `rgba(255, 122, 0, ${p.alpha})` 
+            : `rgba(0, 255, 133, ${p.alpha * 0.8})`;
+          bgCtx.fill();
+
+          // Connect nearby particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const pDist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (pDist < 120) {
+              const lineAlpha = (1 - pDist / 120) * 0.12;
+              bgCtx.beginPath();
+              bgCtx.moveTo(p.x, p.y);
+              bgCtx.lineTo(p2.x, p2.y);
+              bgCtx.strokeStyle = p.isOrange 
+                ? `rgba(255, 122, 0, ${lineAlpha})` 
+                : `rgba(255, 255, 255, ${lineAlpha * 0.6})`;
+              bgCtx.lineWidth = 0.8;
+              bgCtx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    // 3. Automated Word-by-Word Kinetic Splitter (.new-animate)
     document.querySelectorAll('.new-animate').forEach(title => {
-      // If words are not already split into .a-word
       if (!title.querySelector('.a-word')) {
         const text = title.textContent.trim();
         const words = text.split(/\s+/);
@@ -1869,7 +1972,7 @@
       }
     });
 
-    // 3. Phenomenon Studio Hacker Scramble Decoder Effect (.scramble)
+    // 4. Phenomenon Studio Hacker Scramble Decoder Effect (.scramble)
     function scrambleText(element) {
       if (element.dataset.isScrambling === 'true') return;
       element.dataset.isScrambling = 'true';
@@ -1896,7 +1999,7 @@
       el.addEventListener('mouseenter', () => scrambleText(el));
     });
 
-    // 4. Phenomenon Studio IntersectionObserver Animation Engine
+    // 5. Phenomenon Studio IntersectionObserver Animation Engine
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -10% 0px',
@@ -1910,7 +2013,6 @@
           if (entry.target.classList.contains('scramble')) {
             scrambleText(entry.target);
           }
-          // Also trigger scramble on any child scramble badges
           entry.target.querySelectorAll('.scramble').forEach(b => scrambleText(b));
           observer.unobserve(entry.target);
         }
@@ -1921,7 +2023,7 @@
       revealObserver.observe(el);
     });
 
-    // 5. Scroll-Spy for Floating Navigation Pill
+    // 6. Scroll-Spy for Floating Navigation Pill
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.ph-nav-link');
 
@@ -1945,7 +2047,7 @@
       });
     });
 
-    // 6. Lightbox Zoom Logic
+    // 7. Lightbox Zoom Logic
     function openLightbox(src) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
@@ -1966,7 +2068,7 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
-    // 7. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition with Residual Vectors)
+    // 8. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition with Residual Vectors)
     const canvas = document.getElementById('ph-canvas');
     let ctx = canvas ? canvas.getContext('2d') : null;
     let showResiduals = false;
@@ -2190,7 +2292,6 @@
     }
 
     if (canvas) {
-      // Coordinate tracker badge
       canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         const px = e.clientX - rect.left;
@@ -2202,7 +2303,6 @@
         }
       });
 
-      // Left Click: Drop point
       canvas.addEventListener('click', (e) => {
         const rect = canvas.getBoundingClientRect();
         const px = e.clientX - rect.left;
@@ -2212,7 +2312,6 @@
         redraw();
       });
 
-      // Right Click: Delete nearest point
       canvas.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
@@ -2220,7 +2319,6 @@
         const py = e.clientY - rect.top;
         const clickCoord = pixelToData(px, py);
 
-        // Find nearest point within tolerance
         let closestIdx = -1;
         let minDist = 1.2;
         currentPoints.forEach((p, idx) => {
