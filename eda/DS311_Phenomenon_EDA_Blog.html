@@ -12,8 +12,9 @@
 
   <style>
     /* ==========================================================================
-       PERSONAL EDITORIAL DESIGN SYSTEM & AMBIENT DEPTH TOKENS
-       Intimate personal essay layout with rich atmospheric moving depth
+       PERSONAL EDITORIAL DESIGN SYSTEM & 3-ACT AMBIENT LIGHTING
+       Intimate personal essay layout with rich atmospheric moving depth and
+       an uncompromised full-width white editorial transition chapter.
        ========================================================================== */
     :root {
       --ph-orange: #FF7A00;
@@ -147,13 +148,13 @@
       top: 0;
       left: 0;
       height: 3px;
+      background: linear-gradient(90deg, var(--ph-orange), var(--ph-mint));
+      z-index: 10001;
       width: 0%;
-      background: linear-gradient(90deg, var(--ph-orange) 0%, var(--ph-mint) 100%);
-      z-index: 9999;
       transition: width 0.1s ease-out;
     }
 
-    /* Floating Minimal Header Pill */
+    /* Floating Minimal Navigation Pill */
     .ph-header {
       position: fixed;
       top: 1.25rem;
@@ -167,80 +168,98 @@
 
     .ph-header-pill {
       pointer-events: auto;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.45rem 0.85rem;
-      background: rgba(8, 13, 16, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      gap: 1.25rem;
+      padding: 0.65rem 1.4rem;
+      background: rgba(16, 23, 29, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border-strong);
       border-radius: 999px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-      overflow-x: auto;
-      max-width: 92vw;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      transition: all 0.3s ease;
     }
 
     .ph-nav-link {
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
       color: var(--text-muted);
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      transition: all 0.25s ease;
-      white-space: nowrap;
+      text-decoration: none;
+      transition: color 0.2s ease;
     }
 
     .ph-nav-link:hover {
-      color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .ph-nav-link.active {
-      color: #080D10;
-      background: var(--ph-orange);
-      font-weight: 700;
-      box-shadow: 0 0 12px var(--ph-orange-glow);
+      color: var(--ph-orange);
     }
 
     /* ==========================================================================
-       PERSONAL EDITORIAL COLUMN (Narrowed margins for comfortable long-form reading)
+       ESSAY ARCHITECTURE: 3-ACT ZONING & READING COLUMN
+       The reading column is strictly locked to 760px across all acts.
        ========================================================================== */
-    .blog-container {
+    .essay-zone {
       position: relative;
-      z-index: 2;
       width: 100%;
-      max-width: var(--reading-width);
-      margin: 0 auto;
-      padding: 7.5rem 1.75rem 8rem;
     }
 
-    /* Editorial Header / Title */
+    .zone-dark {
+      background: transparent;
+      position: relative;
+      z-index: 1;
+    }
+
+    .zone-dark.zone-act1 {
+      padding-top: 7.5rem;
+    }
+
+    .zone-dark.zone-act3 {
+      padding-top: 1rem;
+      padding-bottom: 8rem;
+    }
+
+    /* Act II: Full-Width Editorial White Transition Band */
+    .zone-white-band {
+      background-color: #F8F9FA;
+      color: #1A202C;
+      position: relative;
+      z-index: 2;
+      padding: 5.5rem 0 6rem;
+      margin: 5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .reading-column {
+      max-width: var(--reading-width);
+      margin: 0 auto;
+      padding: 0 1.75rem;
+    }
+
+    /* Editorial Essay Header */
     .blog-kicker {
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.5rem;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.09em;
+      font-size: 0.8rem;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--ph-orange);
       margin-bottom: 1.25rem;
     }
 
     .blog-kicker-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--ph-orange);
-      box-shadow: 0 0 10px var(--ph-orange);
+      box-shadow: 0 0 8px var(--ph-orange);
     }
 
     .blog-title {
       font-family: var(--font-display);
-      font-size: clamp(2.3rem, 5vw, 3.4rem);
+      font-size: clamp(2.35rem, 5vw, 3.4rem);
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.03em;
@@ -249,7 +268,7 @@
     }
 
     .blog-deck {
-      font-size: 1.22rem;
+      font-size: clamp(1.15rem, 2.2vw, 1.32rem);
       line-height: 1.65;
       color: var(--text-muted);
       margin-bottom: 2.25rem;
@@ -262,8 +281,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 1.25rem;
-      padding: 1.25rem 0;
-      border-top: 1px solid var(--border-subtle);
+      padding-bottom: 2.5rem;
       border-bottom: 1px solid var(--border-subtle);
       margin-bottom: 3.5rem;
     }
@@ -271,15 +289,16 @@
     .author-cluster {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
     .author-avatar {
-      width: 44px;
-      height: 44px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1.5px solid var(--ph-orange);
+      border: 2px solid var(--ph-orange);
+      box-shadow: 0 0 16px var(--ph-orange-soft);
     }
 
     .author-details {
@@ -289,8 +308,8 @@
 
     .author-name {
       font-family: var(--font-display);
+      font-size: 1.05rem;
       font-weight: 700;
-      font-size: 0.98rem;
       color: #FFFFFF;
     }
 
@@ -316,7 +335,9 @@
       color: var(--text-muted);
     }
 
-    /* Essay Typography & Prose */
+    /* ==========================================================================
+       TYPOGRAPHY & PROSE (IN DARK ZONES)
+       ========================================================================== */
     .prose {
       font-size: 1.1rem;
       line-height: 1.8;
@@ -347,7 +368,6 @@
       color: var(--ph-orange);
     }
 
-    /* Section Headings inside Essay */
     .essay-section {
       margin-top: 4.5rem;
       padding-top: 1rem;
@@ -370,8 +390,8 @@
       margin-bottom: 1.75rem;
     }
 
-    /* Editorial Pullquotes */
-    .editorial-pullquote {
+    /* Dark Zone Editorial Pullquote */
+    .zone-dark .editorial-pullquote {
       margin: 2.75rem 0;
       padding: 1.75rem 2rem;
       background: rgba(16, 23, 29, 0.85);
@@ -397,29 +417,6 @@
       font-size: 0.84rem;
       color: var(--ph-orange);
       font-weight: 600;
-    }
-
-    /* Editorial Callout Cards */
-    .editorial-callout {
-      margin: 2.25rem 0;
-      padding: 1.6rem 1.85rem;
-      background: rgba(16, 23, 29, 0.7);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-    }
-
-    .editorial-callout-title {
-      font-family: var(--font-mono);
-      font-size: 0.76rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ph-mint);
-      margin-bottom: 0.65rem;
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
     }
 
     /* Embedded Figure & Zoom */
@@ -449,84 +446,235 @@
     .essay-figure-img-wrap img {
       max-width: 100%;
       height: auto;
-      max-height: 480px;
-      object-fit: contain;
       border-radius: 12px;
+      display: block;
     }
 
     .figure-zoom-badge {
       position: absolute;
-      bottom: 1.25rem;
-      right: 1.25rem;
-      background: rgba(8, 13, 16, 0.85);
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: rgba(8, 13, 16, 0.88);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--border-strong);
-      color: #FFFFFF;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      padding: 0.3rem 0.75rem;
+      padding: 0.4rem 0.85rem;
       border-radius: 999px;
-      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
     }
 
     .essay-figure-caption {
-      padding: 1.15rem 1.5rem;
-      font-size: 0.92rem;
-      color: var(--text-muted);
+      padding: 1.25rem 1.75rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-dim);
       border-top: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.02);
     }
 
     .essay-figure-caption strong {
-      color: var(--ph-orange);
+      color: var(--text-muted);
     }
 
-    /* Compact Anscombe Comparison Table */
-    .editorial-table-wrap {
-      margin: 2rem 0;
-      overflow-x: auto;
-      background: rgba(16, 23, 29, 0.7);
-      border: 1px solid var(--border-subtle);
+    /* ==========================================================================
+       ACT II: WHITE EDITORIAL CHAPTER STYLING
+       Clean, high-contrast, publication-grade academic formatting.
+       ========================================================================== */
+    .zone-white-band .blog-kicker {
+      color: #DD6B20;
+    }
+
+    .zone-white-band .blog-kicker-dot {
+      background: #DD6B20;
+      box-shadow: 0 0 8px rgba(221, 107, 32, 0.4);
+    }
+
+    .zone-white-band .essay-h2 {
+      color: #0F172A;
+    }
+
+    .zone-white-band .essay-lead {
+      color: #1E293B;
+    }
+
+    .zone-white-band .prose {
+      color: #334155;
+    }
+
+    .zone-white-band .prose p {
+      color: #334155;
+    }
+
+    .zone-white-band .prose strong {
+      color: #0F172A;
+    }
+
+    .zone-white-band .prose em {
+      color: #1E293B;
+    }
+
+    .zone-white-band .prose code {
+      background: #EDF2F7;
+      border: 1px solid #CBD5E1;
+      color: #C05621;
+    }
+
+    .zone-white-band .editorial-table-wrap {
+      margin: 2.5rem 0;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
       border-radius: 18px;
-      padding: 1.25rem;
+      overflow-x: auto;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
     }
 
-    .editorial-table {
+    .zone-white-band .editorial-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.92rem;
       text-align: left;
+      font-size: 0.95rem;
     }
 
-    .editorial-table th {
-      padding: 0.65rem 0.85rem;
-      color: var(--text-dim);
+    .zone-white-band .editorial-table th {
+      padding: 0.85rem 1.1rem;
+      background: #F1F5F9;
+      color: #475569;
       font-family: var(--font-mono);
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      border-bottom: 1px solid var(--border-strong);
+      border-bottom: 2px solid #CBD5E1;
     }
 
-    .editorial-table td {
-      padding: 0.65rem 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      color: var(--text-muted);
+    .zone-white-band .editorial-table td {
+      padding: 0.85rem 1.1rem;
+      border-bottom: 1px solid #E2E8F0;
+      color: #334155;
     }
 
-    .editorial-table tr:last-child td {
+    .zone-white-band .editorial-table tr:last-child td {
       border-bottom: none;
     }
 
-    .editorial-table td.metric-name {
+    .zone-white-band .editorial-table td.metric-name {
       font-weight: 600;
-      color: #FFFFFF;
+      color: #0F172A;
     }
 
-    .editorial-table td.mono-val {
+    .zone-white-band .editorial-table td.mono-val {
       font-family: var(--font-mono);
+      font-weight: 600;
+      color: #0F172A;
     }
 
-    /* Interactive Anscombe Lab Instrument Container (Fitted to 760px column) */
+    .zone-white-band .editorial-pullquote {
+      margin: 2.75rem 0;
+      padding: 1.75rem 2rem;
+      background: #FFFFFF;
+      border-left: 3px solid #FF7A00;
+      border-top: 1px solid #E2E8F0;
+      border-right: 1px solid #E2E8F0;
+      border-bottom: 1px solid #E2E8F0;
+      border-radius: 0 18px 18px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .zone-white-band .pullquote-text {
+      color: #0F172A;
+    }
+
+    .zone-white-band cite {
+      color: #64748B;
+      font-style: normal;
+    }
+
+    /* The Four R's Editorial Cards in White Band */
+    .four-rs-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+
+    .zone-white-band .r-editorial-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .zone-white-band .r-editorial-card:hover {
+      border-color: #FF7A00;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 122, 0, 0.12);
+    }
+
+    .r-card-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .zone-white-band .r-card-pill {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(255, 122, 0, 0.1);
+      color: #DD6B20;
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    .zone-white-band .r-card-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .zone-white-band .r-editorial-card p {
+      color: #4A5568 !important;
+      font-size: 1.05rem;
+      margin-bottom: 0;
+    }
+
+    .zone-white-band .editorial-callout {
+      margin: 2.25rem 0;
+      padding: 1.6rem 1.85rem;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .zone-white-band .editorial-callout-title {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #0D9488;
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .zone-white-band .editorial-callout p {
+      color: #334155 !important;
+      font-size: 1.05rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       ACT III: INTERACTIVE ANSCOMBE SIMULATOR (In Dark Zone)
+       ========================================================================== */
     .lab-container {
       margin: 3rem 0;
       background: rgba(16, 23, 29, 0.9);
@@ -693,51 +841,6 @@
       margin-top: 0.15rem;
     }
 
-    /* The Four R's Editorial Cards */
-    .four-rs-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin: 2.5rem 0;
-    }
-
-    .r-editorial-card {
-      background: rgba(16, 23, 29, 0.75);
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 2rem 2.25rem;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-    }
-
-    .r-editorial-card:hover {
-      border-color: rgba(255, 122, 0, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .r-card-head {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .r-card-pill {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 800;
-      background: var(--ph-orange-soft);
-      color: var(--ph-orange);
-      padding: 0.2rem 0.65rem;
-      border-radius: 6px;
-    }
-
-    .r-card-title {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #FFFFFF;
-    }
-
     /* 7 Steps Editorial Field Guide */
     .steps-field-guide {
       display: flex;
@@ -750,52 +853,55 @@
       display: grid;
       grid-template-columns: 48px 1fr;
       gap: 1.5rem;
-      align-items: flex-start;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(16, 23, 29, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 1.75rem 2rem;
+      transition: transform 0.25s ease, border-color 0.25s ease;
     }
 
-    .step-item:last-child {
-      border-bottom: none;
+    .step-item:hover {
+      border-color: rgba(0, 255, 133, 0.4);
+      transform: translateY(-2px);
     }
 
     .step-num-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(255, 122, 0, 0.1);
-      border: 1px solid rgba(255, 122, 0, 0.3);
-      color: var(--ph-orange);
       font-family: var(--font-mono);
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 800;
+      color: var(--ph-mint);
+      background: var(--ph-mint-soft);
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
+      border: 1px solid rgba(0, 255, 133, 0.25);
     }
 
     .step-content h3 {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #FFFFFF;
       margin-bottom: 0.5rem;
     }
 
     .step-content p {
-      font-size: 1.04rem;
-      line-height: 1.72;
+      font-size: 1.02rem;
       color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
     }
 
     .step-tag {
-      display: inline-block;
       font-family: var(--font-mono);
       font-size: 0.72rem;
       color: var(--ph-mint);
-      margin-top: 0.25rem;
+      background: rgba(0, 255, 133, 0.08);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      display: inline-block;
     }
 
     /* Epilogue & Repositories */
@@ -816,12 +922,19 @@
       .repo-pill-grid {
         grid-template-columns: 1fr;
       }
-      .blog-container {
-        padding: 6rem 1.25rem 6rem;
+      .zone-dark.zone-act1 {
+        padding-top: 6rem;
       }
       .step-item {
         grid-template-columns: 1fr;
         gap: 0.75rem;
+      }
+      .reading-column {
+        padding: 0 1.25rem;
+      }
+      .zone-white-band {
+        padding: 4rem 0 4.5rem;
+        margin: 3.5rem 0;
       }
     }
 
@@ -938,587 +1051,533 @@
     </div>
   </header>
 
-  <!-- ========================================================================
-       FOCUSED EDITORIAL ESSAY COLUMN (760px Width)
-       ======================================================================== -->
-  <main class="blog-container">
+  <main>
 
-    <!-- ESSAY HEADER -->
-    <header>
-      <div class="blog-kicker">
-        <span class="blog-kicker-dot"></span>
-        Personal Technical Essay &bull; Topic 01
+    <!-- ======================================================================
+         ACT I: THE OBSIDIAN CONFESSION & EGYPT DISCOVERY
+         Atmospheric dark space framing the personal origin story.
+         ====================================================================== -->
+    <div class="essay-zone zone-dark zone-act1">
+      <div class="reading-column">
+
+        <!-- ESSAY HEADER -->
+        <header>
+          <div class="blog-kicker">
+            <span class="blog-kicker-dot"></span>
+            Personal Technical Essay &bull; Topic 01
+          </div>
+
+          <h1 class="blog-title">
+            The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
+          </h1>
+
+          <p class="blog-deck">
+            Before entering DS311, I treated data science as a race to fit algorithms. Whenever a dataset resisted, I abandoned it for something easier. Then Ma'am Chris introduced Francis Anscombe and John Tukey &mdash; proving that numbers alone can lie, and why looking at messy anomalies is where the real science begins.
+          </p>
+
+          <div class="blog-byline-bar">
+            <div class="author-cluster">
+              <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Mandabon Jr." class="author-avatar">
+              <div class="author-details">
+                <span class="author-name">Rogelio Mandabon Jr.</span>
+                <span class="author-course">DS3A &bull; Exploratory Data Analysis &bull; USTP</span>
+              </div>
+            </div>
+
+            <div class="blog-meta-pills">
+              <span class="meta-tag">Instructor: Ma'am Chris Jallaine S. Mugot</span>
+              <span class="meta-tag">7 min read</span>
+              <span class="meta-tag">Oct 2026</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ARTICLE BODY: ACT I -->
+        <article class="prose">
+
+          <!-- SECTION 1: CONFESSION -->
+          <section id="confession" class="essay-section" style="margin-top: 1rem;">
+            <h2 class="essay-h2">My Backward "Confirmatory" Rush</h2>
+            
+            <p class="essay-lead">
+              Let me start with an honest confession: before this semester, I was approaching data science completely backward.
+            </p>
+
+            <p>
+              Whenever our instructors handed us an analytical assignment, my immediate instinct was to formulate a conclusion in my head first, download a dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I skipped the foundational groundwork entirely. I would jump directly into multi-variable scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes understanding what the individual columns actually contained.
+            </p>
+
+            <p>
+              I didn't pay attention to whether a feature had a severe right skew, whether its variance was dominated by two or three massive outliers, or what the units of measurement physically represented. To me, a dataset was simply a monolithic block of numbers that I needed to shove into an algorithm as quickly as possible.
+            </p>
+
+            <p>
+              Inevitably, reality pushed back hard. I would encounter columns with 30% null values. A variable would contain negative numbers where only positive readings made physical sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I had convinced myself a strong relationship existed.
+            </p>
+
+            <p>
+              And whenever I hit those roadblocks, I panicked. I had memorized textbook terms like &ldquo;mean imputation&rdquo; and &ldquo;median imputation,&rdquo; but in practice, I had little intuition for what damage naive choices caused. I treated missingness like an annoying bug to be erased &mdash; blindly writing <code>df.fillna(df.mean())</code> just to stop my code from crashing. When the resulting models collapsed or made nonsense predictions, I fell into chronic <strong>dataset-hopping</strong>: abandoning the file at 1:30 AM to hunt Kaggle for something &ldquo;cleaner.&rdquo;
+            </p>
+
+            <!-- EDITORIAL PULLQUOTE -->
+            <div class="editorial-pullquote">
+              <div class="pullquote-text">
+                &ldquo;It is very common to spend the most time in the exploratory data analysis stage in order to have a well-made output and to prevent future inconvenience.&rdquo;
+              </div>
+              <cite>&mdash; Ma'am Chris Jallaine S. Mugot, DS311 Instructor</cite>
+            </div>
+
+            <p>
+              That single quote from Ma'am Chris during our opening lectures completely reframed my perspective. EDA isn't a tedious pre-processing chore you rush through to reach machine learning; it is the fundamental sensory phase where you earn the right to model.
+            </p>
+          </section>
+
+          <!-- SECTION 2: EGYPT DATASET RECALL -->
+          <section id="egypt" class="essay-section">
+            <h2 class="essay-h2">One Example I Recall: Stumbling Upon the Egypt Dataset</h2>
+
+            <p>
+              To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We had spent hours scouting Kaggle, loading candidate files into Google Colab, hitting bizarre percentages and corrupted records, and abandoning them one by one.
+            </p>
+
+            <p>
+              We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
+            </p>
+
+            <p>
+              The Egypt dataset wasn't really a problem &mdash; it was simply the one clean, structured dataset that felt safe enough to work with at the time. It contained reliable records of Egypt's governorates, total census counts, and inhabited land areas. Stumbling upon it felt like striking gold because it gave us a dependable empirical foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely inhabited desert governorates.
+            </p>
+
+            <!-- FIGURE: EGYPT CARTOGRAPHY ARTIFACT -->
+            <figure class="essay-figure" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.webp')">
+              <div class="essay-figure-img-wrap">
+                <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy">
+                <span class="figure-zoom-badge">✦ Click to Expand 300 DPI Original</span>
+              </div>
+              <figcaption class="essay-figure-caption">
+                <strong>Figure 1 &bull; Cartographic Artifact:</strong> Egypt Governorate Population Density mapped during our 2nd-year DATAVIS coursework. Cairo and Giza represented extreme orders of magnitude, demonstrating why re-expression is mandatory.
+              </figcaption>
+            </figure>
+
+            <p>
+              Yet even with clean data, our initial raw plots failed completely. Because Cairo and Giza had population densities exceeding tens of thousands of people per square kilometer, plotting the distribution on a standard linear scale flattened every other governorate against the baseline. Matani and the New Valley appeared as empty zeroes.
+            </p>
+
+            <p>
+              Without realizing it at the time, we had stumbled upon John Tukey's core doctrine: <strong>Re-expression</strong>. To make the geographic reality visible, we had to transform the scale using $\log_{10}(\text{density})$. The moment we applied that logarithmic lens, the heavy right tail decompressed, and the real demographic structure of Egypt emerged.
+            </p>
+          </section>
+
+        </article>
       </div>
+    </div>
 
-      <h1 class="blog-title">
-        The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
-      </h1>
+    <!-- ======================================================================
+         ACT II: THE WHITE EDITORIAL TRANSITION CHAPTER
+         Full-width alabaster white sheet spanning edge-to-edge, while keeping
+         the interior reading column strictly locked to 760px.
+         ====================================================================== -->
+    <section class="essay-zone zone-white-band">
+      <div class="reading-column">
+        <article class="prose">
 
-      <p class="blog-deck">
-        Before entering DS311, I treated data science as a race to fit algorithms. Whenever a dataset resisted, I abandoned it for something easier. Then Ma'am Chris introduced Francis Anscombe and John Tukey &mdash; proving that numbers alone can lie, and why looking at messy anomalies is where the real science begins.
-      </p>
+          <!-- SECTION 3: FRANCIS ANSCOMBE'S WAKE-UP CALL -->
+          <section id="anscombe" class="essay-section" style="margin-top: 0; padding-top: 0;">
+            <div class="blog-kicker">
+              <span class="blog-kicker-dot"></span>
+              Act II &bull; The Empirical Proof
+            </div>
 
-      <div class="blog-byline-bar">
-        <div class="author-cluster">
-          <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Mandabon Jr." class="author-avatar">
-          <div class="author-details">
-            <span class="author-name">Rogelio Mandabon Jr.</span>
-            <span class="author-course">DS3A &bull; Exploratory Data Analysis &bull; USTP</span>
-          </div>
-        </div>
+            <h2 class="essay-h2">When Numbers Mislead: Francis Anscombe's 1973 Wake-Up Call</h2>
 
-        <div class="blog-meta-pills">
-          <span class="meta-tag">Instructor: Ma'am Chris Jallaine S. Mugot</span>
-          <span class="meta-tag">7 min read</span>
-          <span class="meta-tag">Oct 2026</span>
-        </div>
+            <p class="essay-lead">
+              In our first week of DS311, Ma'am Chris introduced us to a demonstration that permanently dismantled my trust in uninspected numbers: <strong>Anscombe's Quartet</strong>.
+            </p>
+
+            <p>
+              Constructed in 1973 by British statistician Francis Anscombe, the quartet consists of four synthetic datasets, each containing eleven $(x, y)$ pairs. When you run standard descriptive statistics across all four, the numbers agree with terrifying precision:
+            </p>
+
+            <!-- COMPACT EDITORIAL TABLE -->
+            <div class="editorial-table-wrap">
+              <table class="editorial-table">
+                <thead>
+                  <tr>
+                    <th>Statistical Metric</th>
+                    <th>Dataset I</th>
+                    <th>Dataset II</th>
+                    <th>Dataset III</th>
+                    <th>Dataset IV</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="metric-name">Mean of X (&mu;<sub>x</sub>)</td>
+                    <td class="mono-val">9.00</td>
+                    <td class="mono-val">9.00</td>
+                    <td class="mono-val">9.00</td>
+                    <td class="mono-val">9.00</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Mean of Y (&mu;<sub>y</sub>)</td>
+                    <td class="mono-val">7.50</td>
+                    <td class="mono-val">7.50</td>
+                    <td class="mono-val">7.50</td>
+                    <td class="mono-val">7.50</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Variance of X (&sigma;&sup2;<sub>x</sub>)</td>
+                    <td class="mono-val">11.00</td>
+                    <td class="mono-val">11.00</td>
+                    <td class="mono-val">11.00</td>
+                    <td class="mono-val">11.00</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Variance of Y (&sigma;&sup2;<sub>y</sub>)</td>
+                    <td class="mono-val">4.125</td>
+                    <td class="mono-val">4.125</td>
+                    <td class="mono-val">4.125</td>
+                    <td class="mono-val">4.125</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Pearson Correlation (r)</td>
+                    <td class="mono-val" style="color: #DD6B20;">0.816</td>
+                    <td class="mono-val" style="color: #DD6B20;">0.816</td>
+                    <td class="mono-val" style="color: #DD6B20;">0.816</td>
+                    <td class="mono-val" style="color: #DD6B20;">0.816</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Linear Regression Fit</td>
+                    <td class="mono-val">y = 3.00 + 0.50x</td>
+                    <td class="mono-val">y = 3.00 + 0.50x</td>
+                    <td class="mono-val">y = 3.00 + 0.50x</td>
+                    <td class="mono-val">y = 3.00 + 0.50x</td>
+                  </tr>
+                  <tr>
+                    <td class="metric-name">Coefficient of Det. (R&sup2;)</td>
+                    <td class="mono-val">0.67</td>
+                    <td class="mono-val">0.67</td>
+                    <td class="mono-val">0.67</td>
+                    <td class="mono-val">0.67</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              If you judged these four datasets purely through an API call or a Jupyter summary table &mdash; <code>df.describe()</code> &mdash; you would conclude that all four represent identical linear physical phenomena.
+            </p>
+
+            <p>
+              Yet the moment you plot them on a scatter canvas, the illusion shatters:
+            </p>
+
+            <!-- EDITORIAL CALLOUT -->
+            <div class="editorial-callout">
+              <div class="editorial-callout-title">
+                <span>✦</span> What Looking Reveals
+              </div>
+              <p>
+                <strong>Dataset I</strong> is a well-behaved linear trend with moderate gaussian scatter. <strong>Dataset II</strong> is a deterministic quadratic curve with zero linear validity. <strong>Dataset III</strong> is a tight linear association thrown off by a single vertical outlier. And <strong>Dataset IV</strong> is a vertical cluster where a single extreme leverage point at $x = 19$ artificially manufactures an <code>r = 0.816</code> correlation out of thin air.
+              </p>
+            </div>
+
+            <div class="editorial-pullquote">
+              <div class="pullquote-text">
+                &ldquo;Numerical quantities focus on expected values; visual displays force us to notice what we never anticipated.&rdquo;
+              </div>
+              <cite>&mdash; Francis J. Anscombe, 1973</cite>
+            </div>
+
+            <p>
+              This was the wake-up call I needed. Calculating summary statistics without visualizing the data is like buying a house from an aerial blueprint without ever inspecting the foundation.
+            </p>
+          </section>
+
+          <!-- SECTION 4: TUKEY'S FOUR R'S -->
+          <section id="four-rs" class="essay-section">
+            <h2 class="essay-h2">The Core Antidote: John Tukey's Four R's</h2>
+
+            <p>
+              In 1977, John Tukey published his landmark work, <em>Exploratory Data Analysis</em>. He offered a principled philosophy to rescue researchers from the trap of blind metric-fitting. He organized this mindset around four foundational pillars: <strong>The Four R's</strong>.
+            </p>
+
+            <div class="four-rs-stack">
+              
+              <!-- R1 -->
+              <div class="r-editorial-card">
+                <div class="r-card-head">
+                  <span class="r-card-pill">R1</span>
+                  <h3 class="r-card-title">Resistance</h3>
+                </div>
+                <p>
+                  Classical statistics like the arithmetic mean have a <strong>breakdown point of 0%</strong> &mdash; a single extreme outlier at infinity pulls the entire mean to infinity. Tukey championed resistant measures like the <strong>median and interquartile range (IQR)</strong>, which have a <strong>50% breakdown point</strong>. Even if half your sample consists of corrupted readings, the median remains anchored to where real life lives.
+                </p>
+              </div>
+
+              <!-- R2 -->
+              <div class="r-editorial-card">
+                <div class="r-card-head">
+                  <span class="r-card-pill">R2</span>
+                  <h3 class="r-card-title">Residuals</h3>
+                </div>
+                <p>
+                  Tukey stated that $\text{Data} = \text{Fit} + \text{Residual}$. Never be satisfied with a model just because $R^2$ looks respectable. The residual &mdash; what the model failed to capture &mdash; is where genuine discoveries reside. Inspecting residual plots exposes non-linear curvature, heteroscedastic fan shapes, and sensor dropouts that summary metrics hide.
+                </p>
+              </div>
+
+              <!-- R3 -->
+              <div class="r-editorial-card">
+                <div class="r-card-head">
+                  <span class="r-card-pill">R3</span>
+                  <h3 class="r-card-title">Re-expression</h3>
+                </div>
+                <p>
+                  Raw measurements rarely arrive on the optimal mathematical scale. Applying monotonic transformations like $\log_{10}(x)$, $\sqrt{x}$, or $1/x$ straightens curved associations, stabilizes non-constant variance, and compresses heavy right tails &mdash; exactly as we experienced when decompressing Egypt's municipal population densities.
+                </p>
+              </div>
+
+              <!-- R4 -->
+              <div class="r-editorial-card">
+                <div class="r-card-head">
+                  <span class="r-card-pill">R4</span>
+                  <h3 class="r-card-title">Revelation</h3>
+                </div>
+                <p>
+                  Visual displays allow the analyst to perceive what they never anticipated. As Tukey famously wrote: <em>&ldquo;The greatest value of a picture is when it forces us to notice what we never expected to see.&rdquo;</em> A well-crafted visualization is a cognitive instrument that turns passive numbers into active revelation.
+                </p>
+              </div>
+
+            </div>
+          </section>
+
+        </article>
       </div>
-    </header>
+    </section>
 
-    <!-- ARTICLE BODY -->
-    <article class="prose">
+    <!-- ======================================================================
+         ACT III: THE OBSIDIAN LABORATORY & PRACTITIONER'S FIELD GUIDE
+         Glides back into deep space obsidian where the interactive instrument shines.
+         ====================================================================== -->
+    <div class="essay-zone zone-dark zone-act3">
+      <div class="reading-column">
+        <article class="prose">
 
-      <!-- SECTION 1: CONFESSION -->
-      <section id="confession" class="essay-section" style="margin-top: 1rem;">
-        <h2 class="essay-h2">My Backward "Confirmatory" Rush</h2>
-        
-        <p class="essay-lead">
-          Let me start with an honest confession: before this semester, I was approaching data science completely backward.
-        </p>
-
-        <p>
-          Whenever our instructors handed us an analytical assignment, my immediate instinct was to formulate a conclusion in my head first, download a dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I skipped the foundational groundwork entirely. I would jump directly into multi-variable scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes understanding what the individual columns actually contained.
-        </p>
-
-        <p>
-          I didn't pay attention to whether a feature had a severe right skew, whether its variance was dominated by two or three massive outliers, or what the units of measurement physically represented. To me, a dataset was simply a monolithic block of numbers that I needed to shove into an algorithm as quickly as possible.
-        </p>
-
-        <p>
-          Inevitably, reality pushed back hard. I would encounter columns with 30% null values. A variable would contain negative numbers where only positive readings made physical sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I had convinced myself a strong relationship existed.
-        </p>
-
-        <p>
-          And whenever I hit those roadblocks, I panicked. I had memorized textbook terms like &ldquo;mean imputation&rdquo; and &ldquo;median imputation,&rdquo; but in practice, I had little intuition for what damage naive choices caused. I treated missingness like an annoying bug to be erased &mdash; blindly writing <code>df.fillna(df.mean())</code> just to stop my code from crashing. When the resulting models collapsed or made nonsense predictions, I fell into chronic <strong>dataset-hopping</strong>: abandoning the file at 1:30 AM to hunt Kaggle for something &ldquo;cleaner.&rdquo;
-        </p>
-
-        <!-- EDITORIAL PULLQUOTE -->
-        <div class="editorial-pullquote">
-          <div class="pullquote-text">
-            &ldquo;It is very common to spend the most time in the exploratory data analysis stage in order to have a well-made output and to prevent future inconvenience.&rdquo;
-          </div>
-          <cite>&mdash; Ma'am Chris Jallaine S. Mugot, DS311 Instructor</cite>
-        </div>
-
-        <p>
-          That single quote from Ma'am Chris during our opening lectures completely reframed my perspective. EDA isn't a tedious pre-processing chore you rush through to reach machine learning; it is the fundamental sensory phase where you earn the right to model.
-        </p>
-      </section>
-
-      <!-- SECTION 2: EGYPT DATASET RECALL -->
-      <section id="egypt" class="essay-section">
-        <h2 class="essay-h2">One Example I Recall: Stumbling Upon the Egypt Dataset</h2>
-
-        <p>
-          To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We had spent hours scouting Kaggle, loading candidate files into Google Colab, hitting bizarre percentages and corrupted records, and abandoning them one by one.
-        </p>
-
-        <p>
-          We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
-        </p>
-
-        <p>
-          The Egypt dataset wasn't really a problem &mdash; it was simply the one clean, structured dataset that felt safe enough to work with at the time. It contained reliable records of Egypt's governorates, total census counts, and inhabited land areas. Stumbling upon it felt like striking gold because it gave us a dependable empirical foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely inhabited desert governorates.
-        </p>
-
-        <!-- FIGURE: EGYPT CARTOGRAPHY ARTIFACT -->
-        <figure class="essay-figure" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.webp')">
-          <div class="essay-figure-img-wrap">
-            <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy">
-            <span class="figure-zoom-badge">✦ Click to Expand 300 DPI Original</span>
-          </div>
-          <figcaption class="essay-figure-caption">
-            <strong>Figure 1 &bull; Cartographic Artifact:</strong> Egypt Governorate Population Density mapped during our 2nd-year DATAVIS coursework. Cairo and Giza represented extreme orders of magnitude, demonstrating why re-expression is mandatory.
-          </figcaption>
-        </figure>
-
-        <p>
-          Yet even with clean data, our initial raw plots failed completely. Because Cairo and Giza had population densities exceeding tens of thousands of people per square kilometer, plotting the distribution on a standard linear scale flattened every other governorate against the baseline. Matani and the New Valley appeared as empty zeroes.
-        </p>
-
-        <p>
-          Without realizing it at the time, we had stumbled upon John Tukey's core doctrine: <strong>Re-expression</strong>. To make the geographic reality visible, we had to transform the scale using $\log_{10}(\text{density})$. The moment we applied that logarithmic lens, the heavy right tail decompressed, and the real demographic structure of Egypt emerged.
-        </p>
-      </section>
-
-      <!-- SECTION 3: FRANCIS ANSCOMBE'S WAKE-UP CALL -->
-      <section id="anscombe" class="essay-section">
-        <h2 class="essay-h2">When Numbers Mislead: Francis Anscombe's 1973 Wake-Up Call</h2>
-
-        <p>
-          In our first week of DS311, Ma'am Chris introduced us to a demonstration that permanently dismantled my trust in uninspected numbers: <strong>Anscombe's Quartet</strong>.
-        </p>
-
-        <p>
-          Constructed in 1973 by British statistician Francis Anscombe, the quartet consists of four synthetic datasets, each containing eleven $(x, y)$ pairs. When you run standard descriptive statistics across all four, the numbers agree with terrifying precision:
-        </p>
-
-        <!-- COMPACT EDITORIAL TABLE -->
-        <div class="editorial-table-wrap">
-          <table class="editorial-table">
-            <thead>
-              <tr>
-                <th>Statistical Metric</th>
-                <th>Dataset I</th>
-                <th>Dataset II</th>
-                <th>Dataset III</th>
-                <th>Dataset IV</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="metric-name">Mean of X (&mu;<sub>x</sub>)</td>
-                <td class="mono-val">9.00</td>
-                <td class="mono-val">9.00</td>
-                <td class="mono-val">9.00</td>
-                <td class="mono-val">9.00</td>
-              </tr>
-              <tr>
-                <td class="metric-name">Mean of Y (&mu;<sub>y</sub>)</td>
-                <td class="mono-val">7.50</td>
-                <td class="mono-val">7.50</td>
-                <td class="mono-val">7.50</td>
-                <td class="mono-val">7.50</td>
-              </tr>
-              <tr>
-                <td class="metric-name">Variance of X (&sigma;&sup2;<sub>x</sub>)</td>
-                <td class="mono-val">11.00</td>
-                <td class="mono-val">11.00</td>
-                <td class="mono-val">11.00</td>
-                <td class="mono-val">11.00</td>
-              </tr>
-              <tr>
-                <td class="metric-name">Pearson Correlation (<em>r</em>)</td>
-                <td class="mono-val" style="color: var(--ph-orange); font-weight: 700;">0.816</td>
-                <td class="mono-val" style="color: var(--ph-orange); font-weight: 700;">0.816</td>
-                <td class="mono-val" style="color: var(--ph-orange); font-weight: 700;">0.816</td>
-                <td class="mono-val" style="color: var(--ph-orange); font-weight: 700;">0.816</td>
-              </tr>
-              <tr>
-                <td class="metric-name">Fitted Linear Regression</td>
-                <td class="mono-val" colspan="4" style="text-align: center; color: var(--ph-mint); font-weight: 700;">y = 3.00 + 0.500x &nbsp;&bull;&nbsp; R&sup2; = 66.6%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p>
-          If you only looked at the console output in Python or read the summary table in a report, you would swear all four collections describe the exact same linear phenomenon. Any algorithm minimizing squared loss would treat them identically.
-        </p>
-
-        <p>
-          Yet the moment you scatter plot them, the illusion instantly shatters:
-        </p>
-
-        <ul style="padding-left: 1.5rem; margin-bottom: 1.75rem; color: var(--text-muted);">
-          <li style="margin-bottom: 0.65rem;"><strong style="color:#FFF;">Dataset I</strong> is a classic, well-behaved linear scatter with random residual noise.</li>
-          <li style="margin-bottom: 0.65rem;"><strong style="color:#FFF;">Dataset II</strong> is a clean, smooth quadratic parabola &mdash; linear regression is entirely the wrong model.</li>
-          <li style="margin-bottom: 0.65rem;"><strong style="color:#FFF;">Dataset III</strong> is a tight, perfectly straight line pulled off-angle by a single vertical outlier.</li>
-          <li style="margin-bottom: 0.65rem;"><strong style="color:#FFF;">Dataset IV</strong> is a vertical cluster of points at $x = 8.0$ whose entire slope and correlation are held hostage by one extreme leverage point at $x = 19.0$.</li>
-        </ul>
-
-        <div class="editorial-callout">
-          <div class="editorial-callout-title">✦ The Epistemological Lesson</div>
-          Summary statistics are not lying; they are simply answering a narrow question. The mean and correlation are fundamentally blind to geometry. Looking at your data before concluding is not an optional aesthetic choice &mdash; it is a non-negotiable prerequisite for intellectual honesty.
-        </div>
-      </section>
-
-      <!-- SECTION 4: THE FOUR R'S OF JOHN TUKEY -->
-      <section id="four-rs" class="essay-section">
-        <h2 class="essay-h2">The Four R's of John Tukey</h2>
-
-        <p>
-          In 1977, Princeton mathematician John Tukey published his landmark book <em>Exploratory Data Analysis</em>. Tukey challenged the dogmatic reliance on formal confirmatory tests and codified four operational principles that serve as our investigative compass:
-        </p>
-
-        <div class="four-rs-stack">
-          
-          <!-- R1 -->
-          <div class="r-editorial-card">
-            <div class="r-card-head">
-              <span class="r-card-pill">R1</span>
-              <h3 class="r-card-title">Resistance</h3>
+          <!-- SECTION 5: INTERACTIVE ANSCOMBE SIMULATOR (Embedded cleanly) -->
+          <section id="lab" class="essay-section" style="margin-top: 1rem;">
+            <div class="blog-kicker">
+              <span class="blog-kicker-dot" style="background: var(--ph-mint); box-shadow: 0 0 8px var(--ph-mint);"></span>
+              Act III &bull; Interactive Instrument
             </div>
-            <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0;">
-              Classical statistics like the arithmetic mean have a <strong>breakdown point of 0%</strong> &mdash; a single extreme outlier at infinity pulls the entire mean to infinity. Tukey championed resistant measures like the <strong>median and interquartile range (IQR)</strong>, which have a <strong>50% breakdown point</strong>. Even if half your sample consists of corrupted readings, the median remains anchored to where real life lives.
+
+            <h2 class="essay-h2">Interactive Laboratory: Anscombe &amp; Leverage HUD</h2>
+            
+            <p>
+              To make these dynamics tactile, I built this interactive instrument. Switch between Anscombe's presets, drag individual points directly across the coordinate space, or adjust the outlier slider to see how a single leverage point warps linear regression and correlation in real time:
             </p>
-          </div>
 
-          <!-- R2 -->
-          <div class="r-editorial-card">
-            <div class="r-card-head">
-              <span class="r-card-pill">R2</span>
-              <h3 class="r-card-title">Residuals</h3>
+            <!-- LAB INSTRUMENT -->
+            <div class="lab-container">
+              <div class="lab-header">
+                <span class="lab-title">2D Anscombe &amp; Leverage Canvas</span>
+                <div class="lab-presets">
+                  <button class="lab-btn active" onclick="loadAnscombePreset('anscombe1', this)">Set I</button>
+                  <button class="lab-btn" onclick="loadAnscombePreset('anscombe2', this)">Set II</button>
+                  <button class="lab-btn" onclick="loadAnscombePreset('anscombe3', this)">Set III</button>
+                  <button class="lab-btn" onclick="loadAnscombePreset('anscombe4', this)">Set IV</button>
+                </div>
+              </div>
+
+              <div class="lab-canvas-wrap">
+                <canvas id="ph-canvas"></canvas>
+              </div>
+
+              <div class="lab-controls-bar">
+                <button class="lab-toggle-btn" id="toggle-residuals-btn" onclick="toggleResiduals()">
+                  <span>✦</span> Residual Error Vectors: OFF
+                </button>
+                <div class="lab-slider-wrap">
+                  <span class="lab-slider-label">Outlier Leverage X:</span>
+                  <input type="range" class="lab-slider" id="outlier-slider" min="4" max="20" step="0.2" value="19" oninput="updateOutlier(this.value)">
+                </div>
+              </div>
+
+              <div class="lab-hud">
+                <div class="hud-box">
+                  <span class="hud-label">Correlation (r)</span>
+                  <span class="hud-val" id="hud-r" style="color: var(--ph-orange);">0.816</span>
+                </div>
+                <div class="hud-box">
+                  <span class="hud-label">Slope (&beta;₁)</span>
+                  <span class="hud-val" id="hud-slope">0.500</span>
+                </div>
+                <div class="hud-box">
+                  <span class="hud-label">R-Squared (R&sup2;)</span>
+                  <span class="hud-val" id="hud-r2">66.6%</span>
+                </div>
+                <div class="hud-box">
+                  <span class="hud-label">Mean of X</span>
+                  <span class="hud-val" id="hud-mx">9.00</span>
+                </div>
+                <div class="hud-box">
+                  <span class="hud-label">Mean of Y</span>
+                  <span class="hud-val" id="hud-my">7.50</span>
+                </div>
+              </div>
             </div>
-            <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0;">
-              Tukey stated that $\text{Data} = \text{Fit} + \text{Residual}$. Never be satisfied with a model just because $R^2$ looks respectable. The residual &mdash; what the model failed to capture &mdash; is where genuine discoveries reside. Inspecting residual plots exposes non-linear curvature, heteroscedastic fan shapes, and sensor dropouts that summary metrics hide.
+
+            <p style="font-size: 0.95rem; color: var(--text-dim); text-align: center; margin-top: -1.5rem; margin-bottom: 2.5rem;">
+              Tip: Click and drag any circle inside the canvas to witness real-time metric recalculation. Toggle residual vectors to expose how errors deviate from the fitted line.
             </p>
-          </div>
+          </section>
 
-          <!-- R3 -->
-          <div class="r-editorial-card">
-            <div class="r-card-head">
-              <span class="r-card-pill">R3</span>
-              <h3 class="r-card-title">Re-expression</h3>
-            </div>
-            <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0;">
-              Raw measurements rarely arrive on the optimal mathematical scale. Applying monotonic transformations like $\log_{10}(x)$, $\sqrt{x}$, or $1/x$ straightens curved associations, stabilizes non-constant variance, and compresses heavy right tails &mdash; exactly as we experienced when decompressing Egypt's municipal population densities.
+          <!-- SECTION 6: THE 7 STEPS FIELD GUIDE -->
+          <section id="steps" class="essay-section">
+            <h2 class="essay-h2">A Field Guide: How I Walk Through the 7 Steps</h2>
+
+            <p>
+              In traditional coursework, we were conditioned to follow rigid, linear checklists: plug in numbers, execute code, deliver a clean report. But as Ma'am Chris emphasized in Topic 01, exploratory analysis is an organic, iterative cycle of inquiry. Here is how I approach a new dataset today:
             </p>
-          </div>
 
-          <!-- R4 -->
-          <div class="r-editorial-card">
-            <div class="r-card-head">
-              <span class="r-card-pill">R4</span>
-              <h3 class="r-card-title">Revelation</h3>
+            <div class="steps-field-guide">
+              
+              <div class="step-item">
+                <div class="step-num-badge">01</div>
+                <div class="step-content">
+                  <h3>Understand Context &amp; Origin</h3>
+                  <p>
+                    Data never exists in a vacuum. Before writing any code, I investigate who collected the records, under what protocols, and for what purpose. In our CDO Health Access capstone, knowing whether clinic coordinates came from volunteer OpenStreetMap tags or verified Department of Health audits determined the entire credibility of our spatial buffers.
+                  </p>
+                  <span class="step-tag">✦ Grounding in Reality</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">02</div>
+                <div class="step-content">
+                  <h3>Inspect Data Structure</h3>
+                  <p>
+                    My mandatory first reflex in Jupyter is running <code>df.shape</code> and <code>df.info()</code>. I verify column data types, check for accidental string encodings on numeric values, and audit row duplicate hashes. Catching structural defects early prevents mysterious syntax errors later.
+                  </p>
+                  <span class="step-tag">✦ Turning on the Lights</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">03</div>
+                <div class="step-content">
+                  <h3>Assess True Data Quality</h3>
+                  <p>
+                    Missing values are not random errors to wipe with <code>fillna(mean)</code>. In our Lab 01 Water Potability dataset, missing chemical readings reflected laboratory equipment limitations at rural monitoring stations. Understanding missingness mechanisms (MCAR vs. MAR vs. MNAR) informs whether you impute, model missingness explicitly, or retain it as an informative signal.
+                  </p>
+                  <span class="step-tag">✦ Informative Missingness</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">04</div>
+                <div class="step-content">
+                  <h3>Examine Univariate Distributions</h3>
+                  <p>
+                    Audit every variable individually before pairing them. Compare the arithmetic mean with the median: a large gap immediately signals skewness or outlier leverage. Inspect histograms across multiple bin counts to avoid underbinned flattening, and identify heavy tails early.
+                  </p>
+                  <span class="step-tag">✦ Spotting Heavy Tails</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">05</div>
+                <div class="step-content">
+                  <h3>Examine Bivariate Relationships</h3>
+                  <p>
+                    Scatter plots and grouped box plots expose relationships that correlation coefficients conceal. In NYC Taxi data, plotting distance against fare amount revealed fixed flat-rate airport trips where 0 miles cost $52, and sensor glitches where 120 miles cost $8 &mdash; real-world phenomena no single <em>r</em> value could summarize.
+                  </p>
+                  <span class="step-tag">✦ Lenses Over Locks</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">06</div>
+                <div class="step-content">
+                  <h3>Identify Anomalies as Stories</h3>
+                  <p>
+                    Instead of immediately purging outliers, ask: <em>&ldquo;Does this observation make physical sense?&rdquo;</em> An extreme measurement might be a data logging error, or it might be the most valuable, informative signal in the entire sample. The anomaly is where domain understanding happens.
+                  </p>
+                  <span class="step-tag">✦ The Genuine Story</span>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-num-badge">07</div>
+                <div class="step-content">
+                  <h3>Iterate &amp; Refine Hypotheses</h3>
+                  <p>
+                    Exploratory analysis never terminates in a static slide deck. Every finding raises sharper questions. When an unexpected pattern surfaces, loop back: re-express scales, partition subgroups, and challenge assumptions before committing to predictive modeling.
+                  </p>
+                  <span class="step-tag">✦ The Detective's Mindset</span>
+                </div>
+              </div>
+
             </div>
-            <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0;">
-              Visual displays allow the analyst to perceive what they never anticipated. As Tukey famously wrote: <em>&ldquo;The greatest value of a picture is when it forces us to notice what we never expected to see.&rdquo;</em> A well-crafted visualization is a cognitive instrument that turns passive numbers into active revelation.
+          </section>
+
+          <!-- EPILOGUE & FOOTER -->
+          <footer class="blog-footer">
+            <h2 class="essay-h2" style="font-size: 1.6rem;">Epilogue &amp; Course Repositories</h2>
+            <p>
+              Topic 01 was not just another lecture module &mdash; it was a psychological cure. It taught me that dataset resistance is not a reason to quit; it is an invitation to explore. Moving forward into bivariate diagnostics, geographic modeling, and predictive algorithms, I carry Francis Anscombe and John Tukey with me: always look first, respect resistance, investigate residuals, and let the data reveal its truth.
             </p>
-          </div>
 
-        </div>
-      </section>
+            <div class="repo-pill-grid">
+              <a href="https://github.com/Troge-dev/academic-reviewers" target="_blank" class="repo-pill">
+                <div class="repo-pill-name">
+                  <span>academic-reviewers</span>
+                  <span>&rarr;</span>
+                </div>
+                <p class="repo-pill-desc">
+                  Centralized repository hosting interactive keynotes, technical companion guides, and laboratory archives.
+                </p>
+              </a>
 
-      <!-- SECTION 5: INTERACTIVE ANSCOMBE SIMULATOR (Embedded cleanly) -->
-      <section id="lab" class="essay-section">
-        <h2 class="essay-h2">Interactive Laboratory: Anscombe &amp; Leverage HUD</h2>
-        
-        <p>
-          To make these dynamics tactile, I built this interactive instrument. Switch between Anscombe's presets, drag individual points directly across the coordinate space, or adjust the outlier slider to see how a single leverage point warps linear regression and correlation in real time:
-        </p>
-
-        <!-- LAB INSTRUMENT -->
-        <div class="lab-container">
-          <div class="lab-header">
-            <span class="lab-title">2D Anscombe &amp; Leverage Canvas</span>
-            <div class="lab-presets">
-              <button class="lab-btn active" onclick="loadAnscombePreset('anscombe1', this)">Set I</button>
-              <button class="lab-btn" onclick="loadAnscombePreset('anscombe2', this)">Set II</button>
-              <button class="lab-btn" onclick="loadAnscombePreset('anscombe3', this)">Set III</button>
-              <button class="lab-btn" onclick="loadAnscombePreset('anscombe4', this)">Set IV</button>
+              <a href="https://troge-dev.github.io/academic-reviewers/" target="_blank" class="repo-pill">
+                <div class="repo-pill-name">
+                  <span>Live Reviewers Portal</span>
+                  <span>&rarr;</span>
+                </div>
+                <p class="repo-pill-desc">
+                  Explore peer keynote decks, 3D interactive flashcards, and companion research write-ups across DS courses.
+                </p>
+              </a>
             </div>
-          </div>
 
-          <div class="lab-canvas-wrap">
-            <canvas id="ph-canvas"></canvas>
-          </div>
-
-          <div class="lab-controls-bar">
-            <button class="lab-toggle-btn" id="toggle-residuals-btn" onclick="toggleResiduals()">
-              <span>✦</span> Residual Error Vectors: OFF
-            </button>
-            <div class="lab-slider-wrap">
-              <span class="lab-slider-label">Outlier Leverage X:</span>
-              <input type="range" class="lab-slider" id="outlier-slider" min="4" max="20" step="0.2" value="19" oninput="updateOutlier(this.value)">
+            <div style="margin-top: 3rem; text-align: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
+              Designed with care by Rogelio Mandabon Jr. &bull; DS3A &bull; USTP CDO &bull; Academic Year 2026&ndash;2027
             </div>
-          </div>
+          </footer>
 
-          <div class="lab-hud">
-            <div class="hud-box">
-              <span class="hud-label">Correlation (r)</span>
-              <span class="hud-val" id="hud-r" style="color: var(--ph-orange);">0.816</span>
-            </div>
-            <div class="hud-box">
-              <span class="hud-label">Slope (&beta;₁)</span>
-              <span class="hud-val" id="hud-slope">0.500</span>
-            </div>
-            <div class="hud-box">
-              <span class="hud-label">R-Squared (R&sup2;)</span>
-              <span class="hud-val" id="hud-r2">66.6%</span>
-            </div>
-            <div class="hud-box">
-              <span class="hud-label">Mean of X</span>
-              <span class="hud-val" id="hud-mx">9.00</span>
-            </div>
-            <div class="hud-box">
-              <span class="hud-label">Mean of Y</span>
-              <span class="hud-val" id="hud-my">7.50</span>
-            </div>
-          </div>
-        </div>
+        </article>
+      </div>
+    </div>
 
-        <p style="font-size: 0.95rem; color: var(--text-dim); text-align: center; margin-top: -1.5rem; margin-bottom: 2.5rem;">
-          Tip: Click and drag any circle inside the canvas to witness real-time metric recalculation. Toggle residual vectors to expose how errors deviate from the fitted line.
-        </p>
-      </section>
-
-      <!-- SECTION 6: HOW I WALK THROUGH THE 7 STEPS -->
-      <section id="steps" class="essay-section">
-        <h2 class="essay-h2">A Field Guide: How I Walk Through the 7 Steps</h2>
-
-        <p>
-          In traditional coursework, we were conditioned to follow rigid, linear checklists: plug in numbers, execute code, deliver a clean report. But as Ma'am Chris emphasized in Topic 01, exploratory analysis is an organic, iterative cycle of inquiry. Here is how I approach a new dataset today:
-        </p>
-
-        <div class="steps-field-guide">
-          
-          <div class="step-item">
-            <div class="step-num-badge">01</div>
-            <div class="step-content">
-              <h3>Understand Context &amp; Origin</h3>
-              <p>
-                Data never exists in a vacuum. Before writing any code, I investigate who collected the records, under what protocols, and for what purpose. In our CDO Health Access capstone, knowing whether clinic coordinates came from volunteer OpenStreetMap tags or verified Department of Health audits determined the entire credibility of our spatial buffers.
-              </p>
-              <span class="step-tag">✦ Grounding in Reality</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">02</div>
-            <div class="step-content">
-              <h3>Inspect Data Structure</h3>
-              <p>
-                My mandatory first reflex in Jupyter is running <code>df.shape</code> and <code>df.info()</code>. I verify column data types, check for accidental string encodings on numeric values, and audit row duplicate hashes. Catching structural defects early prevents mysterious syntax errors later.
-              </p>
-              <span class="step-tag">✦ Turning on the Lights</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">03</div>
-            <div class="step-content">
-              <h3>Assess True Data Quality</h3>
-              <p>
-                Missing values are not random errors to wipe with <code>fillna(mean)</code>. In our Lab 01 Water Potability dataset, missing chemical readings reflected laboratory equipment limitations at rural monitoring stations. Understanding missingness mechanisms (MCAR vs. MAR vs. MNAR) informs whether you impute, model missingness explicitly, or retain it as an informative signal.
-              </p>
-              <span class="step-tag">✦ Informative Missingness</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">04</div>
-            <div class="step-content">
-              <h3>Examine Univariate Distributions</h3>
-              <p>
-                Audit every variable individually before pairing them. Compare the arithmetic mean with the median: a large gap immediately signals skewness or outlier leverage. Inspect histograms across multiple bin counts to avoid underbinned flattening, and identify heavy tails early.
-              </p>
-              <span class="step-tag">✦ Spotting Heavy Tails</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">05</div>
-            <div class="step-content">
-              <h3>Examine Bivariate Relationships</h3>
-              <p>
-                Scatter plots and grouped box plots expose relationships that correlation coefficients conceal. In NYC Taxi data, plotting distance against fare amount revealed fixed flat-rate airport trips where 0 miles cost $52, and sensor glitches where 120 miles cost $8 &mdash; real-world phenomena no single <em>r</em> value could summarize.
-              </p>
-              <span class="step-tag">✦ Lenses Over Locks</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">06</div>
-            <div class="step-content">
-              <h3>Identify Anomalies as Stories</h3>
-              <p>
-                Instead of immediately purging outliers, ask: <em>&ldquo;Does this observation make physical sense?&rdquo;</em> An extreme measurement might be a data logging error, or it might be the most valuable, informative signal in the entire sample. The anomaly is where domain understanding happens.
-              </p>
-              <span class="step-tag">✦ The Genuine Story</span>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-num-badge">07</div>
-            <div class="step-content">
-              <h3>Formulate Sharp Hypotheses</h3>
-              <p>
-                EDA does not give you final, definitive answers on day one &mdash; it equips you with sharper, better-informed questions. You emerge from exploration with empirical hypotheses ready for statistical testing, spatial modeling, or algorithmic validation.
-              </p>
-              <span class="step-tag">✦ Curiosity into Science</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- EPILOGUE -->
-      <section class="essay-section" style="margin-top: 3.5rem;">
-        <h2 class="essay-h2">Conclusion: The Courage to Look</h2>
-
-        <p>
-          If there is one permanent lesson Topic 01 taught me, it is to slow down. The instinct to rush to conclusions, to fit models on day one, and to abandon messy data out of discomfort is fundamentally an avoidance of looking.
-        </p>
-
-        <p>
-          Data science is not about confirming what you hoped was true. It is about having the intellectual humility to let the data speak first, to respect its oddities, and to understand its geometry before imposing your assumptions upon it.
-        </p>
-
-        <p>
-          The next time a dataset resists, don't hop to another file. Take a breath, plot the scatter, compute the residuals, and look. That is where the truth lives.
-        </p>
-      </section>
-
-      <!-- FOOTER & REPOSITORIES -->
-      <footer class="blog-footer">
-        <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: #FFFFFF;">
-          Academic Repositories &bull; DS311 Coursework
-        </div>
-        <p style="font-size: 0.88rem; color: var(--text-dim); margin-top: 0.25rem;">
-          Open-source reproducible Jupyter notebooks, spatial GIS models, and peer review suites.
-        </p>
-
-        <div class="repo-pill-grid">
-          <a href="https://github.com/Troge-dev/academic-reviewers/tree/main/eda" target="_blank" class="repo-pill">
-            <div class="repo-pill-name">
-              <span>DS311 EDA Reviewer Suite</span>
-              <span>&nearr;</span>
-            </div>
-            <div class="repo-pill-desc">Interactive companion guides, A2 poster studio, and Topic 01 codebooks.</div>
-          </a>
-
-          <a href="https://github.com/Troge-dev/datasets/tree/main/3rd_year_MIDTERMS_EDA" target="_blank" class="repo-pill">
-            <div class="repo-pill-name">
-              <span>Reproducible Datasets</span>
-              <span>&nearr;</span>
-            </div>
-            <div class="repo-pill-desc">Cleaned CSVs, geojson boundaries, and benchmark analytical scripts.</div>
-          </a>
-        </div>
-
-        <div style="margin-top: 3rem; text-align: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
-          The Philosophy of Looking &bull; DS311 Exploratory Data Analysis &bull; Rogelio Mandabon Jr.
-        </div>
-      </footer>
-
-    </article>
   </main>
 
-  <!-- LIGHTBOX MODAL FOR FIGURES -->
-  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox(event)">
-    <div class="lightbox-close-btn" onclick="closeLightbox()">✕ Close (Esc)</div>
-    <img id="lightbox-img" src="" alt="Zoomed Artifact View">
+  <!-- LIGHTBOX MODAL -->
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
+    <button class="lightbox-close-btn" onclick="closeLightbox()">&times; Close</button>
+    <img id="lightbox-img" src="" alt="Enlarged Visual">
   </div>
 
-  <!-- JAVASCRIPT: ATMOSPHERIC CANVAS, SCROLL-SPY, ANSCOMBE LAB, LIGHTBOX -->
+  <!-- SCRIPT ENGINE -->
   <script>
-    // 1. Reading Progress Bar & Scroll-Spy
+    // Reading Progress Indicator
     window.addEventListener('scroll', () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = (window.scrollY / docHeight) * 100;
-      document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, scrolled)) + '%';
-
-      // Update active nav link
-      const sections = document.querySelectorAll('section[id]');
-      let currentId = '';
-      sections.forEach(sec => {
-        const top = sec.offsetTop - 180;
-        if (window.scrollY >= top) {
-          currentId = sec.getAttribute('id');
-        }
-      });
-      document.querySelectorAll('.ph-nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + currentId) {
-          link.classList.add('active');
-        }
-      });
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar').style.width = scrolled + '%';
     });
 
-    // 2. Hardware Accelerated Atmospheric Moving Background (Constellation Canvas)
-    (function initAtmosphericMesh() {
-      const bgCanvas = document.getElementById('ambient-mesh-canvas');
-      if (!bgCanvas) return;
-      const bgCtx = bgCanvas.getContext('2d');
-      let width, height;
-      let particles = [];
-      let mouseX = -1000, mouseY = -1000;
-      const PARTICLE_COUNT = 55;
-
-      function resize() {
-        width = bgCanvas.width = window.innerWidth;
-        height = bgCanvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      window.addEventListener('mouseleave', () => {
-        mouseX = -1000;
-        mouseY = -1000;
-      });
-
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const isOrange = Math.random() > 0.45;
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          radius: Math.random() * 2.0 + 0.8,
-          alpha: Math.random() * 0.4 + 0.25,
-          isOrange: isOrange,
-          color: isOrange ? '#FF7A00' : '#00FF85'
-        });
-      }
-
-      function animate() {
-        bgCtx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
-
-          // Mouse gentle repulsion
-          const dx = p.x - mouseX;
-          const dy = p.y - mouseY;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 140) {
-            const force = (140 - dist) / 140;
-            p.x += (dx / dist) * force * 1.8;
-            p.y += (dy / dist) * force * 1.8;
-          }
-
-          bgCtx.beginPath();
-          bgCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          bgCtx.fillStyle = p.isOrange 
-            ? `rgba(255, 122, 0, ${p.alpha})` 
-            : `rgba(0, 255, 133, ${p.alpha * 0.85})`;
-          bgCtx.fill();
-
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const pDist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (pDist < 120) {
-              const lineAlpha = (1 - pDist / 120) * 0.16;
-              bgCtx.beginPath();
-              bgCtx.moveTo(p.x, p.y);
-              bgCtx.lineTo(p2.x, p2.y);
-              bgCtx.strokeStyle = p.isOrange 
-                ? `rgba(255, 122, 0, ${lineAlpha})` 
-                : `rgba(0, 255, 133, ${lineAlpha * 0.7})`;
-              bgCtx.lineWidth = 0.8;
-              bgCtx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    // 3. Lightbox Logic
+    // Lightbox Controls
     function openLightbox(src) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
@@ -1527,49 +1586,126 @@
       document.body.style.overflow = 'hidden';
     }
 
-    function closeLightbox(e) {
-      if (!e || e.target.id === 'lightbox-modal' || e.target.classList.contains('lightbox-close-btn')) {
-        const modal = document.getElementById('lightbox-modal');
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
-    window.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
     });
 
-    // 4. Interactive Anscombe & Leverage Canvas Instrument Logic
-    const canvas = document.getElementById('ph-canvas');
-    const ctx = canvas ? canvas.getContext('2d') : null;
-    let showResiduals = false;
-    let activePreset = 'anscombe1';
+    // Atmospheric Interactive Constellation Mesh
+    const bgCanvas = document.getElementById('ambient-mesh-canvas');
+    if (bgCanvas) {
+      const bgCtx = bgCanvas.getContext('2d');
+      let particles = [];
+      let width = bgCanvas.width = window.innerWidth;
+      let height = bgCanvas.height = window.innerHeight;
 
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.35;
+          this.vy = (Math.random() - 0.5) * 0.35;
+          this.radius = Math.random() * 1.5 + 0.5;
+          this.alpha = Math.random() * 0.45 + 0.15;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0) this.x = width;
+          if (this.x > width) this.x = 0;
+          if (this.y < 0) this.y = height;
+          if (this.y > height) this.y = 0;
+        }
+        draw() {
+          bgCtx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+          bgCtx.beginPath();
+          bgCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          bgCtx.fill();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = Math.min(65, Math.floor((width * height) / 18000));
+        for (let i = 0; i < count; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function renderParticles() {
+        bgCtx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.hypot(dx, dy);
+
+            if (dist < 115) {
+              const lineAlpha = (1 - dist / 115) * 0.14;
+              bgCtx.strokeStyle = `rgba(255, 122, 0, ${lineAlpha})`;
+              bgCtx.lineWidth = 0.75;
+              bgCtx.beginPath();
+              bgCtx.moveTo(particles[i].x, particles[i].y);
+              bgCtx.lineTo(particles[j].x, particles[j].y);
+              bgCtx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(renderParticles);
+      }
+
+      window.addEventListener('resize', () => {
+        width = bgCanvas.width = window.innerWidth;
+        height = bgCanvas.height = window.innerHeight;
+        initParticles();
+      });
+
+      initParticles();
+      renderParticles();
+    }
+
+    // =========================================================================
+    // INTERACTIVE ANSCOMBE SIMULATOR (Set I - IV + Dragging + Residuals)
+    // =========================================================================
     const ANSCOMBE_PRESETS = {
       anscombe1: [
-        {x: 10.0, y: 8.04}, {x: 8.0, y: 6.95}, {x: 13.0, y: 7.58}, {x: 9.0, y: 8.81},
-        {x: 11.0, y: 8.33}, {x: 14.0, y: 9.96}, {x: 6.0, y: 7.24}, {x: 4.0, y: 4.26},
-        {x: 12.0, y: 10.84}, {x: 7.0, y: 4.82}, {x: 5.0, y: 5.68}
+        {x: 10, y: 8.04}, {x: 8, y: 6.95}, {x: 13, y: 7.58}, {x: 9, y: 8.81},
+        {x: 11, y: 8.33}, {x: 14, y: 9.96}, {x: 6, y: 7.24}, {x: 4, y: 4.26},
+        {x: 12, y: 10.84}, {x: 7, y: 4.82}, {x: 5, y: 5.68}
       ],
       anscombe2: [
-        {x: 10.0, y: 9.14}, {x: 8.0, y: 8.14}, {x: 13.0, y: 8.74}, {x: 9.0, y: 8.77},
-        {x: 11.0, y: 9.26}, {x: 14.0, y: 8.10}, {x: 6.0, y: 6.13}, {x: 4.0, y: 3.10},
-        {x: 12.0, y: 9.13}, {x: 7.0, y: 7.26}, {x: 5.0, y: 4.74}
+        {x: 10, y: 9.14}, {x: 8, y: 8.14}, {x: 13, y: 8.74}, {x: 9, y: 8.77},
+        {x: 11, y: 9.26}, {x: 14, y: 8.10}, {x: 6, y: 6.13}, {x: 4, y: 3.10},
+        {x: 12, y: 9.13}, {x: 7, y: 7.26}, {x: 5, y: 4.74}
       ],
       anscombe3: [
-        {x: 10.0, y: 7.46}, {x: 8.0, y: 6.77}, {x: 13.0, y: 12.74}, {x: 9.0, y: 7.11},
-        {x: 11.0, y: 7.81}, {x: 14.0, y: 8.84}, {x: 6.0, y: 6.08}, {x: 4.0, y: 5.39},
-        {x: 12.0, y: 8.15}, {x: 7.0, y: 6.42}, {x: 5.0, y: 5.73}
+        {x: 10, y: 7.46}, {x: 8, y: 6.77}, {x: 13, y: 12.74}, {x: 9, y: 7.11},
+        {x: 11, y: 7.81}, {x: 14, y: 8.84}, {x: 6, y: 6.08}, {x: 4, y: 5.39},
+        {x: 12, y: 8.15}, {x: 7, y: 6.42}, {x: 5, y: 5.73}
       ],
       anscombe4: [
-        {x: 8.0, y: 6.58}, {x: 8.0, y: 5.76}, {x: 8.0, y: 7.71}, {x: 8.0, y: 8.84},
-        {x: 8.0, y: 8.47}, {x: 8.0, y: 7.04}, {x: 8.0, y: 5.25}, {x: 19.0, y: 12.50},
-        {x: 8.0, y: 5.56}, {x: 8.0, y: 7.91}, {x: 8.0, y: 6.89}
+        {x: 8, y: 6.58}, {x: 8, y: 5.76}, {x: 8, y: 7.71}, {x: 8, y: 8.84},
+        {x: 8, y: 8.47}, {x: 8, y: 7.04}, {x: 8, y: 5.25}, {x: 19, y: 12.50},
+        {x: 8, y: 5.56}, {x: 8, y: 7.91}, {x: 8, y: 6.89}
       ]
     };
 
-    let currentPoints = JSON.parse(JSON.stringify(ANSCOMBE_PRESETS.anscombe1));
+    let activePreset = 'anscombe1';
+    let currentPoints = JSON.parse(JSON.stringify(ANSCOMBE_PRESETS[activePreset]));
+    let showResiduals = false;
     let draggedPoint = null;
+
+    const canvas = document.getElementById('ph-canvas');
+    let ctx = canvas ? canvas.getContext('2d') : null;
 
     function resizeCanvas() {
       if (!canvas) return;
@@ -1579,73 +1715,94 @@
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
       renderLab();
     }
+
     window.addEventListener('resize', resizeCanvas);
 
     function toScreenX(x) {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      const pad = 45;
-      return pad + ((x - 2) / 19) * (rect.width - pad * 2);
+      const rect = canvas.getBoundingClientRect();
+      const padding = 42;
+      return padding + ((x - 2) / 18) * (rect.width - padding * 2);
     }
 
     function toScreenY(y) {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      const pad = 40;
-      return (rect.height - pad) - ((y - 2) / 13) * (rect.height - pad * 2);
+      const rect = canvas.getBoundingClientRect();
+      const padding = 35;
+      return rect.height - padding - ((y - 2) / 12) * (rect.height - padding * 2);
     }
 
-    function fromScreenX(px) {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      const pad = 45;
-      return 2 + ((px - pad) / (rect.width - pad * 2)) * 19;
+    function fromScreenX(sx) {
+      const rect = canvas.getBoundingClientRect();
+      const padding = 42;
+      return 2 + ((sx - padding) / (rect.width - padding * 2)) * 18;
     }
 
-    function fromScreenY(py) {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      const pad = 40;
-      return 2 + (((rect.height - pad) - py) / (rect.height - pad * 2)) * 13;
+    function fromScreenY(sy) {
+      const rect = canvas.getBoundingClientRect();
+      const padding = 35;
+      return 2 + ((rect.height - padding - sy) / (rect.height - padding * 2)) * 12;
     }
 
-    function calculateStats(pts) {
-      const n = pts.length;
+    function calculateStats(points) {
+      const n = points.length;
       let sumX = 0, sumY = 0;
-      pts.forEach(p => { sumX += p.x; sumY += p.y; });
+      points.forEach(p => { sumX += p.x; sumY += p.y; });
       const mx = sumX / n;
       const my = sumY / n;
 
-      let sxx = 0, syy = 0, sxy = 0;
-      pts.forEach(p => {
-        sxx += (p.x - mx) * (p.x - mx);
-        syy += (p.y - my) * (p.y - my);
-        sxy += (p.x - mx) * (p.y - my);
+      let varX = 0, varY = 0, covXY = 0;
+      points.forEach(p => {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        varX += dx * dx;
+        varY += dy * dy;
+        covXY += dx * dy;
       });
 
-      const slope = sxx !== 0 ? sxy / sxx : 0;
+      const slope = varX !== 0 ? covXY / varX : 0;
       const intercept = my - slope * mx;
-      const r = (sxx !== 0 && syy !== 0) ? sxy / Math.sqrt(sxx * syy) : 0;
-      const r2 = r * r;
+      const r = (varX > 0 && varY > 0) ? covXY / Math.sqrt(varX * varY) : 0;
 
-      return { mx, my, slope, intercept, r, r2 };
+      return {
+        mx, my,
+        slope, intercept,
+        r,
+        r2: r * r
+      };
     }
 
     function renderLab() {
-      if (!ctx || !canvas) return;
-      const rect = canvas.parentElement.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      if (!canvas || !ctx) return;
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
 
-      // Draw subtle grid
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw Grid
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
       ctx.lineWidth = 1;
-      for (let x = 4; x <= 20; x += 2) {
+      for (let x = 4; x <= 20; x += 4) {
+        const sx = toScreenX(x);
         ctx.beginPath();
-        ctx.moveTo(toScreenX(x), toScreenY(2));
-        ctx.lineTo(toScreenX(x), toScreenY(14));
+        ctx.moveTo(sx, 10);
+        ctx.lineTo(sx, h - 25);
         ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.font = '10px JetBrains Mono';
+        ctx.fillText(x, sx - 4, h - 10);
       }
+
       for (let y = 4; y <= 14; y += 2) {
+        const sy = toScreenY(y);
         ctx.beginPath();
-        ctx.moveTo(toScreenX(2), toScreenY(y));
-        ctx.lineTo(toScreenX(20), toScreenY(y));
+        ctx.moveTo(35, sy);
+        ctx.lineTo(w - 15, sy);
         ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.font = '10px JetBrains Mono';
+        ctx.fillText(y, 14, sy + 3);
       }
 
       // Draw Axes
