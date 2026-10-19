@@ -445,6 +445,7 @@
     .essay-section {
       margin-top: 4.5rem;
       padding-top: 1rem;
+      scroll-margin-top: 5.5rem;
     }
 
     .essay-h2 {
@@ -993,6 +994,24 @@
     }
 
     @media (max-width: 600px) {
+      .ph-header {
+        top: 0.75rem;
+        padding: 0 0.75rem;
+      }
+      .ph-header-pill {
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+        overflow-x: auto;
+        max-width: calc(100vw - 1.5rem);
+        white-space: nowrap;
+        scrollbar-width: none;
+      }
+      .ph-header-pill::-webkit-scrollbar {
+        display: none;
+      }
+      .ph-nav-link {
+        font-size: 0.72rem;
+      }
       .repo-pill-grid {
         grid-template-columns: 1fr;
       }
@@ -1720,32 +1739,64 @@
 
     // =========================================================================
     // ACTIVE SECTION SCROLL-SPY FOR FLOATING HEADER PILL
+    // Uses viewport-relative bounding boxes for 100% accuracy across nested zones
     // =========================================================================
-    const trackedSections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.ph-nav-link');
+    const trackedSections = Array.from(document.querySelectorAll('section[id]'));
+    const navLinks = Array.from(document.querySelectorAll('.ph-nav-link'));
 
     function updateScrollSpy() {
-      const scrollPos = window.scrollY + 200;
+      if (!trackedSections.length) return;
+
+      const navThreshold = 220; // Trigger line in pixels relative to viewport top
       let currentId = '';
 
-      trackedSections.forEach(section => {
-        if (scrollPos >= section.offsetTop) {
-          currentId = section.getAttribute('id');
+      // Find the last section whose top has scrolled above/to the trigger threshold
+      for (let i = 0; i < trackedSections.length; i++) {
+        const rect = trackedSections[i].getBoundingClientRect();
+        if (rect.top <= navThreshold) {
+          currentId = trackedSections[i].getAttribute('id');
+        }
+      }
+
+      // Edge case: when at the top of the essay, default to the first section
+      if (!currentId) {
+        currentId = trackedSections[0].getAttribute('id');
+      }
+
+      // Edge case: when scrolled near the very bottom, highlight the final section
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      if (docHeight - scrollBottom < 80) {
+        currentId = trackedSections[trackedSections.length - 1].getAttribute('id');
+      }
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${currentId}`) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
         }
       });
-
-      if (currentId) {
-        navLinks.forEach(link => {
-          if (link.getAttribute('href') === `#${currentId}`) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
-      }
     }
 
+    // Smooth navigation click handler
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        }
+      });
+    });
+
     window.addEventListener('scroll', updateScrollSpy, { passive: true });
+    document.addEventListener('DOMContentLoaded', updateScrollSpy);
 
     // Lightbox Controls
     function openLightbox(src) {
@@ -2149,6 +2200,7 @@
     window.addEventListener('load', () => {
       resizeCanvas();
       renderMath();
+      updateScrollSpy();
     });
   </script>
 </body>
