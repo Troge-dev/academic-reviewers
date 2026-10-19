@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Philosophy of Looking | DS311 Exploratory Data Analysis &bull; Phenomenon Studio Edition</title>
   
-  <!-- Phenomenon Studio Typography: Bricolage Grotesque + Albert Sans + JetBrains Mono -->
+  <!-- Phenomenon Studio Typography: Bricolage Grotesque (Headings) + Albert Sans (Body) + JetBrains Mono (Technical) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,10 +18,12 @@
     :root {
       /* Brand Core */
       --ph-orange: #FF7A00;
-      --ph-orange-hover: #E06900;
+      --ph-orange-hover: #FF8F26;
       --ph-orange-soft: rgba(255, 122, 0, 0.12);
+      --ph-orange-glow: rgba(255, 122, 0, 0.35);
       --ph-mint: #00FF85;
       --ph-mint-soft: rgba(0, 255, 133, 0.12);
+      --ph-mint-glow: rgba(0, 255, 133, 0.35);
       
       /* Dark Sections (Abyssal Slate Obsidian) */
       --bg-dark: #080D10;
@@ -48,13 +50,13 @@
       --font-body: 'Albert Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
-      /* Transitions */
+      /* Motion & Physics */
       --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
       --duration-motion: 0.65s;
     }
 
-    /* CSS Reset */
+    /* CSS Reset & Defaults */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -75,6 +77,21 @@
     body {
       overflow-x: hidden;
       background-color: var(--bg-dark);
+      position: relative;
+    }
+
+    /* Subtle Ambient Gradient Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1400px;
+      height: 700px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255, 122, 0, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Reading Progress Header Bar */
@@ -87,6 +104,7 @@
       background: linear-gradient(90deg, var(--ph-orange) 0%, var(--ph-mint) 100%);
       z-index: 9999;
       transition: width 0.1s linear;
+      box-shadow: 0 0 10px rgba(255, 122, 0, 0.6);
     }
 
     /* ==========================================================================
@@ -140,7 +158,7 @@
       overflow: hidden;
       vertical-align: top;
       line-height: 1.12;
-      margin-right: 0.24em;
+      margin-right: 0.26em;
     }
 
     .new-animate .a-word > span {
@@ -163,6 +181,8 @@
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     @media (max-width: 768px) {
@@ -172,7 +192,7 @@
     }
 
     /* ==========================================================================
-       NAVIGATION HEADER (Phenomenon Studio Glass Pill)
+       NAVIGATION HEADER (Phenomenon Studio Glass Pill with Scroll-Spy)
        ========================================================================== */
     .ph-header {
       position: fixed;
@@ -188,7 +208,7 @@
       max-width: 1120px;
       margin: 0 auto;
       padding: 0.75rem 1.25rem;
-      background: rgba(8, 13, 16, 0.75);
+      background: rgba(8, 13, 16, 0.78);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -197,11 +217,12 @@
       align-items: center;
       justify-content: space-between;
       transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .ph-header-pill:hover {
       border-color: rgba(255, 122, 0, 0.3);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
     }
 
     .ph-brand {
@@ -213,17 +234,18 @@
     }
 
     .ph-logo-badge {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       background: var(--ph-orange);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #080D10;
       font-family: var(--font-display);
+      box-shadow: 0 0 12px var(--ph-orange-glow);
     }
 
     .ph-brand-name {
@@ -240,7 +262,7 @@
     .ph-nav-links {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 0.5rem;
     }
 
     .ph-nav-link {
@@ -248,34 +270,48 @@
       font-weight: 600;
       text-decoration: none;
       color: var(--text-white-muted);
-      transition: color 0.2s ease;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      transition: all 0.25s ease;
     }
 
     .ph-nav-link:hover {
-      color: var(--ph-orange);
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .ph-nav-link.active {
+      color: #080D10;
+      background: var(--ph-orange);
+      font-weight: 700;
+      box-shadow: 0 0 12px var(--ph-orange-glow);
     }
 
     .ph-nav-cta {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      background: var(--ph-orange);
-      color: #080D10;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
       font-family: var(--font-body);
       font-size: 0.82rem;
       font-weight: 700;
       text-decoration: none;
-      padding: 0.45rem 1rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 999px;
-      transition: transform 0.2s ease, background-color 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .ph-nav-cta:hover {
-      background: #FFFFFF;
+      background: var(--ph-orange);
+      color: #080D10;
+      border-color: var(--ph-orange);
       transform: translateY(-1px);
+      box-shadow: 0 4px 16px var(--ph-orange-glow);
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .ph-nav-links {
         display: none;
       }
@@ -286,7 +322,7 @@
        ========================================================================== */
     .ph-section {
       position: relative;
-      padding: 7rem 0;
+      padding: 7.5rem 0;
       transition: background-color 0.4s ease;
     }
 
@@ -299,13 +335,13 @@
       background-color: var(--bg-light);
       color: var(--text-dark);
       border-radius: 56px;
-      margin: 2rem 1.25rem;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+      margin: 2.5rem 1.25rem;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
     }
 
     @media (max-width: 768px) {
       .ph-section {
-        padding: 4.5rem 0;
+        padding: 5rem 0;
       }
       .ph-section-light {
         border-radius: 32px;
@@ -313,12 +349,12 @@
       }
     }
 
-    /* Pill Badges (Phenomenon Kicker) */
+    /* Pill Badges (Phenomenon Kicker with Hacker Scramble Effect) */
     .ph-pill-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.45rem 1rem;
+      gap: 0.65rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 999px;
       font-family: var(--font-mono);
       font-size: 0.78rem;
@@ -326,6 +362,9 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 1.5rem;
+      cursor: default;
+      user-select: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
     }
 
     .ph-pill-badge.dark {
@@ -334,10 +373,21 @@
       color: var(--text-white-muted);
     }
 
+    .ph-pill-badge.dark:hover {
+      border-color: var(--ph-orange);
+      background: rgba(255, 122, 0, 0.08);
+      color: #FFFFFF;
+    }
+
     .ph-pill-badge.light {
       background: rgba(8, 13, 16, 0.05);
       border: 1px solid rgba(8, 13, 16, 0.1);
       color: var(--text-dark-muted);
+    }
+
+    .ph-pill-badge.light:hover {
+      border-color: var(--ph-orange);
+      color: var(--text-dark);
     }
 
     .ph-pill-dot {
@@ -348,10 +398,16 @@
       box-shadow: 0 0 10px var(--ph-orange);
     }
 
+    .sparkle-icon {
+      color: var(--ph-orange);
+      font-size: 0.95rem;
+      line-height: 1;
+    }
+
     /* Headings */
     .ph-display-title {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+      font-size: clamp(2.4rem, 5.2vw, 4.4rem);
       font-weight: 800;
       line-height: 1.08;
       letter-spacing: -0.035em;
@@ -360,7 +416,7 @@
 
     .ph-section-title {
       font-family: var(--font-display);
-      font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+      font-size: clamp(1.95rem, 3.8vw, 2.95rem);
       font-weight: 800;
       line-height: 1.14;
       letter-spacing: -0.025em;
@@ -385,7 +441,7 @@
        HERO SECTION
        ========================================================================== */
     .hero-wrap {
-      min-height: 90vh;
+      min-height: 88vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -399,17 +455,17 @@
       align-items: center;
       gap: 1.25rem;
       margin-top: 2rem;
-      padding-top: 1.5rem;
+      padding-top: 1.75rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .hero-author-avatar {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--ph-orange);
-      box-shadow: 0 0 16px rgba(255, 122, 0, 0.3);
+      box-shadow: 0 0 20px rgba(255, 122, 0, 0.4);
     }
 
     .hero-author-info {
@@ -420,7 +476,7 @@
     .hero-author-name {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -438,28 +494,30 @@
     }
 
     .hero-course-info {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       color: var(--text-white-dim);
     }
 
     /* ==========================================================================
-       STICKY STACKING CARDS (Phenomenon Signature Problems/Steps Effect)
+       STICKY STACKING CARDS WITH INCREMENTAL OFFSETS (Phenomenon Signature)
        ========================================================================== */
     .sticky-stack-container {
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 2.25rem;
+      padding-bottom: 4rem;
     }
 
     .sticky-card {
       position: sticky;
-      top: 6.5rem;
+      top: calc(5.2rem + (var(--i, 0) * 16px));
+      z-index: calc(10 + var(--i, 0));
       background: var(--bg-light-card);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-light-strong);
       border-radius: 28px;
-      padding: 2.5rem;
-      box-shadow: 0 16px 36px rgba(8, 13, 16, 0.06);
+      padding: 2.75rem;
+      box-shadow: 0 calc(10px + var(--i, 0) * 4px) calc(28px + var(--i, 0) * 6px) rgba(8, 13, 16, 0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: grid;
       grid-template-columns: 80px 1fr;
@@ -468,7 +526,8 @@
     }
 
     .sticky-card:hover {
-      box-shadow: 0 20px 48px rgba(8, 13, 16, 0.1);
+      box-shadow: 0 24px 56px rgba(8, 13, 16, 0.14);
+      border-color: rgba(255, 122, 0, 0.4);
     }
 
     .sticky-card-num {
@@ -483,12 +542,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
 
     .sticky-card-body h3 {
       font-family: var(--font-display);
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--text-dark);
       margin-bottom: 0.75rem;
@@ -498,26 +557,29 @@
     .sticky-card-body p {
       color: var(--text-dark-muted);
       font-size: 1.05rem;
-      line-height: 1.65;
+      line-height: 1.68;
     }
 
     .sticky-card-tag {
-      display: inline-block;
-      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.15rem;
       font-family: var(--font-mono);
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--ph-orange);
       background: var(--ph-orange-soft);
-      padding: 0.25rem 0.65rem;
+      padding: 0.3rem 0.75rem;
       border-radius: 6px;
     }
 
     @media (max-width: 768px) {
       .sticky-card {
         grid-template-columns: 1fr;
-        padding: 1.75rem;
+        padding: 1.85rem;
         gap: 1.25rem;
+        top: calc(4.8rem + (var(--i, 0) * 12px));
       }
       .sticky-card-num {
         width: 52px;
@@ -528,21 +590,23 @@
     }
 
     /* ==========================================================================
-       VISUAL ARTIFACT CARDS (Phenomenon Dark Mode Framed Showcase)
+       VISUAL ARTIFACT CARDS (Phenomenon Framed Showcase with Zoom Lightbox)
        ========================================================================== */
     .ph-media-card {
       background: var(--bg-dark-card);
       border: 1px solid var(--border-dark);
       border-radius: 28px;
       overflow: hidden;
-      margin: 2.5rem 0;
+      margin: 2.75rem 0;
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
-      transition: border-color 0.3s ease, transform 0.3s ease;
+      transition: all 0.35s var(--ease-spring);
+      position: relative;
     }
 
     .ph-media-card:hover {
-      border-color: rgba(255, 122, 0, 0.4);
-      transform: translateY(-2px);
+      border-color: rgba(255, 122, 0, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
     }
 
     .ph-media-img-wrap {
@@ -551,7 +615,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 1.25rem;
+      position: relative;
+      cursor: zoom-in;
     }
 
     .ph-media-img-wrap img {
@@ -559,6 +625,37 @@
       height: auto;
       border-radius: 16px;
       display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .ph-media-card:hover .ph-media-img-wrap img {
+      transform: scale(1.01);
+    }
+
+    .ph-media-zoom-hint {
+      position: absolute;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      background: rgba(8, 13, 16, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #FFFFFF;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.25s ease;
+    }
+
+    .ph-media-img-wrap:hover .ph-media-zoom-hint {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .ph-media-caption {
@@ -576,6 +673,67 @@
       color: var(--ph-orange);
     }
 
+    /* Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 7, 9, 0.94);
+      backdrop-filter: blur(16px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-modal img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 16px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transform: scale(0.96);
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .lightbox-modal.active img {
+      transform: scale(1);
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #FFFFFF;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-close-btn:hover {
+      background: var(--ph-orange);
+      color: #080D10;
+      transform: rotate(90deg);
+    }
+
     /* ==========================================================================
        THE FOUR R'S GRID (Phenomenon Studio Tech Cards)
        ========================================================================== */
@@ -583,17 +741,17 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.75rem;
-      margin: 2.5rem 0;
+      margin: 2.75rem 0;
     }
 
     .r-card-ph {
       background: var(--bg-dark-card);
       border: 1px solid var(--border-dark);
       border-radius: 24px;
-      padding: 2.25rem;
+      padding: 2.5rem;
       position: relative;
       overflow: hidden;
-      transition: all 0.3s var(--ease-spring);
+      transition: all 0.35s var(--ease-spring);
     }
 
     .r-card-ph::before {
@@ -611,8 +769,8 @@
     .r-card-ph:hover {
       background: var(--bg-dark-card-hover);
       border-color: rgba(255, 122, 0, 0.35);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
     }
 
     .r-card-ph:hover::before {
@@ -623,20 +781,21 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       background: var(--ph-orange-soft);
       color: var(--ph-orange);
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 1.25rem;
+      box-shadow: 0 0 16px var(--ph-orange-glow);
     }
 
     .r-title-ph {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 700;
       color: #FFFFFF;
       margin-bottom: 0.35rem;
@@ -652,8 +811,8 @@
     .r-desc-ph {
       color: var(--text-white-muted);
       font-size: 1.02rem;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
+      line-height: 1.62;
+      margin-bottom: 1.35rem;
     }
 
     .r-takeaway-ph {
@@ -662,7 +821,7 @@
       color: var(--ph-mint);
       background: rgba(0, 255, 133, 0.08);
       border-left: 3px solid var(--ph-mint);
-      padding: 0.65rem 1rem;
+      padding: 0.75rem 1rem;
       border-radius: 0 8px 8px 0;
     }
 
@@ -681,7 +840,7 @@
       border-radius: 32px;
       padding: 2.25rem;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-      margin: 2.5rem 0;
+      margin: 2.75rem 0;
     }
 
     .instrument-header {
@@ -700,6 +859,9 @@
       font-size: 1.5rem;
       font-weight: 700;
       color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .instrument-title p {
@@ -707,10 +869,11 @@
       color: var(--text-white-dim);
     }
 
-    .instrument-presets {
+    .instrument-controls-wrap {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.65rem;
     }
 
     .btn-ph-preset {
@@ -737,7 +900,31 @@
       color: #080D10;
       border-color: var(--ph-orange);
       font-weight: 700;
-      box-shadow: 0 0 16px rgba(255, 122, 0, 0.4);
+      box-shadow: 0 0 16px var(--ph-orange-glow);
+    }
+
+    .btn-ph-toggle {
+      background: rgba(0, 255, 133, 0.08);
+      border: 1px solid rgba(0, 255, 133, 0.25);
+      color: var(--ph-mint);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-ph-toggle:hover {
+      background: rgba(0, 255, 133, 0.18);
+    }
+
+    .btn-ph-toggle.active {
+      background: var(--ph-mint);
+      color: #080D10;
+      border-color: var(--ph-mint);
+      box-shadow: 0 0 16px var(--ph-mint-glow);
     }
 
     .btn-ph-clear {
@@ -755,7 +942,7 @@
     .canvas-hud-wrap {
       position: relative;
       width: 100%;
-      height: 440px;
+      height: 460px;
       background: #06090C;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.06);
@@ -773,14 +960,29 @@
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: rgba(8, 13, 16, 0.8);
+      background: rgba(8, 13, 16, 0.85);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 0.35rem 0.75rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 999px;
       font-family: var(--font-mono);
       font-size: 0.72rem;
       color: var(--text-white-dim);
+      pointer-events: none;
+    }
+
+    .canvas-coord-badge {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      background: rgba(8, 13, 16, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ph-orange);
       pointer-events: none;
     }
 
@@ -797,10 +999,15 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 16px;
-      padding: 1.1rem;
+      padding: 1.15rem;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .metric-cell:hover {
+      border-color: rgba(255, 122, 0, 0.3);
     }
 
     .metric-cell-label {
@@ -813,9 +1020,10 @@
 
     .metric-cell-value {
       font-family: var(--font-mono);
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--ph-orange);
+      font-variant-numeric: tabular-nums;
     }
 
     .metric-cell:nth-child(2) .metric-cell-value {
@@ -827,7 +1035,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
       .canvas-hud-wrap {
-        height: 320px;
+        height: 330px;
       }
     }
 
@@ -838,14 +1046,14 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.75rem;
-      margin: 2.5rem 0;
+      margin: 2.75rem 0;
     }
 
     .ph-repo-card {
       background: var(--bg-dark-card);
       border: 1px solid var(--border-dark);
       border-radius: 24px;
-      padding: 2.25rem;
+      padding: 2.5rem;
       text-decoration: none;
       color: inherit;
       display: flex;
@@ -873,7 +1081,7 @@
 
     .ph-repo-title {
       font-family: var(--font-display);
-      font-size: 1.35rem;
+      font-size: 1.38rem;
       font-weight: 700;
       color: #FFFFFF;
       line-height: 1.25;
@@ -883,7 +1091,7 @@
     .ph-repo-desc {
       font-size: 0.95rem;
       color: var(--text-white-muted);
-      line-height: 1.55;
+      line-height: 1.6;
       margin-bottom: 1.75rem;
     }
 
@@ -895,11 +1103,11 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--ph-orange);
-      transition: gap 0.2s ease;
+      transition: gap 0.25s ease;
     }
 
     .ph-repo-card:hover .ph-repo-btn {
-      gap: 0.75rem;
+      gap: 0.85rem;
       color: #FFFFFF;
     }
 
@@ -916,8 +1124,8 @@
       background: var(--bg-dark-card);
       border: 1px solid rgba(255, 122, 0, 0.25);
       border-radius: 28px;
-      padding: 3rem;
-      margin: 3rem 0;
+      padding: 3.25rem;
+      margin: 3.5rem 0;
       position: relative;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
     }
@@ -939,12 +1147,13 @@
     }
 
     /* ==========================================================================
-       FOOTER
+       FOOTER (Phenomenon Studio Obsidian Bottom)
        ========================================================================== */
     .ph-footer {
       background-color: var(--bg-dark);
-      padding: 5rem 0 3rem;
+      padding: 5rem 0 3.5rem;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
     }
 
     .ph-footer-inner {
@@ -956,7 +1165,7 @@
     }
 
     .ph-footer-copy {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--text-white-dim);
     }
 
@@ -982,19 +1191,19 @@
   <!-- READING PROGRESS BAR -->
   <div id="progress-bar"></div>
 
-  <!-- FLOATING GLASS NAVIGATION PILL -->
+  <!-- FLOATING GLASS NAVIGATION PILL WITH SCROLL-SPY -->
   <header class="ph-header">
     <div class="ph-header-pill">
       <a href="#hero" class="ph-brand">
         <div class="ph-logo-badge">M</div>
         <div class="ph-brand-name">Minimalist <span>EDA</span></div>
       </a>
-      <nav class="ph-nav-links">
+      <nav class="ph-nav-links" id="ph-nav-menu">
         <a href="#confession" class="ph-nav-link">Confession</a>
         <a href="#egypt" class="ph-nav-link">Egypt Story</a>
         <a href="#anscombe" class="ph-nav-link">Anscombe</a>
         <a href="#four-rs" class="ph-nav-link">Four R's</a>
-        <a href="#sandbox" class="ph-nav-link">Lab Simulator</a>
+        <a href="#sandbox" class="ph-nav-link">Simulator</a>
         <a href="#steps" class="ph-nav-link">7 Steps</a>
         <a href="#projects" class="ph-nav-link">Projects</a>
       </nav>
@@ -1011,25 +1220,14 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark">
+        <div class="ph-pill-badge dark scramble" data-original="DS311 Topic 01 • Phenomenon Studio Edition">
           <span class="ph-pill-dot"></span>
           DS311 Topic 01 &bull; Phenomenon Studio Edition
         </div>
       </div>
 
-      <h1 class="ph-display-title isview new-animate trd01">
-        <span class="a-word"><span style="transition-delay:0s">The</span></span>
-        <span class="a-word"><span style="transition-delay:0.06s">Philosophy</span></span>
-        <span class="a-word"><span style="transition-delay:0.12s">of</span></span>
-        <span class="a-word"><span style="transition-delay:0.18s">Looking:</span></span>
-        <br>
-        <span class="a-word"><span style="transition-delay:0.24s">How</span></span>
-        <span class="a-word"><span style="transition-delay:0.30s">Topic</span></span>
-        <span class="a-word"><span style="transition-delay:0.36s">01</span></span>
-        <span class="a-word"><span style="transition-delay:0.42s">Cured</span></span>
-        <span class="a-word"><span style="transition-delay:0.48s">My</span></span>
-        <span class="a-word"><span style="transition-delay:0.54s" style="color: var(--ph-orange);">Dataset-Hopping</span></span>
-        <span class="a-word"><span style="transition-delay:0.60s">Panic</span></span>
+      <h1 class="ph-display-title new-animate isview trd01">
+        The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
       </h1>
 
       <p class="ph-lead dark isview slidetop trd03" style="max-width: 920px;">
@@ -1059,14 +1257,14 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge light">
+        <div class="ph-pill-badge light scramble" data-original="Reflective Confession">
           <span class="ph-pill-dot"></span>
           Reflective Confession
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01" style="color: var(--text-dark);">
-        My Backward &ldquo;Confirmatory&rdquo; Rush
+      <h2 class="ph-section-title new-animate isview trd01" style="color: var(--text-dark);">
+        My Backward "Confirmatory" Rush
       </h2>
 
       <p class="ph-lead light isview slidetop trd02">
@@ -1094,7 +1292,7 @@
       </div>
 
       <!-- QUOTE CARD IN LIGHT SECTION -->
-      <div class="isview scaleup trd04" style="background: #080D10; border-radius: 28px; padding: 2.75rem; margin-top: 3.5rem; color: #FFFFFF;">
+      <div class="isview scaleup trd04" style="background: #080D10; border-radius: 28px; padding: 2.75rem; margin-top: 3.5rem; color: #FFFFFF; box-shadow: 0 16px 40px rgba(0,0,0,0.25);">
         <div style="font-family: var(--font-display); font-size: clamp(1.25rem, 2.2vw, 1.75rem); font-weight: 700; line-height: 1.4; margin-bottom: 1rem;">
           &ldquo;It is very common to spend the most time in the exploratory data analysis stage in order to have a well-made output and to prevent future inconvenience.&rdquo;
         </div>
@@ -1113,14 +1311,14 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark">
+        <div class="ph-pill-badge dark scramble" data-original="Origin Story • DATAVIS">
           <span class="ph-pill-dot"></span>
           Origin Story &bull; DATAVIS
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01">
-        The &ldquo;Dataset-Hopping&rdquo; Panic &amp; Stumbling Upon Egypt
+      <h2 class="ph-section-title new-animate isview trd01">
+        The "Dataset-Hopping" Panic and Stumbling Upon Egypt
       </h2>
 
       <p class="ph-lead dark isview slidetop trd02" style="max-width: 980px;">
@@ -1131,22 +1329,22 @@
         Unlike the chaotic datasets that had triggered our panic, the Egypt dataset wasn't really a problem. It provided coherent, structured records of Egypt's governorates, total populations, and inhabited land areas. Stumbling upon it felt like striking gold: it finally gave us a reliable foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely populated desert frontier governorates.
       </p>
 
-      <!-- FIGURE 1: EGYPT RAW FLAT VIEW -->
+      <!-- FIGURE 1: EGYPT RAW FLAT VIEW (WITH ZOOM LIGHTBOX) -->
       <div class="ph-media-card isview slidetop trd03">
-        <div class="ph-media-img-wrap">
+        <div class="ph-media-img-wrap" onclick="openLightbox('assets/images/contents/egypt_raw_flat_view.png')">
           <img src="assets/images/contents/egypt_raw_flat_view.png" alt="Egypt Population Density Raw Flat View" loading="lazy">
+          <div class="ph-media-zoom-hint"><span>✦</span> Click to Expand Full View</div>
         </div>
         <div class="ph-media-caption">
           <strong>Figure 1</strong> &bull; The Raw Flat View: Exploring Egypt's governorate distributions, populations, and inhabited land areas stumbled upon during our DATAVIS project.
         </div>
       </div>
 
-      <!-- FIGURE 2: FINAL DATAVIS MAP (HIGH-RES PREVIEW) -->
+      <!-- FIGURE 2: FINAL DATAVIS MAP (HIGH-RES 300 DPI PREVIEW WITH ZOOM) -->
       <div class="ph-media-card isview slidetop trd04">
-        <div class="ph-media-img-wrap" style="padding: 1.5rem;">
-          <a href="assets/images/contents/Egypt_Population_Density_Map_Preview.png" target="_blank" title="Click to view full 300 DPI original map export">
-            <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy" style="max-height: 600px; width: auto; margin: 0 auto;">
-          </a>
+        <div class="ph-media-img-wrap" style="padding: 1.5rem;" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.png')">
+          <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy" style="max-height: 600px; width: auto; margin: 0 auto;">
+          <div class="ph-media-zoom-hint"><span>✦</span> Click to Inspect 300 DPI Original Cartography</div>
         </div>
         <div class="ph-media-caption">
           <strong>Figure 2</strong> &bull; The Final DATAVIS Map: Visualizing Egypt's acute population concentration along the Nile corridor (Click image for 300 DPI full-resolution export).
@@ -1172,13 +1370,13 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge light">
+        <div class="ph-pill-badge light scramble" data-original="The 1973 Awakening • Topic 01">
           <span class="ph-pill-dot"></span>
           The 1973 Awakening &bull; Topic 01
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01" style="color: var(--text-dark);">
+      <h2 class="ph-section-title new-animate isview trd01" style="color: var(--text-dark);">
         When Numbers Mislead: Francis Anscombe's 1973 Wake-Up Call
       </h2>
 
@@ -1250,10 +1448,11 @@
         </div>
       </div>
 
-      <!-- FIGURE 3: ANSCOMBE'S QUARTET VECTOR SVG -->
+      <!-- FIGURE 3: ANSCOMBE'S QUARTET VECTOR SVG (WITH ZOOM) -->
       <div class="ph-media-card isview slidetop trd04" style="background: #FFFFFF; border-color: var(--border-light-strong); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);">
-        <div class="ph-media-img-wrap" style="background: #FAF7F2; padding: 1.5rem;">
+        <div class="ph-media-img-wrap" style="background: #FAF7F2; padding: 1.5rem;" onclick="openLightbox('assets/images/charts/anscombes_quartet_proof.svg')">
           <img src="assets/images/charts/anscombes_quartet_proof.svg" alt="Francis Anscombe Quartet 1973 Proof" loading="lazy">
+          <div class="ph-media-zoom-hint" style="color: #080D10; background: rgba(255,255,255,0.9);"><span>✦</span> Click to Expand Vector View</div>
         </div>
         <div class="ph-media-caption" style="color: var(--text-dark-muted); border-color: var(--border-light);">
           <strong style="color: #080D10;">Figure 3</strong> &bull; Anscombe's Quartet: Four wildly different geometries disguised behind the exact same summary numbers.
@@ -1262,21 +1461,21 @@
 
       <!-- 4 CASES STACK -->
       <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem;" class="isview slidetop trd05">
-        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.4rem;">Dataset I: The Normal Linear Case</h4>
-          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.6;">Clean linear relationship with natural scatter. The only dataset where Ordinary Least Squares (OLS) is genuine and honest.</p>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.85rem; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+          <h4 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.45rem;">Dataset I: The Normal Linear Case</h4>
+          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.62;">Clean linear relationship with natural scatter. The only dataset where Ordinary Least Squares (OLS) is genuine and honest.</p>
         </div>
-        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.4rem;">Dataset II: The Quadratic Parabola</h4>
-          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.6;">A smooth curved trajectory where fitting a straight line is systematically wrong, yet invisible without plotting.</p>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.85rem; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+          <h4 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.45rem;">Dataset II: The Quadratic Parabola</h4>
+          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.62;">A smooth curved trajectory where fitting a straight line is systematically wrong, yet invisible without plotting.</p>
         </div>
-        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.4rem;">Dataset III: The Hijacked Outlier</h4>
-          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.6;">A strict collinear line whose regression statistics are completely hijacked by a single vertical rogue point.</p>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.85rem; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+          <h4 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.45rem;">Dataset III: The Hijacked Outlier</h4>
+          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.62;">A strict collinear line whose regression statistics are completely hijacked by a single vertical rogue point.</p>
         </div>
-        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.75rem;">
-          <h4 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.4rem;">Dataset IV: Extreme Leverage Hostage</h4>
-          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.6;">Ten points stacked at x=8.0; the entire slope, correlation, and line are held hostage by one leverage point at x=19.0.</p>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.85rem; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+          <h4 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-dark); margin-bottom: 0.45rem;">Dataset IV: Extreme Leverage Hostage</h4>
+          <p style="color: var(--text-dark-muted); font-size: 0.98rem; line-height: 1.62;">Ten points stacked at x=8.0; the entire slope, correlation, and line are held hostage by one leverage point at x=19.0.</p>
         </div>
       </div>
 
@@ -1290,13 +1489,13 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark">
+        <div class="ph-pill-badge dark scramble" data-original="Tukey's Core Philosophy • 1977">
           <span class="ph-pill-dot"></span>
           Tukey's Core Philosophy &bull; 1977
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01">
+      <h2 class="ph-section-title new-animate isview trd01">
         The Four R's of Exploratory Data Analysis
       </h2>
 
@@ -1375,20 +1574,22 @@
         <div class="instrument-header">
           <div class="instrument-title">
             <h3>Interactive Anscombe &amp; Leverage HUD</h3>
-            <p>Click anywhere on the radar canvas to drop coordinate points or toggle classic presets</p>
+            <p>Click to add points, right-click to delete, or toggle live residual vectors below</p>
           </div>
-          <div class="instrument-presets">
+          <div class="instrument-controls-wrap">
             <button class="btn-ph-preset active" onclick="loadCanvasPreset('anscombe1')">I: Linear</button>
             <button class="btn-ph-preset" onclick="loadCanvasPreset('anscombe2')">II: Parabola</button>
             <button class="btn-ph-preset" onclick="loadCanvasPreset('anscombe3')">III: Outlier</button>
             <button class="btn-ph-preset" onclick="loadCanvasPreset('anscombe4')">IV: Leverage</button>
+            <button class="btn-ph-toggle" id="btn-toggle-residuals" onclick="toggleResiduals()">Show Residuals (Tukey's R2)</button>
             <button class="btn-ph-preset btn-ph-clear" onclick="clearCanvas()">Clear</button>
           </div>
         </div>
 
-        <div class="canvas-hud-wrap">
+        <div class="canvas-hud-wrap" id="canvas-container">
           <canvas id="ph-canvas"></canvas>
-          <div class="canvas-hint-pill">&bull; Click canvas to drop data points</div>
+          <div class="canvas-hint-pill">&bull; Left-click to add &bull; Right-click point to delete</div>
+          <div class="canvas-coord-badge" id="hud-coords">X: -- &bull; Y: --</div>
         </div>
 
         <div class="hud-metrics-bar">
@@ -1413,26 +1614,26 @@
       </div>
 
       <p class="isview slidetop trd02" style="color: var(--text-white-muted); font-size: 1.05rem; line-height: 1.7; max-width: 940px; margin: 1.5rem auto 0; text-align: center;">
-        <em>Notice what happens when you switch between the presets:</em> Even when the summary statistics match (<em>r</em> &approx; 0.816, &beta;<sub>1</sub> &approx; 0.500, <em>R</em><sup>2</sup> &approx; 66.6%), the physical story on the canvas changes completely. In <strong>Anscombe IV (Leverage)</strong>, click and drop points near the left cluster &mdash; see how stubbornly the regression line stays anchored to that single lonely dot on the right! That is <strong>influence in action</strong>.
+        <em>Notice what happens when you switch between presets:</em> Even when the summary statistics match (<em>r</em> &approx; 0.816, &beta;<sub>1</sub> &approx; 0.500, <em>R</em><sup>2</sup> &approx; 66.6%), the physical story on the canvas changes completely. In <strong>Anscombe IV (Leverage)</strong>, click and drop points near the left cluster &mdash; see how stubbornly the regression line stays anchored to that single lonely dot on the right! That is <strong>influence in action</strong>.
       </p>
 
     </div>
   </section>
 
   <!-- ========================================================================
-       SECTION 6: THE 7 STEPS AS STICKY STACKING CARDS (Phenomenon Signature)
+       SECTION 6: THE 7 STEPS AS INCREMENTAL STACKING CARDS (Phenomenon Signature)
        ======================================================================== -->
   <section id="steps" class="ph-section ph-section-light">
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge light">
+        <div class="ph-pill-badge light scramble" data-original="Practitioner Framework • Topic 01">
           <span class="ph-pill-dot"></span>
           Practitioner Framework &bull; Topic 01
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01" style="color: var(--text-dark);">
+      <h2 class="ph-section-title new-animate isview trd01" style="color: var(--text-dark);">
         A Cycle of Questions: How I Actually Walk Through the 7 Steps
       </h2>
 
@@ -1440,90 +1641,90 @@
         In traditional mathematics, I was conditioned to follow rigid, step-by-step formulas: plug in numbers, calculate the result, get the single right answer. In Topic 01, Ma'am Chris taught us that EDA is not governed by a universal checklist &mdash; it is an iterative cycle shaped by the data itself:
       </p>
 
-      <!-- STICKY STACKING CARDS CONTAINER -->
+      <!-- STICKY STACKING CARDS CONTAINER WITH --i OFFSETS -->
       <div class="sticky-stack-container isview slidetop trd03" style="margin-top: 3rem;">
         
         <!-- STEP 1 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 0;">
           <div class="sticky-card-num">01</div>
           <div class="sticky-card-body">
             <h3>Understand Context and the Data Source</h3>
             <p>
               In earlier DATAVIS projects, I used to ignore where data came from entirely &mdash; I would just download a CSV from Kaggle and immediately start typing code. When working on our <strong>CDO Health Access project</strong>, I learned that knowing whether healthcare clinic coordinates came from OpenStreetMap volunteers versus official DOH or CBMS censuses determined what the records truly meant before writing a single line of code. Data never exists in a vacuum.
             </p>
-            <span class="sticky-card-tag">Grounding in Origin</span>
+            <span class="sticky-card-tag"><span>✦</span> Grounding in Origin</span>
           </div>
         </div>
 
         <!-- STEP 2 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 1;">
           <div class="sticky-card-num">02</div>
           <div class="sticky-card-body">
             <h3>Inspect the Structure of the Data</h3>
             <p>
               My old bad habit was jumping straight into plotting charts without checking the data's skeleton first. I would run into bizarre syntax crashes halfway through simply because a numeric column was formatted as an <code>object</code> string, or because the dataset had thousands of hidden duplicate rows. Now, the moment I load any dataframe into Jupyter, my mandatory first reflex is running <code>df.shape</code> and <code>df.info()</code>.
             </p>
-            <span class="sticky-card-tag">Turning on the Lights</span>
+            <span class="sticky-card-tag"><span>✦</span> Turning on the Lights</span>
           </div>
         </div>
 
         <!-- STEP 3 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 2;">
           <div class="sticky-card-num">03</div>
           <div class="sticky-card-body">
             <h3>Assess Data Quality</h3>
             <p>
               This was my biggest wake-up call during our <strong>Lab 01 Water Potability activity</strong> and our <strong>Diabetes 130-US Hospitals dataset</strong>. In 2nd year, I treated missing values like a nuisance to be wiped with <code>fillna(mean)</code>. But when auditing 3,276 water samples, I discovered that missing Sulfate and Trihalomethanes readings were selective laboratory omissions because rural stations lacked chromatography equipment. And in the diabetes data, weight was missing in 97% of patient records!
             </p>
-            <span class="sticky-card-tag">Selective Missingness</span>
+            <span class="sticky-card-tag"><span>✦</span> Selective Missingness</span>
           </div>
         </div>
 
         <!-- STEP 4 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 3;">
           <div class="sticky-card-num">04</div>
           <div class="sticky-card-body">
             <h3>Examine Individual Variables (Univariate)</h3>
             <p>
               Before Ma'am Chris taught us Topic 01 and Topic 05, I completely ignored single variables &mdash; I wanted multi-variable interactions right away. But when I audited the <strong>Egypt Population Density dataset</strong>, looking at population density without inspecting the distribution squashed everything flat against zero because Cairo and Giza were massive outliers. Now, I audit every column individually first: comparing median against mean to spot skewness and leverage.
             </p>
-            <span class="sticky-card-tag">Spotting Heavy Tails</span>
+            <span class="sticky-card-tag"><span>✦</span> Spotting Heavy Tails</span>
           </div>
         </div>
 
         <!-- STEP 5 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 4;">
           <div class="sticky-card-num">05</div>
           <div class="sticky-card-body">
             <h3>Examine Relationships Between Variables (Bivariate &amp; Lenses)</h3>
             <p>
               When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's <em>r</em> would have tricked me into believing a simple linear trend existed, but plotting the scatter revealed flat-rate airport trips where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against vulnerability revealed spatial divides no single variable could show.
             </p>
-            <span class="sticky-card-tag">Lenses, Not Locks</span>
+            <span class="sticky-card-tag"><span>✦</span> Lenses, Not Locks</span>
           </div>
         </div>
 
         <!-- STEP 6 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 5;">
           <div class="sticky-card-num">06</div>
           <div class="sticky-card-body">
             <h3>Identify Patterns, Anomalies, and Surprises</h3>
             <p>
               This is the core orientation Ma'am Chris instilled in me. Instead of passively writing code, I constantly ask: <em>&ldquo;Does this number make physical sense in the real world? If not, why?&rdquo;</em> When I saw 0-mile taxi trips with $50 fares in Lab 04, or rural barangays with zero primary health facilities in our CDO spatial study, those weren't errors to throw away &mdash; they were the real story!
             </p>
-            <span class="sticky-card-tag">The Genuine Story</span>
+            <span class="sticky-card-tag"><span>✦</span> The Genuine Story</span>
           </div>
         </div>
 
         <!-- STEP 7 -->
-        <div class="sticky-card">
+        <div class="sticky-card" style="--i: 6;">
           <div class="sticky-card-num">07</div>
           <div class="sticky-card-body">
             <h3>Formulate Questions and Hypotheses</h3>
             <p>
               I used to think that the goal of data analysis was to finish with an undisputed, final answer on day one. But as Ma'am Chris reminded us, EDA doesn't give you final answers &mdash; it gives you better, sharper questions. When I finish exploring a dataset now, I walk away with informed, testable hypotheses: <em>&ldquo;Why do upland barangays show acute travel-time impedance?&rdquo;</em> or <em>&ldquo;Does patient readmission spike when HbA1c isn't tested during inpatient admission?&rdquo;</em>
             </p>
-            <span class="sticky-card-tag">Curiosity into Science</span>
+            <span class="sticky-card-tag"><span>✦</span> Curiosity into Science</span>
           </div>
         </div>
 
@@ -1539,13 +1740,13 @@
     <div class="container">
       
       <div class="isview slidetop trd0">
-        <div class="ph-pill-badge dark">
+        <div class="ph-pill-badge dark scramble" data-original="Academic Portfolio • 3rd Year">
           <span class="ph-pill-dot"></span>
           Academic Portfolio &bull; 3rd Year
         </div>
       </div>
 
-      <h2 class="ph-section-title isview slidetop trd01">
+      <h2 class="ph-section-title new-animate isview trd01">
         From Foundations to Practice: My Academic Repositories
       </h2>
 
@@ -1621,7 +1822,7 @@
       <div class="ph-footer-inner">
         <div>
           <div class="ph-brand-name" style="font-size: 1.25rem;">
-            Minimalist <span>EDA</span> &bull; Phenomenon Edition
+            Minimalist <span>EDA</span> &bull; Phenomenon Studio Edition
           </div>
           <div class="ph-footer-copy" style="margin-top: 0.35rem;">
             &ldquo;Data must be seen, not just calculated.&rdquo; &bull; Dedicated to Ma'am Chris Jallaine S. Mugot &bull; USTP DS3A
@@ -1637,7 +1838,15 @@
   </footer>
 
   <!-- ========================================================================
-       JAVASCRIPT: INTERSECTION OBSERVER REVEALS + ANSCOMBE CANVAS ENGINE
+       LIGHTBOX ZOOM MODAL
+       ======================================================================== -->
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-close-btn" onclick="closeLightbox()">&times;</div>
+    <img id="lightbox-img" src="" alt="Zoomed Artifact View">
+  </div>
+
+  <!-- ========================================================================
+       JAVASCRIPT: KINETIC WORD SPLITTER, SCRAMBLE ENGINE, SCROLL-SPY, CANVAS HUD
        ======================================================================== -->
   <script>
     // 1. Reading Progress Bar
@@ -1647,18 +1856,62 @@
       document.getElementById('progress-bar').style.width = Math.min(100, Math.max(0, scrolled)) + '%';
     });
 
-    // 2. Phenomenon Studio IntersectionObserver Animation Engine
+    // 2. Automated Word-by-Word Kinetic Splitter (.new-animate)
+    document.querySelectorAll('.new-animate').forEach(title => {
+      // If words are not already split into .a-word
+      if (!title.querySelector('.a-word')) {
+        const text = title.textContent.trim();
+        const words = text.split(/\s+/);
+        title.innerHTML = words.map((word, i) => {
+          const delay = (i * 0.045).toFixed(3);
+          return `<span class="a-word"><span style="transition-delay:${delay}s">${word}</span></span>`;
+        }).join(' ');
+      }
+    });
+
+    // 3. Phenomenon Studio Hacker Scramble Decoder Effect (.scramble)
+    function scrambleText(element) {
+      if (element.dataset.isScrambling === 'true') return;
+      element.dataset.isScrambling = 'true';
+      const originalText = element.getAttribute('data-original') || element.textContent;
+      element.setAttribute('data-original', originalText);
+      const glyphs = '01_—#<>/\\[]{}*+!X';
+      let iteration = 0;
+      const interval = setInterval(() => {
+        element.innerHTML = originalText.split('').map((char, index) => {
+          if (char === ' ' || char === '•' || char === '—') return char;
+          if (index < iteration) return originalText[index];
+          return glyphs[Math.floor(Math.random() * glyphs.length)];
+        }).join('');
+        if (iteration >= originalText.length) {
+          clearInterval(interval);
+          element.innerHTML = originalText;
+          element.dataset.isScrambling = 'false';
+        }
+        iteration += 1 / 2;
+      }, 25);
+    }
+
+    document.querySelectorAll('.scramble').forEach(el => {
+      el.addEventListener('mouseenter', () => scrambleText(el));
+    });
+
+    // 4. Phenomenon Studio IntersectionObserver Animation Engine
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -12% 0px',
-      threshold: 0.15
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.12
     };
 
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          // Once revealed, unobserve to maintain smooth scrolling performance
+          if (entry.target.classList.contains('scramble')) {
+            scrambleText(entry.target);
+          }
+          // Also trigger scramble on any child scramble badges
+          entry.target.querySelectorAll('.scramble').forEach(b => scrambleText(b));
           observer.unobserve(entry.target);
         }
       });
@@ -1668,9 +1921,55 @@
       revealObserver.observe(el);
     });
 
-    // 3. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition)
+    // 5. Scroll-Spy for Floating Navigation Pill
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.ph-nav-link');
+
+    window.addEventListener('scroll', () => {
+      let currentSection = '';
+      const scrollY = window.pageYOffset;
+
+      sections.forEach(sec => {
+        const sectionTop = sec.offsetTop - 140;
+        const sectionHeight = sec.offsetHeight;
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          currentSection = sec.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // 6. Lightbox Zoom Logic
+    function openLightbox(src) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (!e || e.target.id === 'lightbox-modal' || e.target.classList.contains('lightbox-close-btn')) {
+        const modal = document.getElementById('lightbox-modal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // 7. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition with Residual Vectors)
     const canvas = document.getElementById('ph-canvas');
     let ctx = canvas ? canvas.getContext('2d') : null;
+    let showResiduals = false;
 
     const ANSCOMBE_PRESETS = {
       anscombe1: [
@@ -1750,6 +2049,19 @@
       return { n, r, slope, intercept, r2 };
     }
 
+    function toggleResiduals() {
+      showResiduals = !showResiduals;
+      const btn = document.getElementById('btn-toggle-residuals');
+      if (showResiduals) {
+        btn.classList.add('active');
+        btn.textContent = 'Hide Residuals';
+      } else {
+        btn.classList.remove('active');
+        btn.textContent = 'Show Residuals (Tukey\'s R2)';
+      }
+      redraw();
+    }
+
     function redraw() {
       if (!canvas || !ctx) return;
       const rect = canvas.getBoundingClientRect();
@@ -1758,7 +2070,7 @@
 
       ctx.clearRect(0, 0, width, height);
 
-      // Background Grid (Dark HUD)
+      // Background Grid (Dark Radar HUD)
       ctx.fillStyle = '#06090C';
       ctx.fillRect(0, 0, width, height);
 
@@ -1794,7 +2106,26 @@
 
       const stats = computeStats(currentPoints);
 
-      // Regression Line (Neon Mint Green)
+      // Residual Vectors (Tukey's R2 Demonstration)
+      if (showResiduals && currentPoints.length >= 2) {
+        ctx.strokeStyle = 'rgba(0, 255, 133, 0.65)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+
+        for (const p of currentPoints) {
+          const yHat = stats.slope * p.x + stats.intercept;
+          const pActual = dataToPixel(p.x, p.y);
+          const pHat = dataToPixel(p.x, yHat);
+
+          ctx.beginPath();
+          ctx.moveTo(pActual.px, pActual.py);
+          ctx.lineTo(pHat.px, pHat.py);
+          ctx.stroke();
+        }
+        ctx.setLineDash([]); // reset line dash
+      }
+
+      // Regression Line (Neon Mint Green with Bloom)
       if (currentPoints.length >= 2) {
         const xLeft = X_MIN;
         const yLeft = stats.slope * xLeft + stats.intercept;
@@ -1806,23 +2137,23 @@
 
         ctx.strokeStyle = '#00FF85';
         ctx.lineWidth = 2.5;
-        ctx.shadowColor = 'rgba(0, 255, 133, 0.4)';
-        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(0, 255, 133, 0.45)';
+        ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.moveTo(pLeft.px, pLeft.py);
         ctx.lineTo(pRight.px, pRight.py);
         ctx.stroke();
-        ctx.shadowBlur = 0; // reset
+        ctx.shadowBlur = 0; // reset bloom
       }
 
-      // Coordinate Points (Electric Orange with Glow)
+      // Coordinate Points (Electric Orange with Radial Glow)
       for (const p of currentPoints) {
         const { px, py } = dataToPixel(p.x, p.y);
         ctx.beginPath();
         ctx.arc(px, py, 6.5, 0, Math.PI * 2);
         ctx.fillStyle = '#FF7A00';
-        ctx.shadowColor = 'rgba(255, 122, 0, 0.6)';
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(255, 122, 0, 0.7)';
+        ctx.shadowBlur = 12;
         ctx.fill();
         ctx.lineWidth = 2;
         ctx.strokeStyle = '#FFFFFF';
@@ -1859,6 +2190,19 @@
     }
 
     if (canvas) {
+      // Coordinate tracker badge
+      canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const dataCoord = pixelToData(px, py);
+        const badge = document.getElementById('hud-coords');
+        if (badge) {
+          badge.textContent = `X: ${dataCoord.x.toFixed(2)} • Y: ${dataCoord.y.toFixed(2)}`;
+        }
+      });
+
+      // Left Click: Drop point
       canvas.addEventListener('click', (e) => {
         const rect = canvas.getBoundingClientRect();
         const px = e.clientX - rect.left;
@@ -1867,6 +2211,32 @@
         currentPoints.push({ x: parseFloat(dataCoord.x.toFixed(2)), y: parseFloat(dataCoord.y.toFixed(2)) });
         redraw();
       });
+
+      // Right Click: Delete nearest point
+      canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const clickCoord = pixelToData(px, py);
+
+        // Find nearest point within tolerance
+        let closestIdx = -1;
+        let minDist = 1.2;
+        currentPoints.forEach((p, idx) => {
+          const dist = Math.hypot(p.x - clickCoord.x, p.y - clickCoord.y);
+          if (dist < minDist) {
+            minDist = dist;
+            closestIdx = idx;
+          }
+        });
+
+        if (closestIdx !== -1) {
+          currentPoints.splice(closestIdx, 1);
+          redraw();
+        }
+      });
+
       window.addEventListener('resize', initCanvasSize);
       window.addEventListener('DOMContentLoaded', initCanvasSize);
       setTimeout(initCanvasSize, 100);
