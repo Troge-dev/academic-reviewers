@@ -15,7 +15,7 @@
        PERSONAL EDITORIAL DESIGN SYSTEM & 3-ACT AMBIENT LIGHTING
        Intimate personal essay layout with rich atmospheric moving depth,
        an uncompromised full-width white editorial transition chapter,
-       and hardware-accelerated scroll-reveal motion physics.
+       and signature tactile scroll-reveal + de-blur popup animations.
        ========================================================================== */
     :root {
       --ph-orange: #FF7A00;
@@ -66,25 +66,62 @@
     }
 
     /* ==========================================================================
-       SCROLL-REVEAL MOTION PHYSICS
-       Smooth upward glide & fade as elements enter the scrollport
+       TACTILE SCROLL-REVEAL & DE-BLUR MOTION PHYSICS (Eloqwnt / Phenomenon Style)
+       Noticeable upward glide, soft de-blur, and spring scale as elements appear
        ========================================================================== */
     .reveal-on-scroll {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
+      transform: translateY(38px) scale(0.98);
+      filter: blur(6px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
     }
 
     .reveal-on-scroll.is-revealed {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
+    /* Hero entrance sequence on initial page load */
+    @keyframes heroGlideEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(34px) scale(0.97);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    .hero-animate-1 {
+      animation: heroGlideEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    }
+    .hero-animate-2 {
+      animation: heroGlideEntrance 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    }
+    .hero-animate-3 {
+      animation: heroGlideEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+    }
+    .hero-animate-4 {
+      animation: heroGlideEntrance 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .reveal-on-scroll {
+      .reveal-on-scroll,
+      .hero-animate-1,
+      .hero-animate-2,
+      .hero-animate-3,
+      .hero-animate-4 {
         opacity: 1 !important;
         transform: none !important;
+        filter: none !important;
+        animation: none !important;
         transition: none !important;
       }
     }
@@ -1102,22 +1139,22 @@
     <div class="essay-zone zone-dark zone-act1">
       <div class="reading-column">
 
-        <!-- ESSAY HEADER -->
+        <!-- ESSAY HEADER (Sequenced Entrance Animation) -->
         <header>
-          <div class="blog-kicker reveal-on-scroll">
+          <div class="blog-kicker hero-animate-1">
             <span class="blog-kicker-dot"></span>
             Personal Technical Essay &bull; Topic 01
           </div>
 
-          <h1 class="blog-title reveal-on-scroll">
+          <h1 class="blog-title hero-animate-2">
             The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
           </h1>
 
-          <p class="blog-deck reveal-on-scroll">
+          <p class="blog-deck hero-animate-3">
             Before entering DS311, I treated data science as a race to fit algorithms. Whenever a dataset resisted, I abandoned it for something easier. Then Ma'am Chris introduced Francis Anscombe and John Tukey &mdash; proving that numbers alone can lie, and why looking at messy anomalies is where the real science begins.
           </p>
 
-          <div class="blog-byline-bar reveal-on-scroll">
+          <div class="blog-byline-bar hero-animate-4">
             <div class="author-cluster">
               <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Q. Mandamian III" class="author-avatar">
               <div class="author-details">
@@ -1620,8 +1657,9 @@
     });
 
     // =========================================================================
-    // SCROLL-REVEAL OBSERVER
-    // Elements gracefully glide up and fade in as they enter the scrollport
+    // TACTILE SCROLL-REVEAL OBSERVER (Eloqwnt / Phenomenon Pop Physics)
+    // Triggers when the element reaches 10% into the viewport so the motion is
+    // visibly observed as you scroll down.
     // =========================================================================
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -1631,18 +1669,13 @@
         }
       });
     }, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -35px 0px'
+      threshold: 0.1,
+      rootMargin: '0px 0px -10% 0px'
     });
 
-    // Immediately reveal elements already in viewport on load, observe the rest
+    // Observe all scroll-reveal elements
     document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 35) {
-        el.classList.add('is-revealed');
-      } else {
-        revealObserver.observe(el);
-      }
+      revealObserver.observe(el);
     });
 
     // =========================================================================
