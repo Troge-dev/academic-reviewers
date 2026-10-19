@@ -1667,6 +1667,254 @@
       color: var(--text-dark);
     }
 
+  
+    /* ==========================================================================
+       EDITORIAL SKIMMING HIGHLIGHTS (.ph-highlight & .ph-highlight-mint)
+       Tactile, high-visibility inline markers designed for rapid skimming
+       ========================================================================== */
+    .ph-highlight {
+      background: linear-gradient(120deg, rgba(255, 122, 0, 0.22) 0%, rgba(255, 122, 0, 0.08) 100%);
+      color: inherit;
+      padding: 0.12rem 0.45rem;
+      border-radius: 6px;
+      font-weight: 600;
+      border-bottom: 1.5px solid rgba(255, 122, 0, 0.5);
+      display: inline;
+    }
+
+    .ph-highlight-mint {
+      background: linear-gradient(120deg, rgba(0, 255, 133, 0.20) 0%, rgba(0, 255, 133, 0.06) 100%);
+      color: inherit;
+      padding: 0.12rem 0.45rem;
+      border-radius: 6px;
+      font-weight: 600;
+      border-bottom: 1.5px solid rgba(0, 255, 133, 0.5);
+      display: inline;
+    }
+
+    .ph-highlight-dark {
+      background: rgba(8, 13, 16, 0.08);
+      color: #080D10;
+      padding: 0.12rem 0.45rem;
+      border-radius: 6px;
+      font-weight: 700;
+      border-bottom: 1.5px solid rgba(8, 13, 16, 0.3);
+      display: inline;
+    }
+
+    /* Interrogate the Numbers Bar */
+    .interrogate-box {
+      background: #FAF7F2;
+      border: 1px solid var(--border-light-strong);
+      border-radius: 20px;
+      padding: 1.75rem 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 8px 24px rgba(8, 13, 16, 0.04);
+    }
+
+    .interrogate-btn-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .interrogate-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light-strong);
+      color: var(--text-dark);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .interrogate-btn:hover, .interrogate-btn.active {
+      background: #080D10;
+      color: var(--ph-orange);
+      border-color: #080D10;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .interrogate-display {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: #FFFFFF;
+      border-radius: 12px;
+      border-left: 3px solid var(--ph-orange);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Interactive Resistance Slider Widget (Rawls' Veil of Ignorance) */
+    .resistance-widget {
+      background: #10171D;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      padding: 2.25rem;
+      margin-top: 2.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .resistance-hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .resistance-stat-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .resistance-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-white-dim);
+    }
+
+    .resistance-stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-top: 0.2rem;
+    }
+
+    .resistance-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      -webkit-appearance: none;
+      margin: 1.5rem 0 1rem;
+    }
+
+    .resistance-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--ph-orange);
+      cursor: pointer;
+      box-shadow: 0 0 16px var(--ph-orange-glow);
+      transition: transform 0.15s ease;
+    }
+
+    .resistance-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Dataset Autopsy / Hygiene Inspector */
+    .autopsy-box {
+      background: #FAF7F2;
+      border: 1px solid var(--border-light-strong);
+      border-radius: 24px;
+      padding: 2.25rem;
+      margin: 2.5rem 0;
+      box-shadow: 0 12px 32px rgba(8, 13, 16, 0.05);
+    }
+
+    .autopsy-tabs {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .autopsy-tab {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light-strong);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .autopsy-tab.active {
+      background: #080D10;
+      color: #FFFFFF;
+      border-color: #080D10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Copyable Code Recipes */
+    .code-recipe {
+      background: #080D10;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      color: #FFFFFF;
+      position: relative;
+    }
+
+    .code-recipe-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .code-recipe-title {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--ph-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .code-copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .code-copy-btn:hover {
+      background: var(--ph-orange);
+      color: #080D10;
+    }
+
+    .code-recipe pre {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #E2E8F0;
+      overflow-x: auto;
+      margin: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -1722,6 +1970,12 @@
           </div>
           <div class="hero-course-info">
             DS311: Exploratory Data Analysis &bull; Instructor: Ma'am Chris Jallaine S. Mugot &bull; USTP
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.85rem; flex-wrap: wrap;">
+            <span class="spec-pill highlight">⏱ 8 MIN READ</span>
+            <span class="spec-pill">3 INTERACTIVE LABS</span>
+            <span class="spec-pill">300 DPI CARTOGRAPHY</span>
+            <span class="spec-pill">TOPIC 01 FOUNDATIONS</span>
           </div>
         </div>
       </div>
@@ -1780,19 +2034,19 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2.5rem;" class="isview slidetop trd03">
         <div>
           <p style="color: var(--text-dark-muted); font-size: 1.08rem; line-height: 1.7; margin-bottom: 1.5rem;">
-            Whenever our professors gave us an analytical assignment, my immediate instinct was to formulate a conclusion in my head first, load the dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I would skip the foundational legwork and jump straight into multivariate scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes inspecting what the individual columns actually contained.
+            Whenever our professors gave us an analytical assignment, my immediate instinct was to <mark class="ph-highlight">formulate a conclusion in my head first</mark>, load the dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I would skip the foundational legwork and jump straight into multivariate scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes inspecting what the individual columns actually contained.
           </p>
           <p style="color: var(--text-dark-muted); font-size: 1.08rem; line-height: 1.7;">
-            I didn't pay attention to whether a feature had a severe right skew, whether the variance was dominated by a couple of massive outliers, or what the units of measurement even meant. To me, a dataset was just a monolithic block of numbers that I wanted to shove into an algorithm as fast as possible.
+            I didn't pay attention to whether a feature had a <mark class="ph-highlight">severe right skew</mark>, whether the variance was dominated by a couple of massive outliers, or what the units of measurement even meant. To me, a dataset was just a monolithic block of numbers that I wanted to shove into an algorithm as fast as possible.
           </p>
         </div>
 
         <div>
           <p style="color: var(--text-dark-muted); font-size: 1.08rem; line-height: 1.7; margin-bottom: 1.5rem;">
-            Inevitably, reality would push back hard. I would find a column with 30% null values. A variable would have negative values where only positive numbers made sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I was convinced a massive relationship existed.
+            Inevitably, reality would push back hard. I would find a column with <mark class="ph-highlight">30% null values</mark>, negative readings where only positive numbers made physical sense, or a weak correlation of <code>r = 0.12</code> when I was convinced a massive relationship existed.
           </p>
           <p style="color: var(--text-dark-muted); font-size: 1.08rem; line-height: 1.7;">
-            And whenever I hit those roadblocks, I panicked. I had memorized textbook terms like &ldquo;mean imputation,&rdquo; &ldquo;median imputation,&rdquo; and &ldquo;forward fill,&rdquo; but in practice, I had little to no idea which imputation I should actually choose or what damage it would cause. I treated missing values like an annoying bug to be erased &mdash; blindly writing <code>df.fillna(df.mean())</code> just to stop my code from crashing. When the resulting models fell apart, I fell into chronic <strong>dataset-hopping</strong>.
+            And whenever I hit those roadblocks, I panicked. I treated missing values like an annoying bug to be erased &mdash; blindly writing <mark class="ph-highlight"><code>df.fillna(df.mean())</code></mark> just to stop my code from crashing. When the resulting models fell apart, I fell into chronic <mark class="ph-highlight"><strong>dataset-hopping</strong></mark>.
           </p>
         </div>
       </div>
@@ -1806,6 +2060,46 @@
           &mdash; Ma'am Chris Jallaine S. Mugot, DS311 Instructor
         </div>
       </div>
+
+      <!-- DATASET AUTOPSY / HYGIENE INSPECTOR WIDGET -->
+      <div class="autopsy-box isview slidetop trd04">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-dark);">
+              Interactive Dataset Autopsy: What Blind Mean Imputation Actually Does
+            </div>
+            <p style="font-size: 0.92rem; color: var(--text-dark-muted); margin-top: 0.25rem;">
+              Click through the tabs to inspect how raw anomalies get distorted when you rush straight into naive fixes.
+            </p>
+          </div>
+          <div class="autopsy-tabs">
+            <button class="autopsy-tab active" onclick="setAutopsyTab('raw', this)">1. Raw Kaggle Dump</button>
+            <button class="autopsy-tab" onclick="setAutopsyTab('naive', this)">2. Naive fillna(mean)</button>
+            <button class="autopsy-tab" onclick="setAutopsyTab('robust', this)">3. Robust EDA Strategy</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; background: #FFFFFF; border-radius: 16px; border: 1px solid var(--border-light-strong); padding: 1rem;">
+          <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.88rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-light-strong); color: var(--text-dark-muted);">
+                <th style="padding: 0.65rem 1rem;">Record ID</th>
+                <th style="padding: 0.65rem 1rem;">District / Station</th>
+                <th style="padding: 0.65rem 1rem;">Recorded Population</th>
+                <th style="padding: 0.65rem 1rem;">Income Score ($)</th>
+                <th style="padding: 0.65rem 1rem;">Data Hygiene Diagnosis</th>
+              </tr>
+            </thead>
+            <tbody id="autopsy-tbody">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div id="autopsy-verdict" style="margin-top: 1rem; font-size: 0.92rem; font-weight: 600; color: var(--text-dark); padding: 0.75rem 1.25rem; border-radius: 10px; background: rgba(255, 122, 0, 0.08); border-left: 3px solid var(--ph-orange);">
+          Raw State: 2 missing values, 1 negative income placeholder (-999), and 1 duplicated survey record.
+        </div>
+      </div>
+
 
     </div>
   </section>
@@ -1900,6 +2194,33 @@
   </span>
 </span> &mdash; four synthetic datasets published in <em>The American Statistician</em> in 1973 to demolish the false assumption that numerical summaries alone tell the whole story.
       </p>
+
+
+      <!-- INTERROGATE THE NUMBERS DIAGNOSTIC BAR -->
+      <div class="interrogate-box isview slidetop trd03">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-dark);">
+              Interactive Interrogation: Can Any Scalar Metric Tell These Four Sets Apart?
+            </div>
+            <p style="font-size: 0.92rem; color: var(--text-dark-muted); margin-top: 0.25rem;">
+              Click each metric to interrogate what the summary numbers report before inspecting the scatter plots:
+            </p>
+          </div>
+        </div>
+
+        <div class="interrogate-btn-group">
+          <button class="interrogate-btn active" onclick="interrogateMetric('mean', this)">Ask the Means (μ)</button>
+          <button class="interrogate-btn" onclick="interrogateMetric('var', this)">Ask the Spread (σ²)</button>
+          <button class="interrogate-btn" onclick="interrogateMetric('corr', this)">Ask the Correlation (r)</button>
+          <button class="interrogate-btn" onclick="interrogateMetric('reg', this)">Ask the Fit (β₁ & R²)</button>
+          <button class="interrogate-btn" onclick="interrogateMetric('geo', this)">Ask a Picture (Geometry)</button>
+        </div>
+
+        <div class="interrogate-display" id="interrogate-output">
+          <strong>The Averages:</strong> &mu;<sub>x</sub> = 9.00 and &mu;<sub>y</sub> = 7.50 across all four datasets. They smile politely, confirm perfect uniformity, and say nothing about true shape.
+        </div>
+      </div>
 
       <!-- ANSCOMBE SUMMARY TABLE -->
       <div class="isview slidetop trd03" style="background: #FFFFFF; border: 1px solid var(--border-light-strong); border-radius: 24px; padding: 2rem; margin: 2rem 0; box-shadow: 0 12px 32px rgba(8, 13, 16, 0.04);">
@@ -2025,19 +2346,19 @@
         </span> are my personal data science compass:
       </p>
 
-      <!-- FOUR R'S GRID -->
+      <!-- FOUR R'S GRID WITH PHILOSOPHICAL LENSES -->
       <div class="four-rs-grid isview slidetop trd03">
         
         <!-- R1: RESISTANCE -->
         <div class="r-card-ph">
           <div class="r-badge-ph">R1</div>
           <div class="r-title-ph">Resistance</div>
-          <div class="r-subtitle-ph">Median Over Mean</div>
+          <div class="r-subtitle-ph">Rawls' Veil of Ignorance &bull; Median Over Mean</div>
           <div class="r-desc-ph">
-            Extreme observations skew arithmetic means, but the median stays anchored to where the bulk of real life lives. Essential for skewed distributions like income, hospital lengths of stay, or municipal densities.
+            Philosopher John Rawls asked: behind a <mark class="ph-highlight">veil of ignorance</mark>, how would you judge society? If four villagers have 20 coins and a king has 5,000, the arithmetic mean ($1,016$) claims the village is wealthy &mdash; a total lie. <mark class="ph-highlight">Tukey's median has a 50% breakdown point</mark>, remaining firmly at $20$.
           </div>
           <div class="r-takeaway-ph">
-            Takeaway: Findings must reflect the bulk of data, not be hijacked by its exceptions.
+            Philosophical Core: Summaries must protect the ordinary reality, not be hijacked by single extreme monarchs.
           </div>
         </div>
 
@@ -2045,12 +2366,12 @@
         <div class="r-card-ph">
           <div class="r-badge-ph">R2</div>
           <div class="r-title-ph">Residuals</div>
-          <div class="r-subtitle-ph">Data = Fit + Residual</div>
+          <div class="r-subtitle-ph">The Black Swan Paradox &bull; Data = Fit + Residual</div>
           <div class="r-desc-ph">
-            Never be satisfied with a model just because R&sup2; looks acceptable. The residual &mdash; what the model failed to explain &mdash; exposes the uncaptured parabola that straight regression lines miss completely.
+            A thousand white swans cannot confirm the law that all swans are white, but a single <mark class="ph-highlight">black swan residual ($y_i - \hat{y}_i$)</mark> breaks the illusion. In modeling, we never settle for what fits; we inspect the residuals to discover the non-linear curvature that straight regression lines missed entirely.
           </div>
           <div class="r-takeaway-ph">
-            Takeaway: Never settle for what fits. Always inspect what was left behind.
+            Philosophical Core: Residuals are messages, not errors. What the pattern missed is where genuine truth lives.
           </div>
         </div>
 
@@ -2058,12 +2379,12 @@
         <div class="r-card-ph">
           <div class="r-badge-ph">R3</div>
           <div class="r-title-ph">Re-expression</div>
-          <div class="r-subtitle-ph">Transform to Clarify</div>
+          <div class="r-subtitle-ph">Pascal's Two Infinities &bull; Transform to Clarify</div>
           <div class="r-desc-ph">
-            Raw data is rarely in its best form for understanding. In the Egypt dataset, Cairo and Giza squashed the country flat against zero. Taking log<sub>10</sub>(density) decompressed the heavy tail and revealed the real bimodal truth!
+            Blaise Pascal noted humans hang between two infinities &mdash; the galactic and atomic. Plot them linearly, and everything except galaxies vanishes! In our Egypt data, Cairo squashed the rest of the country flat. <mark class="ph-highlight">Taking log<sub>10</sub>(density) scaled orders of magnitude</mark> so both Nile cities and desert governorates became visible.
           </div>
           <div class="r-takeaway-ph">
-            Takeaway: Transformations aren't cheating; they are the magnifying glass of reality.
+            Philosophical Core: Transformations aren't cheating; they are the analytical microscope of multi-scale reality.
           </div>
         </div>
 
@@ -2071,16 +2392,56 @@
         <div class="r-card-ph">
           <div class="r-badge-ph">R4</div>
           <div class="r-title-ph">Revelation</div>
-          <div class="r-subtitle-ph">Make Invisible Visible</div>
+          <div class="r-subtitle-ph">Plato's Allegory of the Cave &bull; Look Directly</div>
           <div class="r-desc-ph">
-            A well-crafted graphic displays in seconds what dozens of summary tables conceal. Resistance protects findings, Residuals highlight missed features, and Re-expression clears the analytical pathway.
+            In Plato's cave, prisoners spend lifetimes studying and averaging shadows on the wall. Summary tables are the shadows; <mark class="ph-highlight">revelation is turning around to look at the physical geometry directly</mark>. A single scatter plot shatters identical correlations in seconds.
           </div>
           <div class="r-takeaway-ph">
-            Takeaway: If your analysis hasn't revealed something new, you haven't finished exploring.
+            Philosophical Core: If your analysis hasn't forced you to notice what you never expected, you haven't finished looking.
           </div>
         </div>
 
       </div>
+
+      <!-- LIVE INTERACTIVE RESISTANCE NUMBER LINE WIDGET -->
+      <div class="resistance-widget isview slidetop trd04">
+        <div class="resistance-hud">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #FFFFFF;">
+              Live Resistance Simulator: Drag the King's Treasury
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-white-dim); margin-top: 0.25rem;">
+              Four villagers hold 20 gold coins. Drag the slider to expand the King's fortune and watch which summary metric breaks down.
+            </p>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <div class="resistance-stat-box">
+              <span class="resistance-stat-label">King Holds</span>
+              <span class="resistance-stat-val" id="king-val" style="color: var(--ph-orange);">20 coins</span>
+            </div>
+            <div class="resistance-stat-box">
+              <span class="resistance-stat-label">Mean (&mu;) &bull; 0% Breakdown</span>
+              <span class="resistance-stat-val" id="mean-val" style="color: #FF5C5C;">20.0</span>
+            </div>
+            <div class="resistance-stat-box">
+              <span class="resistance-stat-label">Median (&eta;) &bull; 50% Resistant</span>
+              <span class="resistance-stat-val" id="median-val" style="color: var(--ph-mint);">20.0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG NUMBER LINE -->
+        <div style="background: rgba(8, 13, 16, 0.7); border-radius: 16px; padding: 1.5rem 1rem; border: 1px solid rgba(255,255,255,0.08);">
+          <svg id="resistance-svg" viewBox="0 0 800 120" style="width: 100%; height: auto; display: block;"></svg>
+        </div>
+
+        <input type="range" class="resistance-slider" id="king-slider" min="20" max="3500" value="20" step="10" oninput="updateResistanceSimulator(this.value)">
+
+        <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-white-dim); text-align: right;" id="resistance-verdict">
+          At King = 20: Perfect equity. Mean = 20, Median = 20.
+        </div>
+      </div>
+
 
     </div>
   </section>
@@ -2172,7 +2533,7 @@
           <div class="sticky-card-body">
             <h3>Understand Context and the Data Source</h3>
             <p>
-              In earlier DATAVIS projects, I used to ignore where data came from entirely &mdash; I would just download a CSV from Kaggle and immediately start typing code. When working on our <strong>CDO Health Access project</strong>, I learned that knowing whether healthcare clinic coordinates came from OpenStreetMap volunteers versus official DOH or CBMS censuses determined what the records truly meant before writing a single line of code. Data never exists in a vacuum.
+              In earlier DATAVIS projects, I used to ignore where data came from entirely &mdash; I would just download a CSV from Kaggle and immediately start typing code. When working on our <strong>CDO Health Access project</strong>, I learned that knowing whether healthcare clinic coordinates came from OpenStreetMap volunteers versus official DOH or CBMS censuses determined what the records truly meant before writing a single line of code. <mark class="ph-highlight">Data never exists in a vacuum</mark> &mdash; knowing collection protocols precedes analysis.
             </p>
             <span class="sticky-card-tag"><span>✦</span> Grounding in Origin</span>
           </div>
@@ -2184,7 +2545,7 @@
           <div class="sticky-card-body">
             <h3>Inspect the Structure of the Data</h3>
             <p>
-              My old bad habit was jumping straight into plotting charts without checking the data's skeleton first. I would run into bizarre syntax crashes halfway through simply because a numeric column was formatted as an <code>object</code> string, or because the dataset had thousands of hidden duplicate rows. Now, the moment I load any dataframe into Jupyter, my mandatory first reflex is running <code>df.shape</code> and <code>df.info()</code>.
+              My old bad habit was jumping straight into plotting charts without checking the data's skeleton first. I would run into bizarre syntax crashes halfway through simply because a numeric column was formatted as an <code>object</code> string, or because the dataset had thousands of hidden duplicate rows. Now, the moment I load any dataframe into Jupyter, my mandatory first reflex is running <mark class="ph-highlight"><code>df.shape</code>, <code>df.info()</code>, and auditing non-null counts</mark> before any charting.
             </p>
             <span class="sticky-card-tag"><span>✦</span> Turning on the Lights</span>
           </div>
@@ -2196,7 +2557,7 @@
           <div class="sticky-card-body">
             <h3>Assess Data Quality</h3>
             <p>
-              This was my biggest wake-up call during our <strong>Lab 01 Water Potability activity</strong> and our <strong>Diabetes 130-US Hospitals dataset</strong>. In 2nd year, I treated missing values like a nuisance to be wiped with <code>fillna(mean)</code>. But when auditing 3,276 water samples, I discovered that missing Sulfate and Trihalomethanes readings were selective laboratory omissions because rural stations lacked chromatography equipment. And in the diabetes data, weight was missing in 97% of patient records!
+              This was my biggest wake-up call during our <strong>Lab 01 Water Potability activity</strong> and our <strong>Diabetes 130-US Hospitals dataset</strong>. In 2nd year, I treated missing values like a nuisance to be wiped with <code>fillna(mean)</code>. I learned that <mark class="ph-highlight">missingness is often selective and informative</mark>, not random. But when auditing 3,276 water samples, I discovered that missing Sulfate and Trihalomethanes readings were selective laboratory omissions because rural stations lacked chromatography equipment. And in the diabetes data, weight was missing in 97% of patient records!
             </p>
             <span class="sticky-card-tag"><span>✦</span> Selective Missingness</span>
           </div>
@@ -2206,11 +2567,45 @@
         <div class="sticky-card" style="--i: 3;">
           <div class="sticky-card-num">04</div>
           <div class="sticky-card-body">
-            <h3>Examine Individual Variables (Univariate)</h3>
+            <h3>Examine Individual Variables (Univariate &amp; Binning)</h3>
             <p>
-              Before Ma'am Chris taught us Topic 01 and Topic 05, I completely ignored single variables &mdash; I wanted multi-variable interactions right away. But when I audited the <strong>Egypt Population Density dataset</strong>, looking at population density without inspecting the distribution squashed everything flat against zero because Cairo and Giza were massive outliers. Now, I audit every column individually first: comparing median against mean to spot skewness and leverage.
+              Before Ma'am Chris taught us Topic 01, I completely ignored single variables &mdash; I rushed for multi-variable interactions right away. But looking at raw distributions taught me that <mark class="ph-highlight">comparing median against mean is the fastest test for skewness</mark>. Furthermore, histograms are sensitive to bin counts &mdash; too few bins conceals real bimodality, while too many overfits to noise!
             </p>
-            <span class="sticky-card-tag"><span>✦</span> Spotting Heavy Tails</span>
+
+            <!-- MINI INTERACTIVE BINNING SLIDER -->
+            <div style="background: #F8F9FA; border: 1px solid var(--border-light-strong); border-radius: 16px; padding: 1.25rem; margin: 1.25rem 0;">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                <span style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--text-dark);">
+                  Histogram Bin-Width Simulator: <span id="bin-count-val" style="color: var(--ph-orange);">6 Bins</span>
+                </span>
+                <span style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-dark-muted);" id="bin-verdict">
+                  Underbinned: Obscures true bimodality!
+                </span>
+              </div>
+              <input type="range" class="resistance-slider" id="bin-slider" min="3" max="28" value="6" step="1" oninput="updateBinSimulator(this.value)" style="margin: 0.75rem 0;">
+              <svg id="bin-svg" viewBox="0 0 600 120" style="width: 100%; height: auto; background: #FFFFFF; border-radius: 8px; border: 1px solid var(--border-light);"></svg>
+            </div>
+
+            <!-- CODE RECIPE: LOG RE-EXPRESSION & FENCES -->
+            <div class="code-recipe">
+              <div class="code-recipe-header">
+                <span class="code-recipe-title">Python Colab &bull; Robust Univariate Transformation</span>
+                <button class="code-copy-btn" onclick="copyRecipe(this, 'recipe-univariate')">Copy Code</button>
+              </div>
+              <pre id="recipe-univariate"><code># Tukey Resistant Fences & Log10 Re-expression
+import numpy as np
+
+# 1. Tame heavy right tails (e.g. Egypt population density)
+df['log_density'] = np.log10(df['pop_density'] + 1)
+
+# 2. Compute Tukey Resistant Fences (1.5 x IQR)
+q1, q3 = df['log_density'].quantile([0.25, 0.75])
+iqr = q3 - q1
+lower_fence = q1 - 1.5 * iqr
+upper_fence = q3 + 1.5 * iqr</code></pre>
+            </div>
+
+            <span class="sticky-card-tag"><span>✦</span> Spotting Heavy Tails &amp; Binning Artifacts</span>
           </div>
         </div>
 
@@ -2220,7 +2615,7 @@
           <div class="sticky-card-body">
             <h3>Examine Relationships Between Variables (Bivariate &amp; Lenses)</h3>
             <p>
-              When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's <em>r</em> would have tricked me into believing a simple linear trend existed, but plotting the scatter revealed flat-rate airport trips where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against vulnerability revealed spatial divides no single variable could show.
+              When I reached <strong>Lab 04 (NYC Yellow Taxi Trips)</strong> and paired trip distance with fare amount, bivariate inspection became real. A single scalar like Pearson's <em>r</em> would have tricked me into believing a linear trend existed, but <mark class="ph-highlight">bivariate scatter plots revealed non-linear rate ceilings and sensor dropouts</mark> where 0 miles cost $50, and GPS glitches where 150 miles cost $10! In our <strong>CDO Health Access research</strong>, examining travel times against vulnerability revealed spatial divides no single variable could show.
             </p>
             <span class="sticky-card-tag"><span>✦</span> Lenses, Not Locks</span>
           </div>
@@ -2244,7 +2639,7 @@
           <div class="sticky-card-body">
             <h3>Formulate Questions and Hypotheses</h3>
             <p>
-              I used to think that the goal of data analysis was to finish with an undisputed, final answer on day one. But as Ma'am Chris reminded us, EDA doesn't give you final answers &mdash; it gives you better, sharper questions. When I finish exploring a dataset now, I walk away with informed, testable hypotheses: <em>&ldquo;Why do upland barangays show acute travel-time impedance?&rdquo;</em> or <em>&ldquo;Does patient readmission spike when HbA1c isn't tested during inpatient admission?&rdquo;</em>
+              I used to think that the goal of data analysis was to finish with an undisputed, final answer on day one. But as Ma'am Chris reminded us, <mark class="ph-highlight">EDA doesn't give you final answers &mdash; it equips you with sharper, testable hypotheses</mark> grounded in reality. When I finish exploring a dataset now, I walk away with informed, testable hypotheses: <em>&ldquo;Why do upland barangays show acute travel-time impedance?&rdquo;</em> or <em>&ldquo;Does patient readmission spike when HbA1c isn't tested during inpatient admission?&rdquo;</em>
             </p>
             <span class="sticky-card-tag"><span>✦</span> Curiosity into Science</span>
           </div>
@@ -2758,6 +3153,221 @@
     document.querySelectorAll('.eloqwnt-pop, .faq-item, .ph-section').forEach(el => {
       eloqwntPopObserver.observe(el);
     });
+
+    
+    // =========================================================================
+    // 9. INTERROGATE THE NUMBERS DIAGNOSTIC LOGIC (Section 3)
+    // =========================================================================
+    const INTERROGATE_RESPONSES = {
+      mean: "<strong>The Averages:</strong> &mu;<sub>x</sub> = 9.00 and &mu;<sub>y</sub> = 7.50 across all four sets. They smile politely, confirm perfect uniformity, and say nothing about true shape.",
+      var: "<strong>The Spread:</strong> Sample variance is identical at &sigma;&sup2;<sub>x</sub> = 11.00 and &sigma;&sup2;<sub>y</sub> = 4.125 across all four datasets. Total consensus &mdash; completely blind to clustering.",
+      corr: "<strong>Pearson's Correlation:</strong> Exactly <em>r</em> = 0.816 (R&sup2; = 66.6%) in all four datasets. Classical statistics swears all four collections share the exact same linear association.",
+      reg: "<strong>Linear Regression:</strong> Fitted line is identical: <em>y</em> = 3.00 + 0.50<em>x</em> with standard error = 1.237 across all four datasets. A linear algorithm sees zero distinction.",
+      geo: "<strong>The Geometry (Shatters the Illusion):</strong> Dataset I is a clean scatter; Dataset II is a non-linear parabola; Dataset III is a perfect line with one outlier; Dataset IV is a vertical stack held hostage by a single extreme leverage point!"
+    };
+
+    function interrogateMetric(type, btn) {
+      document.querySelectorAll('.interrogate-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const out = document.getElementById('interrogate-output');
+      out.style.opacity = '0';
+      setTimeout(() => {
+        out.innerHTML = INTERROGATE_RESPONSES[type] || "";
+        out.style.opacity = '1';
+      }, 150);
+    }
+
+    // =========================================================================
+    // 10. DATASET AUTOPSY TAB SWITCHER (Section 1)
+    // =========================================================================
+    const AUTOPSY_DATA = {
+      raw: [
+        { id: "REC-01", dist: "Nile Delta West", pop: "1,240,500", inc: "$48,200", diag: "<span style='color: #00FF85;'>✓ Valid Ground Truth</span>" },
+        { id: "REC-02", dist: "Cairo Metropole", pop: "NULL (NaN)", inc: "$92,400", diag: "<span style='color: #FF5C5C;'>⚠ Selective Missingness (Omission)</span>" },
+        { id: "REC-03", dist: "Sinai Frontier", pop: "18,200", inc: "-999 (Invalid)", diag: "<span style='color: #FFAA00;'>⚠ Sentinel Error Code (-999)</span>" },
+        { id: "REC-04", dist: "Cairo Metropole", pop: "NULL (NaN)", inc: "$92,400", diag: "<span style='color: #FF5C5C;'>⚠ Duplicate Entry of REC-02</span>" },
+        { id: "REC-05", dist: "Giza Highlands", pop: "890,000", inc: "$54,100", diag: "<span style='color: #00FF85;'>✓ Valid Ground Truth</span>" }
+      ],
+      naive: [
+        { id: "REC-01", dist: "Nile Delta West", pop: "1,240,500", inc: "$48,200", diag: "<span style='color: #00FF85;'>✓ Preserved</span>" },
+        { id: "REC-02", dist: "Cairo Metropole", pop: "<span style='color:#FF7A00;font-weight:700;'>716,233 (Fake Mean)</span>", inc: "$92,400", diag: "<span style='color: #FF5C5C;'>✕ Shrank variance by 42%! Cairo is not average.</span>" },
+        { id: "REC-03", dist: "Sinai Frontier", pop: "18,200", inc: "<span style='color:#FF7A00;font-weight:700;'>$48,740 (Skewed)</span>", diag: "<span style='color: #FF5C5C;'>✕ Negative code -999 was treated as real dollars!</span>" },
+        { id: "REC-04", dist: "Cairo Metropole", pop: "<span style='color:#FF7A00;font-weight:700;'>716,233 (Fake Mean)</span>", inc: "$92,400", diag: "<span style='color: #FF5C5C;'>✕ Duplicate row retained; artificially doubles Cairo weight!</span>" },
+        { id: "REC-05", dist: "Giza Highlands", pop: "890,000", inc: "$54,100", diag: "<span style='color: #00FF85;'>✓ Preserved</span>" }
+      ],
+      robust: [
+        { id: "REC-01", dist: "Nile Delta West", pop: "1,240,500", inc: "$48,200", diag: "<span style='color: #00FF85;'>✓ Valid Ground Truth</span>" },
+        { id: "REC-02", dist: "Cairo Metropole", pop: "<span style='color:#00FF85;font-weight:700;'>1,065,250 (Stratified Median)</span>", inc: "$92,400", diag: "<span style='color: #00FF85;'>✓ Imputed by Urban Metropole cluster median</span>" },
+        { id: "REC-03", dist: "Sinai Frontier", pop: "18,200", inc: "<span style='color:#00FF85;font-weight:700;'>$31,200 (Replaced -999)</span>", diag: "<span style='color: #00FF85;'>✓ Flagged -999 as sentinel; imputed frontier median</span>" },
+        { id: "REC-04", dist: "Cairo Metropole", pop: "--- (Purged)", inc: "---", diag: "<span style='color: #00FF85;'>✓ Deduplicated via primary key hashing</span>" },
+        { id: "REC-05", dist: "Giza Highlands", pop: "890,000", inc: "$54,100", diag: "<span style='color: #00FF85;'>✓ Valid Ground Truth</span>" }
+      ]
+    };
+
+    const AUTOPSY_VERDICTS = {
+      raw: "Raw State: 2 missing values, 1 sentinel error code (-999), and 1 duplicated survey record.",
+      naive: "Danger of Naive Imputation: Mean fill erased natural variance, while blindly averaging -999 corrupted the income metric!",
+      robust: "Robust EDA Strategy: Purged duplicates, recoded sentinel -999 to NaN, and applied cluster-stratified medians."
+    };
+
+    function setAutopsyTab(type, btn) {
+      document.querySelectorAll('.autopsy-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAutopsyTable(type);
+      document.getElementById('autopsy-verdict').textContent = AUTOPSY_VERDICTS[type];
+    }
+
+    function renderAutopsyTable(type) {
+      const tbody = document.getElementById('autopsy-tbody');
+      if (!tbody) return;
+      const rows = AUTOPSY_DATA[type] || [];
+      tbody.innerHTML = rows.map(r => `
+        <tr style="border-bottom: 1px solid var(--border-light);">
+          <td style="padding: 0.65rem 1rem; font-weight: 700;">${r.id}</td>
+          <td style="padding: 0.65rem 1rem;">${r.dist}</td>
+          <td style="padding: 0.65rem 1rem;">${r.pop}</td>
+          <td style="padding: 0.65rem 1rem;">${r.inc}</td>
+          <td style="padding: 0.65rem 1rem;">${r.diag}</td>
+        </tr>
+      `).join('');
+    }
+    renderAutopsyTable('raw');
+
+    // =========================================================================
+    // 11. LIVE RESISTANCE NUMBER LINE SIMULATOR (Section 4)
+    // =========================================================================
+    function updateResistanceSimulator(kingVal) {
+      kingVal = parseFloat(kingVal);
+      const villagers = [20, 20, 20, 20, kingVal];
+      const mean = (villagers.reduce((a, b) => a + b, 0) / villagers.length).toFixed(1);
+      
+      const sorted = [...villagers].sort((a, b) => a - b);
+      const median = sorted[2].toFixed(1);
+
+      document.getElementById('king-val').textContent = Math.round(kingVal) + " coins";
+      document.getElementById('mean-val').textContent = mean;
+      document.getElementById('median-val').textContent = median;
+
+      const verdict = document.getElementById('resistance-verdict');
+      if (kingVal <= 50) {
+        verdict.textContent = `At King = ${Math.round(kingVal)}: Near equity. Mean = ${mean}, Median = ${median}.`;
+      } else {
+        verdict.innerHTML = `King holds <span style="color:var(--ph-orange);">${Math.round(kingVal)} coins</span>: The Mean surged to <span style="color:#FF5C5C;">${mean}</span>, while the Median held completely firm at <span style="color:var(--ph-mint);">${median}</span>!`;
+      }
+
+      // Draw SVG Number line
+      const svg = document.getElementById('resistance-svg');
+      if (!svg) return;
+      const maxVal = 3500;
+      const scaleX = (val) => 40 + (val / maxVal) * 720;
+
+      let svgContent = `
+        <line x1="40" y1="65" x2="760" y2="65" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <line x1="40" y1="58" x2="40" y2="72" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <text x="40" y="90" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono" font-size="11" text-anchor="middle">0</text>
+        <line x1="760" y1="58" x2="760" y2="72" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <text x="760" y="90" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono" font-size="11" text-anchor="middle">3,500</text>
+      `;
+
+      // Draw 4 villagers at 20
+      const vX = scaleX(20);
+      svgContent += `
+        <circle cx="${vX}" cy="65" r="9" fill="var(--ph-mint)" opacity="0.8"/>
+        <text x="${vX}" y="42" fill="var(--ph-mint)" font-family="JetBrains Mono" font-size="10" font-weight="700" text-anchor="middle">4 Villagers (20)</text>
+      `;
+
+      // Draw King
+      const kX = scaleX(kingVal);
+      svgContent += `
+        <circle cx="${kX}" cy="65" r="11" fill="var(--ph-orange)"/>
+        <text x="${kX}" y="40" fill="var(--ph-orange)" font-family="JetBrains Mono" font-size="11" font-weight="700" text-anchor="middle">King (${Math.round(kingVal)})</text>
+      `;
+
+      // Draw Mean marker
+      const mX = scaleX(mean);
+      svgContent += `
+        <line x1="${mX}" y1="20" x2="${mX}" y2="105" stroke="#FF5C5C" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="${mX}" y="115" fill="#FF5C5C" font-family="JetBrains Mono" font-size="10" font-weight="700" text-anchor="middle">Mean: ${mean}</text>
+      `;
+
+      // Draw Median marker
+      const medX = scaleX(median);
+      svgContent += `
+        <line x1="${medX}" y1="50" x2="${medX}" y2="80" stroke="var(--ph-mint)" stroke-width="3"/>
+      `;
+
+      svg.innerHTML = svgContent;
+    }
+    updateResistanceSimulator(20);
+
+    // =========================================================================
+    // 12. HISTOGRAM BIN-WIDTH SIMULATOR (Section 6, Step 4)
+    // =========================================================================
+    // 60 synthetic bimodal data points
+    const BIMODAL_SAMPLE = [
+      12, 14, 15, 16, 17, 17, 18, 19, 19, 20, 20, 21, 21, 22, 23, 24, 25, 26,
+      45, 46, 47, 48, 49, 50, 50, 51, 51, 52, 53, 53, 54, 55, 55, 56, 57, 58,
+      16, 18, 22, 49, 52, 54, 20, 51, 21, 53, 19, 48, 23, 50, 17, 55, 24, 47,
+      15, 56, 18, 52, 22, 49
+    ];
+
+    function updateBinSimulator(numBins) {
+      numBins = parseInt(numBins);
+      document.getElementById('bin-count-val').textContent = numBins + " Bins";
+      const verdict = document.getElementById('bin-verdict');
+      
+      if (numBins <= 5) {
+        verdict.textContent = "Underbinned: Two separate sub-populations are flattened into one!";
+        verdict.style.color = "#FF5C5C";
+      } else if (numBins >= 6 && numBins <= 16) {
+        verdict.textContent = "Optimal Bins (Scott / Freedman-Diaconis): Real bimodal clusters emerge!";
+        verdict.style.color = "var(--ph-mint)";
+      } else {
+        verdict.textContent = "Overbinned: Spurious comb noise masks the structural distribution.";
+        verdict.style.color = "#FFAA00";
+      }
+
+      const svg = document.getElementById('bin-svg');
+      if (!svg) return;
+
+      const minVal = 10, maxVal = 62;
+      const binWidth = (maxVal - minVal) / numBins;
+      const counts = new Array(numBins).fill(0);
+
+      BIMODAL_SAMPLE.forEach(val => {
+        let binIdx = Math.floor((val - minVal) / binWidth);
+        if (binIdx >= numBins) binIdx = numBins - 1;
+        if (binIdx < 0) binIdx = 0;
+        counts[binIdx]++;
+      });
+
+      const maxCount = Math.max(...counts, 1);
+      const svgW = 600, svgH = 120, padX = 20, padY = 15;
+      const plotW = svgW - padX * 2, plotH = svgH - padY * 2;
+      const barW = plotW / numBins;
+
+      let bars = `<line x1="${padX}" y1="${svgH - padY}" x2="${svgW - padX}" y2="${svgH - padY}" stroke="#CBD5E1" stroke-width="1"/>`;
+      counts.forEach((c, i) => {
+        const bH = (c / maxCount) * plotH;
+        const bX = padX + i * barW;
+        const bY = (svgH - padY) - bH;
+        bars += `<rect x="${bX + 1}" y="${bY}" width="${Math.max(1, barW - 2)}" height="${bH}" rx="3" fill="var(--ph-orange)" fill-opacity="0.85"/>`;
+      });
+
+      svg.innerHTML = bars;
+    }
+    updateBinSimulator(6);
+
+    // =========================================================================
+    // 13. CODE RECIPE COPY HELPER
+    // =========================================================================
+    function copyRecipe(btn, elementId) {
+      const code = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = "Copy Code"; }, 2000);
+      });
+    }
 
     // 8. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition with Residual Vectors)
     const canvas = document.getElementById('ph-canvas');
