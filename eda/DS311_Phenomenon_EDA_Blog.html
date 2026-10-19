@@ -82,7 +82,7 @@
 
     /* ==========================================================================
        MOVING ATMOSPHERIC BACKGROUND (Dynamic Depth Engine)
-       Luminous drifting orbs + interactive particle mesh
+       Luminous drifting orbs + interactive particle constellation canvas
        ========================================================================== */
     #ambient-mesh-canvas {
       position: fixed;
@@ -92,7 +92,7 @@
       height: 100vh;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.45;
+      opacity: 0.95;
     }
 
     .ambient-orb-wrapper {
@@ -109,54 +109,69 @@
     .ambient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(130px);
+      filter: blur(140px);
       will-change: transform, opacity;
       pointer-events: none;
     }
 
     .orb-1 {
-      width: 550px;
-      height: 550px;
-      top: -100px;
-      right: 5%;
-      background: radial-gradient(circle, rgba(255, 122, 0, 0.16) 0%, transparent 70%);
-      animation: floatOrb1 22s ease-in-out infinite alternate;
+      width: 750px;
+      height: 750px;
+      top: -120px;
+      right: -50px;
+      background: radial-gradient(circle, rgba(255, 122, 0, 0.24) 0%, rgba(255, 90, 0, 0.08) 50%, transparent 70%);
+      animation: floatOrb1 20s ease-in-out infinite alternate;
     }
 
     .orb-2 {
-      width: 650px;
-      height: 650px;
-      top: 35%;
-      left: -150px;
-      background: radial-gradient(circle, rgba(0, 255, 133, 0.10) 0%, transparent 70%);
-      animation: floatOrb2 28s ease-in-out infinite alternate;
+      width: 850px;
+      height: 850px;
+      top: 30%;
+      left: -220px;
+      background: radial-gradient(circle, rgba(0, 255, 133, 0.18) 0%, rgba(0, 210, 160, 0.06) 50%, transparent 70%);
+      animation: floatOrb2 26s ease-in-out infinite alternate;
     }
 
     .orb-3 {
-      width: 500px;
-      height: 500px;
-      bottom: -100px;
-      right: 15%;
-      background: radial-gradient(circle, rgba(255, 122, 0, 0.12) 0%, transparent 70%);
-      animation: floatOrb3 20s ease-in-out infinite alternate;
+      width: 720px;
+      height: 720px;
+      bottom: -150px;
+      right: 10%;
+      background: radial-gradient(circle, rgba(0, 180, 216, 0.20) 0%, rgba(0, 120, 210, 0.06) 50%, transparent 70%);
+      animation: floatOrb3 22s ease-in-out infinite alternate;
+    }
+
+    .orb-4 {
+      width: 650px;
+      height: 650px;
+      top: 65%;
+      left: 20%;
+      background: radial-gradient(circle, rgba(255, 170, 0, 0.16) 0%, rgba(255, 110, 0, 0.05) 50%, transparent 70%);
+      animation: floatOrb4 24s ease-in-out infinite alternate;
     }
 
     @keyframes floatOrb1 {
       0%   { transform: translate(0, 0) scale(1); }
-      50%  { transform: translate(-80px, 120px) scale(1.15); }
-      100% { transform: translate(60px, 80px) scale(0.95); }
+      50%  { transform: translate(-100px, 140px) scale(1.18); }
+      100% { transform: translate(80px, 100px) scale(0.92); }
     }
 
     @keyframes floatOrb2 {
-      0%   { transform: translate(0, 0) scale(0.95); }
-      50%  { transform: translate(120px, -90px) scale(1.12); }
-      100% { transform: translate(40px, 100px) scale(1.05); }
+      0%   { transform: translate(0, 0) scale(0.92); }
+      50%  { transform: translate(140px, -110px) scale(1.15); }
+      100% { transform: translate(60px, 120px) scale(1.05); }
     }
 
     @keyframes floatOrb3 {
       0%   { transform: translate(0, 0) scale(1); }
-      50%  { transform: translate(-100px, -60px) scale(1.1); }
-      100% { transform: translate(50px, -110px) scale(0.9); }
+      50%  { transform: translate(-120px, -80px) scale(1.12); }
+      100% { transform: translate(70px, -130px) scale(0.88); }
+    }
+
+    @keyframes floatOrb4 {
+      0%   { transform: translate(0, 0) scale(0.95); }
+      50%  { transform: translate(90px, 100px) scale(1.14); }
+      100% { transform: translate(-70px, -60px) scale(1.02); }
     }
 
     /* Reading Progress Header Bar */
@@ -333,25 +348,40 @@
     }
 
     /* ==========================================================================
-       SECTION WRAPPERS: Massive Curved Corners (Phenomenon Signature)
+       SECTION WRAPPERS: Executive Architectural Layout (Full-Bleed Horizon)
+       White sections span 100% screen width; Dark sections show moving cosmos
        ========================================================================== */
     .ph-section {
       position: relative;
+      width: 100%;
+      margin: 0;
       padding: 7.5rem 0;
+      box-sizing: border-box;
       transition: background-color 0.4s ease;
     }
 
     .ph-section-dark {
-      background-color: var(--bg-dark);
+      background-color: transparent; /* Lets the dynamic cosmic moving background shine through! */
       color: var(--text-white);
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      margin: 0;
     }
 
     .ph-section-light {
-      background-color: var(--bg-light);
+      background-color: #FFFFFF;
+      background-image: radial-gradient(rgba(8, 13, 16, 0.045) 1px, transparent 1px);
+      background-size: 32px 32px;
       color: var(--text-dark);
-      border-radius: 56px;
-      margin: 2.5rem 1.25rem;
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+      border-top: 1px solid rgba(8, 13, 16, 0.08);
+      border-bottom: 1px solid rgba(8, 13, 16, 0.08);
+      position: relative;
+      z-index: 2;
     }
 
     @media (max-width: 768px) {
@@ -359,8 +389,8 @@
         padding: 5rem 0;
       }
       .ph-section-light {
-        border-radius: 32px;
-        margin: 1.5rem 0.5rem;
+        border-radius: 0;
+        margin: 0;
       }
     }
 
@@ -1211,6 +1241,7 @@
     <div class="ambient-orb orb-1"></div>
     <div class="ambient-orb orb-2"></div>
     <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
   </div>
 
   <!-- MOVING BACKGROUND: HARDWARE ACCELERATED CONSTELLATION MESH CANVAS -->
@@ -1874,7 +1905,7 @@
       let width, height;
       let particles = [];
       let mouseX = -1000, mouseY = -1000;
-      const PARTICLE_COUNT = 55;
+      const PARTICLE_COUNT = 75;
 
       function resize() {
         width = bgCanvas.width = window.innerWidth;
@@ -1893,16 +1924,22 @@
         mouseY = -1000;
       });
 
-      // Initialize particles
+      // Initialize particles with physics and radiant colors
       for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const isOrange = Math.random() > 0.42;
+        const isMint = !isOrange && Math.random() > 0.35;
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45,
-          radius: Math.random() * 1.8 + 0.8,
-          alpha: Math.random() * 0.4 + 0.2,
-          isOrange: Math.random() > 0.4
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          radius: Math.random() * 2.2 + 0.9,
+          pulseSpeed: Math.random() * 0.03 + 0.015,
+          pulseVal: Math.random() * Math.PI,
+          alpha: Math.random() * 0.45 + 0.35,
+          isOrange: isOrange,
+          isMint: isMint,
+          glowColor: isOrange ? '#FF7A00' : (isMint ? '#00FF85' : '#00B4D8')
         });
       }
 
@@ -1914,45 +1951,66 @@
           const p = particles[i];
           p.x += p.vx;
           p.y += p.vy;
+          p.pulseVal += p.pulseSpeed;
 
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
+          // Smooth edge wrapping
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
 
           // Mouse gentle repulsion
           const dx = p.x - mouseX;
           const dy = p.y - mouseY;
           const dist = Math.hypot(dx, dy);
-          if (dist < 140) {
-            const force = (140 - dist) / 140;
-            p.x += (dx / dist) * force * 1.5;
-            p.y += (dy / dist) * force * 1.5;
+          if (dist < 160) {
+            const force = (160 - dist) / 160;
+            p.x += (dx / dist) * force * 2.2;
+            p.y += (dy / dist) * force * 2.2;
           }
 
-          // Draw particle
+          // Subtle breathing radius and alpha
+          const currentRadius = p.radius + Math.sin(p.pulseVal) * 0.5;
+          const currentAlpha = p.alpha + Math.sin(p.pulseVal) * 0.12;
+
+          // Draw particle with subtle glow
+          bgCtx.save();
           bgCtx.beginPath();
-          bgCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          bgCtx.arc(p.x, p.y, Math.max(0.5, currentRadius), 0, Math.PI * 2);
           bgCtx.fillStyle = p.isOrange 
-            ? `rgba(255, 122, 0, ${p.alpha})` 
-            : `rgba(0, 255, 133, ${p.alpha * 0.8})`;
+            ? `rgba(255, 122, 0, ${Math.min(1, currentAlpha)})` 
+            : (p.isMint ? `rgba(0, 255, 133, ${Math.min(1, currentAlpha * 0.9)})` : `rgba(0, 180, 216, ${Math.min(1, currentAlpha * 0.85)})`);
+          bgCtx.shadowBlur = 8;
+          bgCtx.shadowColor = p.glowColor;
           bgCtx.fill();
+          bgCtx.restore();
 
           // Connect nearby particles
           for (let j = i + 1; j < particles.length; j++) {
             const p2 = particles[j];
             const pDist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (pDist < 120) {
-              const lineAlpha = (1 - pDist / 120) * 0.12;
+            if (pDist < 135) {
+              const lineAlpha = (1 - pDist / 135) * 0.22;
               bgCtx.beginPath();
               bgCtx.moveTo(p.x, p.y);
               bgCtx.lineTo(p2.x, p2.y);
               bgCtx.strokeStyle = p.isOrange 
                 ? `rgba(255, 122, 0, ${lineAlpha})` 
-                : `rgba(255, 255, 255, ${lineAlpha * 0.6})`;
-              bgCtx.lineWidth = 0.8;
+                : (p.isMint ? `rgba(0, 255, 133, ${lineAlpha * 0.8})` : `rgba(0, 180, 216, ${lineAlpha * 0.7})`);
+              bgCtx.lineWidth = 0.9;
               bgCtx.stroke();
             }
+          }
+
+          // Connect to mouse if near
+          if (dist < 150) {
+            const mouseLineAlpha = (1 - dist / 150) * 0.35;
+            bgCtx.beginPath();
+            bgCtx.moveTo(p.x, p.y);
+            bgCtx.lineTo(mouseX, mouseY);
+            bgCtx.strokeStyle = `rgba(255, 122, 0, ${mouseLineAlpha})`;
+            bgCtx.lineWidth = 1.0;
+            bgCtx.stroke();
           }
         }
         requestAnimationFrame(animate);
