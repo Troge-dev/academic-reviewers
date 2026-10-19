@@ -13,8 +13,9 @@
   <style>
     /* ==========================================================================
        PERSONAL EDITORIAL DESIGN SYSTEM & 3-ACT AMBIENT LIGHTING
-       Intimate personal essay layout with rich atmospheric moving depth and
-       an uncompromised full-width white editorial transition chapter.
+       Intimate personal essay layout with rich atmospheric moving depth,
+       an uncompromised full-width white editorial transition chapter,
+       and hardware-accelerated scroll-reveal motion physics.
        ========================================================================== */
     :root {
       --ph-orange: #FF7A00;
@@ -65,7 +66,31 @@
     }
 
     /* ==========================================================================
-       ATMOSPHERIC MOVING BACKGROUND ENGINE (Kept Intact for Ambiance)
+       SCROLL-REVEAL MOTION PHYSICS
+       Smooth upward glide & fade as elements enter the scrollport
+       ========================================================================== */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ==========================================================================
+       ATMOSPHERIC MOVING BACKGROUND ENGINE
        ========================================================================== */
     #ambient-mesh-canvas {
       position: fixed;
@@ -154,7 +179,7 @@
       transition: width 0.1s ease-out;
     }
 
-    /* Floating Minimal Navigation Pill */
+    /* Floating Minimal Navigation Pill with Active Scroll-Spy */
     .ph-header {
       position: fixed;
       top: 1.25rem;
@@ -186,11 +211,28 @@
       font-size: 0.78rem;
       color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative;
     }
 
     .ph-nav-link:hover {
       color: var(--ph-orange);
+    }
+
+    .ph-nav-link.active {
+      color: var(--ph-orange);
+      font-weight: 700;
+    }
+
+    .ph-nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--ph-orange);
+      border-radius: 2px;
     }
 
     /* ==========================================================================
@@ -1039,7 +1081,7 @@
   <!-- MOVING AMBIENT BACKGROUND: CONSTELLATION MESH CANVAS -->
   <canvas id="ambient-mesh-canvas"></canvas>
 
-  <!-- FLOATING MINIMAL NAVIGATION PILL -->
+  <!-- FLOATING MINIMAL NAVIGATION PILL WITH ACTIVE SCROLL-SPY -->
   <header class="ph-header">
     <div class="ph-header-pill" id="ph-nav-menu">
       <a href="#confession" class="ph-nav-link">Confession</a>
@@ -1062,20 +1104,20 @@
 
         <!-- ESSAY HEADER -->
         <header>
-          <div class="blog-kicker">
+          <div class="blog-kicker reveal-on-scroll">
             <span class="blog-kicker-dot"></span>
             Personal Technical Essay &bull; Topic 01
           </div>
 
-          <h1 class="blog-title">
+          <h1 class="blog-title reveal-on-scroll">
             The Philosophy of Looking: How Topic 01 Cured My Dataset-Hopping Panic
           </h1>
 
-          <p class="blog-deck">
+          <p class="blog-deck reveal-on-scroll">
             Before entering DS311, I treated data science as a race to fit algorithms. Whenever a dataset resisted, I abandoned it for something easier. Then Ma'am Chris introduced Francis Anscombe and John Tukey &mdash; proving that numbers alone can lie, and why looking at messy anomalies is where the real science begins.
           </p>
 
-          <div class="blog-byline-bar">
+          <div class="blog-byline-bar reveal-on-scroll">
             <div class="author-cluster">
               <img src="assets/images/author/pfp_kuno.jpg" alt="Rogelio Q. Mandamian III" class="author-avatar">
               <div class="author-details">
@@ -1097,59 +1139,59 @@
 
           <!-- SECTION 1: CONFESSION -->
           <section id="confession" class="essay-section" style="margin-top: 1rem;">
-            <h2 class="essay-h2">My Backward "Confirmatory" Rush</h2>
+            <h2 class="essay-h2 reveal-on-scroll">My Backward "Confirmatory" Rush</h2>
             
-            <p class="essay-lead">
+            <p class="essay-lead reveal-on-scroll">
               Let me start with an honest confession: before this semester, I was approaching data science completely backward.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               Whenever our instructors handed us an analytical assignment, my immediate instinct was to formulate a conclusion in my head first, download a dataset, and rush to ask: <em>&ldquo;Does this confirm what I want to prove?&rdquo;</em> I skipped the foundational groundwork entirely. I would jump directly into multi-variable scatter plots, high-dimensional projections, and correlation heatmaps without spending even five minutes understanding what the individual columns actually contained.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               I didn't pay attention to whether a feature had a severe right skew, whether its variance was dominated by two or three massive outliers, or what the units of measurement physically represented. To me, a dataset was simply a monolithic block of numbers that I needed to shove into an algorithm as quickly as possible.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               Inevitably, reality pushed back hard. I would encounter columns with 30% null values. A variable would contain negative numbers where only positive readings made physical sense. Or a correlation coefficient would read as a weak <code>r = 0.12</code> when I had convinced myself a strong relationship existed.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               And whenever I hit those roadblocks, I panicked. I had memorized textbook terms like &ldquo;mean imputation&rdquo; and &ldquo;median imputation,&rdquo; but in practice, I had little intuition for what damage naive choices caused. I treated missingness like an annoying bug to be erased &mdash; blindly writing <code>df.fillna(df.mean())</code> just to stop my code from crashing. When the resulting models collapsed or made nonsense predictions, I fell into chronic <strong>dataset-hopping</strong>: abandoning the file at 1:30 AM to hunt Kaggle for something &ldquo;cleaner.&rdquo;
             </p>
 
             <!-- EDITORIAL PULLQUOTE -->
-            <div class="editorial-pullquote">
+            <div class="editorial-pullquote reveal-on-scroll">
               <div class="pullquote-text">
                 &ldquo;It is very common to spend the most time in the exploratory data analysis stage in order to have a well-made output and to prevent future inconvenience.&rdquo;
               </div>
               <cite>&mdash; Ma'am Chris Jallaine S. Mugot, DS311 Instructor</cite>
             </div>
 
-            <p>
+            <p class="reveal-on-scroll">
               That single quote from Ma'am Chris during our opening lectures completely reframed my perspective. EDA isn't a tedious pre-processing chore you rush through to reach machine learning; it is the fundamental sensory phase where you earn the right to model.
             </p>
           </section>
 
           <!-- SECTION 2: EGYPT DATASET RECALL -->
           <section id="egypt" class="essay-section">
-            <h2 class="essay-h2">One Example I Recall: Stumbling Upon the Egypt Dataset</h2>
+            <h2 class="essay-h2 reveal-on-scroll">One Example I Recall: Stumbling Upon the Egypt Dataset</h2>
 
-            <p>
+            <p class="reveal-on-scroll">
               To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We had spent hours scouting Kaggle, loading candidate files into Google Colab, hitting bizarre percentages and corrupted records, and abandoning them one by one.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               The Egypt dataset wasn't really a problem &mdash; it was simply the one clean, structured dataset that felt safe enough to work with at the time. It contained reliable records of Egypt's governorates, total census counts, and inhabited land areas. Stumbling upon it felt like striking gold because it gave us a dependable empirical foundation to map the dramatic demographic contrast between the hyper-dense Nile Valley corridor and the vast, sparsely inhabited desert governorates.
             </p>
 
             <!-- FIGURE: EGYPT CARTOGRAPHY ARTIFACT -->
-            <figure class="essay-figure" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.webp')">
+            <figure class="essay-figure reveal-on-scroll" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.webp')">
               <div class="essay-figure-img-wrap">
                 <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy">
                 <span class="figure-zoom-badge">✦ Click to Expand 300 DPI Original</span>
@@ -1159,11 +1201,11 @@
               </figcaption>
             </figure>
 
-            <p>
+            <p class="reveal-on-scroll">
               Yet even with clean data, our initial raw plots failed completely. Because Cairo and Giza had population densities exceeding tens of thousands of people per square kilometer, plotting the distribution on a standard linear scale flattened every other governorate against the baseline. Matani and the New Valley appeared as empty zeroes.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               Without realizing it at the time, we had stumbled upon John Tukey's core doctrine: <strong>Re-expression</strong>. To make the geographic reality visible, we had to transform the scale using $\log_{10}(\text{density})$. The moment we applied that logarithmic lens, the heavy right tail decompressed, and the real demographic structure of Egypt emerged.
             </p>
           </section>
@@ -1183,23 +1225,23 @@
 
           <!-- SECTION 3: FRANCIS ANSCOMBE'S WAKE-UP CALL -->
           <section id="anscombe" class="essay-section" style="margin-top: 0; padding-top: 0;">
-            <div class="blog-kicker">
+            <div class="blog-kicker reveal-on-scroll">
               <span class="blog-kicker-dot"></span>
               Act II &bull; The Empirical Proof
             </div>
 
-            <h2 class="essay-h2">When Numbers Mislead: Francis Anscombe's 1973 Wake-Up Call</h2>
+            <h2 class="essay-h2 reveal-on-scroll">When Numbers Mislead: Francis Anscombe's 1973 Wake-Up Call</h2>
 
-            <p class="essay-lead">
+            <p class="essay-lead reveal-on-scroll">
               In our first week of DS311, Ma'am Chris introduced us to a demonstration that permanently dismantled my trust in uninspected numbers: <strong>Anscombe's Quartet</strong>.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               Constructed in 1973 by British statistician Francis Anscombe, the quartet consists of four synthetic datasets, each containing eleven $(x, y)$ pairs. When you run standard descriptive statistics across all four, the numbers agree with terrifying precision:
             </p>
 
             <!-- COMPACT EDITORIAL TABLE -->
-            <div class="editorial-table-wrap">
+            <div class="editorial-table-wrap reveal-on-scroll">
               <table class="editorial-table">
                 <thead>
                   <tr>
@@ -1264,16 +1306,16 @@
               </table>
             </div>
 
-            <p>
+            <p class="reveal-on-scroll">
               If you judged these four datasets purely through an API call or a Jupyter summary table &mdash; <code>df.describe()</code> &mdash; you would conclude that all four represent identical linear physical phenomena.
             </p>
 
-            <p>
+            <p class="reveal-on-scroll">
               Yet the moment you plot them on a scatter canvas, the illusion shatters:
             </p>
 
             <!-- EDITORIAL CALLOUT -->
-            <div class="editorial-callout">
+            <div class="editorial-callout reveal-on-scroll">
               <div class="editorial-callout-title">
                 <span>✦</span> What Looking Reveals
               </div>
@@ -1282,30 +1324,30 @@
               </p>
             </div>
 
-            <div class="editorial-pullquote">
+            <div class="editorial-pullquote reveal-on-scroll">
               <div class="pullquote-text">
                 &ldquo;Numerical quantities focus on expected values; visual displays force us to notice what we never anticipated.&rdquo;
               </div>
               <cite>&mdash; Francis J. Anscombe, 1973</cite>
             </div>
 
-            <p>
+            <p class="reveal-on-scroll">
               This was the wake-up call I needed. Calculating summary statistics without visualizing the data is like buying a house from an aerial blueprint without ever inspecting the foundation.
             </p>
           </section>
 
           <!-- SECTION 4: TUKEY'S FOUR R'S -->
           <section id="four-rs" class="essay-section">
-            <h2 class="essay-h2">The Core Antidote: John Tukey's Four R's</h2>
+            <h2 class="essay-h2 reveal-on-scroll">The Core Antidote: John Tukey's Four R's</h2>
 
-            <p>
+            <p class="reveal-on-scroll">
               In 1977, John Tukey published his landmark work, <em>Exploratory Data Analysis</em>. He offered a principled philosophy to rescue researchers from the trap of blind metric-fitting. He organized this mindset around four foundational pillars: <strong>The Four R's</strong>.
             </p>
 
             <div class="four-rs-stack">
               
               <!-- R1 -->
-              <div class="r-editorial-card">
+              <div class="r-editorial-card reveal-on-scroll">
                 <div class="r-card-head">
                   <span class="r-card-pill">R1</span>
                   <h3 class="r-card-title">Resistance</h3>
@@ -1316,7 +1358,7 @@
               </div>
 
               <!-- R2 -->
-              <div class="r-editorial-card">
+              <div class="r-editorial-card reveal-on-scroll">
                 <div class="r-card-head">
                   <span class="r-card-pill">R2</span>
                   <h3 class="r-card-title">Residuals</h3>
@@ -1327,7 +1369,7 @@
               </div>
 
               <!-- R3 -->
-              <div class="r-editorial-card">
+              <div class="r-editorial-card reveal-on-scroll">
                 <div class="r-card-head">
                   <span class="r-card-pill">R3</span>
                   <h3 class="r-card-title">Re-expression</h3>
@@ -1338,7 +1380,7 @@
               </div>
 
               <!-- R4 -->
-              <div class="r-editorial-card">
+              <div class="r-editorial-card reveal-on-scroll">
                 <div class="r-card-head">
                   <span class="r-card-pill">R4</span>
                   <h3 class="r-card-title">Revelation</h3>
@@ -1365,19 +1407,19 @@
 
           <!-- SECTION 5: INTERACTIVE ANSCOMBE SIMULATOR (Embedded cleanly) -->
           <section id="lab" class="essay-section" style="margin-top: 1rem;">
-            <div class="blog-kicker">
+            <div class="blog-kicker reveal-on-scroll">
               <span class="blog-kicker-dot" style="background: var(--ph-mint); box-shadow: 0 0 8px var(--ph-mint);"></span>
               Act III &bull; Interactive Instrument
             </div>
 
-            <h2 class="essay-h2">Interactive Laboratory: Anscombe &amp; Leverage HUD</h2>
+            <h2 class="essay-h2 reveal-on-scroll">Interactive Laboratory: Anscombe &amp; Leverage HUD</h2>
             
-            <p>
+            <p class="reveal-on-scroll">
               To make these dynamics tactile, I built this interactive instrument. Switch between Anscombe's presets, drag individual points directly across the coordinate space, or adjust the outlier slider to see how a single leverage point warps linear regression and correlation in real time:
             </p>
 
             <!-- LAB INSTRUMENT -->
-            <div class="lab-container">
+            <div class="lab-container reveal-on-scroll">
               <div class="lab-header">
                 <span class="lab-title">2D Anscombe &amp; Leverage Canvas</span>
                 <div class="lab-presets">
@@ -1426,22 +1468,22 @@
               </div>
             </div>
 
-            <p style="font-size: 0.95rem; color: var(--text-dim); text-align: center; margin-top: -1.5rem; margin-bottom: 2.5rem;">
+            <p class="reveal-on-scroll" style="font-size: 0.95rem; color: var(--text-dim); text-align: center; margin-top: -1.5rem; margin-bottom: 2.5rem;">
               Tip: Click and drag any circle inside the canvas to witness real-time metric recalculation. Toggle residual vectors to expose how errors deviate from the fitted line.
             </p>
           </section>
 
           <!-- SECTION 6: THE 7 STEPS FIELD GUIDE -->
           <section id="steps" class="essay-section">
-            <h2 class="essay-h2">A Field Guide: How I Walk Through the 7 Steps</h2>
+            <h2 class="essay-h2 reveal-on-scroll">A Field Guide: How I Walk Through the 7 Steps</h2>
 
-            <p>
+            <p class="reveal-on-scroll">
               In traditional coursework, we were conditioned to follow rigid, linear checklists: plug in numbers, execute code, deliver a clean report. But as Ma'am Chris emphasized in Topic 01, exploratory analysis is an organic, iterative cycle of inquiry. Here is how I approach a new dataset today:
             </p>
 
             <div class="steps-field-guide">
               
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">01</div>
                 <div class="step-content">
                   <h3>Understand Context &amp; Origin</h3>
@@ -1452,7 +1494,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">02</div>
                 <div class="step-content">
                   <h3>Inspect Data Structure</h3>
@@ -1463,7 +1505,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">03</div>
                 <div class="step-content">
                   <h3>Assess True Data Quality</h3>
@@ -1474,7 +1516,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">04</div>
                 <div class="step-content">
                   <h3>Examine Univariate Distributions</h3>
@@ -1485,7 +1527,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">05</div>
                 <div class="step-content">
                   <h3>Examine Bivariate Relationships</h3>
@@ -1496,7 +1538,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">06</div>
                 <div class="step-content">
                   <h3>Identify Anomalies as Stories</h3>
@@ -1507,7 +1549,7 @@
                 </div>
               </div>
 
-              <div class="step-item">
+              <div class="step-item reveal-on-scroll">
                 <div class="step-num-badge">07</div>
                 <div class="step-content">
                   <h3>Iterate &amp; Refine Hypotheses</h3>
@@ -1523,12 +1565,12 @@
 
           <!-- EPILOGUE & FOOTER -->
           <footer class="blog-footer">
-            <h2 class="essay-h2" style="font-size: 1.6rem;">Epilogue &amp; Course Repositories</h2>
-            <p>
+            <h2 class="essay-h2 reveal-on-scroll" style="font-size: 1.6rem;">Epilogue &amp; Course Repositories</h2>
+            <p class="reveal-on-scroll">
               Topic 01 was not just another lecture module &mdash; it was a psychological cure. It taught me that dataset resistance is not a reason to quit; it is an invitation to explore. Moving forward into bivariate diagnostics, geographic modeling, and predictive algorithms, I carry Francis Anscombe and John Tukey with me: always look first, respect resistance, investigate residuals, and let the data reveal its truth.
             </p>
 
-            <div class="repo-pill-grid">
+            <div class="repo-pill-grid reveal-on-scroll">
               <a href="https://github.com/Troge-dev/academic-reviewers" target="_blank" class="repo-pill">
                 <div class="repo-pill-name">
                   <span>academic-reviewers</span>
@@ -1550,7 +1592,7 @@
               </a>
             </div>
 
-            <div style="margin-top: 3rem; text-align: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
+            <div class="reveal-on-scroll" style="margin-top: 3rem; text-align: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
               Designed with care by Rogelio Q. Mandamian III &bull; DS3A &bull; USTP CDO &bull; Academic Year 2026&ndash;2027
             </div>
           </footer>
@@ -1576,6 +1618,58 @@
       const scrolled = (winScroll / height) * 100;
       document.getElementById('progress-bar').style.width = scrolled + '%';
     });
+
+    // =========================================================================
+    // SCROLL-REVEAL OBSERVER
+    // Elements gracefully glide up and fade in as they enter the scrollport
+    // =========================================================================
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -35px 0px'
+    });
+
+    // Immediately reveal elements already in viewport on load, observe the rest
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 35) {
+        el.classList.add('is-revealed');
+      } else {
+        revealObserver.observe(el);
+      }
+    });
+
+    // =========================================================================
+    // ACTIVE SECTION SCROLL-SPY FOR FLOATING HEADER PILL
+    // =========================================================================
+    const trackedSections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.ph-nav-link');
+
+    const scrollSpyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const activeId = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${activeId}`) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.25,
+      rootMargin: '-10% 0px -40% 0px'
+    });
+
+    trackedSections.forEach(sec => scrollSpyObserver.observe(sec));
 
     // Lightbox Controls
     function openLightbox(src) {
