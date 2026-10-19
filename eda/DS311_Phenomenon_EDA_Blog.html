@@ -1096,7 +1096,31 @@
       background: var(--ph-orange);
       color: #080D10;
     }
+
+    /* KaTeX Math Styling & Ambient Harmonization */
+    .katex {
+      font-size: 1.08em;
+      color: inherit;
+    }
+    .katex-display {
+      margin: 1.25rem 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.25rem 0;
+    }
+    .zone-white-band .katex {
+      color: #0F172A;
+    }
+    .currency-amt {
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
   </style>
+
+  <!-- KaTeX High-Performance LaTeX Math Engine -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMath()"></script>
 </head>
 <body>
 
@@ -1564,7 +1588,7 @@
                 <div class="step-content">
                   <h3>Examine Bivariate Relationships</h3>
                   <p>
-                    Scatter plots and grouped box plots expose relationships that correlation coefficients conceal. In NYC Taxi data, plotting distance against fare amount revealed fixed flat-rate airport trips where 0 miles cost $52, and sensor glitches where 120 miles cost $8 &mdash; real-world phenomena no single <em>r</em> value could summarize.
+                    Scatter plots and grouped box plots expose relationships that correlation coefficients conceal. In NYC Taxi data, plotting distance against fare amount revealed fixed flat-rate airport trips where 0 miles cost <span class="currency-amt">&#36;52</span>, and sensor glitches where 120 miles cost <span class="currency-amt">&#36;8</span> &mdash; real-world phenomena no single <em>r</em> value could summarize.
                   </p>
                   <span class="step-tag">✦ Lenses Over Locks</span>
                 </div>
@@ -2105,8 +2129,26 @@
       });
     }
 
+    // Render KaTeX Math across the document
+    function renderMath() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false,
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', renderMath);
+
     window.addEventListener('load', () => {
       resizeCanvas();
+      renderMath();
     });
   </script>
 </body>
