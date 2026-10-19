@@ -1229,6 +1229,444 @@
     .ph-footer-links a:hover {
       color: var(--ph-orange);
     }
+  
+    /* ==========================================================================
+       ELOQWNT DIGITAL EXPERIENCE DESIGN SYSTEM (eloqwnt.com reference)
+       Sectioning, Pulsing Status Dots, Infinity Marquee, and Popup Animations
+       ========================================================================== */
+    
+    /* Eloqwnt Glowing Live Status Dot */
+    .sect-dot-flex, .ph-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      cursor: default;
+      user-select: none;
+      transition: transform 0.35s var(--ease-spring), border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .sect-dot-flex:hover, .ph-pill-badge:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .sect-dot-flex .dot, .ph-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ph-mint);
+      box-shadow: 0 0 12px var(--ph-mint-glow);
+      animation: eloqwntPulse 2.2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    @keyframes eloqwntPulse {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 10px var(--ph-mint); }
+      50%      { transform: scale(1.4); opacity: 0.75; box-shadow: 0 0 18px var(--ph-mint); }
+    }
+
+    /* Eloqwnt Infinity Marquee Ticker Tape */
+    .eloqwnt-marquee-wrapper {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(8, 13, 16, 0.96);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.15rem 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .eloqwnt-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: eloqwntMarquee 34s linear infinite;
+    }
+
+    .eloqwnt-marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    .eloqwnt-marquee-part {
+      display: flex;
+      gap: 3rem;
+      padding-right: 3rem;
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-white-muted);
+    }
+
+    .eloqwnt-marquee-part span {
+      display: inline-flex;
+      align-items: center;
+      transition: color 0.25s ease;
+    }
+
+    .eloqwnt-marquee-part span:hover {
+      color: var(--ph-orange);
+    }
+
+    @keyframes eloqwntMarquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Springy Pop-Up Reveal Animation (.eloqwnt-pop) */
+    .eloqwnt-pop {
+      opacity: 0;
+      transform: translateY(32px) scale(0.96);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .eloqwnt-pop.is-popped {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Interactive Hover Pop on Cards & Badges */
+    .ph-media-card, .four-r-card, .repo-card, .sticky-card {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+    }
+
+    .ph-media-card:hover, .four-r-card:hover, .repo-card:hover {
+      transform: translateY(-8px) scale(1.015) !important;
+    }
+
+    /* Interactive Technical Term Popovers / Tooltip Bubbles (.term-pop) */
+    .term-pop {
+      position: relative;
+      cursor: help;
+      border-bottom: 1.5px dotted var(--ph-orange);
+      color: inherit;
+      font-weight: 600;
+      display: inline-block;
+      transition: color 0.2s ease;
+    }
+
+    .term-pop:hover {
+      color: var(--ph-orange);
+    }
+
+    .term-pop-bubble {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px) scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      width: 290px;
+      padding: 1rem 1.15rem;
+      border-radius: 16px;
+      background: #080D10;
+      border: 1px solid rgba(255, 122, 0, 0.35);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 122, 0, 0.2);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      font-weight: 400;
+      z-index: 1000;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s ease;
+      text-align: left;
+    }
+
+    .term-pop:hover .term-pop-bubble,
+    .term-pop:focus-within .term-pop-bubble {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .term-pop-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #080D10 transparent transparent transparent;
+    }
+
+    .term-pop-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--ph-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Eloqwnt Enhanced Lightbox Modal Popup */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(8, 13, 16, 0.90);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      z-index: 100000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 2rem 1.5rem;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .eloqwnt-modal-container {
+      width: 100%;
+      max-width: 1100px;
+      background: #0E151B;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 122, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.92) translateY(24px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lightbox-modal.active .eloqwnt-modal-container {
+      transform: scale(1) translateY(0);
+    }
+
+    .eloqwnt-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .eloqwnt-modal-body {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080D10;
+      max-height: 65vh;
+      overflow: auto;
+    }
+
+    .eloqwnt-modal-body img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .eloqwnt-modal-footer {
+      padding: 1.25rem 2rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .eloqwnt-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .eloqwnt-modal-specs {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .spec-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-white-muted);
+    }
+
+    .spec-pill.highlight {
+      background: var(--ph-orange-soft);
+      border-color: var(--ph-orange);
+      color: var(--ph-orange);
+    }
+
+    .eloqwnt-modal-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .eloqwnt-modal-close-btn:hover {
+      background: var(--ph-orange);
+      color: #080D10;
+      border-color: var(--ph-orange);
+      transform: scale(1.05);
+    }
+
+    /* Eloqwnt Section: Diagnostic Oral Defense FAQ Accordion (.section.is-faq) */
+    .faq-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .faq-item {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light-strong);
+      border-radius: 24px;
+      padding: 1.75rem 2.25rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(8, 13, 16, 0.04);
+    }
+
+    .faq-item:hover {
+      border-color: var(--ph-orange);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(8, 13, 16, 0.08);
+    }
+
+    .faq-item.active {
+      border-color: var(--ph-orange);
+      box-shadow: 0 16px 40px rgba(255, 122, 0, 0.12);
+    }
+
+    .faq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .faq-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .faq-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #080D10;
+      color: var(--ph-orange);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item.active .faq-num {
+      background: var(--ph-orange);
+      color: #080D10;
+      box-shadow: 0 0 16px var(--ph-orange-glow);
+    }
+
+    .faq-question {
+      font-family: var(--font-display);
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+    }
+
+    .faq-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-light-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--text-dark);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+      background: var(--ph-orange);
+      color: #080D10;
+      border-color: var(--ph-orange);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease;
+    }
+
+    .faq-item.active .faq-body {
+      max-height: 600px;
+      opacity: 1;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed rgba(8, 13, 16, 0.12);
+    }
+
+    .faq-answer {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-dark-muted);
+    }
+
+    .faq-answer strong {
+      color: var(--text-dark);
+    }
+
   </style>
 </head>
 <body>
@@ -1256,6 +1694,7 @@
       <a href="#four-rs" class="ph-nav-link">Four R's</a>
       <a href="#sandbox" class="ph-nav-link">Simulator</a>
       <a href="#steps" class="ph-nav-link">7 Steps</a>
+      <a href="#faq" class="ph-nav-link">Defense FAQ</a>
       <a href="#projects" class="ph-nav-link">Projects</a>
     </div>
   </header>
@@ -1289,6 +1728,33 @@
 
     </div>
   </section>
+
+  <!-- ========================================================================
+       ELOQWNT DIGITAL EXPERIENCE: CONTINUOUS INFINITY MARQUEE TICKER TAPE
+       ======================================================================== -->
+  <div class="eloqwnt-marquee-wrapper eloqwnt-pop is-popped">
+    <div class="eloqwnt-marquee-track">
+      <div class="eloqwnt-marquee-part">
+        <span>✦ DS311 EXPLORATORY DATA ANALYSIS</span>
+        <span>✦ MA'AM CHRIS JALLAINE S. MUGOT</span>
+        <span>✦ ANSCOMBE'S QUARTET: r &asymp; 0.816</span>
+        <span>✦ THE 4 R's OF JOHN TUKEY</span>
+        <span>✦ RESIDUALS &bull; RE-EXPRESSION &bull; RESISTANT &bull; REVELATION</span>
+        <span>✦ ZERO CONFIRMATORY BIAS</span>
+        <span>✦ 100% REPRODUCIBLE CODE</span>
+      </div>
+      <div class="eloqwnt-marquee-part" aria-hidden="true">
+        <span>✦ DS311 EXPLORATORY DATA ANALYSIS</span>
+        <span>✦ MA'AM CHRIS JALLAINE S. MUGOT</span>
+        <span>✦ ANSCOMBE'S QUARTET: r &asymp; 0.816</span>
+        <span>✦ THE 4 R's OF JOHN TUKEY</span>
+        <span>✦ RESIDUALS &bull; RE-EXPRESSION &bull; RESISTANT &bull; REVELATION</span>
+        <span>✦ ZERO CONFIRMATORY BIAS</span>
+        <span>✦ 100% REPRODUCIBLE CODE</span>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ========================================================================
        SECTION 1: THE CONFESSION (Phenomenon Curved Light Section)
@@ -1363,7 +1829,12 @@
       </h2>
 
       <p class="ph-lead dark isview slidetop trd02" style="max-width: 980px;">
-        To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier. We hopped through multiple dead ends until we finally stumbled upon the <strong>Egypt Population Density dataset</strong>.
+        To give a concrete example &mdash; or perhaps the easiest one I can recall from my experience &mdash; back in our 2nd-year DATAVIS course, my group and I were caught right in the middle of this dataset-hopping habit. We would spend hours scouting Kaggle for datasets with exciting titles, load them into Google Colab, encounter missing values and bizarre percentages, enter a cold sweat at 1:30 AM, and abandon the project to hunt for something easier. We hopped through multiple dead ends until we finally stumbled upon the <strong><span class="term-pop">Egypt Population Density dataset
+  <span class="term-pop-bubble">
+    <span class="term-pop-kicker">✦ Coursework Example &bull; DATAVIS</span>
+    Real-world dataset mapping governorate populations and inhabited areas. Demonstrated extreme spatial skew between the ultra-dense Nile Valley and desert frontier governorates.
+  </span>
+</span></strong>.
       </p>
 
       <p class="isview slidetop trd03" style="color: var(--text-white-muted); font-size: 1.08rem; line-height: 1.7; max-width: 980px; margin-bottom: 2.5rem;">
@@ -1372,7 +1843,7 @@
 
       <!-- FIGURE 1: EGYPT RAW FLAT VIEW (WITH ZOOM LIGHTBOX) -->
       <div class="ph-media-card isview slidetop trd03">
-        <div class="ph-media-img-wrap" onclick="openLightbox('assets/images/contents/egypt_raw_flat_view.png')">
+        <div class="ph-media-img-wrap" onclick="openLightbox('assets/images/contents/egypt_raw_flat_view.png', 'Figure 1: Egypt Governorate Raw Flat View', 'Exploring governorate distributions, populations, and inhabited land areas from our 2nd-year DATAVIS coursework.', 'COURSEWORK RAW ARTIFACT • DATAVIS')">
           <img src="assets/images/contents/egypt_raw_flat_view.png" alt="Egypt Population Density Raw Flat View" loading="lazy">
           <div class="ph-media-zoom-hint"><span>✦</span> Click to Expand Full View</div>
         </div>
@@ -1383,7 +1854,7 @@
 
       <!-- FIGURE 2: FINAL DATAVIS MAP (HIGH-RES 300 DPI PREVIEW WITH ZOOM) -->
       <div class="ph-media-card isview slidetop trd04">
-        <div class="ph-media-img-wrap" style="padding: 1.5rem;" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.png')">
+        <div class="ph-media-img-wrap" style="padding: 1.5rem;" onclick="openLightbox('assets/images/contents/Egypt_Population_Density_Map_Preview.webp', 'Figure 2: Egypt Population Density Cartography', 'High-contrast 300 DPI choropleth mapping the Nile corridor hyper-density against the sparse Western Desert governorates.', '300 DPI ORIGINAL CARTOGRAPHY • PYTHON GEOPANDAS')">
           <img src="assets/images/contents/Egypt_Population_Density_Map_Preview_web.jpg" alt="Egypt Population Density Map Preview" loading="lazy" style="max-height: 600px; width: auto; margin: 0 auto;">
           <div class="ph-media-zoom-hint"><span>✦</span> Click to Inspect 300 DPI Original Cartography</div>
         </div>
@@ -1422,7 +1893,12 @@
       </h2>
 
       <p class="ph-lead light isview slidetop trd02">
-        In our first week of DS311, Ma'am Chris introduced us to Anscombe's Quartet &mdash; four synthetic datasets published in <em>The American Statistician</em> in 1973 to demolish the false assumption that numerical summaries alone tell the whole story.
+        In our first week of DS311, Ma'am Chris introduced us to <span class="term-pop">Anscombe's Quartet
+  <span class="term-pop-bubble">
+    <span class="term-pop-kicker">✦ Landmark EDA Dataset</span>
+    Four distinct datasets constructed in 1973 by Francis Anscombe sharing identical means (&mu;<sub>x</sub>=9.0), regression lines (&beta;<sub>1</sub>&asymp;0.50), and R&sup2; (66.6%) &mdash; yet displaying wildly conflicting geometric realities.
+  </span>
+</span> &mdash; four synthetic datasets published in <em>The American Statistician</em> in 1973 to demolish the false assumption that numerical summaries alone tell the whole story.
       </p>
 
       <!-- ANSCOMBE SUMMARY TABLE -->
@@ -1491,7 +1967,7 @@
 
       <!-- FIGURE 3: ANSCOMBE'S QUARTET VECTOR SVG (WITH ZOOM) -->
       <div class="ph-media-card isview slidetop trd04" style="background: #FFFFFF; border-color: var(--border-light-strong); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);">
-        <div class="ph-media-img-wrap" style="background: #FAF7F2; padding: 1.5rem;" onclick="openLightbox('assets/images/charts/anscombes_quartet_proof.svg')">
+        <div class="ph-media-img-wrap" style="background: #FAF7F2; padding: 1.5rem;" onclick="openLightbox('assets/images/charts/anscombes_quartet_proof.svg', 'Figure 3: Francis Anscombe 1973 Proof of Identical Summary Statistics', 'Four distinct bivariate datasets sharing identical means, regression lines, and R² values demonstrating the danger of statistical blindness.', 'MATHEMATICAL PROOF • VECTOR SVG')">
           <img src="assets/images/charts/anscombes_quartet_proof.svg" alt="Francis Anscombe Quartet 1973 Proof" loading="lazy">
           <div class="ph-media-zoom-hint" style="color: #080D10; background: rgba(255,255,255,0.9);"><span>✦</span> Click to Expand Vector View</div>
         </div>
@@ -1541,7 +2017,12 @@
       </h2>
 
       <p class="ph-lead dark isview slidetop trd02" style="max-width: 980px;">
-        Instead of asking, <em>&ldquo;Does this confirm my hypothesis?&rdquo;</em>, John Tukey taught us that EDA asks, <strong>&ldquo;What is this data trying to tell me?&rdquo;</strong> These Four R's are my personal data science compass:
+        Instead of asking, <em>&ldquo;Does this confirm my hypothesis?&rdquo;</em>, John Tukey taught us that EDA asks, <strong>&ldquo;What is this data trying to tell me?&rdquo;</strong> These <span class="term-pop">Four R's
+          <span class="term-pop-bubble">
+            <span class="term-pop-kicker">✦ Tukey's 1977 Doctrine</span>
+            <strong>Residuals</strong> (what models miss), <strong>Re-expression</strong> (scale transformations), <strong>Resistance</strong> (insensitivity to outliers), and <strong>Revelation</strong> (visual discovery).
+          </span>
+        </span> are my personal data science compass:
       </p>
 
       <!-- FOUR R'S GRID -->
@@ -1774,6 +2255,99 @@
     </div>
   </section>
 
+
+  <!-- ========================================================================
+       SECTION: ELOQWNT ORAL EXAMINATION FAQ ACCORDION (Diagnostic Probes)
+       ======================================================================== -->
+  <section id="faq" class="ph-section ph-section-light eloqwnt-pop">
+    <div class="container">
+      
+      <div class="isview slidetop trd0">
+        <div class="sect-dot-flex">
+          <div class="dot"></div>
+          <div>Oral Examination &bull; Diagnostic Defense Probes</div>
+        </div>
+      </div>
+
+      <h2 class="ph-section-title new-animate isview trd01" style="color: var(--text-dark);">
+        Frequently Anticipated Defense Inquiries
+      </h2>
+
+      <p class="ph-lead light isview slidetop trd02" style="max-width: 980px;">
+        During research and laboratory defense panels, faculty scrutinize how deeply you understand data structure before algorithms touch it. Here is how I frame my diagnostic answers grounded in Topic 01 fundamentals:
+      </p>
+
+      <div class="faq-grid isview slidetop trd03">
+        
+        <!-- FAQ 1 -->
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <div class="faq-header-left">
+              <div class="faq-num">01</div>
+              <div class="faq-question">Why can't an analyst jump straight into training an XGBoost or deep learning model?</div>
+            </div>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-body">
+            <div class="faq-answer">
+              Because algorithms minimize mathematical loss functions over numbers, regardless of whether those numbers reflect physical truth or corrupted data artifacts. If a feature contains undetected outliers, extreme leverage points, or heavy right-skew, gradient trees and neural networks will overfit to the artifacts. <strong>Exploratory Data Analysis is the sole phase that verifies empirical validity before computational execution.</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <div class="faq-header-left">
+              <div class="faq-num">02</div>
+              <div class="faq-question">Why did Francis Anscombe construct four datasets with the exact same correlation (r &asymp; 0.816)?</div>
+            </div>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-body">
+            <div class="faq-answer">
+              To surgically dismantle the illusion that summary statistics tell the whole story. Without plotting, Dataset I (standard linear), Dataset II (non-linear quadratic parabola), Dataset III (clean line + single vertical outlier), and Dataset IV (vertical cluster + single high-leverage point) share the exact same mean (&mu;<sub>x</sub> = 9.0), variance, regression slope (&beta;<sub>1</sub> &asymp; 0.50), and R&sup2; (66.6%). <strong>Looking is non-negotiable because summary statistics are blind to geometry.</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <div class="faq-header-left">
+              <div class="faq-num">03</div>
+              <div class="faq-question">How does Tukey's concept of Resistance protect against real-world data corruption?</div>
+            </div>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-body">
+            <div class="faq-answer">
+              Classical parametric metrics like the sample mean have a breakdown point of 0% &mdash; a single corrupted recording at infinity pulls the entire mean to infinity. In contrast, <strong>John Tukey's resistant measures (medians, IQR, Tukey fences) have a 50% breakdown point</strong>. Even if half your sample consists of wild logging spikes, resistant summaries preserve the true underlying central tendency without premature data deletion.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-header">
+            <div class="faq-header-left">
+              <div class="faq-num">04</div>
+              <div class="faq-question">How did the Egypt Population Density dataset break the habit of dataset-hopping?</div>
+            </div>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-body">
+            <div class="faq-answer">
+              In past projects, discovering a heavily skewed distribution made me panic and discard the data. With the Egypt dataset, we embraced <strong>Tukey's second R: Re-expression</strong>. By transforming the raw population density into a log<sub>10</sub> scale, we tamed the extreme orders of magnitude between Cairo and the frontier desert governorates &mdash; transforming an unreadable clump into an interpretable, publication-grade cartographic artifact.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- ========================================================================
        SECTION 7: FEATURED ACADEMIC REPOSITORIES (Phenomenon Abyssal Dark)
        ======================================================================== -->
@@ -1879,11 +2453,37 @@
   </footer>
 
   <!-- ========================================================================
-       LIGHTBOX ZOOM MODAL
+       ELOQWNT POPUP LIGHTBOX MODAL (Agency Dialog with Metadata & Specs)
        ======================================================================== -->
   <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox(event)">
-    <div class="lightbox-close-btn" onclick="closeLightbox()">&times;</div>
-    <img id="lightbox-img" src="" alt="Zoomed Artifact View">
+    <div class="eloqwnt-modal-container" onclick="event.stopPropagation()">
+      <div class="eloqwnt-modal-header">
+        <div class="sect-dot-flex" style="margin-bottom: 0;">
+          <div class="dot"></div>
+          <span id="lightbox-badge">HIGH-RESOLUTION ARTIFACT PREVIEW &bull; 300 DPI</span>
+        </div>
+        <button class="eloqwnt-modal-close-btn" onclick="closeLightbox()">
+          <span>✕</span>
+          <span>Close (Esc)</span>
+        </button>
+      </div>
+      <div class="eloqwnt-modal-body">
+        <img id="lightbox-img" src="" alt="Artifact View">
+      </div>
+      <div class="eloqwnt-modal-footer">
+        <div>
+          <div class="eloqwnt-modal-title" id="lightbox-title">Artifact Title</div>
+          <div style="font-size: 0.85rem; color: var(--text-white-dim); margin-top: 0.25rem;" id="lightbox-desc">Descriptive caption</div>
+        </div>
+        <div class="eloqwnt-modal-specs">
+          <span class="spec-pill highlight">300 DPI Publication</span>
+          <span class="spec-pill">Python GeoPandas / Matplotlib</span>
+          <a id="lightbox-download" href="#" target="_blank" class="ph-btn ph-btn-sm" style="padding: 0.45rem 1rem; font-size: 0.78rem;">
+            Open Raw File &nearr;
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ========================================================================
@@ -2105,25 +2705,58 @@
       });
     });
 
-    // 7. Lightbox Zoom Logic
-    function openLightbox(src) {
+    // 7. Eloqwnt Lightbox Popup Logic with Rich Metadata & Specifications
+    function openLightbox(src, title, caption, badge) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
+      const titleEl = document.getElementById('lightbox-title');
+      const descEl = document.getElementById('lightbox-desc');
+      const badgeEl = document.getElementById('lightbox-badge');
+      const downloadEl = document.getElementById('lightbox-download');
+
       img.src = src;
+      if (downloadEl) downloadEl.href = src;
+      if (titleEl) titleEl.textContent = title || "High-Resolution Analytical Artifact";
+      if (descEl) descEl.textContent = caption || "Publication-grade cartographic & exploratory visualization from DS311.";
+      if (badgeEl) badgeEl.textContent = badge || "HIGH-RESOLUTION ARTIFACT PREVIEW • 300 DPI";
+
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox(e) {
-      if (!e || e.target.id === 'lightbox-modal' || e.target.classList.contains('lightbox-close-btn')) {
+      if (!e || e.target.id === 'lightbox-modal' || e.target.closest('.eloqwnt-modal-close-btn')) {
         const modal = document.getElementById('lightbox-modal');
-        modal.classList.remove('active');
+        if (modal) modal.classList.remove('active');
         document.body.style.overflow = '';
       }
     }
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeLightbox();
+    });
+
+    // 7b. Eloqwnt Interactive FAQ Accordion Toggle
+    function toggleFaq(item) {
+      const allItems = document.querySelectorAll('.faq-item');
+      const isActive = item.classList.contains('active');
+      allItems.forEach(el => el.classList.remove('active'));
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // 7c. Eloqwnt Scroll Pop-Up Intersection Observer
+    const eloqwntPopObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-popped');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.eloqwnt-pop, .faq-item, .ph-section').forEach(el => {
+      eloqwntPopObserver.observe(el);
     });
 
     // 8. Anscombe & Leverage Canvas Instrument Logic (Dark HUD Edition with Residual Vectors)
